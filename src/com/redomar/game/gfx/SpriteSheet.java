@@ -33,13 +33,11 @@ public class SpriteSheet {
 		pixels = image.getRGB(0, 0, width, height, null, 0, width);
 
 		for (int i = 0; i < pixels.length; i++) {
-			pixels[i] = (pixels[i] & 0xff) / 64; //removes alpha (transparency)
+			pixels[i] = (pixels[i] & 0xff) / 64; // removes alpha (transparency)
 		}
-		
-		for (int i = 0; i<8; i++){
+
+		for (int i = 0; i < 8; i++) {
 			System.out.println(pixels[i]);
 		}
-
 	}
-
 }

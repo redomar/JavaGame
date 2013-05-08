@@ -25,14 +25,17 @@ public class Game extends Canvas implements Runnable {
 
 	private JFrame frame;
 
-	public boolean running = false;	
+	public boolean running = false;
 	public int tickCount = 0;
-	
-	private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
-	private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
-	
+
+	private BufferedImage image = new BufferedImage(WIDTH, HEIGHT,
+			BufferedImage.TYPE_INT_RGB);
+	private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer())
+			.getData();
+
 	private Screen screen;
-	
+	public InputHandler input;
+
 	public Game() {
 		setMinimumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
 		setMaximumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
@@ -48,9 +51,10 @@ public class Game extends Canvas implements Runnable {
 		frame.setVisible(true);
 
 	}
-	
-	public void init(){
+
+	public void init() {
 		screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/sprite_sheet.png"));
+		input = new InputHandler(this);
 	}
 
 	public synchronized void start() {
@@ -71,7 +75,7 @@ public class Game extends Canvas implements Runnable {
 
 		long lastTimer = System.currentTimeMillis();
 		double delta = 0;
-		
+
 		init();
 
 		while (running) {
@@ -110,23 +114,34 @@ public class Game extends Canvas implements Runnable {
 
 	public void tick() {
 		tickCount++;
-		//screen.xOffset++;
-		
+
+		if (input.up.isPressed()) {
+			screen.yOffset--;
+		}
+		if (input.down.isPressed()) {
+			screen.yOffset++;
+		}
+		if (input.left.isPressed()) {
+			screen.xOffset--;
+		}
+		if (input.right.isPressed()) {
+			screen.xOffset++;
+		}
 	}
 
 	public void render() {
 		BufferStrategy bs = getBufferStrategy();
 		if (bs == null) {
-            createBufferStrategy(3);
-            return;
-        }
-		
+			createBufferStrategy(3);
+			return;
+		}
+
 		screen.render(pixels, 0, WIDTH);
-		
+
 		Graphics g = bs.getDrawGraphics();
-		
+
 		g.drawRect(0, 0, getWidth(), getHeight());
-		g.drawImage(image, 0, 0, getWidth(), getHeight(), null);		
+		g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
 		g.dispose();
 		bs.show();
 	}
