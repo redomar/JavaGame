@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import com.redomar.game.gfx.Colours;
 import com.redomar.game.gfx.Screen;
 import com.redomar.game.gfx.SpriteSheet;
+import com.redomar.game.lib.Font;
 
 public class Game extends Canvas implements Runnable {
 
@@ -156,6 +157,11 @@ public class Game extends Canvas implements Runnable {
 						Colours.get(555, 505, 055, 550), false, false);
 			}
 		}
+
+		String msg = "HeLLo ThErE";
+		Font.render(msg, screen,
+				screen.xOffset + screen.width / 2 - ((msg.length() * 8) / 2),
+				screen.yOffset + screen.height / 2, Colours.get(-1, -1, -1, 0));
 
 		for (int y = 0; y < screen.height; y++) {
 			for (int x = 0; x < screen.width; x++) {
