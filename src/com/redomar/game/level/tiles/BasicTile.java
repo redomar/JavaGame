@@ -16,7 +16,7 @@ public class BasicTile extends Tile {
 	}
 
 	public void render(Screen screen, LevelHandler level, int x, int y) {
-		screen.render(x, y, tileId, tileColour, 0x00);
+		screen.render(x, y, tileId, tileColour, 0x00, 1);
 	}
 
 }
