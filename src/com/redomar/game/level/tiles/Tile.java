@@ -1,5 +1,6 @@
 package com.redomar.game.level.tiles;
 
+import com.redomar.game.BasicSolidTile;
 import com.redomar.game.gfx.Colours;
 import com.redomar.game.gfx.Screen;
 import com.redomar.game.level.LevelHandler;
@@ -7,8 +8,8 @@ import com.redomar.game.level.LevelHandler;
 public abstract class Tile {
 
 	public static final Tile[] tiles = new Tile[256];
-	public static final Tile VOID = new BasicTile(0, 0, 0, Colours.get(0, -1, -1, -1));
-	public static final Tile STONE = new BasicTile(1, 1, 0, Colours.get(-1, 333, -1, -1));
+	public static final Tile VOID = new BasicSolidTile(0, 0, 0, Colours.get(0, -1, -1, -1));
+	public static final Tile STONE = new BasicSolidTile(1, 1, 0, Colours.get(-1, 333, -1, -1));
 	public static final Tile GRASS = new BasicTile(2, 2, 0, Colours.get(-1, 131, 141, -1));
 
 	protected byte id;
