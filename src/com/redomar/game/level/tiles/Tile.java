@@ -8,15 +8,16 @@ import com.redomar.game.level.LevelHandler;
 public abstract class Tile {
 
 	public static final Tile[] tiles = new Tile[256];
-	public static final Tile VOID = new BasicSolidTile(0, 0, 0, Colours.get(0, -1, -1, -1));
-	public static final Tile STONE = new BasicSolidTile(1, 1, 0, Colours.get(-1, 333, -1, -1));
-	public static final Tile GRASS = new BasicTile(2, 2, 0, Colours.get(-1, 131, 141, -1));
+	public static final Tile VOID = new BasicSolidTile(0, 0, 0, Colours.get(0, -1, -1, -1), 0xFF000000);
+	public static final Tile STONE = new BasicSolidTile(1, 1, 0, Colours.get(-1, 333, -1, -1), 0xFF555555);
+	public static final Tile GRASS = new BasicTile(2, 2, 0, Colours.get(-1, 131, 141, -1), 0xFF00FF00);
 
 	protected byte id;
 	protected boolean solid;
 	protected boolean emitter;
+	private int levelColour;
 
-	public Tile(int id, boolean isSolid, boolean isEmitter) {
+	public Tile(int id, boolean isSolid, boolean isEmitter, int colour) {
 		this.id = (byte) id;
 
 		if (tiles[id] != null) {
@@ -25,6 +26,7 @@ public abstract class Tile {
 
 		this.solid = isSolid;
 		this.emitter = isEmitter;
+		this.levelColour = colour;
 
 		tiles[id] = this;
 	}
@@ -42,5 +44,9 @@ public abstract class Tile {
 	}
 
 	public abstract void render(Screen screen, LevelHandler level, int x, int y);
+
+	public int getLevelColour() {
+		return levelColour;
+	}
 
 }
