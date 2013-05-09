@@ -1,7 +1,7 @@
 package com.redomar.game.level.tiles;
 
 import com.redomar.game.gfx.Screen;
-import com.redomar.game.level.Level;
+import com.redomar.game.level.LevelHandler;
 
 public class BasicTile extends Tile {
 
@@ -15,8 +15,8 @@ public class BasicTile extends Tile {
 		this.tileColour = tileColour;
 	}
 
-	public void render(Screen screen, Level level, int x, int y) {
-		screen.render(x, y, tileId, tileColour, false, false);
+	public void render(Screen screen, LevelHandler level, int x, int y) {
+		screen.render(x, y, tileId, tileColour, 0x00);
 	}
 
 }

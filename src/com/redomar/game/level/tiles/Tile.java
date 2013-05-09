@@ -2,7 +2,7 @@ package com.redomar.game.level.tiles;
 
 import com.redomar.game.gfx.Colours;
 import com.redomar.game.gfx.Screen;
-import com.redomar.game.level.Level;
+import com.redomar.game.level.LevelHandler;
 
 public abstract class Tile {
 
@@ -40,6 +40,6 @@ public abstract class Tile {
 		return emitter;
 	}
 
-	public abstract void render(Screen screen, Level level, int x, int y);
+	public abstract void render(Screen screen, LevelHandler level, int x, int y);
 
 }
