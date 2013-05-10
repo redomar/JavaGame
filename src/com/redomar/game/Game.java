@@ -11,11 +11,9 @@ import java.awt.image.DataBufferInt;
 import javax.swing.JFrame;
 
 import com.redomar.game.entities.Player;
-import com.redomar.game.gfx.Colours;
 import com.redomar.game.gfx.Screen;
 import com.redomar.game.gfx.SpriteSheet;
 import com.redomar.game.level.LevelHandler;
-import com.redomar.game.lib.Font;
 
 public class Game extends Canvas implements Runnable {
 
@@ -74,7 +72,7 @@ public class Game extends Canvas implements Runnable {
 
 		screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/sprite_sheet.png"));
 		input = new InputHandler(this);
-		level = new LevelHandler("/levels/small_level.png");
+		level = new LevelHandler("/levels/water_level.png");
 		player = new Player(level, 0, 0, input);
 		level.addEntity(player);
 	}

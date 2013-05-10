@@ -1,6 +1,5 @@
-package com.redomar.game;
+package com.redomar.game.level.tiles;
 
-import com.redomar.game.level.tiles.BasicTile;
 
 public class BasicSolidTile extends BasicTile{
 

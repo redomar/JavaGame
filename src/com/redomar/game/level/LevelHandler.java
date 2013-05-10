@@ -61,6 +61,7 @@ public class LevelHandler {
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	private void saveLevelToFile(){
 		try {
 			ImageIO.write(image, "png", new File(Level.class.getResource(this.imagePath).getFile()));
@@ -69,6 +70,7 @@ public class LevelHandler {
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	private void alterTile(int x, int y, Tile newTile){
 		this.tiles[x+y*width] = newTile.getId();
 		image.setRGB(x, y, newTile.getLevelColour());
@@ -90,6 +92,14 @@ public class LevelHandler {
 		for (Entity e : entities) {
 			e.tick();
 		}
+
+		for (Tile t : Tile.tiles) {
+			if (t == null) {
+				break;
+			}
+			t.tick();
+		}
+
 	}
 
 	public void renderTiles(Screen screen, int xOffset, int yOffset) {
