@@ -118,8 +118,8 @@ public class LevelHandler {
 
 		screen.setOffset(xOffset, yOffset);
 
-		for (int y = 0; y < height; y++) {
-			for (int x = 0; x < width; x++) {
+		for (int y = (yOffset >> 3); y < (yOffset + screen.height >> 3) + 1; y++) {
+			for (int x = (xOffset >> 3); x < (xOffset + screen.width >> 3) + 1; x++) {
 				getTile(x, y).render(screen, this, x << 3, y << 3);
 			}
 		}
