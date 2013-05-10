@@ -4,16 +4,19 @@ import com.redomar.game.InputHandler;
 import com.redomar.game.gfx.Colours;
 import com.redomar.game.gfx.Screen;
 import com.redomar.game.level.LevelHandler;
+import com.redomar.game.lib.Font;
 
 public class Player extends Mob {
 
 	private InputHandler input;
 	private int colour = Colours.get(-1, 111, 240, 310);
 	private int tickCount = 0;
+	private String userName;
 
-	public Player(LevelHandler level, int x, int y, InputHandler input) {
+	public Player(LevelHandler level, int x, int y, InputHandler input, String userName) {
 		super(level, "Player", x, y, 1);
 		this.input = input;
+		this.userName = userName;
 	}
 
 	public void tick() {
@@ -94,6 +97,10 @@ public class Player extends Mob {
 		if(!isSwimming){
 			screen.render((xOffset + (modifier * flipBottom)), (yOffset + modifier), (xTile	+ (yTile + 1) * 32), colour, flipBottom, scale);
 			screen.render((xOffset + modifier - (modifier * flipBottom)), (yOffset + modifier), ((xTile + 1) + (yTile + 1) * 32), colour, flipBottom, scale);
+		}
+		
+		if(userName != null){
+			Font.render(userName, screen, xOffset - ((userName.length() - 1) / 2 * 8), yOffset - 10, Colours.get(-1, -1, -1, 555), 1);
 		}
 	}
 

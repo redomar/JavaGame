@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import com.redomar.game.entities.Player;
 import com.redomar.game.gfx.Screen;
@@ -73,7 +74,7 @@ public class Game extends Canvas implements Runnable {
 		screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/sprite_sheet.png"));
 		input = new InputHandler(this);
 		level = new LevelHandler("/levels/water_level.png");
-		player = new Player(level, 0, 0, input);
+		player = new Player(level, 0, 0, input, JOptionPane.showInputDialog(this, "Enter a name"));
 		level.addEntity(player);
 	}
 
