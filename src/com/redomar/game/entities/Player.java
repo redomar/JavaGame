@@ -76,6 +76,8 @@ public class Player extends Mob {
 			int waterColour = 0;
 			yOffset += 4;
 			
+			colour = Colours.get(-1, 111, -1, 310);
+			
 			if (tickCount % 60 < 15) {
 				waterColour = Colours.get(-1, -1, 255, -1);
 			} else if (15 <= tickCount % 60 && tickCount % 60 < 30) {
@@ -97,6 +99,7 @@ public class Player extends Mob {
 		if(!isSwimming){
 			screen.render((xOffset + (modifier * flipBottom)), (yOffset + modifier), (xTile	+ (yTile + 1) * 32), colour, flipBottom, scale);
 			screen.render((xOffset + modifier - (modifier * flipBottom)), (yOffset + modifier), ((xTile + 1) + (yTile + 1) * 32), colour, flipBottom, scale);
+			colour = Colours.get(-1, 111, 240, 310);;
 		}
 		
 		if(userName != null){
