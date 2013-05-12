@@ -15,6 +15,8 @@ import com.redomar.game.entities.Player;
 import com.redomar.game.gfx.Screen;
 import com.redomar.game.gfx.SpriteSheet;
 import com.redomar.game.level.LevelHandler;
+import com.redomar.game.net.GameClient;
+import com.redomar.game.net.GameServer;
 
 public class Game extends Canvas implements Runnable {
 
@@ -41,6 +43,9 @@ public class Game extends Canvas implements Runnable {
 	public InputHandler input;
 	public LevelHandler level;
 	public Player player;
+	
+	private GameClient socketClient;
+	private GameServer socketServer;
 
 	public Game() {
 		setMinimumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
@@ -76,11 +81,20 @@ public class Game extends Canvas implements Runnable {
 		level = new LevelHandler("/levels/water_level.png");
 		player = new Player(level, 0, 0, input, JOptionPane.showInputDialog(this, "Enter a name"));
 		level.addEntity(player);
+		socketClient.sendData("ping".getBytes());
 	}
 
 	public synchronized void start() {
 		running = true;
 		new Thread(this).start();
+		
+		if(JOptionPane.showConfirmDialog(this, "Do you want to be the HOST?") == 0){
+			socketServer = new GameServer(this);
+			socketServer.start();
+		}
+		
+		socketClient = new GameClient(this, "localhost");
+		socketClient.start();
 	}
 
 	public synchronized void stop() {
@@ -125,7 +139,7 @@ public class Game extends Canvas implements Runnable {
 
 			if (System.currentTimeMillis() - lastTimer >= 1000) {
 				lastTimer += 1000;
-				System.out.println("Frames: " + frames + " Ticks: " + ticks);
+				frame.setTitle("Frames: " + frames + " Ticks: " + ticks);
 				frames = 0;
 				ticks = 0;
 			}
