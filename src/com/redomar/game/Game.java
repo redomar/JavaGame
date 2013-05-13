@@ -17,6 +17,7 @@ import com.redomar.game.gfx.SpriteSheet;
 import com.redomar.game.level.LevelHandler;
 import com.redomar.game.net.GameClient;
 import com.redomar.game.net.GameServer;
+import com.redomar.game.net.packets.Packet00Login;
 
 public class Game extends Canvas implements Runnable {
 
@@ -79,9 +80,12 @@ public class Game extends Canvas implements Runnable {
 		screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/sprite_sheet.png"));
 		input = new InputHandler(this);
 		level = new LevelHandler("/levels/water_level.png");
-		player = new Player(level, 0, 0, input, JOptionPane.showInputDialog(this, "Enter a name"));
-		level.addEntity(player);
-		socketClient.sendData("ping".getBytes());
+		// player = new Player(level, 0, 0, input,
+		// JOptionPane.showInputDialog(this, "Enter a name"));
+		// level.addEntity(player);
+		// socketClient.sendData("ping".getBytes());
+		Packet00Login loginPacket = new Packet00Login(JOptionPane.showInputDialog(this, "Please enter a username"));
+		loginPacket.writeData(socketClient);
 	}
 
 	public synchronized void start() {
