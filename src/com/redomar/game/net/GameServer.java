@@ -14,13 +14,13 @@ import com.redomar.game.net.packets.Packet;
 import com.redomar.game.net.packets.Packet00Login;
 import com.redomar.game.net.packets.Packet.PacketTypes;
 
-public class GameServer extends Thread{
+public class GameServer extends Thread {
 
 	private DatagramSocket socket;
 	private Game game;
 	private List<PlayerMP> connectedPlayers = new ArrayList<PlayerMP>();
-	
-	public GameServer(Game game){
+
+	public GameServer(Game game) {
 		this.game = game;
 		try {
 			this.socket = new DatagramSocket(1331);
@@ -28,9 +28,9 @@ public class GameServer extends Thread{
 			e.printStackTrace();
 		}
 	}
-	
-	public void run(){
-		while (true){
+
+	public void run() {
+		while (true) {
 			byte[] data = new byte[1024];
 			DatagramPacket packet = new DatagramPacket(data, data.length);
 			try {
@@ -38,9 +38,10 @@ public class GameServer extends Thread{
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			
-			this.parsePacket(packet.getData(), packet.getAddress(), packet.getPort());
-			
+
+			this.parsePacket(packet.getData(), packet.getAddress(),
+					packet.getPort());
+
 			// String message = new String(packet.getData());
 			// System.out.println("CLIENT ["+packet.getAddress().getHostAddress()+":"+packet.getPort()+"] "+message);
 			// if(message.trim().equalsIgnoreCase("ping")){
@@ -60,9 +61,12 @@ public class GameServer extends Thread{
 			break;
 		case LOGIN:
 			packet = new Packet00Login(data);
-			System.out.println("[" + address.getHostAddress() + ":" + port + "] " + ((Packet00Login)packet).getUsername() + " has connected...");
-			PlayerMP player = new PlayerMP(game.level, 10, 10, ((Packet00Login)packet).getUsername(), address, port);
-			this.addConnection(player, (Packet00Login)packet);
+			System.out.println("[" + address.getHostAddress() + ":" + port
+					+ "] " + ((Packet00Login) packet).getUsername()
+					+ " has connected...");
+			PlayerMP player = new PlayerMP(game.level, 10, 10,
+					((Packet00Login) packet).getUsername(), address, port);
+			this.addConnection(player, (Packet00Login) packet);
 			break;
 		case DISCONNECT:
 			break;
@@ -71,31 +75,32 @@ public class GameServer extends Thread{
 
 	public void addConnection(PlayerMP player, Packet00Login packet) {
 		boolean alreadyConnected = false;
-		for(PlayerMP p : this.connectedPlayers){
-			if(player.getUsername().equalsIgnoreCase(p.getUsername())){
-				if(p.ipAddess == null){
+		for (PlayerMP p : this.connectedPlayers) {
+			if (player.getUsername().equalsIgnoreCase(p.getUsername())) {
+				if (p.ipAddess == null) {
 					p.ipAddess = player.ipAddess;
 				}
-				
-				if(p.port == -1){
+
+				if (p.port == -1) {
 					p.port = player.port;
 				}
-				
+
 				alreadyConnected = true;
 			} else {
 				sendData(packet.getData(), p.ipAddess, p.port);
-				
+
 				packet = new Packet00Login(p.getUsername());
 				sendData(packet.getData(), player.ipAddess, player.port);
 			}
 		}
-		if(!alreadyConnected){
+		if (!alreadyConnected) {
 			this.connectedPlayers.add(player);
 		}
 	}
 
-	public void sendData(byte[] data, InetAddress ipAddress, int port){
-		DatagramPacket packet = new DatagramPacket(data, data.length, ipAddress, port);
+	public void sendData(byte[] data, InetAddress ipAddress, int port) {
+		DatagramPacket packet = new DatagramPacket(data, data.length,
+				ipAddress, port);
 		try {
 			this.socket.send(packet);
 		} catch (IOException e) {

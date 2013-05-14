@@ -3,10 +3,10 @@ package com.redomar.game.net.packets;
 import com.redomar.game.net.GameClient;
 import com.redomar.game.net.GameServer;
 
-public class Packet00Login extends Packet{
+public class Packet00Login extends Packet {
 
 	private String username;
-	
+
 	public Packet00Login(byte[] data) {
 		super(00);
 		this.username = readData(data);
@@ -16,12 +16,12 @@ public class Packet00Login extends Packet{
 		super(00);
 		this.username = username;
 	}
-	
+
 	@Override
 	public byte[] getData() {
-		return ("00"+this.username).getBytes();
+		return ("00" + this.username).getBytes();
 	}
-	
+
 	@Override
 	public void writeData(GameClient client) {
 		client.sendData(getData());
@@ -32,7 +32,7 @@ public class Packet00Login extends Packet{
 		server.sendDataToAllClients(getData());
 	}
 
-	public String getUsername(){
+	public String getUsername() {
 		return username;
 	}
 }

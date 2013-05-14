@@ -48,31 +48,34 @@ public class LevelHandler {
 	}
 
 	private void loadTiles() {
-		int[] tileColours = this.image.getRGB(0, 0, width, height, null, 0, width);
+		int[] tileColours = this.image.getRGB(0, 0, width, height, null, 0,
+				width);
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
 				tileCheck: for (Tile t : Tile.tiles) {
-					if(t != null && t.getLevelColour() == tileColours[x+y*width]){
-						this.tiles[x+y*width] = t.getId();
+					if (t != null
+							&& t.getLevelColour() == tileColours[x + y * width]) {
+						this.tiles[x + y * width] = t.getId();
 						break tileCheck;
 					}
 				}
 			}
 		}
 	}
-	
+
 	@SuppressWarnings("unused")
-	private void saveLevelToFile(){
+	private void saveLevelToFile() {
 		try {
-			ImageIO.write(image, "png", new File(Level.class.getResource(this.imagePath).getFile()));
+			ImageIO.write(image, "png",
+					new File(Level.class.getResource(this.imagePath).getFile()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@SuppressWarnings("unused")
-	private void alterTile(int x, int y, Tile newTile){
-		this.tiles[x+y*width] = newTile.getId();
+	private void alterTile(int x, int y, Tile newTile) {
+		this.tiles[x + y * width] = newTile.getId();
 		image.setRGB(x, y, newTile.getLevelColour());
 	}
 

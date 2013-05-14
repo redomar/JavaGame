@@ -13,12 +13,13 @@ import com.redomar.game.net.packets.Packet;
 import com.redomar.game.net.packets.Packet00Login;
 import com.redomar.game.net.packets.Packet.PacketTypes;
 
-public class GameClient extends Thread{
-	
+public class GameClient extends Thread {
+
 	private InetAddress ipAddress;
 	private DatagramSocket socket;
 	private Game game;
-	public GameClient(Game game, String ipAddress){
+
+	public GameClient(Game game, String ipAddress) {
 		this.game = game;
 		try {
 			this.socket = new DatagramSocket();
@@ -29,9 +30,9 @@ public class GameClient extends Thread{
 			e.printStackTrace();
 		}
 	}
-	
-	public void run(){
-		while (true){
+
+	public void run() {
+		while (true) {
 			byte[] data = new byte[1024];
 			DatagramPacket packet = new DatagramPacket(data, data.length);
 			try {
@@ -39,11 +40,12 @@ public class GameClient extends Thread{
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			this.parsePacket(packet.getData(), packet.getAddress(), packet.getPort());
+			this.parsePacket(packet.getData(), packet.getAddress(),
+					packet.getPort());
 			// System.out.println("SERVER > "+new String(packet.getData()));
 		}
 	}
-	
+
 	private void parsePacket(byte[] data, InetAddress address, int port) {
 		String message = new String(data).trim();
 		PacketTypes type = Packet.lookupPacket(message.substring(0, 2));
@@ -54,8 +56,11 @@ public class GameClient extends Thread{
 			break;
 		case LOGIN:
 			packet = new Packet00Login(data);
-			System.out.println("[" + address.getHostAddress() + ":" + port + "] " + ((Packet00Login)packet).getUsername() + " has joined...");
-			PlayerMP player = new PlayerMP(game.level, 10, 10, ((Packet00Login)packet).getUsername(), address, port);
+			System.out.println("[" + address.getHostAddress() + ":" + port
+					+ "] " + ((Packet00Login) packet).getUsername()
+					+ " has joined...");
+			PlayerMP player = new PlayerMP(game.level, 10, 10,
+					((Packet00Login) packet).getUsername(), address, port);
 			game.level.addEntity(player);
 			break;
 		case DISCONNECT:
@@ -63,8 +68,9 @@ public class GameClient extends Thread{
 		}
 	}
 
-	public void sendData(byte[] data){
-		DatagramPacket packet = new DatagramPacket(data, data.length, ipAddress, 1331);
+	public void sendData(byte[] data) {
+		DatagramPacket packet = new DatagramPacket(data, data.length,
+				ipAddress, 1331);
 		try {
 			socket.send(packet);
 		} catch (IOException e) {

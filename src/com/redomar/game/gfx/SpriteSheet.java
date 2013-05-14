@@ -37,7 +37,7 @@ public class SpriteSheet {
 		}
 
 		for (int i = 0; i < 8; i++) {
-			//System.out.println(pixels[i]);
+			// System.out.println(pixels[i]);
 		}
 	}
 }

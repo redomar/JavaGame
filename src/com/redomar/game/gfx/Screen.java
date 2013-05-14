@@ -73,8 +73,9 @@ public class Screen {
 							if (xPixel + xScale < 0 | xPixel + xScale >= width) {
 								continue;
 							}
-							
-							pixels[(xPixel + xScale) + (yPixel + yScale) * width] = col;
+
+							pixels[(xPixel + xScale) + (yPixel + yScale)
+									* width] = col;
 						}
 					}
 

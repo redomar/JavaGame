@@ -13,7 +13,8 @@ public class Player extends Mob {
 	private int tickCount = 0;
 	private String userName;
 
-	public Player(LevelHandler level, int x, int y, InputHandler input, String userName) {
+	public Player(LevelHandler level, int x, int y, InputHandler input,
+			String userName) {
 		super(level, "Player", x, y, 1);
 		this.input = input;
 		this.userName = userName;
@@ -23,7 +24,7 @@ public class Player extends Mob {
 		int xa = 0;
 		int ya = 0;
 
-		if(input != null){
+		if (input != null) {
 			if (input.up.isPressed()) {
 				ya--;
 			}
@@ -44,7 +45,7 @@ public class Player extends Mob {
 		} else {
 			isMoving = false;
 		}
-		
+
 		if (level.getTile(this.x >> 3, this.y >> 3).getId() == 4) {
 			isSwimming = true;
 		}
@@ -52,7 +53,7 @@ public class Player extends Mob {
 		if (isSwimming && level.getTile(this.x >> 3, this.y >> 3).getId() != 4) {
 			isSwimming = false;
 		}
-		
+
 		tickCount++;
 	}
 
@@ -73,13 +74,13 @@ public class Player extends Mob {
 		int modifier = 8 * scale;
 		int xOffset = x - modifier / 2;
 		int yOffset = y - modifier / 2 - 4;
-		
-		if(isSwimming){
+
+		if (isSwimming) {
 			int waterColour = 0;
 			yOffset += 4;
-			
+
 			colour = Colours.get(-1, 111, -1, 310);
-			
+
 			if (tickCount % 60 < 15) {
 				waterColour = Colours.get(-1, -1, 255, -1);
 			} else if (15 <= tickCount % 60 && tickCount % 60 < 30) {
@@ -91,21 +92,32 @@ public class Player extends Mob {
 				yOffset--;
 				waterColour = Colours.get(-1, -1, 225, 115);
 			}
-			
-			screen.render(xOffset, yOffset + 3, 31 + 31 * 32, waterColour, 0x00, 1);
-			screen.render(xOffset + 8, yOffset + 3, 31 + 31 * 32, waterColour, 0x01, 1);
+
+			screen.render(xOffset, yOffset + 3, 31 + 31 * 32, waterColour,
+					0x00, 1);
+			screen.render(xOffset + 8, yOffset + 3, 31 + 31 * 32, waterColour,
+					0x01, 1);
 		}
 
-		screen.render((xOffset + (modifier * flipTop)), yOffset, (xTile + yTile * 32), colour, flipTop, scale);
-		screen.render((xOffset + modifier - (modifier * flipTop)), yOffset, ((xTile + 1) + yTile * 32), colour, flipTop, scale);
-		if(!isSwimming){
-			screen.render((xOffset + (modifier * flipBottom)), (yOffset + modifier), (xTile	+ (yTile + 1) * 32), colour, flipBottom, scale);
-			screen.render((xOffset + modifier - (modifier * flipBottom)), (yOffset + modifier), ((xTile + 1) + (yTile + 1) * 32), colour, flipBottom, scale);
-			colour = Colours.get(-1, 111, 240, 310);;
+		screen.render((xOffset + (modifier * flipTop)), yOffset,
+				(xTile + yTile * 32), colour, flipTop, scale);
+		screen.render((xOffset + modifier - (modifier * flipTop)), yOffset,
+				((xTile + 1) + yTile * 32), colour, flipTop, scale);
+		if (!isSwimming) {
+			screen.render((xOffset + (modifier * flipBottom)),
+					(yOffset + modifier), (xTile + (yTile + 1) * 32), colour,
+					flipBottom, scale);
+			screen.render((xOffset + modifier - (modifier * flipBottom)),
+					(yOffset + modifier), ((xTile + 1) + (yTile + 1) * 32),
+					colour, flipBottom, scale);
+			colour = Colours.get(-1, 111, 240, 310);
+			;
 		}
-		
-		if(userName != null){
-			Font.render(userName, screen, xOffset - ((userName.length() - 1) / 2 * 8), yOffset - 10, Colours.get(-1, -1, -1, 555), 1);
+
+		if (userName != null) {
+			Font.render(userName, screen, xOffset
+					- ((userName.length() - 1) / 2 * 8), yOffset - 10,
+					Colours.get(-1, -1, -1, 555), 1);
 		}
 	}
 
@@ -141,8 +153,8 @@ public class Player extends Mob {
 
 		return false;
 	}
-	
-	public String getUsername(){
+
+	public String getUsername() {
 		return this.userName;
 	}
 
