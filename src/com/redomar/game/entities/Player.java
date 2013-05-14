@@ -4,33 +4,38 @@ import com.redomar.game.InputHandler;
 import com.redomar.game.gfx.Colours;
 import com.redomar.game.gfx.Screen;
 import com.redomar.game.level.LevelHandler;
+import com.redomar.game.lib.Font;
 
 public class Player extends Mob {
 
 	private InputHandler input;
 	private int colour = Colours.get(-1, 111, 240, 310);
 	private int tickCount = 0;
+	private String userName;
 
-	public Player(LevelHandler level, int x, int y, InputHandler input) {
+	public Player(LevelHandler level, int x, int y, InputHandler input, String userName) {
 		super(level, "Player", x, y, 1);
 		this.input = input;
+		this.userName = userName;
 	}
 
 	public void tick() {
 		int xa = 0;
 		int ya = 0;
 
-		if (input.up.isPressed()) {
-			ya--;
-		}
-		if (input.down.isPressed()) {
-			ya++;
-		}
-		if (input.left.isPressed()) {
-			xa--;
-		}
-		if (input.right.isPressed()) {
-			xa++;
+		if(input != null){
+			if (input.up.isPressed()) {
+				ya--;
+			}
+			if (input.down.isPressed()) {
+				ya++;
+			}
+			if (input.left.isPressed()) {
+				xa--;
+			}
+			if (input.right.isPressed()) {
+				xa++;
+			}
 		}
 
 		if (xa != 0 || ya != 0) {
@@ -40,11 +45,11 @@ public class Player extends Mob {
 			isMoving = false;
 		}
 		
-		if (level.getTile(this.x >> 3, this.y >> 3).getId() == 3) {
+		if (level.getTile(this.x >> 3, this.y >> 3).getId() == 4) {
 			isSwimming = true;
 		}
 
-		if (isSwimming && level.getTile(this.x >> 3, this.y >> 3).getId() != 3) {
+		if (isSwimming && level.getTile(this.x >> 3, this.y >> 3).getId() != 4) {
 			isSwimming = false;
 		}
 		
@@ -73,6 +78,8 @@ public class Player extends Mob {
 			int waterColour = 0;
 			yOffset += 4;
 			
+			colour = Colours.get(-1, 111, -1, 310);
+			
 			if (tickCount % 60 < 15) {
 				waterColour = Colours.get(-1, -1, 255, -1);
 			} else if (15 <= tickCount % 60 && tickCount % 60 < 30) {
@@ -94,6 +101,11 @@ public class Player extends Mob {
 		if(!isSwimming){
 			screen.render((xOffset + (modifier * flipBottom)), (yOffset + modifier), (xTile	+ (yTile + 1) * 32), colour, flipBottom, scale);
 			screen.render((xOffset + modifier - (modifier * flipBottom)), (yOffset + modifier), ((xTile + 1) + (yTile + 1) * 32), colour, flipBottom, scale);
+			colour = Colours.get(-1, 111, 240, 310);;
+		}
+		
+		if(userName != null){
+			Font.render(userName, screen, xOffset - ((userName.length() - 1) / 2 * 8), yOffset - 10, Colours.get(-1, -1, -1, 555), 1);
 		}
 	}
 
@@ -128,6 +140,10 @@ public class Player extends Mob {
 		}
 
 		return false;
+	}
+	
+	public String getUsername(){
+		return this.userName;
 	}
 
 }
