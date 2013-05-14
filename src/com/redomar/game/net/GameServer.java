@@ -21,6 +21,7 @@ public class GameServer extends Thread{
 	private List<PlayerMP> connectedPlayers = new ArrayList<PlayerMP>();
 	
 	public GameServer(Game game){
+		this.game = game;
 		try {
 			this.socket = new DatagramSocket(1331);
 		} catch (SocketException e) {
