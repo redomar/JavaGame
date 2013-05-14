@@ -12,11 +12,13 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import com.redomar.game.entities.Player;
+import com.redomar.game.entities.PlayerMP;
 import com.redomar.game.gfx.Screen;
 import com.redomar.game.gfx.SpriteSheet;
 import com.redomar.game.level.LevelHandler;
 import com.redomar.game.net.GameClient;
 import com.redomar.game.net.GameServer;
+import com.redomar.game.net.packets.Packet00Login;
 
 public class Game extends Canvas implements Runnable {
 
@@ -43,7 +45,7 @@ public class Game extends Canvas implements Runnable {
 	public InputHandler input;
 	public LevelHandler level;
 	public Player player;
-	
+
 	private GameClient socketClient;
 	private GameServer socketServer;
 
@@ -78,22 +80,32 @@ public class Game extends Canvas implements Runnable {
 
 		screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/sprite_sheet.png"));
 		input = new InputHandler(this);
-		level = new LevelHandler("/levels/castle_level.png");
-		player = new Player(level, 0, 0, input, JOptionPane.showInputDialog(this, "Enter a name"));
-		level.addEntity(player);
-		socketClient.sendData("ping".getBytes());
+		level = new LevelHandler("/levels/water_level.png");
+		
+		player = new PlayerMP(level, 100, 100, input,
+				JOptionPane.showInputDialog(this, "Enter a name"), null, -1);
+		
+		level.addEntity(player);		
+		Packet00Login loginPacket = new Packet00Login(player.getUsername());
+		
+		if (socketServer != null) {
+			socketServer.addConnection((PlayerMP) player, loginPacket);
+		}
+		
+		// socketClient.sendData("ping".getBytes());
+		loginPacket.writeData(socketClient);
 	}
 
 	public synchronized void start() {
 		running = true;
 		new Thread(this).start();
-		
-		if(JOptionPane.showConfirmDialog(this, "Do you want to be the HOST?") == 0){
+
+		if (JOptionPane.showConfirmDialog(this, "Do you want to be the HOST?") == 0) {
 			socketServer = new GameServer(this);
 			socketServer.start();
 		}
-		
-		socketClient = new GameClient(this, "localhost");
+
+		socketClient = new GameClient(this, "127.0.0.1");
 		socketClient.start();
 	}
 
@@ -147,7 +159,6 @@ public class Game extends Canvas implements Runnable {
 
 	}
 
-
 	public void tick() {
 		tickCount++;
 		level.tick();
@@ -166,15 +177,12 @@ public class Game extends Canvas implements Runnable {
 		level.renderTiles(screen, xOffset, yOffset);
 
 		/*
-		for (int x = 0; x < level.width; x++) {
-			int colour = Colours.get(-1, -1, -1, 000);
-			if (x % 10 == 0 && x != 0) {
-				colour = Colours.get(-1, -1, -1, 500);
-			}
-			Font.render((x % 10) + "", screen, 0 + (x * 8), 0, colour, 1);
-		}
-		*/
-		
+		 * for (int x = 0; x < level.width; x++) { int colour = Colours.get(-1,
+		 * -1, -1, 000); if (x % 10 == 0 && x != 0) { colour = Colours.get(-1,
+		 * -1, -1, 500); } Font.render((x % 10) + "", screen, 0 + (x * 8), 0,
+		 * colour, 1); }
+		 */
+
 		level.renderEntities(screen);
 
 		for (int y = 0; y < screen.height; y++) {

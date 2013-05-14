@@ -23,17 +23,19 @@ public class Player extends Mob {
 		int xa = 0;
 		int ya = 0;
 
-		if (input.up.isPressed()) {
-			ya--;
-		}
-		if (input.down.isPressed()) {
-			ya++;
-		}
-		if (input.left.isPressed()) {
-			xa--;
-		}
-		if (input.right.isPressed()) {
-			xa++;
+		if(input != null){
+			if (input.up.isPressed()) {
+				ya--;
+			}
+			if (input.down.isPressed()) {
+				ya++;
+			}
+			if (input.left.isPressed()) {
+				xa--;
+			}
+			if (input.right.isPressed()) {
+				xa++;
+			}
 		}
 
 		if (xa != 0 || ya != 0) {
@@ -138,6 +140,10 @@ public class Player extends Mob {
 		}
 
 		return false;
+	}
+	
+	public String getUsername(){
+		return this.userName;
 	}
 
 }
