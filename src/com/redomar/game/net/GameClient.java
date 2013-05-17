@@ -60,16 +60,16 @@ public class GameClient extends Thread {
 			System.out.println("[" + address.getHostAddress() + ":" + port
 					+ "] " + ((Packet00Login) packet).getUsername()
 					+ " has joined...");
-			PlayerMP player = new PlayerMP(game.level, 10, 10,
+			PlayerMP player = new PlayerMP(game.getLevel(), 10, 10,
 					((Packet00Login) packet).getUsername(), address, port);
-			game.level.addEntity(player);
+			game.getLevel().addEntity(player);
 			break;
 		case DISCONNECT:
 			packet = new Packet01Disconnect(data);
 			System.out.println("[" + address.getHostAddress() + ":" + port
 					+ "] " + ((Packet01Disconnect) packet).getUsername()
 					+ " has disconnected...");
-			game.level.removeEntity(((Packet01Disconnect)packet).getUsername());
+			game.getLevel().removeEntity(((Packet01Disconnect)packet).getUsername());
 			break;
 		}
 	}

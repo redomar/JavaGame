@@ -42,10 +42,10 @@ public class Game extends Canvas implements Runnable {
 	private int[] colours = new int[6 * 6 * 6];
 
 	private Screen screen;
-	public InputHandler input;
-	public WindowHandler window;
-	public LevelHandler level;
-	public Player player;
+	private InputHandler input;
+	private WindowHandler window;
+	private LevelHandler level;
+	private Player player;
 
 	private GameClient socketClient;
 	private GameServer socketServer;
@@ -82,16 +82,16 @@ public class Game extends Canvas implements Runnable {
 		screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/sprite_sheet.png"));
 		input = new InputHandler(this);
 		window = new WindowHandler(this);
-		level = new LevelHandler("/levels/water_level.png");
+		setLevel(new LevelHandler("/levels/water_level.png"));
 
-		player = new PlayerMP(level, 100, 100, input,
-				JOptionPane.showInputDialog(this, "Enter a name"), null, -1);
+		setPlayer(new PlayerMP(getLevel(), 100, 100, input,
+				JOptionPane.showInputDialog(this, "Enter a name"), null, -1));
 
-		level.addEntity(player);
-		Packet00Login loginPacket = new Packet00Login(player.getUsername());
+		getLevel().addEntity(getPlayer());
+		Packet00Login loginPacket = new Packet00Login(getPlayer().getUsername());
 
 		if (socketServer != null) {
-			socketServer.addConnection((PlayerMP) player, loginPacket);
+			socketServer.addConnection((PlayerMP) getPlayer(), loginPacket);
 		}
 
 		// socketClient.sendData("ping".getBytes());
@@ -163,7 +163,7 @@ public class Game extends Canvas implements Runnable {
 
 	public void tick() {
 		tickCount++;
-		level.tick();
+		getLevel().tick();
 	}
 
 	public void render() {
@@ -173,10 +173,10 @@ public class Game extends Canvas implements Runnable {
 			return;
 		}
 
-		int xOffset = player.x - (screen.width / 2);
-		int yOffset = player.y - (screen.height / 2);
+		int xOffset = getPlayer().x - (screen.width / 2);
+		int yOffset = getPlayer().y - (screen.height / 2);
 
-		level.renderTiles(screen, xOffset, yOffset);
+		getLevel().renderTiles(screen, xOffset, yOffset);
 
 		/*
 		 * for (int x = 0; x < level.width; x++) { int colour = Colours.get(-1,
@@ -185,7 +185,7 @@ public class Game extends Canvas implements Runnable {
 		 * colour, 1); }
 		 */
 
-		level.renderEntities(screen);
+		getLevel().renderEntities(screen);
 
 		for (int y = 0; y < screen.height; y++) {
 			for (int x = 0; x < screen.width; x++) {
@@ -222,6 +222,22 @@ public class Game extends Canvas implements Runnable {
 
 	public void setSocketClient(GameClient socketClient) {
 		this.socketClient = socketClient;
+	}
+
+	public Player getPlayer() {
+		return player;
+	}
+
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
+
+	public LevelHandler getLevel() {
+		return level;
+	}
+
+	public void setLevel(LevelHandler level) {
+		this.level = level;
 	}
 
 }

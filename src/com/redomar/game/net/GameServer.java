@@ -65,7 +65,7 @@ public class GameServer extends Thread {
 			System.out.println("[" + address.getHostAddress() + ":" + port
 					+ "] " + ((Packet00Login) packet).getUsername()
 					+ " has connected...");
-			PlayerMP player = new PlayerMP(game.level, 10, 10,
+			PlayerMP player = new PlayerMP(game.getLevel(), 10, 10,
 					((Packet00Login) packet).getUsername(), address, port);
 			this.addConnection(player, (Packet00Login) packet);
 			break;
