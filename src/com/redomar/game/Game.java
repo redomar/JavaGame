@@ -43,6 +43,7 @@ public class Game extends Canvas implements Runnable {
 
 	private Screen screen;
 	public InputHandler input;
+	public WindowHandler window;
 	public LevelHandler level;
 	public Player player;
 
@@ -54,14 +55,14 @@ public class Game extends Canvas implements Runnable {
 		setMaximumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
 		setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
 
-		frame = new JFrame(NAME);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setLayout(new BorderLayout());
-		frame.add(this, BorderLayout.CENTER);
-		frame.pack();
-		frame.setResizable(false);
-		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
+		setFrame(new JFrame(NAME));
+		getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		getFrame().setLayout(new BorderLayout());
+		getFrame().add(this, BorderLayout.CENTER);
+		getFrame().pack();
+		getFrame().setResizable(false);
+		getFrame().setLocationRelativeTo(null);
+		getFrame().setVisible(true);
 
 	}
 
@@ -80,6 +81,7 @@ public class Game extends Canvas implements Runnable {
 
 		screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/sprite_sheet.png"));
 		input = new InputHandler(this);
+		window = new WindowHandler(this);
 		level = new LevelHandler("/levels/water_level.png");
 
 		player = new PlayerMP(level, 100, 100, input,
@@ -93,7 +95,7 @@ public class Game extends Canvas implements Runnable {
 		}
 
 		// socketClient.sendData("ping".getBytes());
-		loginPacket.writeData(socketClient);
+		loginPacket.writeData(getSocketClient());
 	}
 
 	public synchronized void start() {
@@ -105,8 +107,8 @@ public class Game extends Canvas implements Runnable {
 			socketServer.start();
 		}
 
-		socketClient = new GameClient(this, "127.0.0.1");
-		socketClient.start();
+		setSocketClient(new GameClient(this, "127.0.0.1"));
+		getSocketClient().start();
 	}
 
 	public synchronized void stop() {
@@ -151,7 +153,7 @@ public class Game extends Canvas implements Runnable {
 
 			if (System.currentTimeMillis() - lastTimer >= 1000) {
 				lastTimer += 1000;
-				frame.setTitle("Frames: " + frames + " Ticks: " + ticks);
+				getFrame().setTitle("Frames: " + frames + " Ticks: " + ticks);
 				frames = 0;
 				ticks = 0;
 			}
@@ -204,6 +206,22 @@ public class Game extends Canvas implements Runnable {
 
 	public static void main(String[] args) {
 		new Game().start();
+	}
+
+	public JFrame getFrame() {
+		return frame;
+	}
+
+	public void setFrame(JFrame frame) {
+		this.frame = frame;
+	}
+
+	public GameClient getSocketClient() {
+		return socketClient;
+	}
+
+	public void setSocketClient(GameClient socketClient) {
+		this.socketClient = socketClient;
 	}
 
 }

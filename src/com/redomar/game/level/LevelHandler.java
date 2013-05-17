@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import javax.imageio.ImageIO;
 
 import com.redomar.game.entities.Entity;
+import com.redomar.game.entities.PlayerMP;
 import com.redomar.game.gfx.Screen;
 import com.redomar.game.level.tiles.Tile;
 
@@ -143,6 +144,17 @@ public class LevelHandler {
 
 	public void addEntity(Entity entity) {
 		this.entities.add(entity);
+	}
+
+	public void removeEntity(String username) {
+		int index = 0;
+		for(Entity e : entities){
+			if(e instanceof PlayerMP && ((PlayerMP)e).getUsername().equalsIgnoreCase(username)){
+				break;
+			}
+			index++;
+		}
+		this.entities.remove(index);
 	}
 
 }

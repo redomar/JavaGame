@@ -13,6 +13,7 @@ import com.redomar.game.entities.PlayerMP;
 import com.redomar.game.net.packets.Packet;
 import com.redomar.game.net.packets.Packet00Login;
 import com.redomar.game.net.packets.Packet.PacketTypes;
+import com.redomar.game.net.packets.Packet01Disconnect;
 
 public class GameServer extends Thread {
 
@@ -69,6 +70,11 @@ public class GameServer extends Thread {
 			this.addConnection(player, (Packet00Login) packet);
 			break;
 		case DISCONNECT:
+			packet = new Packet01Disconnect(data);
+			System.out.println("[" + address.getHostAddress() + ":" + port
+					+ "] " + ((Packet01Disconnect) packet).getUsername()
+					+ " has disconnected...");
+			this.removeConnection((Packet01Disconnect) packet);
 			break;
 		}
 	}
@@ -98,6 +104,32 @@ public class GameServer extends Thread {
 		}
 	}
 
+	public void removeConnection(Packet01Disconnect packet) {
+		this.connectedPlayers.remove(getPlayerMPIndex(packet.getUsername()));
+		packet.writeData(this);
+	}
+
+	public PlayerMP getPlayerMP(String username){
+		for(PlayerMP player : this.connectedPlayers){
+			if(player.getUsername().equalsIgnoreCase(username)){
+				return player;
+			}
+		}
+		return null;
+	}
+	
+	public int getPlayerMPIndex(String username){
+		int index = 0;
+		for(PlayerMP player : this.connectedPlayers){
+			if(player.getUsername().equalsIgnoreCase(username)){
+				break;
+			} else {
+				index++;
+			}
+		}
+		return index;
+	}
+	
 	public void sendData(byte[] data, InetAddress ipAddress, int port) {
 		DatagramPacket packet = new DatagramPacket(data, data.length,
 				ipAddress, port);

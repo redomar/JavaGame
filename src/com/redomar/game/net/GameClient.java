@@ -11,6 +11,7 @@ import com.redomar.game.Game;
 import com.redomar.game.entities.PlayerMP;
 import com.redomar.game.net.packets.Packet;
 import com.redomar.game.net.packets.Packet00Login;
+import com.redomar.game.net.packets.Packet01Disconnect;
 import com.redomar.game.net.packets.Packet.PacketTypes;
 
 public class GameClient extends Thread {
@@ -64,6 +65,11 @@ public class GameClient extends Thread {
 			game.level.addEntity(player);
 			break;
 		case DISCONNECT:
+			packet = new Packet01Disconnect(data);
+			System.out.println("[" + address.getHostAddress() + ":" + port
+					+ "] " + ((Packet01Disconnect) packet).getUsername()
+					+ " has disconnected...");
+			game.level.removeEntity(((Packet01Disconnect)packet).getUsername());
 			break;
 		}
 	}
