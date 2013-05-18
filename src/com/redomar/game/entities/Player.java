@@ -1,10 +1,12 @@
 package com.redomar.game.entities;
 
+import com.redomar.game.Game;
 import com.redomar.game.InputHandler;
 import com.redomar.game.gfx.Colours;
 import com.redomar.game.gfx.Screen;
 import com.redomar.game.level.LevelHandler;
 import com.redomar.game.lib.Font;
+import com.redomar.game.net.packets.Packet02Move;
 
 public class Player extends Mob {
 
@@ -42,6 +44,10 @@ public class Player extends Mob {
 		if (xa != 0 || ya != 0) {
 			move(xa, ya);
 			isMoving = true;
+			
+			Packet02Move packet = new Packet02Move(this.getUsername(), this.x, this.y);
+			packet.writeData(Game.game.getSocketClient());
+			
 		} else {
 			isMoving = false;
 		}
