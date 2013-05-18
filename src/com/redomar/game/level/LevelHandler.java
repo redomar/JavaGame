@@ -19,7 +19,7 @@ public class LevelHandler {
 	private byte[] tiles;
 	public int width;
 	public int height;
-	public List<Entity> entities = new ArrayList<Entity>();
+	private List<Entity> entities = new ArrayList<Entity>();
 	private String imagePath;
 	private BufferedImage image;
 
@@ -91,9 +91,13 @@ public class LevelHandler {
 			}
 		}
 	}
+	
+	public synchronized List<Entity>getEntities(){
+		return this.entities;
+	}
 
 	public void tick() {
-		for (Entity e : entities) {
+		for (Entity e : getEntities()) {
 			e.tick();
 		}
 
@@ -130,7 +134,7 @@ public class LevelHandler {
 	}
 
 	public void renderEntities(Screen screen) {
-		for (Entity e : entities) {
+		for (Entity e : getEntities()) {
 			e.render(screen);
 		}
 	}
@@ -143,23 +147,23 @@ public class LevelHandler {
 	}
 
 	public void addEntity(Entity entity) {
-		this.entities.add(entity);
+		this.getEntities().add(entity);
 	}
 
 	public void removeEntity(String username) {
 		int index = 0;
-		for(Entity e : entities){
+		for(Entity e : getEntities()){
 			if(e instanceof PlayerMP && ((PlayerMP)e).getUsername().equalsIgnoreCase(username)){
 				break;
 			}
 			index++;
 		}
-		this.entities.remove(index);
+		this.getEntities().remove(index);
 	}
 	
 	private int getPlayerMPIndex(String username){
 		int index = 0;
-		for(Entity e : entities){
+		for(Entity e : getEntities()){
 			if(e instanceof PlayerMP && ((PlayerMP)e).getUsername().equalsIgnoreCase(username)){
 				break;
 			}
@@ -170,8 +174,8 @@ public class LevelHandler {
 	
 	public void movePlayer(String username, int x, int y){
 		int index = getPlayerMPIndex(username);
-		this.entities.get(index).x = x;
-		this.entities.get(index).y = y;
+		this.getEntities().get(index).x = x;
+		this.getEntities().get(index).y = y;
 	}
 
 }
