@@ -90,7 +90,7 @@ public class Game extends Canvas implements Runnable {
 				JOptionPane.showInputDialog(this, "Enter a name"), null, -1);
 
 		level.addEntity(player);
-		Packet00Login loginPacket = new Packet00Login(player.getUsername());
+		Packet00Login loginPacket = new Packet00Login(player.getUsername(), player.x, player.y);
 
 		if (socketServer != null) {
 			socketServer.addConnection((PlayerMP) player, loginPacket);

@@ -58,12 +58,7 @@ public class GameClient extends Thread {
 			break;
 		case LOGIN:
 			packet = new Packet00Login(data);
-			System.out.println("[" + address.getHostAddress() + ":" + port
-					+ "] " + ((Packet00Login) packet).getUsername()
-					+ " has joined...");
-			PlayerMP player = new PlayerMP(game.level, 10, 10,
-					((Packet00Login) packet).getUsername(), address, port);
-			game.level.addEntity(player);
+			handleLogin((Packet00Login)packet, address, port);
 			break;
 		case DISCONNECT:
 			packet = new Packet01Disconnect(data);
@@ -74,12 +69,20 @@ public class GameClient extends Thread {
 			break;
 		case MOVE:
 			packet = new Packet02Move(data);
-			this.handlePacket((Packet02Move)packet);
+			this.handleMove((Packet02Move)packet);
 			break;
 		}
 	}
 
-	private void handlePacket(Packet02Move packet) {
+	private void handleLogin(Packet00Login packet, InetAddress address, int port) {
+		System.out.println("[" + address.getHostAddress() + ":" + port + "] "
+				+ packet.getUsername() + " has joined...");
+		PlayerMP player = new PlayerMP(game.level, packet.getX(), packet.getY(),
+				packet.getUsername(), address, port);
+		game.level.addEntity(player);
+	}
+
+	private void handleMove(Packet02Move packet) {
 		this.game.level.movePlayer(packet.getUsername(), packet.getX(), packet.getY());
 	}
 
@@ -92,4 +95,5 @@ public class GameClient extends Thread {
 			e.printStackTrace();
 		}
 	}
+
 }
