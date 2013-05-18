@@ -1,6 +1,5 @@
 package com.redomar.game;
 
-import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -29,9 +28,11 @@ public class Game extends Canvas implements Runnable {
 	public static final int HEIGHT = (WIDTH / 3 * 2);
 	public static final int SCALE = 3;
 	public static final String NAME = "Game";
+	public static final Dimension DIMENSIONS = new Dimension(WIDTH * SCALE, HEIGHT * SCALE);
 	public static Game game;
 
 	private JFrame frame;
+	private Thread thread;
 
 	public boolean running = false;
 	public int tickCount = 0;
@@ -50,22 +51,9 @@ public class Game extends Canvas implements Runnable {
 
 	private GameClient socketClient;
 	private GameServer socketServer;
+	
+	private boolean debug = true;
 
-	public Game() {
-		setMinimumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
-		setMaximumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
-		setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
-
-		setFrame(new JFrame(NAME));
-		getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		getFrame().setLayout(new BorderLayout());
-		getFrame().add(this, BorderLayout.CENTER);
-		getFrame().pack();
-		getFrame().setResizable(false);
-		getFrame().setLocationRelativeTo(null);
-		getFrame().setVisible(true);
-
-	}
 
 	public void init() {
 		game = this;
@@ -83,7 +71,6 @@ public class Game extends Canvas implements Runnable {
 
 		screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/sprite_sheet.png"));
 		input = new InputHandler(this);
-		setWindow(new WindowHandler(this));
 		setLevel(new LevelHandler("/levels/water_level.png"));
 
 		setPlayer(new PlayerMP(getLevel(), 100, 100, input,
@@ -102,8 +89,8 @@ public class Game extends Canvas implements Runnable {
 
 	public synchronized void start() {
 		running = true;
-		new Thread(this).start();
-
+		thread = new Thread(this, NAME+"_MAIN");
+		thread.start();	
 		if (JOptionPane.showConfirmDialog(this, "Do you want to be the HOST?") == 0) {
 			socketServer = new GameServer(this);
 			socketServer.start();
@@ -115,6 +102,11 @@ public class Game extends Canvas implements Runnable {
 
 	public synchronized void stop() {
 		running = false;
+		try {
+			thread.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void run() {
@@ -155,7 +147,7 @@ public class Game extends Canvas implements Runnable {
 
 			if (System.currentTimeMillis() - lastTimer >= 1000) {
 				lastTimer += 1000;
-				getFrame().setTitle("Frames: " + frames + " Ticks: " + ticks);
+				debug(debugLevel.INFO, "Frames: " + frames + " Ticks: " + ticks);
 				frames = 0;
 				ticks = 0;
 			}
@@ -205,9 +197,37 @@ public class Game extends Canvas implements Runnable {
 		g.dispose();
 		bs.show();
 	}
-
-	public static void main(String[] args) {
-		new Game().start();
+	
+	public void debug(debugLevel level, String msg){
+		switch(level){
+		default: 
+		case INFO:
+			if(debug){
+				System.out.println("["+NAME+"] "+msg);
+			}
+			break; 
+		case ALERT:
+			if(debug){
+				System.out.println("["+NAME+"][ALERT]"+msg);
+			}
+			break;
+		case WARNING:
+			if(debug){
+				System.out.println("["+NAME+"][WARNING] "+msg);
+			}
+			break;
+		case SEVERE:
+			if(debug){
+				System.out.println("["+NAME+"][SEVERE] "+msg);
+				this.stop();
+			}
+			break;
+		}
+	}
+	
+	public static enum debugLevel{
+		INFO, ALERT, WARNING, SEVERE;
+		
 	}
 
 	public JFrame getFrame() {
@@ -248,6 +268,10 @@ public class Game extends Canvas implements Runnable {
 
 	public void setWindow(WindowHandler window) {
 		this.window = window;
+	}
+
+	public void setDebug(boolean debug) {
+		this.debug = debug;
 	}
 
 }

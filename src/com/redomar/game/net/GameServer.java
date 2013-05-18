@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.redomar.game.Game;
+import com.redomar.game.Game.debugLevel;
 import com.redomar.game.entities.PlayerMP;
 import com.redomar.game.net.packets.Packet;
 import com.redomar.game.net.packets.Packet00Login;
@@ -63,7 +64,7 @@ public class GameServer extends Thread {
 			break;
 		case LOGIN:
 			packet = new Packet00Login(data);
-			System.out.println("[" + address.getHostAddress() + ":" + port
+			game.debug(debugLevel.ALERT, "[" + address.getHostAddress() + ":" + port
 					+ "] " + ((Packet00Login) packet).getUsername()
 					+ " has connected...");
 			PlayerMP player = new PlayerMP(game.getLevel(), 10, 10,
@@ -72,13 +73,17 @@ public class GameServer extends Thread {
 			break;
 		case DISCONNECT:
 			packet = new Packet01Disconnect(data);
-			System.out.println("[" + address.getHostAddress() + ":" + port
+			game.debug(debugLevel.ALERT, "[" + address.getHostAddress() + ":" + port
 					+ "] " + ((Packet01Disconnect) packet).getUsername()
 					+ " has disconnected...");
 			this.removeConnection((Packet01Disconnect) packet);
 			break;
 		case MOVE:
 			packet = new Packet02Move(data);
+			/*game.debug(debugLevel.ALERT, ((Packet02Move) packet).getUsername() 
+					+ " has moved to " + ((Packet02Move) packet).getX() + ", "
+					+ ((Packet02Move) packet).getY());*/
+
 			this.handleMove(((Packet02Move)packet));
 		}
 	}
