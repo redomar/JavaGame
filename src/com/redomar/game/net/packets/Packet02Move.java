@@ -25,7 +25,7 @@ public class Packet02Move extends Packet {
 
 	@Override
 	public byte[] getData() {
-		return ("02" + this.username + "," + this.x + "," + this.y).getBytes();
+		return ("02" + this.username + "," + getX() + "," + getY()).getBytes();
 	}
 
 	@Override

@@ -74,21 +74,16 @@ public class GameClient extends Thread {
 		}
 	}
 
-<<<<<<< HEAD
-	private void handlePacket(Packet02Move packet) {
-		this.game.getLevel().movePlayer(packet.getUsername(), packet.getX(), packet.getY());
-=======
 	private void handleLogin(Packet00Login packet, InetAddress address, int port) {
 		System.out.println("[" + address.getHostAddress() + ":" + port + "] "
 				+ packet.getUsername() + " has joined...");
-		PlayerMP player = new PlayerMP(game.level, packet.getX(), packet.getY(),
+		PlayerMP player = new PlayerMP(game.getLevel(), packet.getX(), packet.getY(),
 				packet.getUsername(), address, port);
-		game.level.addEntity(player);
+		game.getLevel().addEntity(player);
 	}
 
 	private void handleMove(Packet02Move packet) {
-		this.game.level.movePlayer(packet.getUsername(), packet.getX(), packet.getY());
->>>>>>> cb07850f2406667c1ba9ade6f1b4aa8531dcdc03
+		this.game.getLevel().movePlayer(packet.getUsername(), packet.getX(), packet.getY());
 	}
 
 	public void sendData(byte[] data) {
