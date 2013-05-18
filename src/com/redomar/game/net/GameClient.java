@@ -80,7 +80,7 @@ public class GameClient extends Thread {
 	}
 
 	private void handlePacket(Packet02Move packet) {
-		this.game.level.movePlayer(packet.getUsername(), packet.getX(), packet.getY());
+		this.game.getLevel().movePlayer(packet.getUsername(), packet.getX(), packet.getY());
 	}
 
 	public void sendData(byte[] data) {

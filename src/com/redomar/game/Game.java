@@ -83,7 +83,7 @@ public class Game extends Canvas implements Runnable {
 
 		screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/sprite_sheet.png"));
 		input = new InputHandler(this);
-		window = new WindowHandler(this);
+		setWindow(new WindowHandler(this));
 		setLevel(new LevelHandler("/levels/water_level.png"));
 
 		setPlayer(new PlayerMP(getLevel(), 100, 100, input,
@@ -240,6 +240,14 @@ public class Game extends Canvas implements Runnable {
 
 	public void setLevel(LevelHandler level) {
 		this.level = level;
+	}
+
+	public WindowHandler getWindow() {
+		return window;
+	}
+
+	public void setWindow(WindowHandler window) {
+		this.window = window;
 	}
 
 }
