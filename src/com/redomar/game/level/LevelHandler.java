@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import javax.imageio.ImageIO;
 
 import com.redomar.game.entities.Entity;
+import com.redomar.game.entities.Player;
 import com.redomar.game.entities.PlayerMP;
 import com.redomar.game.gfx.Screen;
 import com.redomar.game.level.tiles.Tile;
@@ -19,7 +20,7 @@ public class LevelHandler {
 	private byte[] tiles;
 	public int width;
 	public int height;
-	public List<Entity> entities = new ArrayList<Entity>();
+	private List<Entity> entities = new ArrayList<Entity>();
 	private String imagePath;
 	private BufferedImage image;
 
@@ -91,9 +92,13 @@ public class LevelHandler {
 			}
 		}
 	}
+	
+	public synchronized List<Entity>getEntities(){
+		return this.entities;
+	}
 
 	public void tick() {
-		for (Entity e : entities) {
+		for (Entity e : getEntities()) {
 			e.tick();
 		}
 
@@ -130,7 +135,7 @@ public class LevelHandler {
 	}
 
 	public void renderEntities(Screen screen) {
-		for (Entity e : entities) {
+		for (Entity e : getEntities()) {
 			e.render(screen);
 		}
 	}
@@ -143,23 +148,23 @@ public class LevelHandler {
 	}
 
 	public void addEntity(Entity entity) {
-		this.entities.add(entity);
+		this.getEntities().add(entity);
 	}
 
 	public void removeEntity(String username) {
 		int index = 0;
-		for(Entity e : entities){
+		for(Entity e : getEntities()){
 			if(e instanceof PlayerMP && ((PlayerMP)e).getUsername().equalsIgnoreCase(username)){
 				break;
 			}
 			index++;
 		}
-		this.entities.remove(index);
+		this.getEntities().remove(index);
 	}
 	
 	private int getPlayerMPIndex(String username){
 		int index = 0;
-		for(Entity e : entities){
+		for(Entity e : getEntities()){
 			if(e instanceof PlayerMP && ((PlayerMP)e).getUsername().equalsIgnoreCase(username)){
 				break;
 			}
@@ -168,10 +173,14 @@ public class LevelHandler {
 		return index;
 	}
 	
-	public void movePlayer(String username, int x, int y){
+	public void movePlayer(String username, int x, int y, int numSteps, boolean isMoving, int movingDir){
 		int index = getPlayerMPIndex(username);
-		this.entities.get(index).x = x;
-		this.entities.get(index).y = y;
+		PlayerMP player = (PlayerMP)this.getEntities().get(index);
+		player.x = x;
+		player.y = y;
+		player.setNumSteps(numSteps);
+		player.setMoving(isMoving);
+		player.setMovingDir(movingDir);
 	}
 
 }
