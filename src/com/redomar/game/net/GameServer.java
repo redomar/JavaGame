@@ -14,6 +14,7 @@ import com.redomar.game.net.packets.Packet;
 import com.redomar.game.net.packets.Packet00Login;
 import com.redomar.game.net.packets.Packet.PacketTypes;
 import com.redomar.game.net.packets.Packet01Disconnect;
+import com.redomar.game.net.packets.Packet02Move;
 
 public class GameServer extends Thread {
 
@@ -76,6 +77,21 @@ public class GameServer extends Thread {
 					+ " has disconnected...");
 			this.removeConnection((Packet01Disconnect) packet);
 			break;
+		case MOVE:
+			packet = new Packet02Move(data);
+			System.out.println(((Packet02Move) packet).getUsername()
+					+ " has moved to " + ((Packet02Move) packet).getX() + ", "
+					+ ((Packet02Move) packet).getY());
+			this.handleMove(((Packet02Move)packet));
+		}
+	}
+
+	private void handleMove(Packet02Move packet) {
+		if(getPlayerMP(packet.getUsername()) != null){
+			int index = getPlayerMPIndex(packet.getUsername());
+			this.connectedPlayers.get(index).x = packet.getX();
+			this.connectedPlayers.get(index).y = packet.getY();
+			packet.writeData(this);
 		}
 	}
 
