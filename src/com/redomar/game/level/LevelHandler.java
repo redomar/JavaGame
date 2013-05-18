@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import javax.imageio.ImageIO;
 
 import com.redomar.game.entities.Entity;
+import com.redomar.game.entities.Player;
 import com.redomar.game.entities.PlayerMP;
 import com.redomar.game.gfx.Screen;
 import com.redomar.game.level.tiles.Tile;
@@ -172,10 +173,14 @@ public class LevelHandler {
 		return index;
 	}
 	
-	public void movePlayer(String username, int x, int y){
+	public void movePlayer(String username, int x, int y, int numSteps, boolean isMoving, int movingDir){
 		int index = getPlayerMPIndex(username);
-		this.getEntities().get(index).x = x;
-		this.getEntities().get(index).y = y;
+		PlayerMP player = (PlayerMP)this.getEntities().get(index);
+		player.x = x;
+		player.y = y;
+		player.setNumSteps(numSteps);
+		player.setMoving(isMoving);
+		player.setMovingDir(movingDir);
 	}
 
 }

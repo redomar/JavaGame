@@ -69,4 +69,17 @@ public abstract class Mob extends Entity {
 	public String getName() {
 		return name;
 	}
+
+	public void setNumSteps(int numSteps) {
+		this.numSteps = numSteps;
+	}
+
+	public void setMoving(boolean isMoving) {
+		this.isMoving = isMoving;
+	}
+
+	public void setMovingDir(int movingDir) {
+		this.movingDir = movingDir;
+	}
+	
 }
