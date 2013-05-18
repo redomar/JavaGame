@@ -17,6 +17,7 @@ public class GameLauncher extends Applet{
 		setMaximumSize(Game.DIMENSIONS);
 		setMinimumSize(Game.DIMENSIONS);
 		setPreferredSize(Game.DIMENSIONS);
+		game.setApplet(true);
 	}
 	
 	@Override

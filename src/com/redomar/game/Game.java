@@ -53,6 +53,7 @@ public class Game extends Canvas implements Runnable {
 	private GameServer socketServer;
 	
 	private boolean debug = true;
+	private boolean isApplet = false;
 
 
 	public void init() {
@@ -77,23 +78,29 @@ public class Game extends Canvas implements Runnable {
 				JOptionPane.showInputDialog(this, "Enter a name"), null, -1));
 
 		level.addEntity(player);
-		Packet00Login loginPacket = new Packet00Login(player.getUsername(), player.x, player.y);
+		if (!isApplet) {
+			Packet00Login loginPacket = new Packet00Login(player.getUsername(),
+					player.x, player.y);
 
-		if (socketServer != null) {
-			socketServer.addConnection((PlayerMP) getPlayer(), loginPacket);
+			if (socketServer != null) {
+				socketServer.addConnection((PlayerMP) getPlayer(), loginPacket);
+			}
+
+			// socketClient.sendData("ping".getBytes());
+			loginPacket.writeData(getSocketClient());
 		}
-
-		// socketClient.sendData("ping".getBytes());
-		loginPacket.writeData(getSocketClient());
 	}
 
 	public synchronized void start() {
 		running = true;
 		thread = new Thread(this, NAME+"_MAIN");
 		thread.start();	
-		if (JOptionPane.showConfirmDialog(this, "Do you want to be the HOST?") == 0) {
-			socketServer = new GameServer(this);
-			socketServer.start();
+		if (!isApplet) {
+			if (JOptionPane.showConfirmDialog(this,
+					"Do you want to be the HOST?") == 0) {
+				socketServer = new GameServer(this);
+				socketServer.start();
+			}
 		}
 
 		setSocketClient(new GameClient(this, "127.0.0.1"));
@@ -272,6 +279,14 @@ public class Game extends Canvas implements Runnable {
 
 	public void setDebug(boolean debug) {
 		this.debug = debug;
+	}
+
+	public boolean isApplet() {
+		return isApplet;
+	}
+
+	public void setApplet(boolean isApplet) {
+		this.isApplet = isApplet;
 	}
 
 }
