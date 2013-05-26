@@ -161,3 +161,16 @@ pip-log.txt
 
 # Mac crap
 .DS_Store
+
+##########
+## NetBeans
+##########
+nbproject/*
+build/
+nbbuild/
+dist/
+nbdist/
+nbactions.xml
+nb-configuration.xml
+manifest.mf
+.build.xml
