@@ -10,7 +10,6 @@ import java.util.logging.Level;
 import javax.imageio.ImageIO;
 
 import com.redomar.game.entities.Entity;
-import com.redomar.game.entities.Player;
 import com.redomar.game.entities.PlayerMP;
 import com.redomar.game.gfx.Screen;
 import com.redomar.game.level.tiles.Tile;
