@@ -2,6 +2,7 @@ package com.redomar.game;
 
 import java.awt.BorderLayout;
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
@@ -19,6 +20,7 @@ import com.redomar.game.level.LevelHandler;
 import com.redomar.game.net.GameClient;
 import com.redomar.game.net.GameServer;
 import com.redomar.game.net.packets.Packet00Login;
+import com.thehowtotutorial.splashscreen.JSplash;
 
 public class Game extends Canvas implements Runnable {
 
@@ -207,7 +209,31 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	public static void main(String[] args) {
-		new Game().start();
+		try {
+			JSplash splash = new JSplash(Game.class.getResource("/splash/splash.png"), true, true, false, "v1.3 Alpha", null, Color.RED, Color.ORANGE);
+			splash.splashOn();
+			splash.setProgress(10, "Initializing Game");
+			Thread.sleep(1500);
+			splash.setProgress(25, "Loading Classes");
+			Thread.sleep(1000);
+			splash.setProgress(35, "Applying Configurations");
+			Thread.sleep(1000);
+			splash.setProgress(40, "Loading Sprites");
+			Thread.sleep(1500);
+			splash.setProgress(50, "Loading Textures");
+			Thread.sleep(1000);
+			splash.setProgress(60, "Loading Map");
+			Thread.sleep(3000);
+			splash.setProgress(80, "Configuring Map");
+			Thread.sleep(1000);
+			splash.setProgress(90, "Pulling InputPanes");
+			Thread.sleep(1500);
+			splash.splashOff();
+			new Game().start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	public JFrame getFrame() {
