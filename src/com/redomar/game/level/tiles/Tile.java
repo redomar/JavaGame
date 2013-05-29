@@ -18,6 +18,12 @@ public abstract class Tile {
 	public static final Tile WATER = new AnimatedTile(4, new int[][] {
 			{ 0, 5 }, { 1, 5 }, { 2, 5 }, { 1, 5 } }, Colours.get(-1, 004, 115,
 			-1), 0xFF0000FF, 1000);
+	public static final Tile FLOWER_rose = new BasicTile(5, 4, 0, Colours.get(
+			131, 151, 510, 553), 0xFFCCFF33);
+	public static final Tile FLOWER_dandelion = new BasicTile(6, 4, 0,
+			Colours.get(131, 151, 553, 510), 0xFFFFCC33);
+	public static final Tile SAND = new BasicTile(7, 5, 0, Colours.get(-1, 553,
+			554, 555), 0xFFFFFF99);
 
 	protected byte id;
 	protected boolean solid;
