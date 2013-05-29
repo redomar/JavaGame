@@ -33,7 +33,7 @@ public class Game extends Canvas implements Runnable {
 	public static final String NAME = "Game";
 	public static Game game;
 	private static int Jdata_Host;
-	private static String Jdata_UserName;	
+	private static String Jdata_UserName = "";	
 
 	private JFrame frame;
 
@@ -215,31 +215,31 @@ public class Game extends Canvas implements Runnable {
 			JSplash splash = new JSplash(Game.class.getResource("/splash/splash.png"), true, true, false, "v1.4 Alpha", null, Color.RED, Color.ORANGE);
 			splash.splashOn();
 			splash.setProgress(10, "Initializing Game");
-			Thread.sleep(1500);
+			Thread.sleep(750);
 			splash.setProgress(25, "Loading Classes");
-			Thread.sleep(1000);
+			Thread.sleep(500);
 			splash.setProgress(35, "Applying Configurations");
-			Thread.sleep(1000);
+			Thread.sleep(500);
 			splash.setProgress(40, "Loading Sprites");
-			Thread.sleep(1500);
+			Thread.sleep(750);
 			splash.setProgress(50, "Loading Textures");
-			Thread.sleep(1000);
+			Thread.sleep(500);
 			splash.setProgress(60, "Loading Map");
-			Thread.sleep(3000);
-			splash.setProgress(80, "Configuring Map");
-			Thread.sleep(1000);
-			splash.setProgress(90, "Pulling InputPanes");
 			Thread.sleep(1500);
+			splash.setProgress(80, "Configuring Map");
+			Thread.sleep(500);
+			splash.setProgress(90, "Pulling InputPanes");
+			Thread.sleep(750);
 			splash.setProgress(92, "Aquring data: Multiplayer");
 			Thread.sleep(200);
 			Jdata_Host = JOptionPane.showConfirmDialog(game, "Do you want to be the HOST?");
 			Thread.sleep(200);
-			if(Jdata_Host == 0){
-				splash.setProgress(95, "Aquring data: Username");
-				Thread.sleep(200);
-				Jdata_UserName = JOptionPane.showInputDialog(game, "Enter a name");
-				Thread.sleep(200);
-			}
+			splash.setProgress(95, "Aquring data: Username");
+			Thread.sleep(200);
+			splash.setProgress(96, "Initalizing as Server:Host");
+			Jdata_UserName = JOptionPane.showInputDialog(game, "Enter a name");
+			splash.setProgress(97, "Connecting as" + Jdata_UserName);
+			Thread.sleep(500);
 			splash.splashOff();
 			new Game().start();
 		} catch (Exception e) {
