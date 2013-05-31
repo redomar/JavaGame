@@ -52,6 +52,7 @@ public class Game extends Canvas implements Runnable {
 	private WindowHandler window;
 	private LevelHandler level;
 	private Player player;
+	private Music music = new Music();
 
 	private GameClient socketClient;
 	private GameServer socketServer;
@@ -107,10 +108,8 @@ public class Game extends Canvas implements Runnable {
 
 	public synchronized void start() {
 		running = true;
-		new Thread(this).start();
-
-		Music music = new Music();
 		new Thread(music).start();
+		new Thread(this).start();
 		
 		if (Jdata_Host == 0) {
 			socketServer = new GameServer(this);
@@ -217,7 +216,7 @@ public class Game extends Canvas implements Runnable {
 	public static void main(String[] args) {
 		try {
 			JSplash splash = new JSplash(Game.class.getResource("/splash/splash.png"), true, true, false, "v1.4 Alpha", null, Color.RED, Color.ORANGE);
-			splash.setAlwaysOnTop(true);
+			splash.toFront();
 			splash.splashOn();
 			splash.setProgress(10, "Initializing Game");
 			Thread.sleep(750);
