@@ -17,6 +17,7 @@ import com.redomar.game.entities.PlayerMP;
 import com.redomar.game.gfx.Screen;
 import com.redomar.game.gfx.SpriteSheet;
 import com.redomar.game.level.LevelHandler;
+import com.redomar.game.lib.Music;
 import com.redomar.game.net.GameClient;
 import com.redomar.game.net.GameServer;
 import com.redomar.game.net.packets.Packet00Login;
@@ -108,6 +109,9 @@ public class Game extends Canvas implements Runnable {
 		running = true;
 		new Thread(this).start();
 
+		Music music = new Music();
+		new Thread(music).start();
+		
 		if (Jdata_Host == 0) {
 			socketServer = new GameServer(this);
 			socketServer.start();
