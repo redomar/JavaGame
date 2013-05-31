@@ -17,6 +17,7 @@ import com.redomar.game.entities.PlayerMP;
 import com.redomar.game.gfx.Screen;
 import com.redomar.game.gfx.SpriteSheet;
 import com.redomar.game.level.LevelHandler;
+import com.redomar.game.lib.Music;
 import com.redomar.game.net.GameClient;
 import com.redomar.game.net.GameServer;
 import com.redomar.game.net.packets.Packet00Login;
@@ -108,6 +109,9 @@ public class Game extends Canvas implements Runnable {
 		running = true;
 		new Thread(this).start();
 
+		Music music = new Music();
+		new Thread(music).start();
+		
 		if (Jdata_Host == 0) {
 			socketServer = new GameServer(this);
 			socketServer.start();
@@ -213,6 +217,7 @@ public class Game extends Canvas implements Runnable {
 	public static void main(String[] args) {
 		try {
 			JSplash splash = new JSplash(Game.class.getResource("/splash/splash.png"), true, true, false, "v1.4 Alpha", null, Color.RED, Color.ORANGE);
+			splash.setAlwaysOnTop(true);
 			splash.splashOn();
 			splash.setProgress(10, "Initializing Game");
 			Thread.sleep(750);
