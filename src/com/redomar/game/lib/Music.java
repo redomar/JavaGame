@@ -1,8 +1,7 @@
 package com.redomar.game.lib;
 
 import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.net.URL;
+import java.io.InputStream;
 
 import com.redomar.game.Game;
 
@@ -10,11 +9,11 @@ import javazoom.jl.player.Player;
 
 public class Music implements Runnable{
 
-	private String file;
+	private InputStream file;
 	private Player musicPlayer;
 	
-	public Music(URL url){
-		this.file =  url.toString().substring(6);
+	public Music(InputStream url){
+		this.file =  url;
 	}
 	
 	public Music() {
@@ -23,8 +22,7 @@ public class Music implements Runnable{
 
 	public void Play(){
 		try {
-			FileInputStream inputFile     = new FileInputStream(file);  
-            BufferedInputStream buffered = new BufferedInputStream(inputFile);  
+            BufferedInputStream buffered = new BufferedInputStream(file);  
             musicPlayer = new Player(buffered);  
             musicPlayer.play();
 		} catch (Exception e) {
@@ -35,7 +33,18 @@ public class Music implements Runnable{
 
 	@Override
 	public void run() {
-		Music music = new Music(Game.class.getResource("/music/yoshi.mp3"));
-		music.Play();
+		Music music = new Music(Game.class.getResourceAsStream("/music/yoshi.mp3"));
+		while(true){
+			music.Play();
+		}
 	}
+	
+	public void stop() {
+		Music music = new Music(Game.class.getResourceAsStream("/music/yoshi.mp3"));
+		while(true){
+			music.stop();
+		}
+	}
+	
+	
 }
