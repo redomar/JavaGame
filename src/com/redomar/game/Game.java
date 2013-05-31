@@ -52,7 +52,7 @@ public class Game extends Canvas implements Runnable {
 	private WindowHandler window;
 	private LevelHandler level;
 	private Player player;
-	private Music music;
+	private Music music = new Music();
 
 	private GameClient socketClient;
 	private GameServer socketServer;
