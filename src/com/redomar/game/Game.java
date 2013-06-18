@@ -55,6 +55,8 @@ public class Game extends Canvas implements Runnable {
 	private Player player;
 	private Music music = new Music();
 	public Thread musicThread = new Thread(music);
+	
+	public boolean notActive = true;
 
 	private GameClient socketClient;
 	private GameServer socketServer;
@@ -111,7 +113,6 @@ public class Game extends Canvas implements Runnable {
 	public synchronized void start() {
 		running = true;
 		new Thread(this).start();
-		musicThread.start();
 		
 		if (Jdata_Host == 0) {
 			socketServer = new GameServer(this);
@@ -206,6 +207,18 @@ public class Game extends Canvas implements Runnable {
 				}
 			}
 		}
+		
+		if (input.PlayMusic == true && notActive == true){
+			int musicOption = JOptionPane.showConfirmDialog(this, "You are about to turn on music and can be VERY loud", "Music Options", 2, 2);
+			if (musicOption == 0){
+				musicThread.start();
+				notActive = false;				
+			} else {
+				System.out.println("Canceled");
+				input.PlayMusic = false;
+			}
+		}
+		
 
 		Graphics g = bs.getDrawGraphics();
 
