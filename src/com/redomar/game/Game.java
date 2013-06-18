@@ -34,7 +34,8 @@ public class Game extends Canvas implements Runnable {
 	public static final String NAME = "Game";
 	public static Game game;
 	private static int Jdata_Host;
-	private static String Jdata_UserName = "";	
+	private static String Jdata_UserName = "";
+	private static String Jdata_IP = "127.0.0.1";
 
 	private JFrame frame;
 
@@ -53,6 +54,9 @@ public class Game extends Canvas implements Runnable {
 	private LevelHandler level;
 	private Player player;
 	private Music music = new Music();
+	public Thread musicThread = new Thread(music);
+	
+	public boolean notActive = true;
 
 	private GameClient socketClient;
 	private GameServer socketServer;
@@ -108,7 +112,6 @@ public class Game extends Canvas implements Runnable {
 
 	public synchronized void start() {
 		running = true;
-		new Thread(music).start();
 		new Thread(this).start();
 		
 		if (Jdata_Host == 0) {
@@ -116,7 +119,7 @@ public class Game extends Canvas implements Runnable {
 			socketServer.start();
 		}
 
-		setSocketClient(new GameClient(this, "127.0.0.1"));
+		setSocketClient(new GameClient(this, Jdata_IP));
 		getSocketClient().start();
 	}
 
@@ -204,6 +207,18 @@ public class Game extends Canvas implements Runnable {
 				}
 			}
 		}
+		
+		if (input.PlayMusic == true && notActive == true){
+			int musicOption = JOptionPane.showConfirmDialog(this, "You are about to turn on music and can be VERY loud", "Music Options", 2, 2);
+			if (musicOption == 0){
+				musicThread.start();
+				notActive = false;				
+			} else {
+				System.out.println("Canceled");
+				input.PlayMusic = false;
+			}
+		}
+		
 
 		Graphics g = bs.getDrawGraphics();
 
@@ -237,6 +252,9 @@ public class Game extends Canvas implements Runnable {
 			splash.setProgress(92, "Aquring data: Multiplayer");
 			Thread.sleep(200);
 			Jdata_Host = JOptionPane.showConfirmDialog(game, "Do you want to be the HOST?");
+			if (Jdata_Host == 1){
+				Jdata_IP = JOptionPane.showInputDialog(game, "Enter the name \nleave blank for local");
+			}
 			Thread.sleep(200);
 			splash.setProgress(95, "Aquring data: Username");
 			Thread.sleep(200);

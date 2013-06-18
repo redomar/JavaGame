@@ -2,6 +2,7 @@ package com.redomar.game.lib;
 
 import java.io.BufferedInputStream;
 import java.io.InputStream;
+import java.util.Random;
 
 import com.redomar.game.Game;
 
@@ -11,6 +12,10 @@ public class Music implements Runnable{
 
 	private InputStream file;
 	private Player musicPlayer;
+	private String songName[] = {"/music/yoshi.mp3", "/music/Towards The End.mp3"};
+	private int songNumber;
+	
+	private static Random rand = new Random();
 	
 	public Music(InputStream url){
 		this.file =  url;
@@ -33,18 +38,25 @@ public class Music implements Runnable{
 
 	@Override
 	public void run() {
-		Music music = new Music(Game.class.getResourceAsStream("/music/yoshi.mp3"));
-		while(true){
+		try {
+			Thread.sleep(300);
+			initSongNumber();
+			System.out.println("[MUSIC] loading song: " + songName[songNumber].substring(7, (songName[songNumber].length() - 4)));
+			Music music = new Music(Game.class.getResourceAsStream(songName[songNumber]));
+			Thread.sleep(100);
+			System.out.println("[MUSIC] playing song: " + songName[songNumber].substring(7, (songName[songNumber].length() - 4)));
 			music.Play();
+			this.run();
+		} catch (InterruptedException e) {
+			System.out.println("[ERROR][MUSIC] Could not stop, nothing currenly playing");
 		}
 	}
 	
 	public void stop() {
-		Music music = new Music(Game.class.getResourceAsStream("/music/yoshi.mp3"));
-		while(true){
-			music.stop();
-		}
+		
 	}
-	
-	
+
+	private void initSongNumber() {
+		this.songNumber = rand.nextInt(2);
+	}
 }
