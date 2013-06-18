@@ -48,6 +48,7 @@ public class Game extends Canvas implements Runnable {
 			.getData();
 	private int[] colours = new int[6 * 6 * 6];
 
+	private BufferedImage image2 = new BufferedImage(WIDTH, HEIGHT - 30, BufferedImage.TYPE_INT_RGB);
 	private Screen screen;
 	private InputHandler input;
 	private WindowHandler window;
@@ -55,6 +56,7 @@ public class Game extends Canvas implements Runnable {
 	private Player player;
 	private Music music = new Music();
 	public Thread musicThread = new Thread(music);
+	public String nowPlaying = "Playing Music";
 	
 	public boolean notActive = true;
 
@@ -212,18 +214,27 @@ public class Game extends Canvas implements Runnable {
 			int musicOption = JOptionPane.showConfirmDialog(this, "You are about to turn on music and can be VERY loud", "Music Options", 2, 2);
 			if (musicOption == 0){
 				musicThread.start();
-				notActive = false;				
+				notActive = false;
 			} else {
 				System.out.println("Canceled");
 				input.PlayMusic = false;
 			}
 		}
 		
-
 		Graphics g = bs.getDrawGraphics();
 
 		g.drawRect(0, 0, getWidth(), getHeight());
-		g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+		g.drawImage(image, 0, 0, getWidth(), getHeight()-30, null);
+//		Font.render("Hi", screen, 0, 0, Colours.get(-1, -1, -1, 555), 1);
+		g.drawImage(image2, 0, getHeight()-30, getWidth(), getHeight(), null);
+		g.setColor(Color.WHITE);
+		g.drawString("Welcome "+player.getUsername(), 0, getHeight()-19);
+		if (notActive == true){			
+			g.drawString("MUSIC is OFF | press 'M' to start", 0, getHeight()-8);
+		} else{
+			g.drawString("MUSIC is ON | You cannot turn off the music", 0, getHeight()-8);
+			g.drawString(nowPlaying, (getWidth() - nowPlaying.length()) - (120 + nowPlaying.length()), getHeight() - 20 );
+		}
 		g.dispose();
 		bs.show();
 	}
@@ -308,6 +319,14 @@ public class Game extends Canvas implements Runnable {
 
 	public void setWindow(WindowHandler window) {
 		this.window = window;
+	}
+
+	public String getNowPlaying() {
+		return nowPlaying;
+	}
+
+	public void setNowPlaying(String nowPlaying) {
+		this.nowPlaying = nowPlaying;
 	}
 
 }

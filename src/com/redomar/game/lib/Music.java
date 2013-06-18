@@ -41,9 +41,9 @@ public class Music implements Runnable{
 		try {
 			Thread.sleep(300);
 			initSongNumber();
-			System.out.println("[MUSIC] loading song: " + songName[songNumber].substring(7, (songName[songNumber].length() - 4)));
+			//System.out.println("[MUSIC] loading song: " + songName[songNumber].substring(7, (songName[songNumber].length() - 4)));
 			Music music = new Music(Game.class.getResourceAsStream(songName[songNumber]));
-			Thread.sleep(100);
+			//Thread.sleep(100);
 			System.out.println("[MUSIC] playing song: " + songName[songNumber].substring(7, (songName[songNumber].length() - 4)));
 			music.Play();
 			this.run();
