@@ -243,7 +243,7 @@ public class Game extends Canvas implements Runnable {
 
 	public static void main(String[] args) {
 		try {
-			JSplash splash = new JSplash(Game.class.getResource("/splash/splash.png"), true, true, false, "v1.4 Alpha", null, Color.RED, Color.ORANGE);
+			JSplash splash = new JSplash(Game.class.getResource("/splash/splash.png"), true, true, false, "v1.5 Alpha", null, Color.RED, Color.ORANGE);
 			splash.toFront();
 			splash.splashOn();
 			splash.setProgress(10, "Initializing Game");
