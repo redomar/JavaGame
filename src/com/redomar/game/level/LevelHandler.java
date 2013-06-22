@@ -17,8 +17,8 @@ import com.redomar.game.level.tiles.Tile;
 public class LevelHandler {
 
 	private byte[] tiles;
-	public int width;
-	public int height;
+	private int width;
+	private int height;
 	private List<Entity> entities = new ArrayList<Entity>();
 	private String imagePath;
 	private BufferedImage image;
@@ -53,7 +53,7 @@ public class LevelHandler {
 				width);
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
-				tileCheck: for (Tile t : Tile.tiles) {
+				tileCheck: for (Tile t : Tile.getTiles()) {
 					if (t != null
 							&& t.getLevelColour() == tileColours[x + y * width]) {
 						this.tiles[x + y * width] = t.getId();
@@ -84,9 +84,9 @@ public class LevelHandler {
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
 				if (x * y % 10 < 7) {
-					tiles[x + y * width] = Tile.GRASS.getId();
+					tiles[x + y * width] = Tile.getGrass().getId();
 				} else {
-					tiles[x + y * width] = Tile.STONE.getId();
+					tiles[x + y * width] = Tile.getStone().getId();
 				}
 			}
 		}
@@ -101,7 +101,7 @@ public class LevelHandler {
 			e.tick();
 		}
 
-		for (Tile t : Tile.tiles) {
+		for (Tile t : Tile.getTiles()) {
 			if (t == null) {
 				break;
 			}
@@ -114,20 +114,20 @@ public class LevelHandler {
 		if (xOffset < 0) {
 			xOffset = 0;
 		}
-		if (xOffset > ((width << 3) - screen.width)) {
-			xOffset = ((width << 3) - screen.width);
+		if (xOffset > ((width << 3) - screen.getWidth())) {
+			xOffset = ((width << 3) - screen.getWidth());
 		}
 		if (yOffset < 0) {
 			yOffset = 0;
 		}
-		if (yOffset > ((height << 3) - screen.height)) {
-			yOffset = ((height << 3) - screen.height);
+		if (yOffset > ((height << 3) - screen.getHeight())) {
+			yOffset = ((height << 3) - screen.getHeight());
 		}
 
 		screen.setOffset(xOffset, yOffset);
 
-		for (int y = (yOffset >> 3); y < (yOffset + screen.height >> 3) + 1; y++) {
-			for (int x = (xOffset >> 3); x < (xOffset + screen.width >> 3) + 1; x++) {
+		for (int y = (yOffset >> 3); y < (yOffset + screen.getHeight() >> 3) + 1; y++) {
+			for (int x = (xOffset >> 3); x < (xOffset + screen.getWidth() >> 3) + 1; x++) {
 				getTile(x, y).render(screen, this, x << 3, y << 3);
 			}
 		}
@@ -141,9 +141,9 @@ public class LevelHandler {
 
 	public Tile getTile(int x, int y) {
 		if (0 > x || x >= width || 0 > y || y >= height) {
-			return Tile.VOID;
+			return Tile.getVoid();
 		}
-		return Tile.tiles[tiles[x + y * width]];
+		return Tile.getTiles()[tiles[x + y * width]];
 	}
 
 	public void addEntity(Entity entity) {

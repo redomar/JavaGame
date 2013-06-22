@@ -2,29 +2,29 @@ package com.redomar.game.gfx;
 
 public class Screen {
 
-	public static final int MAP_WIDTH = 64;
-	public static final int MAP_WIDTH_MASK = MAP_WIDTH - 1;
+	private static final int MAP_WIDTH = 64;
+	private static final int MAP_WIDTH_MASK = MAP_WIDTH - 1;
 
-	public static final byte BIT_MIRROR_X = 0x01;
-	public static final byte BIT_MIRROR_Y = 0x02;
+	private static final byte BIT_MIRROR_X = 0x01;
+	private static final byte BIT_MIRROR_Y = 0x02;
 
-	public int[] pixels;
+	private int[] pixels;
 
-	public int xOffset = 0;
-	public int yOffset = 0;
+	private int xOffset = 0;
+	private int yOffset = 0;
 
-	public int width;
-	public int height;
+	private int width;
+	private int height;
 
-	public SpriteSheet sheet;
+	private SpriteSheet sheet;
 
 	public Screen(int width, int height, SpriteSheet sheet) {
 
-		this.width = width;
-		this.height = height;
+		this.setWidth(width);
+		this.setHeight(height);
 		this.sheet = sheet;
 
-		pixels = new int[width * height];
+		setPixels(new int[width * height]);
 	}
 
 	public void render(int xPos, int yPos, int tile, int colour, int mirrorDir,
@@ -38,7 +38,7 @@ public class Screen {
 		int scaleMap = scale - 1;
 		int xTile = tile % 32;
 		int yTile = tile / 32;
-		int tileOffset = (xTile << 3) + (yTile << 3) * sheet.width;
+		int tileOffset = (xTile << 3) + (yTile << 3) * sheet.getWidth();
 
 		for (int y = 0; y < 8; y++) {
 			int ySheet = y;
@@ -59,23 +59,23 @@ public class Screen {
 				int xPixel = x + xPos + (x * scaleMap) - ((scaleMap << 3) / 2);
 
 				int col = (colour >> (sheet.pixels[xSheet + ySheet
-						* sheet.width + tileOffset] * 8)) & 255;
+						* sheet.getWidth() + tileOffset] * 8)) & 255;
 				if (col < 255) {
 
 					for (int yScale = 0; yScale < scale; yScale++) {
 
-						if (yPixel + yScale < 0 | yPixel + yScale >= height) {
+						if (yPixel + yScale < 0 | yPixel + yScale >= getHeight()) {
 							continue;
 						}
 
 						for (int xScale = 0; xScale < scale; xScale++) {
 
-							if (xPixel + xScale < 0 | xPixel + xScale >= width) {
+							if (xPixel + xScale < 0 | xPixel + xScale >= getWidth()) {
 								continue;
 							}
 
-							pixels[(xPixel + xScale) + (yPixel + yScale)
-									* width] = col;
+							getPixels()[(xPixel + xScale) + (yPixel + yScale)
+									* getWidth()] = col;
 						}
 					}
 
@@ -88,5 +88,33 @@ public class Screen {
 	public void setOffset(int xOffset, int yOffset) {
 		this.xOffset = xOffset;
 		this.yOffset = yOffset;
+	}
+
+	public static int getMapWidthMask() {
+		return MAP_WIDTH_MASK;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public int[] getPixels() {
+		return pixels;
+	}
+
+	public void setPixels(int[] pixels) {
+		this.pixels = pixels;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
 	}
 }
