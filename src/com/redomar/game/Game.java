@@ -12,6 +12,8 @@ import java.awt.image.DataBufferInt;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import org.apache.commons.lang3.text.WordUtils;
+
 import com.redomar.game.entities.Player;
 import com.redomar.game.entities.PlayerMP;
 import com.redomar.game.gfx.Screen;
@@ -228,7 +230,7 @@ public class Game extends Canvas implements Runnable {
 //		Font.render("Hi", screen, 0, 0, Colours.get(-1, -1, -1, 555), 1);
 		g.drawImage(image2, 0, getHeight()-30, getWidth(), getHeight(), null);
 		g.setColor(Color.WHITE);
-		g.drawString("Welcome "+player.getUsername(), 0, getHeight()-19);
+		g.drawString("Welcome "+WordUtils.capitalizeFully(player.getUsername()), 0, getHeight()-19);
 		if (notActive == true){			
 			g.drawString("MUSIC is OFF | press 'M' to start", 0, getHeight()-8);
 		} else{
