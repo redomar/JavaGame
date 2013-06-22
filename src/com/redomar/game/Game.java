@@ -30,19 +30,19 @@ public class Game extends Canvas implements Runnable {
 	private static final long serialVersionUID = 1L;
 
 	// Setting the size and name of the frame/canvas
-	public static final int WIDTH = 160;
-	public static final int HEIGHT = (WIDTH / 3 * 2);
-	public static final int SCALE = 3;
-	public static final String NAME = "Game";
-	public static Game game;
+	private static final int WIDTH = 160;
+	private static final int HEIGHT = (WIDTH / 3 * 2);
+	private static final int SCALE = 3;
+	private static final String NAME = "Game";
+	private static Game game;
 	private static int Jdata_Host;
 	private static String Jdata_UserName = "";
 	private static String Jdata_IP = "127.0.0.1";
 
 	private JFrame frame;
 
-	public boolean running = false;
-	public int tickCount = 0;
+	private boolean running = false;
+	private int tickCount = 0;
 
 	private BufferedImage image = new BufferedImage(WIDTH, HEIGHT,
 			BufferedImage.TYPE_INT_RGB);
@@ -57,10 +57,10 @@ public class Game extends Canvas implements Runnable {
 	private LevelHandler level;
 	private Player player;
 	private Music music = new Music();
-	public Thread musicThread = new Thread(music);
-	public String nowPlaying = "Playing Music";
+	private Thread musicThread = new Thread(music);
+	private String nowPlaying = "Playing Music";
 	
-	public boolean notActive = true;
+	private boolean notActive = true;
 
 	private GameClient socketClient;
 	private GameServer socketServer;
@@ -82,7 +82,7 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	public void init() {
-		game = this;
+		setGame(this);
 		int index = 0;
 		for (int r = 0; r < 6; r++) {
 			for (int g = 0; g < 6; g++) {
@@ -178,7 +178,7 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	public void tick() {
-		tickCount++;
+		setTickCount(getTickCount() + 1);
 		getLevel().tick();
 	}
 
@@ -189,8 +189,8 @@ public class Game extends Canvas implements Runnable {
 			return;
 		}
 
-		int xOffset = getPlayer().x - (screen.width / 2);
-		int yOffset = getPlayer().y - (screen.height / 2);
+		int xOffset = getPlayer().x - (screen.getWidth() / 2);
+		int yOffset = getPlayer().y - (screen.getHeight() / 2);
 
 		getLevel().renderTiles(screen, xOffset, yOffset);
 
@@ -203,9 +203,9 @@ public class Game extends Canvas implements Runnable {
 
 		getLevel().renderEntities(screen);
 
-		for (int y = 0; y < screen.height; y++) {
-			for (int x = 0; x < screen.width; x++) {
-				int colourCode = screen.pixels[x + y * screen.width];
+		for (int y = 0; y < screen.getHeight(); y++) {
+			for (int x = 0; x < screen.getWidth(); x++) {
+				int colourCode = screen.getPixels()[x + y * screen.getWidth()];
 				if (colourCode < 255) {
 					pixels[x + y * WIDTH] = colours[colourCode];
 				}
@@ -264,15 +264,15 @@ public class Game extends Canvas implements Runnable {
 			Thread.sleep(750);
 			splash.setProgress(92, "Aquring data: Multiplayer");
 			Thread.sleep(200);
-			Jdata_Host = JOptionPane.showConfirmDialog(game, "Do you want to be the HOST?");
+			Jdata_Host = JOptionPane.showConfirmDialog(getGame(), "Do you want to be the HOST?");
 			if (Jdata_Host == 1){
-				Jdata_IP = JOptionPane.showInputDialog(game, "Enter the name \nleave blank for local");
+				Jdata_IP = JOptionPane.showInputDialog(getGame(), "Enter the name \nleave blank for local");
 			}
 			Thread.sleep(200);
 			splash.setProgress(95, "Aquring data: Username");
 			Thread.sleep(200);
 			splash.setProgress(96, "Initalizing as Server:Host");
-			Jdata_UserName = JOptionPane.showInputDialog(game, "Enter a name");
+			Jdata_UserName = JOptionPane.showInputDialog(getGame(), "Enter a name");
 			splash.setProgress(97, "Connecting as" + Jdata_UserName);
 			Thread.sleep(500);
 			splash.splashOff();
@@ -329,6 +329,22 @@ public class Game extends Canvas implements Runnable {
 
 	public void setNowPlaying(String nowPlaying) {
 		this.nowPlaying = nowPlaying;
+	}
+
+	public int getTickCount() {
+		return tickCount;
+	}
+
+	public void setTickCount(int tickCount) {
+		this.tickCount = tickCount;
+	}
+
+	public static Game getGame() {
+		return game;
+	}
+
+	public static void setGame(Game game) {
+		Game.game = game;
 	}
 
 }
