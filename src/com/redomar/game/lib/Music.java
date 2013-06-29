@@ -12,8 +12,8 @@ public class Music implements Runnable{
 
 	private InputStream file;
 	private Player musicPlayer;
-	private String songName[] = {"/music/yoshi.mp3", "/music/Towards The End.mp3"};
-	private int songNumber;
+	private static String songName[] = {"/music/yoshi song.mp3", "/music/Towards The End.mp3", "/music/Towards The End.mp3"};
+	private static int songNumber;
 	
 	private static Random rand = new Random();
 	
@@ -22,7 +22,7 @@ public class Music implements Runnable{
 	}
 	
 	public Music() {
-		
+		Music.songNumber = rand.nextInt(3);
 	}
 
 	public void Play(){
@@ -34,6 +34,10 @@ public class Music implements Runnable{
 			System.out.println("Problem playing file " + file);  
             System.out.println(e);
 		}
+	}
+	
+	public synchronized void start(){
+		this.run();
 	}
 
 	@Override
@@ -57,6 +61,14 @@ public class Music implements Runnable{
 	}
 
 	private void initSongNumber() {
-		this.songNumber = rand.nextInt(2);
+		Music.songNumber = rand.nextInt(3);
+	}
+
+	public String[] getSongName() {
+		return songName;
+	}
+
+	public int getSongNumber() {
+		return songNumber;
 	}
 }

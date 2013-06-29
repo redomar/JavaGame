@@ -58,7 +58,7 @@ public class Game extends Canvas implements Runnable {
 	private Player player;
 	private Music music = new Music();
 	private Thread musicThread = new Thread(music);
-	private String nowPlaying = "Playing Music";
+	private String nowPlaying; 
 	
 	private boolean notActive = true;
 
@@ -147,7 +147,7 @@ public class Game extends Canvas implements Runnable {
 			long now = System.nanoTime();
 			delta += (now - lastTime) / nsPerTick;
 			lastTime = now;
-			boolean shouldRender = true;
+			boolean shouldRender = false;
 
 			while (delta >= 1) {
 				ticks++;
@@ -235,6 +235,7 @@ public class Game extends Canvas implements Runnable {
 			g.drawString("MUSIC is OFF | press 'M' to start", 0, getHeight()-8);
 		} else{
 			g.drawString("MUSIC is ON | You cannot turn off the music", 0, getHeight()-8);
+			setNowPlaying(WordUtils.capitalize(music.getSongName()[music.getSongNumber()].substring(7, (music.getSongName()[music.getSongNumber()].length() - 4))));
 			g.drawString(nowPlaying, (getWidth() - nowPlaying.length()) - (120 + nowPlaying.length()), getHeight() - 20 );
 		}
 		g.dispose();
@@ -243,25 +244,25 @@ public class Game extends Canvas implements Runnable {
 
 	public static void main(String[] args) {
 		try {
-			JSplash splash = new JSplash(Game.class.getResource("/splash/splash.png"), true, true, false, "v1.5 Alpha", null, Color.RED, Color.ORANGE);
+			JSplash splash = new JSplash(Game.class.getResource("/splash/splash.png"), true, true, false, "v1.5.1 Alpha", null, Color.RED, Color.ORANGE);
 			splash.toFront();
 			splash.splashOn();
 			splash.setProgress(10, "Initializing Game");
-			Thread.sleep(750);
+			Thread.sleep(500);
 			splash.setProgress(25, "Loading Classes");
-			Thread.sleep(500);
+			Thread.sleep(250);
 			splash.setProgress(35, "Applying Configurations");
-			Thread.sleep(500);
+			Thread.sleep(250);
 			splash.setProgress(40, "Loading Sprites");
-			Thread.sleep(750);
+			Thread.sleep(500);
 			splash.setProgress(50, "Loading Textures");
-			Thread.sleep(500);
+			Thread.sleep(250);
 			splash.setProgress(60, "Loading Map");
-			Thread.sleep(1500);
-			splash.setProgress(80, "Configuring Map");
-			Thread.sleep(500);
-			splash.setProgress(90, "Pulling InputPanes");
 			Thread.sleep(750);
+			splash.setProgress(80, "Configuring Map");
+			Thread.sleep(250);
+			splash.setProgress(90, "Pulling InputPanes");
+			Thread.sleep(500);
 			splash.setProgress(92, "Aquring data: Multiplayer");
 			Thread.sleep(200);
 			Jdata_Host = JOptionPane.showConfirmDialog(getGame(), "Do you want to be the HOST?");
@@ -277,6 +278,7 @@ public class Game extends Canvas implements Runnable {
 			Thread.sleep(500);
 			splash.splashOff();
 			new Game().start();
+//			new Menu().start();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
