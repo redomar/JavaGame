@@ -1,5 +1,5 @@
-JavaGame Alpha v1.5.1
-===================
+JavaGame Alpha v1.5.2
+=====================
 
 #####What is JavaGame?
 JavaGame is a game project that i am working on for an assignment for college.

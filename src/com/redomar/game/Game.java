@@ -244,38 +244,38 @@ public class Game extends Canvas implements Runnable {
 
 	public static void main(String[] args) {
 		try {
-			JSplash splash = new JSplash(Game.class.getResource("/splash/splash.png"), true, true, false, "v1.5.1 Alpha", null, Color.RED, Color.ORANGE);
+			JSplash splash = new JSplash(Game.class.getResource("/splash/splash.png"), true, true, false, "v1.5.2 Alpha", null, Color.RED, Color.ORANGE);
 			splash.toFront();
 			splash.splashOn();
 			splash.setProgress(10, "Initializing Game");
-			Thread.sleep(500);
+			Thread.sleep(250);
 			splash.setProgress(25, "Loading Classes");
-			Thread.sleep(250);
+			Thread.sleep(125);
 			splash.setProgress(35, "Applying Configurations");
-			Thread.sleep(250);
+			Thread.sleep(125);
 			splash.setProgress(40, "Loading Sprites");
-			Thread.sleep(500);
+			Thread.sleep(250);
 			splash.setProgress(50, "Loading Textures");
-			Thread.sleep(250);
+			Thread.sleep(125);
 			splash.setProgress(60, "Loading Map");
-			Thread.sleep(750);
-			splash.setProgress(80, "Configuring Map");
-			Thread.sleep(250);
-			splash.setProgress(90, "Pulling InputPanes");
 			Thread.sleep(500);
+			splash.setProgress(80, "Configuring Map");
+			Thread.sleep(125);
+			splash.setProgress(90, "Pulling InputPanes");
+			Thread.sleep(250);
 			splash.setProgress(92, "Aquring data: Multiplayer");
-			Thread.sleep(200);
+			Thread.sleep(125);
 			Jdata_Host = JOptionPane.showConfirmDialog(getGame(), "Do you want to be the HOST?");
 			if (Jdata_Host == 1){
 				Jdata_IP = JOptionPane.showInputDialog(getGame(), "Enter the name \nleave blank for local");
 			}
-			Thread.sleep(200);
+			Thread.sleep(125);
 			splash.setProgress(95, "Aquring data: Username");
-			Thread.sleep(200);
+			Thread.sleep(125);
 			splash.setProgress(96, "Initalizing as Server:Host");
 			Jdata_UserName = JOptionPane.showInputDialog(getGame(), "Enter a name");
 			splash.setProgress(97, "Connecting as" + Jdata_UserName);
-			Thread.sleep(500);
+			Thread.sleep(250);
 			splash.splashOff();
 			new Game().start();
 //			new Menu().start();
