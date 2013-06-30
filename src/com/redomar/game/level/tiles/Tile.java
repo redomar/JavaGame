@@ -7,23 +7,16 @@ import com.redomar.game.level.LevelHandler;
 public abstract class Tile {
 
 	private static final Tile[] tiles = new Tile[256];
-	private static final Tile VOID = new BasicSolidTile(0, 0, 0, Colours.get(0,
-			-1, -1, -1), 0xFF000000);
-	private static final Tile STONE = new BasicSolidTile(1, 1, 0, Colours.get(
-			-1, 444, 333, -1), 0xFF555555);
-	private static final Tile CHISELED_STONE = new BasicTile(2, 2, 0,
-			Colours.get(-1, 333, 222, -1), 0xFF666666);
-	private static final Tile GRASS = new BasicTile(3, 3, 0, Colours.get(-1,
-			131, 141, -1), 0xFF00FF00);
-	private static final Tile WATER = new AnimatedTile(4, new int[][] {
-			{ 0, 5 }, { 1, 5 }, { 2, 5 }, { 1, 5 } }, Colours.get(-1, 004, 115,
-			-1), 0xFF0000FF, 1000);
-	private static final Tile FLOWER_rose = new BasicTile(5, 4, 0, Colours.get(
-			131, 151, 510, 553), 0xFFCCFF33);
-	private static final Tile FLOWER_dandelion = new BasicTile(6, 4, 0,
-			Colours.get(131, 151, 553, 510), 0xFFFFCC33);
-	private static final Tile SAND = new BasicTile(7, 5, 0, Colours.get(-1, 553,
-			554, 555), 0xFFFFFF99);
+	private static final Tile VOID = new BasicSolidTile(0, 0, 0, Colours.get(0,	-1, -1, -1), 0xFF000000);
+	private static final Tile STONE = new BasicSolidTile(1, 1, 0, Colours.get(-1, 444, 333, -1), 0xFF555555);
+	private static final Tile CHISELED_stone = new BasicTile(2, 2, 0, Colours.get(-1, 333, 222, -1), 0xFF666666);
+	private static final Tile GRASS = new BasicTile(3, 3, 0, Colours.get(-1, 131, 141, -1), 0xFF00FF00);
+	private static final Tile WATER = new AnimatedTile(4, new int[][] {	{ 0, 5 }, { 1, 5 }, { 2, 5 }, { 1, 5 } }, Colours.get(-1, 004, 115,	-1), 0xFF0000FF, 1000);
+	private static final Tile FLOWER_rose = new BasicTile(5, 4, 0, Colours.get(131, 151, 510, 553), 0xFFCCFF33);
+	private static final Tile FLOWER_dandelion = new BasicTile(6, 4, 0,	Colours.get(131, 151, 553, 510), 0xFFFFCC33);
+	private static final Tile SAND = new BasicTile(7, 5, 0, Colours.get(-1, 553, 554, 555), 0xFFFFFF99);
+	private static final Tile CHEST_a = new BasicSolidTile(8, 0, 1, Colours.get(333, 111, 420, 000), 0xFFFF0001);
+	private static final Tile CHEST_b = new BasicSolidTile(9, 1, 1, Colours.get(333, 111, 420, 000), 0xFFFF0002);
 
 	protected byte id;
 	protected boolean solid;
@@ -69,7 +62,7 @@ public abstract class Tile {
 	}
 
 	public static Tile getChiseledStone() {
-		return CHISELED_STONE;
+		return CHISELED_stone;
 	}
 
 	public static Tile getGrass() {
@@ -98,6 +91,14 @@ public abstract class Tile {
 
 	public static Tile[] getTiles() {
 		return tiles;
+	}
+
+	public static Tile getChestA() {
+		return CHEST_a;
+	}
+
+	public static Tile getChestB() {
+		return CHEST_b;
 	}
 
 }
