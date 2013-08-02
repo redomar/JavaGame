@@ -11,6 +11,7 @@ import java.awt.image.DataBufferInt;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 
 import org.apache.commons.lang3.text.WordUtils;
 
@@ -265,6 +266,7 @@ public class Game extends Canvas implements Runnable {
 			Thread.sleep(250);
 			splash.setProgress(92, "Aquring data: Multiplayer");
 			Thread.sleep(125);
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			Jdata_Host = JOptionPane.showConfirmDialog(getGame(), "Do you want to be the HOST?");
 			if (Jdata_Host == 1){
 				Jdata_IP = JOptionPane.showInputDialog(getGame(), "Enter the name \nleave blank for local");
