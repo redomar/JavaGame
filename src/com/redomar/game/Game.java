@@ -98,12 +98,7 @@ public class Game extends Canvas implements Runnable {
 		screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/sprite_sheet.png"));
 		input = new InputHandler(this);
 		setWindow(new WindowHandler(this));
-		setLevel(new LevelHandler("/levels/custom_level.png"));
-
-		setPlayer(new PlayerMP(getLevel(), 100, 100, input,
-				Jdata_UserName, null, -1));
-
-		level.addEntity(player);
+		setMap("/levels/custom_level.png");
 		Packet00Login loginPacket = new Packet00Login(player.getUsername(), player.x, player.y);
 
 		if (socketServer != null) {
@@ -112,6 +107,13 @@ public class Game extends Canvas implements Runnable {
 
 		// socketClient.sendData("ping".getBytes());
 		loginPacket.writeData(getSocketClient());
+	}
+
+	public void setMap(String Map_str) {
+		setLevel(new LevelHandler(Map_str));
+		setPlayer(new PlayerMP(getLevel(), 100, 100, input,
+				Jdata_UserName, null, -1));
+		level.addEntity(player);
 	}
 
 	public synchronized void start() {
