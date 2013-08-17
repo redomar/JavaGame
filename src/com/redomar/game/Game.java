@@ -214,15 +214,20 @@ public class Game extends Canvas implements Runnable {
 			}
 		}
 		
-		if (input.PlayMusic == true && notActive == true){
+		if (input.isPlayMusic() == true && notActive == true){
 			int musicOption = JOptionPane.showConfirmDialog(this, "You are about to turn on music and can be VERY loud", "Music Options", 2, 2);
 			if (musicOption == 0){
 				musicThread.start();
 				notActive = false;
 			} else {
 				System.out.println("Canceled");
-				input.PlayMusic = false;
+				input.setPlayMusic(false);
 			}
+		}
+		
+		if (input.isChangeLevel() == true){
+			JOptionPane.showMessageDialog(this, "Switching Levels is currently disabled");
+			input.setChangeLevel(false);
 		}
 		
 		Graphics g = bs.getDrawGraphics();

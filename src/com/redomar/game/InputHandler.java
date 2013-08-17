@@ -34,7 +34,8 @@ public class InputHandler implements KeyListener {
 	public Key left = new Key();
 	public Key right = new Key();
 	public Key Z = new Key();
-	public boolean PlayMusic = false;
+	private boolean PlayMusic = false;
+	private boolean ChangeLevel = false;
 	private int map;
 
 	public void keyPressed(KeyEvent e) {
@@ -63,17 +64,42 @@ public class InputHandler implements KeyListener {
 			right.toggle(isPressed);
 		}
 		if (keyCode == KeyEvent.VK_M){
-			this.PlayMusic = true;
+			this.setPlayMusic(true);
 		}
 		if (keyCode == KeyEvent.VK_Z){
-			if (map == 0){
-				Game.getGame().setMap("/levels/water_level.png");
-				map++;
-			} else{
-				Game.getGame().setMap("/levels/custom_level.png");
-				map--;
-			}
+//			if (map == 0){
+//				Game.getGame().setMap("/levels/water_level.png");
+//				map++;
+//			} else{
+//				Game.getGame().setMap("/levels/custom_level.png");
+//				map--;
+//			}
+			this.setChangeLevel(true);
 		}
+	}
+
+	public int getMap() {
+		return map;
+	}
+
+	public void setMap(int map) {
+		this.map = map;
+	}
+
+	public boolean isPlayMusic() {
+		return PlayMusic;
+	}
+
+	public void setPlayMusic(boolean playMusic) {
+		PlayMusic = playMusic;
+	}
+
+	public boolean isChangeLevel() {
+		return ChangeLevel;
+	}
+
+	public void setChangeLevel(boolean changeLevel) {
+		ChangeLevel = changeLevel;
 	}
 
 }
