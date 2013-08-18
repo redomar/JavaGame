@@ -27,16 +27,16 @@ public class Player extends Mob {
 		int ya = 0;
 
 		if (input != null) {
-			if (input.up.isPressed()) {
+			if (input.getUp().isPressed()) {
 				ya--;
 			}
-			if (input.down.isPressed()) {
+			if (input.getDown().isPressed()) {
 				ya++;
 			}
-			if (input.left.isPressed()) {
+			if (input.getLeft().isPressed()) {
 				xa--;
 			}
-			if (input.right.isPressed()) {
+			if (input.getRight().isPressed()) {
 				xa++;
 			}
 		}
