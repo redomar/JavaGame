@@ -29,11 +29,10 @@ public class InputHandler implements KeyListener {
 		}
 	}
 
-	public Key up = new Key();
-	public Key down = new Key();
-	public Key left = new Key();
-	public Key right = new Key();
-	public Key Z = new Key();
+	private Key up = new Key();
+	private Key down = new Key();
+	private Key left = new Key();
+	private Key right = new Key();
 	private boolean PlayMusic = false;
 	private boolean ChangeLevel = false;
 	private int map;
@@ -52,16 +51,16 @@ public class InputHandler implements KeyListener {
 
 	public void toggleKey(int keyCode, boolean isPressed) {
 		if (keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_UP) {
-			up.toggle(isPressed);
+			getUp().toggle(isPressed);
 		}
 		if (keyCode == KeyEvent.VK_S || keyCode == KeyEvent.VK_DOWN) {
-			down.toggle(isPressed);
+			getDown().toggle(isPressed);
 		}
 		if (keyCode == KeyEvent.VK_A || keyCode == KeyEvent.VK_LEFT) {
-			left.toggle(isPressed);
+			getLeft().toggle(isPressed);
 		}
 		if (keyCode == KeyEvent.VK_D || keyCode == KeyEvent.VK_RIGHT) {
-			right.toggle(isPressed);
+			getRight().toggle(isPressed);
 		}
 		if (keyCode == KeyEvent.VK_M){
 			this.setPlayMusic(true);
@@ -100,6 +99,38 @@ public class InputHandler implements KeyListener {
 
 	public void setChangeLevel(boolean changeLevel) {
 		ChangeLevel = changeLevel;
+	}
+
+	public Key getUp() {
+		return up;
+	}
+
+	public void setUp(Key up) {
+		this.up = up;
+	}
+
+	public Key getDown() {
+		return down;
+	}
+
+	public void setDown(Key down) {
+		this.down = down;
+	}
+
+	public Key getLeft() {
+		return left;
+	}
+
+	public void setLeft(Key left) {
+		this.left = left;
+	}
+
+	public Key getRight() {
+		return right;
+	}
+
+	public void setRight(Key right) {
+		this.right = right;
 	}
 
 }
