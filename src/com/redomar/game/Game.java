@@ -238,7 +238,7 @@ public class Game extends Canvas implements Runnable {
 //		Font.render("Hi", screen, 0, 0, Colours.get(-1, -1, -1, 555), 1);
 		g.drawImage(image2, 0, getHeight()-30, getWidth(), getHeight(), null);
 		g.setColor(Color.WHITE);
-		g.drawString("Welcome "+WordUtils.capitalizeFully(player.getUsername()), 0, getHeight()-19);
+		g.drawString("Welcome "+WordUtils.capitalizeFully(player.getSantizedUsername()), 0, getHeight()-19);
 		if (notActive == true){			
 			g.drawString("MUSIC is OFF | press 'M' to start", 0, getHeight()-8);
 		} else{

@@ -163,5 +163,12 @@ public class Player extends Mob {
 	public String getUsername() {
 		return this.userName;
 	}
+	
+	public String getSantizedUsername() {
+		if(this.getUsername() == null || this.userName.isEmpty()){
+			return "Player";
+		}
+		else return this.getUsername();
+	}
 
 }
