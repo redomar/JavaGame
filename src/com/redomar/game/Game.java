@@ -28,6 +28,7 @@ import com.thehowtotutorial.splashscreen.JSplash;
 public class Game extends Canvas implements Runnable {
 
 	private static final long serialVersionUID = 1L;
+	private static final String game_Version = "v1.5.3 Alpha";
 
 	// Setting the size and name of the frame/canvas
 	private static final int WIDTH = 160;
@@ -251,7 +252,7 @@ public class Game extends Canvas implements Runnable {
 
 	public static void main(String[] args) {
 		try {
-			JSplash splash = new JSplash(Game.class.getResource("/splash/splash.png"), true, true, false, "v1.5.1 Alpha", null, Color.RED, Color.ORANGE);
+			JSplash splash = new JSplash(Game.class.getResource("/splash/splash.png"), true, true, false, game_Version, null, Color.RED, Color.ORANGE);
 			splash.toFront();
 			splash.splashOn();
 			splash.setProgress(10, "Initializing Game");
