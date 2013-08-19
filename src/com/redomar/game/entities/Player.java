@@ -6,15 +6,20 @@ import com.redomar.game.gfx.Colours;
 import com.redomar.game.gfx.Screen;
 import com.redomar.game.level.LevelHandler;
 import com.redomar.game.lib.Font;
+import com.redomar.game.lib.Name;
 import com.redomar.game.net.packets.Packet02Move;
 
 public class Player extends Mob {
 
 	private InputHandler input;
+	private static Name customeName = new Name();
+	
 	private int colour = Colours.get(-1, 111, 240, 310);
 	private int tickCount = 0;
 	private String userName;
 
+	public static String guestPlayerName = customeName.setName("Player ");
+	
 	public Player(LevelHandler level, int x, int y, InputHandler input,
 			String userName) {
 		super(level, "Player", x, y, 1);
@@ -161,12 +166,20 @@ public class Player extends Mob {
 	}
 
 	public String getUsername() {
+		if(this.userName.isEmpty()){
+			return guestPlayerName;
+		}
 		return this.userName;
+	}
+
+	public void setUsername(String name) {
+		this.userName = name;
 	}
 	
 	public String getSantizedUsername() {
 		if(this.getUsername() == null || this.userName.isEmpty()){
-			return "Player";
+			setUsername(guestPlayerName);
+			return guestPlayerName;
 		}
 		else return this.getUsername();
 	}
