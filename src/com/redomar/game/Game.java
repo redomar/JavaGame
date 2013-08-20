@@ -241,11 +241,16 @@ public class Game extends Canvas implements Runnable {
 		g.drawImage(image2, 0, getHeight()-30, getWidth(), getHeight(), null);
 		g.setColor(Color.WHITE);
 		g.drawString("Welcome "+WordUtils.capitalizeFully(player.getSantizedUsername()), 0, getHeight()-19);
+		g.setColor(Color.YELLOW);
 		g.drawString(time.getTime(), (getWidth() - 60), (getHeight()-6));
-		if (notActive == true){			
+		g.setColor(Color.WHITE);
+		if (notActive == true){
+			g.setColor(Color.RED);
 			g.drawString("MUSIC is OFF | press 'M' to start", 0, getHeight()-6);
 		} else{
+			g.setColor(Color.GREEN);
 			g.drawString("MUSIC is ON | You cannot turn off the music", 0, getHeight()-6);
+			g.setColor(Color.WHITE);
 			setNowPlaying(WordUtils.capitalize(music.getSongName()[music.getSongNumber()].substring(7, (music.getSongName()[music.getSongNumber()].length() - 4))));
 			g.drawString(nowPlaying, getWidth() - (nowPlaying.length() * 8), getHeight() - 20 );
 		}
