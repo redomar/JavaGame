@@ -21,6 +21,7 @@ import com.redomar.game.gfx.Screen;
 import com.redomar.game.gfx.SpriteSheet;
 import com.redomar.game.level.LevelHandler;
 import com.redomar.game.lib.Music;
+import com.redomar.game.lib.Time;
 import com.redomar.game.net.GameClient;
 import com.redomar.game.net.GameServer;
 import com.redomar.game.net.packets.Packet00Login;
@@ -59,6 +60,7 @@ public class Game extends Canvas implements Runnable {
 	private LevelHandler level;
 	private Player player;
 	private Music music = new Music();
+	private Time time = new Time();
 	private Thread musicThread = new Thread(music);
 	private String nowPlaying; 
 	
@@ -240,12 +242,18 @@ public class Game extends Canvas implements Runnable {
 		g.drawImage(image2, 0, getHeight()-30, getWidth(), getHeight(), null);
 		g.setColor(Color.WHITE);
 		g.drawString("Welcome "+WordUtils.capitalizeFully(player.getSantizedUsername()), 0, getHeight()-19);
-		if (notActive == true){			
-			g.drawString("MUSIC is OFF | press 'M' to start", 0, getHeight()-8);
+		g.setColor(Color.YELLOW);
+		g.drawString(time.getTime(), (getWidth() - 60), (getHeight()-6));
+		g.setColor(Color.WHITE);
+		if (notActive == true){
+			g.setColor(Color.RED);
+			g.drawString("MUSIC is OFF | press 'M' to start", 0, getHeight()-6);
 		} else{
-			g.drawString("MUSIC is ON | You cannot turn off the music", 0, getHeight()-8);
+			g.setColor(Color.GREEN);
+			g.drawString("MUSIC is ON | You cannot turn off the music", 0, getHeight()-6);
+			g.setColor(Color.WHITE);
 			setNowPlaying(WordUtils.capitalize(music.getSongName()[music.getSongNumber()].substring(7, (music.getSongName()[music.getSongNumber()].length() - 4))));
-			g.drawString(nowPlaying, (getWidth() - nowPlaying.length()) - (120 + nowPlaying.length()), getHeight() - 20 );
+			g.drawString(nowPlaying, getWidth() - (nowPlaying.length() * 8), getHeight() - 20 );
 		}
 		g.dispose();
 		bs.show();
