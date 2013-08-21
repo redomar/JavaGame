@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -61,8 +62,8 @@ public class Game extends Canvas implements Runnable {
 	private Music music = new Music();
 	private Time time = new Time();
 	private Thread musicThread = new Thread(music);
-	private String nowPlaying; 
-	
+	private String nowPlaying;
+	private Font arial = new Font("Arial", Font.BOLD, 14);
 	private boolean notActive = true;
 
 	private GameClient socketClient;
@@ -234,25 +235,29 @@ public class Game extends Canvas implements Runnable {
 		}
 		
 		Graphics g = bs.getDrawGraphics();
-
 		g.drawRect(0, 0, getWidth(), getHeight());
 		g.drawImage(image, 0, 0, getWidth(), getHeight()-30, null);
 //		Font.render("Hi", screen, 0, 0, Colours.get(-1, -1, -1, 555), 1);
 		g.drawImage(image2, 0, getHeight()-30, getWidth(), getHeight(), null);
 		g.setColor(Color.WHITE);
-		g.drawString("Welcome "+WordUtils.capitalizeFully(player.getSantizedUsername()), 0, getHeight()-19);
+		g.setFont(arial);
+		g.drawString("Welcome "+WordUtils.capitalizeFully(player.getSantizedUsername()), 3, getHeight()-17);
 		g.setColor(Color.YELLOW);
-		g.drawString(time.getTime(), (getWidth() - 60), (getHeight()-6));
+		g.drawString(time.getTime(), (getWidth() - 58), (getHeight()-3));
 		g.setColor(Color.WHITE);
 		if (notActive == true){
 			g.setColor(Color.RED);
-			g.drawString("MUSIC is OFF | press 'M' to start", 0, getHeight()-6);
+			g.drawString("MUSIC is OFF | press 'M' to start", 3, getHeight()-3);
 		} else{
 			g.setColor(Color.GREEN);
-			g.drawString("MUSIC is ON | You cannot turn off the music", 0, getHeight()-6);
+			g.drawString("MUSIC is ON | You cannot turn off the music", 3, getHeight()-3);
 			g.setColor(Color.WHITE);
 			setNowPlaying(WordUtils.capitalize(music.getSongName()[music.getSongNumber()].substring(7, (music.getSongName()[music.getSongNumber()].length() - 4))));
-			g.drawString(nowPlaying, getWidth() - (nowPlaying.length() * 8), getHeight() - 20 );
+			if (getNowPlaying().startsWith("T")){
+				g.drawString(nowPlaying, getWidth() - (nowPlaying.length() * 9) + 12, getHeight() - 17);
+			} else {
+				g.drawString(nowPlaying, getWidth() - (nowPlaying.length() * 9) + 8, getHeight() - 17);
+			}
 		}
 		g.dispose();
 		bs.show();
