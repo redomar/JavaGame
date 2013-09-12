@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project JavaGame with Jar-in-Jar Loader">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+    <target name="create_run_jar">
+        <jar destfile="C:/Users/mohamed/Documents/GitHub/JavaGame/jar/javagame.jar">
+            <manifest>
+                <attribute name="Main-Class" value="org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader"/>
+                <attribute name="Rsrc-Main-Class" value="com.redomar.game.Game"/>
+                <attribute name="Class-Path" value="."/>
+                <attribute name="Rsrc-Class-Path" value="./ commons-lang3-3.1.jar jl1.0.1.jar JSplashScreen.jar"/>
+            </manifest>
+            <zipfileset src="jar-in-jar-loader.zip"/>
+            <fileset dir="C:/Users/mohamed/Documents/GitHub/JavaGame/bin"/>
+            <zipfileset dir="C:\Users\mohamed\Documents\GitHub\JavaGame\res\jars" includes="commons-lang3-3.1.jar"/>
+            <zipfileset dir="C:\Users\mohamed\Documents\GitHub\JavaGame\res\jars" includes="jl1.0.1.jar"/>
+            <zipfileset dir="C:\Users\mohamed\Documents\GitHub\JavaGame\res\jars" includes="JSplashScreen.jar"/>
+            <fileset dir="C:/Users/mohamed/Documents/GitHub/JavaGame/res"/>
+        </jar>
+    </target>
+</project>
