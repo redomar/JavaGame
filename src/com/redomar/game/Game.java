@@ -65,9 +65,11 @@ public class Game extends Canvas implements Runnable {
 	private String nowPlaying;
 	private Font arial = new Font("Arial", Font.BOLD, 14);
 	private boolean notActive = true;
-
+	private boolean noAudioDevice = false;
+	private int trigger = 0;
 	private GameClient socketClient;
 	private GameServer socketServer;
+	
 	
 	public Game() {
 		setMinimumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
@@ -218,15 +220,17 @@ public class Game extends Canvas implements Runnable {
 			}
 		}
 		
-		if (input.isPlayMusic() == true && notActive == true){
-			int musicOption = JOptionPane.showConfirmDialog(this, "You are about to turn on music and can be VERY loud", "Music Options", 2, 2);
-			if (musicOption == 0){
-				musicThread.start();
-				notActive = false;
-			} else {
-				System.out.println("Canceled");
-				input.setPlayMusic(false);
-			}
+		if (noAudioDevice == false){
+			if (input.isPlayMusic() == true && notActive == true){
+				int musicOption = JOptionPane.showConfirmDialog(this, "You are about to turn on music and can be VERY loud", "Music Options", 2, 2);
+				if (musicOption == 0){
+					musicThread.start();
+					notActive = false;
+				} else {
+					System.out.println("Canceled");
+					input.setPlayMusic(false);
+				}
+			}			
 		}
 		
 		if (input.isChangeLevel() == true){
@@ -245,7 +249,14 @@ public class Game extends Canvas implements Runnable {
 		g.setColor(Color.YELLOW);
 		g.drawString(time.getTime(), (getWidth() - 58), (getHeight()-3));
 		g.setColor(Color.WHITE);
-		if (notActive == true){
+		if(noAudioDevice == true){
+			g.setColor(Color.RED);
+			g.drawString("MUSIC is OFF | no audio device for playback", 3, getHeight()-3);
+			trigger++;
+			if(trigger == 25){
+				JOptionPane.showMessageDialog(this, "No Audio device found", "Audio Issue", 0);
+			}
+		} else if (notActive == true){
 			g.setColor(Color.RED);
 			g.drawString("MUSIC is OFF | press 'M' to start", 3, getHeight()-3);
 		} else{
