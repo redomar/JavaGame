@@ -1,4 +1,4 @@
-JavaGame Alpha v1.5.3
+JavaGame Alpha v1.5.4
 =====================
 
 #####What is JavaGame?
