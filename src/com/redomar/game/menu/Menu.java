@@ -1,7 +1,10 @@
 package com.redomar.game.menu;
 
 import java.awt.Color;
-import java.util.Random;
+import java.awt.Graphics;
+import java.awt.image.BufferStrategy;
+
+import com.redomar.game.lib.Font;
 
 
 
@@ -13,6 +16,7 @@ public class Menu implements Runnable{
 	private static final String NAME = "Menu";
 	
 	private DedicatedJFrame frame = new DedicatedJFrame(WIDTH, HEIGHT, SCALE, NAME);
+	private Font font = new Font();
 	
 	private boolean running = false;
 	
@@ -27,7 +31,7 @@ public class Menu implements Runnable{
 	
 	public void run() {
 		long lastTime = System.nanoTime();
-		double nsPerTick = 1000000000D / 3D;
+		double nsPerTick = 1000000000D / 30D;
 
 		int ticks = 0;
 		int frames = 0;
@@ -68,22 +72,25 @@ public class Menu implements Runnable{
 	}
 
 	private void render() {
-		frame.getFrame().getContentPane().setBackground(Color.BLACK);
-		
-		Random rand = new Random();
-		
-		float r = rand.nextFloat();
-		float g = rand.nextFloat();
-		float b = rand.nextFloat();
-		
-		Color randomColor = new Color(r, g, b);
-		
-		frame.getFrame().getContentPane().setBackground(randomColor);
+		//frame.getFrame().getContentPane().setBackground(Color.GREEN);
+		BufferStrategy bs = frame.getBufferStrategy();
+		if (bs == null) {
+			frame.createBufferStrategy(3);
+			return;
+		}
+		Graphics g = bs.getDrawGraphics();
+		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, frame.getWidth(), frame.getHeight());
+		g.setColor(new Color(0xFFFF9900));
+		g.setFont(font.getArial());
+		g.drawString("Testing Phase...",40,30);
+		bs.show();
+		g.dispose();
 		
 	}
 
-//	public static void main(String[] args) {
-//		new Menu().start();
-//	}
+	public static void main(String[] args) {
+		new Menu().start();
+	}
 	
 }
