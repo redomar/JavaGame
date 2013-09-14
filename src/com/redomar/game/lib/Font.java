@@ -3,6 +3,14 @@ package com.redomar.game.lib;
 import com.redomar.game.gfx.Screen;
 
 public class Font {
+	
+	private static java.awt.Font arial;
+	private static java.awt.Font segoe;
+	
+	public Font(){
+		Font.setArial(new java.awt.Font("Arial", java.awt.Font.BOLD, 14));
+		Font.setSegoe(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
+	}
 
 	private static String chars = "" + "ABCDEFGHIJKLMNOPQRSTUVWXYZ      "
 			+ "0123456789.,:;'\"!?$%()-=+/      ";
@@ -18,6 +26,22 @@ public class Font {
 						0x00, scale);
 			}
 		}
+	}
+
+	public java.awt.Font getArial() {
+		return arial;
+	}
+
+	public static void setArial(java.awt.Font arial) {
+		Font.arial = arial;
+	}
+
+	public java.awt.Font getSegoe() {
+		return segoe;
+	}
+
+	public static void setSegoe(java.awt.Font segoe) {
+		Font.segoe = segoe;
 	}
 
 }
