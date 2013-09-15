@@ -7,6 +7,8 @@ JavaGame is a game project that i am working on for an assignment for college.
 #####Why name it JavaGame?
 Well i'm still not sure what exactly i'm going to do with it, and I haven't thought of a suitable name either
 
+#####How to download this repository for eclipse tutorial
+Watch this video [here](http://youtu.be/_3nCgac3KKM) or checkout the [GitHub Pages](http://redomar.github.io/JavaGame/)
 ####How to use this repository
 
 * Fork it.
