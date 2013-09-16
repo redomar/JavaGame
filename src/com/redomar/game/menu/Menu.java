@@ -19,6 +19,7 @@ public class Menu implements Runnable{
 	private Font font = new Font();
 	
 	private boolean running = false;
+	private boolean selected = true;
 	
 	public synchronized void start() {
 		running = true;
@@ -83,7 +84,31 @@ public class Menu implements Runnable{
 		g.fillRect(0, 0, frame.getWidth(), frame.getHeight());
 		g.setColor(new Color(0xFFFF9900));
 		g.setFont(font.getArial());
-		g.drawString("Testing Phase...",40,30);
+		//g.drawString("Testing Phase...",40,30);
+		//(LEFT,DOWN,WIDTH,HEIGHT)
+		if (selected == true){
+			//START
+			g.setColor(new Color(0xFFFF8800));
+			g.fillRect(35, 35, (frame.getWidth()-70), 90);
+			g.setColor(Color.BLACK);
+			g.drawString("Start", 220, 85);
+			//EXIT
+			g.setColor(new Color(0xFFFF8800));
+			g.fillRect(35, 160, (frame.getWidth()-70), 90);
+			g.setColor(Color.BLACK);
+			g.drawString("Exit", 220, 210);
+		} else {
+			//START
+			g.setColor(new Color(0xFFFF8833));
+			g.fillRect(35, 35, (frame.getWidth()-70), 90);
+			g.setColor(Color.BLACK);
+			g.drawString("Start", 220, 85);
+			//EXIT
+			g.setColor(new Color(0xFFFF8833));
+			g.fillRect(35, 160, (frame.getWidth()-70), 90);
+			g.setColor(Color.BLACK);
+			g.drawString("Exit", 220, 210);
+		}
 		bs.show();
 		g.dispose();
 		
