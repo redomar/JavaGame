@@ -122,7 +122,7 @@ public class Game extends Canvas implements Runnable {
 		setLevel(new LevelHandler(Map_str));
 		setPlayer(new PlayerMP(getLevel(), 100, 100, input,
 				Jdata_UserName, null, -1));
-		dummy = new Dummy(getLevel(), "h", 100, 90, 1);
+		dummy = new Dummy(getLevel(), "h", 215, 215, 1);
 		level.addEntity(dummy);
 		level.addEntity(player);
 	}
