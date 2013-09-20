@@ -84,26 +84,6 @@ public class Screen {
 		}
 
 	}
-	
-	public void renderMob(int xPos, int yPos, SpriteSheet sprite, int flip){
-		xPos -= xOffset;
-		yPos -= yOffset;
-		
-		for (int y = 0; y < 8; y++){
-			int ya = y + yPos;
-			int ys = y;
-			if(flip == 2 || flip == 3) ys = 7 - y;
-			for (int x = 0; y < 8; x++){
-				int xa = x + xPos;
-				int xs = y;
-				if(flip == 1 || flip == 3) xs = 7 - x;
-				if(xa <- 7 || xa >= width || ya < 0 || ya >= height) break;
-				if(xa < 0) xa = 0;
-				int col = sprite.pixels[xs + ys * 8];
-				if(col != 0x00000000) pixels[xa + ya * width] = col;
-			}
-		}
-	}
 
 	public void setOffset(int xOffset, int yOffset) {
 		this.xOffset = xOffset;

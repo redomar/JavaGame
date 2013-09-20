@@ -14,10 +14,77 @@ public class Dummy extends Mob{
 	}
 
 	public boolean hasCollided(int xa, int ya) {
+		int xMin = 0;
+		int xMax = 7;
+		int yMin = 3;
+		int yMax = 7;
+
+		for (int x = xMin; x < xMax; x++) {
+			if (isSolid(xa, ya, x, yMin)) {
+				return true;
+			}
+		}
+
+		for (int x = xMin; x < xMax; x++) {
+			if (isSolid(xa, ya, x, yMax)) {
+				return true;
+			}
+		}
+
+		for (int y = yMin; y < yMax; y++) {
+			if (isSolid(xa, ya, xMin, y)) {
+				return true;
+			}
+		}
+
+		for (int y = yMin; y < yMax; y++) {
+			if (isSolid(xa, ya, xMax, y)) {
+				return true;
+			}
+		}
+
 		return false;
 	}
 	
 	public void tick() {
+		int xa = 0;
+		int ya = 0;
+
+//		if (input != null) {
+//			if (input.getUp().isPressed()) {
+//				ya--;
+//			}
+//			if (input.getDown().isPressed()) {
+//				ya++;
+//			}
+//			if (input.getLeft().isPressed()) {
+//				xa--;
+//			}
+//			if (input.getRight().isPressed()) {
+//				xa++;
+//			}
+//		}
+		
+		if (xa != 0 || ya != 0) {
+			move(xa, ya);
+			isMoving = true;
+			
+//			Packet02Move packet = new Packet02Move(this.getUsername(), this.x, this.y, this.numSteps, this.isMoving, this.movingDir);
+//			packet.writeData(Game.getGame().getSocketClient());
+			
+		} else {
+			isMoving = false;
+		}
+
+		if (level.getTile(this.x >> 3, this.y >> 3).getId() == 4) {
+			isSwimming = true;
+		}
+
+		if (isSwimming && level.getTile(this.x >> 3, this.y >> 3).getId() != 4) {
+			isSwimming = false;
+		}
+
+		tickCount++;
 		
 	}
 
@@ -43,7 +110,7 @@ public class Dummy extends Mob{
 			int waterColour = 0;
 			yOffset += 4;
 
-			colour = Colours.get(-1, 111, -1, 310);
+			colour = Colours.get(-1, 111, -1, 543);
 
 			if (tickCount % 60 < 15) {
 				waterColour = Colours.get(-1, -1, 255, -1);
