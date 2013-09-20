@@ -105,7 +105,7 @@ public class Game extends Canvas implements Runnable {
 		screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/sprite_sheet.png"));
 		input = new InputHandler(this);
 		setWindow(new WindowHandler(this));
-		setMap("/levels/custom_level.png");
+		setMap("/levels/custom_level.png");// the map
 		Packet00Login loginPacket = new Packet00Login(player.getUsername(), player.x, player.y);
 
 		if (socketServer != null) {
