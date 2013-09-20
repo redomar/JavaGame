@@ -22,7 +22,7 @@ public class Dummy extends Mob{
 	}
 
 	public void render(Screen screen) {
-		int xTile = 0;
+		int xTile = 8;
 		int yTile = 28;
 		int walkingSpeed = 4;
 		int flipTop = (numSteps >> walkingSpeed) & 1;
