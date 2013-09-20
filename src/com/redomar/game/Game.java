@@ -15,6 +15,7 @@ import javax.swing.UIManager;
 
 import org.apache.commons.lang3.text.WordUtils;
 
+import com.redomar.game.entities.Dummy;
 import com.redomar.game.entities.Player;
 import com.redomar.game.entities.PlayerMP;
 import com.redomar.game.gfx.Screen;
@@ -60,6 +61,7 @@ public class Game extends Canvas implements Runnable {
 	private WindowHandler window;
 	private LevelHandler level;
 	private Player player;
+	private Dummy dummy;
 	private Music music = new Music();
 	private Time time = new Time();
 	private Font font = new Font();
@@ -105,7 +107,7 @@ public class Game extends Canvas implements Runnable {
 		screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/sprite_sheet.png"));
 		input = new InputHandler(this);
 		setWindow(new WindowHandler(this));
-		setMap("/levels/custom_level.png");
+		setMap("/levels/custom_level.png");// the map
 		Packet00Login loginPacket = new Packet00Login(player.getUsername(), player.x, player.y);
 
 		if (socketServer != null) {
@@ -120,6 +122,8 @@ public class Game extends Canvas implements Runnable {
 		setLevel(new LevelHandler(Map_str));
 		setPlayer(new PlayerMP(getLevel(), 100, 100, input,
 				Jdata_UserName, null, -1));
+		dummy = new Dummy(getLevel(), "h", 215, 215, 1);
+		level.addEntity(dummy);
 		level.addEntity(player);
 	}
 

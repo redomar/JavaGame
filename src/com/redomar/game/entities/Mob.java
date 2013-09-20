@@ -1,11 +1,14 @@
 package com.redomar.game.entities;
 
+import java.util.Random;
+
 import com.redomar.game.level.LevelHandler;
 import com.redomar.game.level.tiles.Tile;
 
 public abstract class Mob extends Entity {
 
 	protected String name;
+	protected Random random = new Random();
 	protected int speed;
 	protected int numSteps = 0;
 	protected boolean isMoving;
