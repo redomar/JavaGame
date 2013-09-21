@@ -64,6 +64,10 @@ public class Player extends Mob {
 		if (isSwimming && level.getTile(this.x >> 3, this.y >> 3).getId() != 4) {
 			isSwimming = false;
 		}
+		
+		if (level.getTile(this.x >> 3, this.y >> 3).getId() == 11){
+			changeLevels = true;
+		}
 
 		tickCount++;
 	}
@@ -85,6 +89,10 @@ public class Player extends Mob {
 		int modifier = 8 * scale;
 		int xOffset = x - modifier / 2;
 		int yOffset = y - modifier / 2 - 4;
+		
+		if (changeLevels){
+			Game.setChangeLevel(true);
+		}
 
 		if (isSwimming) {
 			int waterColour = 0;

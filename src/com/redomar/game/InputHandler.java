@@ -73,7 +73,9 @@ public class InputHandler implements KeyListener {
 //				Game.getGame().setMap("/levels/custom_level.png");
 //				map--;
 //			}
-			this.setChangeLevel(true);
+			if(Game.getMap() == 2){
+				this.setChangeLevel(true);
+			}
 		}
 	}
 

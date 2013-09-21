@@ -43,6 +43,8 @@ public class Game extends Canvas implements Runnable {
 	private static int Jdata_Host;
 	private static String Jdata_UserName = "";
 	private static String Jdata_IP = "127.0.0.1";
+	private static boolean changeLevel = false;
+	private static int map = 0;
 
 	private JFrame frame;
 
@@ -108,6 +110,7 @@ public class Game extends Canvas implements Runnable {
 		input = new InputHandler(this);
 		setWindow(new WindowHandler(this));
 		setMap("/levels/custom_level.png");
+		setMap(1);
 		Packet00Login loginPacket = new Packet00Login(player.getUsername(), player.x, player.y);
 
 		if (socketServer != null) {
@@ -238,9 +241,20 @@ public class Game extends Canvas implements Runnable {
 			}			
 		}
 		
-		if (input.isChangeLevel() == true){
-			JOptionPane.showMessageDialog(this, "Switching Levels is currently disabled");
+		if (input.isChangeLevel() == true && getTickCount() % 60 == 0){
+			Game.setChangeLevel(true);
 			input.setChangeLevel(false);
+		}
+		
+		if (changeLevel == true){
+			if(getMap() == 1){
+				setMap("/levels/water_level.png");	
+				setMap(2);
+			}else if(getMap() == 2){
+				setMap("/levels/custom_level.png");
+				setMap(1);
+			}
+			changeLevel = false;
 		}
 		
 		Graphics g = bs.getDrawGraphics();
@@ -385,6 +399,22 @@ public class Game extends Canvas implements Runnable {
 
 	public static void setGame(Game game) {
 		Game.game = game;
+	}
+
+	public static boolean isChangeLevel() {
+		return changeLevel;
+	}
+
+	public static void setChangeLevel(boolean changeLevel) {
+		Game.changeLevel = changeLevel;
+	}
+
+	public static int getMap() {
+		return map;
+	}
+
+	public static void setMap(int map) {
+		Game.map = map;
 	}
 
 }
