@@ -1,19 +1,26 @@
 package com.redomar.game.entities;
 
+import javax.swing.JOptionPane;
+
+import com.redomar.game.Game;
 import com.redomar.game.gfx.Colours;
 import com.redomar.game.gfx.Screen;
 import com.redomar.game.level.LevelHandler;
 
 public class Dummy extends Mob{
 	
-	private int colour = Colours.get(-1, 111, 240, 310);
+	private int colour, shirtCol, faceCol; //= Colours.get(-1, 111, 240, 310);
 	private int tickCount = 0;
 	private int tick = 0;
 	private int xa = 0;
 	private int ya = 0;
+	private int xes = 0;
 	
-	public Dummy(LevelHandler level, String name, int x, int y, int speed) {
+	public Dummy(LevelHandler level, String name, int x, int y, int shirtCol, int faceCol) {
 		super(level, "h", x, y, 1);
+		this.faceCol = faceCol;
+		this.shirtCol = shirtCol;
+		this.colour = Colours.get(-1, 111, shirtCol, faceCol);
 	}
 
 	public boolean hasCollided(int xa, int ya) {
@@ -58,6 +65,11 @@ public class Dummy extends Mob{
 				xa = 0;
 				ya = 0;
 			}
+		}
+		
+		if(Game.getPlayer().x == x && Game.getPlayer().y == y && xes == 0){
+			JOptionPane.showMessageDialog(Game.getGame(), "Zombie Eat You @"+x+" "+y, "Zombie", 1);
+			xes++;
 		}
 		
 		if (xa != 0 || ya != 0) {
@@ -105,7 +117,7 @@ public class Dummy extends Mob{
 			int waterColour = 0;
 			yOffset += 4;
 
-			colour = Colours.get(-1, 111, -1, 543);
+			colour = Colours.get(-1, 111, -1, faceCol);
 
 			if (tickCount % 60 < 15) {
 				waterColour = Colours.get(-1, -1, 255, -1);
@@ -136,7 +148,7 @@ public class Dummy extends Mob{
 			screen.render((xOffset + modifier - (modifier * flipBottom)),
 					(yOffset + modifier), ((xTile + 1) + (yTile + 1) * 32),
 					colour, flipBottom, scale);
-			colour = Colours.get(-1, 111, 054, 543);
+			colour = Colours.get(-1, 111, shirtCol, faceCol);
 		}
 	}
 

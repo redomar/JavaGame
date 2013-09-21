@@ -43,6 +43,8 @@ public class Game extends Canvas implements Runnable {
 	private static int Jdata_Host;
 	private static String Jdata_UserName = "";
 	private static String Jdata_IP = "127.0.0.1";
+	private static boolean changeLevel = false;
+	private static int map = 0;
 
 	private JFrame frame;
 
@@ -60,7 +62,7 @@ public class Game extends Canvas implements Runnable {
 	private InputHandler input;
 	private WindowHandler window;
 	private LevelHandler level;
-	private Player player;
+	private static Player player;
 	private Dummy dummy;
 	private Music music = new Music();
 	private Time time = new Time();
@@ -107,7 +109,8 @@ public class Game extends Canvas implements Runnable {
 		screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/sprite_sheet.png"));
 		input = new InputHandler(this);
 		setWindow(new WindowHandler(this));
-		setMap("/levels/custom_level.png");// the map
+		setMap("/levels/custom_level.png");
+		setMap(1);
 		Packet00Login loginPacket = new Packet00Login(player.getUsername(), player.x, player.y);
 
 		if (socketServer != null) {
@@ -122,7 +125,7 @@ public class Game extends Canvas implements Runnable {
 		setLevel(new LevelHandler(Map_str));
 		setPlayer(new PlayerMP(getLevel(), 100, 100, input,
 				Jdata_UserName, null, -1));
-		dummy = new Dummy(getLevel(), "h", 215, 215, 1);
+		dummy = new Dummy(getLevel(), "h", 215, 215, 500, 543);
 		level.addEntity(dummy);
 		level.addEntity(player);
 	}
@@ -238,9 +241,20 @@ public class Game extends Canvas implements Runnable {
 			}			
 		}
 		
-		if (input.isChangeLevel() == true){
-			JOptionPane.showMessageDialog(this, "Switching Levels is currently disabled");
+		if (input.isChangeLevel() == true && getTickCount() % 60 == 0){
+			Game.setChangeLevel(true);
 			input.setChangeLevel(false);
+		}
+		
+		if (changeLevel == true){
+			if(getMap() == 1){
+				setMap("/levels/water_level.png");	
+				setMap(2);
+			}else if(getMap() == 2){
+				setMap("/levels/custom_level.png");
+				setMap(1);
+			}
+			changeLevel = false;
 		}
 		
 		Graphics g = bs.getDrawGraphics();
@@ -339,12 +353,12 @@ public class Game extends Canvas implements Runnable {
 		this.socketClient = socketClient;
 	}
 
-	public Player getPlayer() {
+	public static Player getPlayer() {
 		return player;
 	}
 
 	public void setPlayer(Player player) {
-		this.player = player;
+		Game.player = player;
 	}
 
 	public LevelHandler getLevel() {
@@ -385,6 +399,22 @@ public class Game extends Canvas implements Runnable {
 
 	public static void setGame(Game game) {
 		Game.game = game;
+	}
+
+	public static boolean isChangeLevel() {
+		return changeLevel;
+	}
+
+	public static void setChangeLevel(boolean changeLevel) {
+		Game.changeLevel = changeLevel;
+	}
+
+	public static int getMap() {
+		return map;
+	}
+
+	public static void setMap(int map) {
+		Game.map = map;
 	}
 
 }
