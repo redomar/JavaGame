@@ -18,6 +18,7 @@ public abstract class Tile {
 	private static final Tile CHEST_a = new BasicSolidTile(8, 0, 1, Colours.get(333, 111, 420, 000), 0xFFFF0001);
 	private static final Tile CHEST_b = new BasicSolidTile(9, 1, 1, Colours.get(333, 111, 420, 000), 0xFFFF0002);
 	private static final Tile CARPET_red = new BasicTile(10, 5, 0, Colours.get(-1, 311, 411, 311), 0xFFAA3636);
+	private static final Tile PORTAL = new AnimatedTile(11, new int[][] { { 3,  5 },  { 4, 5 }, { 5, 5 }, { 6, 5 }, { 7, 5 }, { 8, 5 }, { 9, 5 }, { 10, 5 } },  Colours.get(-1, 005, 305, -1), 0xFF00EAFF, 100);
 
 	protected byte id;
 	protected boolean solid;
@@ -104,6 +105,10 @@ public abstract class Tile {
 
 	public static Tile getCarpetRed() {
 		return CARPET_red;
+	}
+
+	public static Tile getPortal() {
+		return PORTAL;
 	}
 
 }
