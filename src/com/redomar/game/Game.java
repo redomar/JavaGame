@@ -60,7 +60,7 @@ public class Game extends Canvas implements Runnable {
 	private InputHandler input;
 	private WindowHandler window;
 	private LevelHandler level;
-	private Player player;
+	private static Player player;
 	private Dummy dummy;
 	private Music music = new Music();
 	private Time time = new Time();
@@ -122,7 +122,7 @@ public class Game extends Canvas implements Runnable {
 		setLevel(new LevelHandler(Map_str));
 		setPlayer(new PlayerMP(getLevel(), 100, 100, input,
 				Jdata_UserName, null, -1));
-		dummy = new Dummy(getLevel(), "h", 215, 215, 1);
+		dummy = new Dummy(getLevel(), "h", 215, 215, 500, 543);
 		level.addEntity(dummy);
 		level.addEntity(player);
 	}
@@ -339,12 +339,12 @@ public class Game extends Canvas implements Runnable {
 		this.socketClient = socketClient;
 	}
 
-	public Player getPlayer() {
+	public static Player getPlayer() {
 		return player;
 	}
 
 	public void setPlayer(Player player) {
-		this.player = player;
+		Game.player = player;
 	}
 
 	public LevelHandler getLevel() {
