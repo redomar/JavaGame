@@ -16,6 +16,7 @@ public abstract class Mob extends Entity {
 	protected int scale = 1;
 	protected boolean isSwimming = false;
 	protected boolean changeLevels = false;
+	protected int ticker;
 
 	public Mob(LevelHandler level, String name, int x, int y, int speed) {
 		super(level);
@@ -68,6 +69,25 @@ public abstract class Mob extends Entity {
 		}
 
 		return false;
+	}
+	
+	protected void followMovementAI(int x, int y, int px, int py, int xa, int ya, Mob mob){
+		ya = 0;
+		xa = 0;
+		if(px > x) xa++;
+		if(px < x) xa--;
+		if(py > y) ya++;
+		if(py < y) ya--;
+		moveMob(xa, ya, mob);
+	}
+	
+	protected void moveMob(int xa, int ya, Mob mob){
+		if (xa != 0 || ya != 0) {
+			mob.move(xa, ya);
+			mob.isMoving = true;
+		} else {
+			mob.isMoving = false;
+		}
 	}
 
 	public String getName() {

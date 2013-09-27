@@ -1,7 +1,5 @@
 package com.redomar.game.entities;
 
-import javax.swing.JOptionPane;
-
 import com.redomar.game.Game;
 import com.redomar.game.gfx.Colours;
 import com.redomar.game.gfx.Screen;
@@ -11,10 +9,8 @@ public class Dummy extends Mob{
 	
 	private int colour, shirtCol, faceCol; //= Colours.get(-1, 111, 240, 310);
 	private int tickCount = 0;
-	private int tick = 0;
 	private int xa = 0;
 	private int ya = 0;
-	private int xes = 0;
 	
 	public Dummy(LevelHandler level, String name, int x, int y, int shirtCol, int faceCol) {
 		super(level, "h", x, y, 1);
@@ -24,31 +20,8 @@ public class Dummy extends Mob{
 	}
 	
 	public void tick() {
-		tick++;
-		if(tick % (random.nextInt(50) +30) == 0){
-			xa = random.nextInt(3) -1;
-			ya = random.nextInt(3) -1;
-			if(random.nextInt(4) == 0){
-				xa = 0;
-				ya = 0;
-			}
-		}
 		
-		if(Game.getPlayer().getX() == getX() && Game.getPlayer().getY() == getY() && xes == 0){
-			JOptionPane.showMessageDialog(Game.getGame(), "Zombie Eat You @"+getX()+" "+getY(), "Zombie", 1);
-			xes++;
-		}
-		
-		if (xa != 0 || ya != 0) {
-			move(xa, ya);
-			isMoving = true;
-			
-//			Packet02Move packet = new Packet02Move(this.getUsername(), this.x, this.y, this.numSteps, this.isMoving, this.movingDir);
-//			packet.writeData(Game.getGame().getSocketClient());
-			
-		} else {
-			isMoving = false;
-		}
+		followMovementAI(getX(), getY(), Game.getPlayer().getX(), Game.getPlayer().getY(), xa, ya, this);
 
 		if (level.getTile(this.getX() >> 3, this.getY() >> 3).getId() == 4) {
 			isSwimming = true;
