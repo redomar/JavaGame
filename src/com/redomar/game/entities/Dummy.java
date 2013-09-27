@@ -22,39 +22,6 @@ public class Dummy extends Mob{
 		this.shirtCol = shirtCol;
 		this.colour = Colours.get(-1, 111, shirtCol, faceCol);
 	}
-
-	public boolean hasCollided(int xa, int ya) {
-		int xMin = 0;
-		int xMax = 7;
-		int yMin = 3;
-		int yMax = 7;
-
-		for (int x = xMin; x < xMax; x++) {
-			if (isSolid(xa, ya, x, yMin)) {
-				return true;
-			}
-		}
-
-		for (int x = xMin; x < xMax; x++) {
-			if (isSolid(xa, ya, x, yMax)) {
-				return true;
-			}
-		}
-
-		for (int y = yMin; y < yMax; y++) {
-			if (isSolid(xa, ya, xMin, y)) {
-				return true;
-			}
-		}
-
-		for (int y = yMin; y < yMax; y++) {
-			if (isSolid(xa, ya, xMax, y)) {
-				return true;
-			}
-		}
-
-		return false;
-	}
 	
 	public void tick() {
 		tick++;
@@ -152,4 +119,36 @@ public class Dummy extends Mob{
 		}
 	}
 
+	public boolean hasCollided(int xa, int ya) {
+		int xMin = 0;
+		int xMax = 7;
+		int yMin = 3;
+		int yMax = 7;
+
+		for (int x = xMin; x < xMax; x++) {
+			if (isSolid(xa, ya, x, yMin)) {
+				return true;
+			}
+		}
+
+		for (int x = xMin; x < xMax; x++) {
+			if (isSolid(xa, ya, x, yMax)) {
+				return true;
+			}
+		}
+
+		for (int y = yMin; y < yMax; y++) {
+			if (isSolid(xa, ya, xMin, y)) {
+				return true;
+			}
+		}
+
+		for (int y = yMin; y < yMax; y++) {
+			if (isSolid(xa, ya, xMax, y)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 }
