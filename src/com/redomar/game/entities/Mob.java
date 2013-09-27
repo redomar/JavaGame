@@ -20,8 +20,8 @@ public abstract class Mob extends Entity {
 	public Mob(LevelHandler level, String name, int x, int y, int speed) {
 		super(level);
 		this.name = name;
-		this.x = x;
-		this.y = y;
+		this.setX(x);
+		this.setY(y);
 		this.speed = speed;
 	}
 
@@ -46,8 +46,8 @@ public abstract class Mob extends Entity {
 			if (xa > 0) {
 				movingDir = 3;
 			}
-			x += xa * speed;
-			y += ya * speed;
+			setX(getX() + xa * speed);
+			setY(getY() + ya * speed);
 		}
 	}
 
@@ -59,9 +59,9 @@ public abstract class Mob extends Entity {
 			return false;
 		}
 
-		Tile lastTile = level.getTile((this.x + x) >> 3, (this.y + y) >> 3);
-		Tile newtTile = level.getTile((this.x + x + xa) >> 3,
-				(this.y + y + ya) >> 3);
+		Tile lastTile = level.getTile((this.getX() + x) >> 3, (this.getY() + y) >> 3);
+		Tile newtTile = level.getTile((this.getX() + x + xa) >> 3,
+				(this.getY() + y + ya) >> 3);
 
 		if (!lastTile.equals(newtTile) && newtTile.isSolid()) {
 			return true;

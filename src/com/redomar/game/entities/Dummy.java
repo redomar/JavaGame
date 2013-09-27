@@ -67,8 +67,8 @@ public class Dummy extends Mob{
 			}
 		}
 		
-		if(Game.getPlayer().x == x && Game.getPlayer().y == y && xes == 0){
-			JOptionPane.showMessageDialog(Game.getGame(), "Zombie Eat You @"+x+" "+y, "Zombie", 1);
+		if(Game.getPlayer().getX() == getX() && Game.getPlayer().getY() == getY() && xes == 0){
+			JOptionPane.showMessageDialog(Game.getGame(), "Zombie Eat You @"+getX()+" "+getY(), "Zombie", 1);
 			xes++;
 		}
 		
@@ -83,11 +83,11 @@ public class Dummy extends Mob{
 			isMoving = false;
 		}
 
-		if (level.getTile(this.x >> 3, this.y >> 3).getId() == 4) {
+		if (level.getTile(this.getX() >> 3, this.getY() >> 3).getId() == 4) {
 			isSwimming = true;
 		}
 
-		if (isSwimming && level.getTile(this.x >> 3, this.y >> 3).getId() != 4) {
+		if (isSwimming && level.getTile(this.getX() >> 3, this.getY() >> 3).getId() != 4) {
 			isSwimming = false;
 		}
 
@@ -110,8 +110,8 @@ public class Dummy extends Mob{
 		}
 
 		int modifier = 8 * scale;
-		int xOffset = x - modifier / 2;
-		int yOffset = y - modifier / 2 - 4;
+		int xOffset = getX() - modifier / 2;
+		int yOffset = getY() - modifier / 2 - 4;
 
 		if (isSwimming) {
 			int waterColour = 0;
