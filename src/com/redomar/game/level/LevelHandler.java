@@ -175,8 +175,8 @@ public class LevelHandler {
 	public void movePlayer(String username, int x, int y, int numSteps, boolean isMoving, int movingDir){
 		int index = getPlayerMPIndex(username);
 		PlayerMP player = (PlayerMP)this.getEntities().get(index);
-		player.x = x;
-		player.y = y;
+		player.setX(x);
+		player.setY(y);
 		player.setNumSteps(numSteps);
 		player.setMoving(isMoving);
 		player.setMovingDir(movingDir);

@@ -16,12 +16,13 @@ public abstract class Mob extends Entity {
 	protected int scale = 1;
 	protected boolean isSwimming = false;
 	protected boolean changeLevels = false;
+	protected int ticker;
 
 	public Mob(LevelHandler level, String name, int x, int y, int speed) {
 		super(level);
 		this.name = name;
-		this.x = x;
-		this.y = y;
+		this.setX(x);
+		this.setY(y);
 		this.speed = speed;
 	}
 
@@ -46,8 +47,8 @@ public abstract class Mob extends Entity {
 			if (xa > 0) {
 				movingDir = 3;
 			}
-			x += xa * speed;
-			y += ya * speed;
+			setX(getX() + xa * speed);
+			setY(getY() + ya * speed);
 		}
 	}
 
@@ -59,15 +60,34 @@ public abstract class Mob extends Entity {
 			return false;
 		}
 
-		Tile lastTile = level.getTile((this.x + x) >> 3, (this.y + y) >> 3);
-		Tile newtTile = level.getTile((this.x + x + xa) >> 3,
-				(this.y + y + ya) >> 3);
+		Tile lastTile = level.getTile((this.getX() + x) >> 3, (this.getY() + y) >> 3);
+		Tile newtTile = level.getTile((this.getX() + x + xa) >> 3,
+				(this.getY() + y + ya) >> 3);
 
 		if (!lastTile.equals(newtTile) && newtTile.isSolid()) {
 			return true;
 		}
 
 		return false;
+	}
+	
+	protected void followMovementAI(int x, int y, int px, int py, int xa, int ya, Mob mob){
+		ya = 0;
+		xa = 0;
+		if(px > x) xa++;
+		if(px < x) xa--;
+		if(py > y) ya++;
+		if(py < y) ya--;
+		moveMob(xa, ya, mob);
+	}
+	
+	protected void moveMob(int xa, int ya, Mob mob){
+		if (xa != 0 || ya != 0) {
+			mob.move(xa, ya);
+			mob.isMoving = true;
+		} else {
+			mob.isMoving = false;
+		}
 	}
 
 	public String getName() {

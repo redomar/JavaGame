@@ -87,8 +87,8 @@ public class GameServer extends Thread {
 		if(getPlayerMP(packet.getUsername()) != null){
 			int index = getPlayerMPIndex(packet.getUsername());
 			PlayerMP player = this.connectedPlayers.get(index);
-			player.x = packet.getX();
-			player.y = packet.getY();
+			player.setX(packet.getX());
+			player.setY(packet.getY());
 			player.setNumSteps(packet.getNumSteps());
 			player.setMoving(packet.isMoving());
 			player.setMovingDir(packet.getMovingDir());
@@ -112,7 +112,7 @@ public class GameServer extends Thread {
 			} else {
 				sendData(packet.getData(), p.ipAddess, p.port);
 
-				packet = new Packet00Login(p.getUsername(), p.x, p.y);
+				packet = new Packet00Login(p.getUsername(), p.getX(), p.getY());
 				sendData(packet.getData(), player.ipAddess, player.port);
 			}
 		}
