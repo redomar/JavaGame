@@ -32,7 +32,7 @@ import com.thehowtotutorial.splashscreen.JSplash;
 public class Game extends Canvas implements Runnable {
 
 	private static final long serialVersionUID = 1L;
-	private static final String game_Version = "v1.5.4 Alpha";
+	private static final String game_Version = "v1.6 Alpha";
 
 	// Setting the size and name of the frame/canvas
 	private static final int WIDTH = 160;
