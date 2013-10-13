@@ -60,7 +60,7 @@ public class Player extends Mob {
 		if (level.getTile(this.getX() >> 3, this.getY() >> 3).getId() == 4) {
 			isSwimming = true;
 		}
-
+		
 		if (isSwimming && level.getTile(this.getX() >> 3, this.getY() >> 3).getId() != 4) {
 			isSwimming = false;
 		}
@@ -69,6 +69,14 @@ public class Player extends Mob {
 			changeLevels = true;
 		}
 
+		if (level.getTile(this.getX() >> 3, this.getY() >> 3).getId() == 12) {
+			isMagma = true;
+		}
+		
+		if (isMagma && level.getTile(this.getX() >> 3, this.getY() >> 3).getId() != 12){
+			isMagma = false;
+		}
+		
 		tickCount++;
 	}
 
@@ -117,12 +125,36 @@ public class Player extends Mob {
 			screen.render(xOffset + 8, yOffset + 3, 31 + 31 * 32, waterColour,
 					0x01, 1);
 		}
+		
+		if (isMagma) {
+			int waterColour = 0;
+			yOffset += 4;
+
+			colour = Colours.get(-1, 111, -1, 310);
+
+			if (tickCount % 60 < 15) {
+				waterColour = Colours.get(-1, -1, 541, -1);
+			} else if (15 <= tickCount % 60 && tickCount % 60 < 30) {
+				yOffset--;
+				waterColour = Colours.get(-1, 521, 510, -1);
+			} else if (30 <= tickCount % 60 && tickCount % 60 < 45) {
+				waterColour = Colours.get(-1, 510, -1, 521);
+			} else {
+				yOffset--;
+				waterColour = Colours.get(-1, -1, 521, 510);
+			}
+
+			screen.render(xOffset, yOffset + 3, 31 + 31 * 32, waterColour,
+					0x00, 1);
+			screen.render(xOffset + 8, yOffset + 3, 31 + 31 * 32, waterColour,
+					0x01, 1);
+		}
 
 		screen.render((xOffset + (modifier * flipTop)), yOffset,
 				(xTile + yTile * 32), colour, flipTop, scale);
 		screen.render((xOffset + modifier - (modifier * flipTop)), yOffset,
 				((xTile + 1) + yTile * 32), colour, flipTop, scale);
-		if (!isSwimming) {
+		if (!isSwimming && !isMagma) {
 			screen.render((xOffset + (modifier * flipBottom)),
 					(yOffset + modifier), (xTile + (yTile + 1) * 32), colour,
 					flipBottom, scale);

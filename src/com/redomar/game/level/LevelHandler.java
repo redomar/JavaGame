@@ -150,6 +150,10 @@ public class LevelHandler {
 		this.getEntities().add(entity);
 	}
 
+	public void removeEntity(Entity entity) {
+		this.getEntities().remove(entity);
+	}
+	
 	public void removeEntity(String username) {
 		int index = 0;
 		for(Entity e : getEntities()){

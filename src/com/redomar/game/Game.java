@@ -44,6 +44,7 @@ public class Game extends Canvas implements Runnable {
 	private static String Jdata_UserName = "";
 	private static String Jdata_IP = "127.0.0.1";
 	private static boolean changeLevel = false;
+	private static boolean npc = false;
 	private static int map = 0;
 
 	private JFrame frame;
@@ -62,7 +63,7 @@ public class Game extends Canvas implements Runnable {
 	private InputHandler input;
 	private WindowHandler window;
 	private LevelHandler level;
-	private static Player player;
+	private Player player;
 	private Dummy dummy;
 	private Music music = new Music();
 	private Time time = new Time();
@@ -125,9 +126,20 @@ public class Game extends Canvas implements Runnable {
 		setLevel(new LevelHandler(Map_str));
 		setPlayer(new PlayerMP(getLevel(), 100, 100, input,
 				Jdata_UserName, null, -1));
-		dummy = new Dummy(getLevel(), "h", 215, 215, 500, 543);
-		level.addEntity(dummy);
 		level.addEntity(player);
+	}
+	
+	public static void npcSpawn(){
+		if(isNpc() == true){
+			game.setDummy(new Dummy(Game.getLevel(), "h", 215, 215, 500, 543));
+			game.level.addEntity(Game.getDummy());
+		}
+	}
+	
+	public static void npcKill(){
+		if(isNpc() == false){
+			game.level.removeEntity(Game.getDummy());
+		}
 	}
 
 	public synchronized void start() {
@@ -235,15 +247,15 @@ public class Game extends Canvas implements Runnable {
 					musicThread.start();
 					notActive = false;
 				} else {
-					System.out.println("Canceled");
+					System.out.println("[GAME] Canceled music option");
 					input.setPlayMusic(false);
 				}
 			}			
 		}
 		
-		if (input.isChangeLevel() == true && getTickCount() % 60 == 0){
+		if (isChangeLevel() == true && getTickCount() % 60 == 0){
 			Game.setChangeLevel(true);
-			input.setChangeLevel(false);
+			setChangeLevel(false);
 		}
 		
 		if (changeLevel == true){
@@ -354,15 +366,15 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	public static Player getPlayer() {
-		return player;
+		return game.player;
 	}
 
 	public void setPlayer(Player player) {
-		Game.player = player;
+		game.player = player;
 	}
 
-	public LevelHandler getLevel() {
-		return level;
+	public static LevelHandler getLevel() {
+		return game.level;
 	}
 
 	public void setLevel(LevelHandler level) {
@@ -415,6 +427,22 @@ public class Game extends Canvas implements Runnable {
 
 	public static void setMap(int map) {
 		Game.map = map;
+	}
+
+	public static boolean isNpc() {
+		return npc;
+	}
+
+	public static void setNpc(boolean npc) {
+		Game.npc = npc;
+	}
+
+	public static Dummy getDummy() {
+		return game.dummy;
+	}
+
+	public void setDummy(Dummy dummy) {
+		this.dummy = dummy;
 	}
 
 }
