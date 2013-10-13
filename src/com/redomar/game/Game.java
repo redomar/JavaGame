@@ -44,6 +44,7 @@ public class Game extends Canvas implements Runnable {
 	private static String Jdata_UserName = "";
 	private static String Jdata_IP = "127.0.0.1";
 	private static boolean changeLevel = false;
+	private static boolean npc = false;
 	private static int map = 0;
 
 	private JFrame frame;
@@ -125,9 +126,20 @@ public class Game extends Canvas implements Runnable {
 		setLevel(new LevelHandler(Map_str));
 		setPlayer(new PlayerMP(getLevel(), 100, 100, input,
 				Jdata_UserName, null, -1));
-		dummy = new Dummy(getLevel(), "h", 215, 215, 500, 543);
-		level.addEntity(dummy);
 		level.addEntity(player);
+	}
+	
+	public static void npcSpawn(){
+		if(isNpc() == true){
+			game.dummy = new Dummy(game.getLevel(), "h", 215, 215, 500, 543);
+			game.level.addEntity(game.dummy);
+		}
+	}
+	
+	public static void npcKill(){
+		if(isNpc() == false){
+			game.level.removeEntity(game.dummy);
+		}
 	}
 
 	public synchronized void start() {
@@ -415,6 +427,14 @@ public class Game extends Canvas implements Runnable {
 
 	public static void setMap(int map) {
 		Game.map = map;
+	}
+
+	public static boolean isNpc() {
+		return npc;
+	}
+
+	public static void setNpc(boolean npc) {
+		Game.npc = npc;
 	}
 
 }
