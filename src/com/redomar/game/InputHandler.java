@@ -34,8 +34,6 @@ public class InputHandler implements KeyListener {
 	private Key left = new Key();
 	private Key right = new Key();
 	private boolean PlayMusic = false;
-	private boolean ChangeLevel = false;
-	private boolean npc = false;
 	private int map;
 
 	public void keyPressed(KeyEvent e) {
@@ -75,21 +73,21 @@ public class InputHandler implements KeyListener {
 //				map--;
 //			}
 			if(Game.getMap() == 2){
-				this.setChangeLevel(true);
+				Game.setChangeLevel(true);
+				Game.getLevel().removeEntity(Game.getDummy());
+				Game.setNpc(false);
 			}
 		}
 		if (keyCode == KeyEvent.VK_N){
-			if(this.isNpc() == false){
+			if(Game.isNpc() == false){
 				Game.setNpc(true);
-				this.setNpc(true);
 				Game.npcSpawn();
 				System.out.println("[GAME] Dummy has been spawned");
 			}
 		}
 		if (keyCode == KeyEvent.VK_K){
-			if(this.isNpc() == true){
+			if(Game.isNpc() == true){
 				Game.setNpc(false);
-				this.setNpc(false);
 				Game.npcKill();
 				System.out.println("[GAME] Dummy has been despawned");
 			}
@@ -110,22 +108,6 @@ public class InputHandler implements KeyListener {
 
 	public void setPlayMusic(boolean playMusic) {
 		PlayMusic = playMusic;
-	}
-
-	public boolean isChangeLevel() {
-		return ChangeLevel;
-	}
-
-	public void setChangeLevel(boolean changeLevel) {
-		ChangeLevel = changeLevel;
-	}
-
-	public boolean isNpc() {
-		return npc;
-	}
-
-	public void setNpc(boolean npc) {
-		this.npc = npc;
 	}
 
 	public Key getUp() {
