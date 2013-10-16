@@ -68,7 +68,7 @@ public class Game extends Canvas implements Runnable {
 	private Music music = new Music();
 	private Time time = new Time();
 	private Font font = new Font();
-	private Thread musicThread = new Thread(music);
+	private Thread musicThread = new Thread(music, "MUSIC");
 	private String nowPlaying;
 	private boolean notActive = true;
 	private boolean noAudioDevice = false;
@@ -144,7 +144,7 @@ public class Game extends Canvas implements Runnable {
 
 	public synchronized void start() {
 		running = true;
-		new Thread(this).start();
+		new Thread(this, "GAME").start();
 		
 		if (Jdata_Host == 0) {
 			socketServer = new GameServer(this);
