@@ -131,7 +131,7 @@ public class Game extends Canvas implements Runnable {
 	
 	public static void npcSpawn(){
 		if(isNpc() == true){
-			game.setDummy(new Dummy(Game.getLevel(), "h", 215, 215, 500, 543));
+			game.setDummy(new Dummy(Game.getLevel(), "h", 215, 185, 500, 543));
 			game.level.addEntity(Game.getDummy());
 		}
 	}
