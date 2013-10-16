@@ -23,7 +23,7 @@ public class Menu implements Runnable{
 	
 	public synchronized void start() {
 		running = true;
-		new Thread(this).start();
+		new Thread(this, "MENU").start();
 	}
 
 	public synchronized void stop() {
@@ -82,9 +82,15 @@ public class Menu implements Runnable{
 		Graphics g = bs.getDrawGraphics();
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, frame.getWidth(), frame.getHeight());
+		g.setColor(new Color(0xFF660000));
+		g.fillRect(12, 12, (WIDTH*3)-30, (HEIGHT*3)-53);
 		g.setColor(new Color(0xFFFF9900));
 		g.setFont(font.getArial());
-		//g.drawString("Testing Phase...",40,30);
+		g.drawString("Testing Phase...",35,30);
+		g.drawLine(10, (HEIGHT*3)-40, 10, 10);
+		g.drawLine(10, 10, (WIDTH*3)-17, 10);
+		g.drawLine((WIDTH*3)-17, 10, (WIDTH*3)-17, (HEIGHT*3)-40);
+		g.drawLine(10, (HEIGHT*3)-40, (WIDTH*3)-17, (HEIGHT*3)-40);
 		//(LEFT,DOWN,WIDTH,HEIGHT)
 		if (selected == true){
 			//START
