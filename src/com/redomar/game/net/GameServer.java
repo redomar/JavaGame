@@ -23,7 +23,7 @@ public class GameServer extends Thread {
 	private List<PlayerMP> connectedPlayers = new ArrayList<PlayerMP>();
 
 	public GameServer(Game game) {
-		this.game = game;
+		this.setGame(game);
 		try {
 			this.socket = new DatagramSocket(1331);
 		} catch (SocketException e) {
@@ -66,7 +66,7 @@ public class GameServer extends Thread {
 			System.out.println("[" + address.getHostAddress() + ":" + port
 					+ "] " + ((Packet00Login) packet).getUsername()
 					+ " has connected...");
-			PlayerMP player = new PlayerMP(game.getLevel(), 10, 10,
+			PlayerMP player = new PlayerMP(Game.getLevel(), 10, 10,
 					((Packet00Login) packet).getUsername(), address, port);
 			this.addConnection(player, (Packet00Login) packet);
 			break;
@@ -161,5 +161,13 @@ public class GameServer extends Thread {
 		for (PlayerMP p : connectedPlayers) {
 			sendData(data, p.ipAddess, p.port);
 		}
+	}
+
+	public Game getGame() {
+		return game;
+	}
+
+	public void setGame(Game game) {
+		this.game = game;
 	}
 }

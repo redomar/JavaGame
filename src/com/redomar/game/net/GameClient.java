@@ -22,7 +22,7 @@ public class GameClient extends Thread {
 	private Game game;
 
 	public GameClient(Game game, String ipAddress) {
-		this.game = game;
+		this.setGame(game);
 		try {
 			this.socket = new DatagramSocket();
 			this.ipAddress = InetAddress.getByName(ipAddress);
@@ -65,7 +65,7 @@ public class GameClient extends Thread {
 			System.out.println("[" + address.getHostAddress() + ":" + port
 					+ "] " + ((Packet01Disconnect) packet).getUsername()
 					+ " has disconnected...");
-			game.getLevel().removeEntity(
+			Game.getLevel().removeEntity(
 					((Packet01Disconnect) packet).getUsername());
 			break;
 		case MOVE:
@@ -78,13 +78,13 @@ public class GameClient extends Thread {
 	private void handleLogin(Packet00Login packet, InetAddress address, int port) {
 		System.out.println("[" + address.getHostAddress() + ":" + port + "] "
 				+ packet.getUsername() + " has joined...");
-		PlayerMP player = new PlayerMP(game.getLevel(), packet.getX(),
+		PlayerMP player = new PlayerMP(Game.getLevel(), packet.getX(),
 				packet.getY(), packet.getUsername(), address, port);
-		game.getLevel().addEntity(player);
+		Game.getLevel().addEntity(player);
 	}
 
 	private void handleMove(Packet02Move packet) {
-		this.game.getLevel().movePlayer(packet.getUsername(), packet.getX(),
+		Game.getLevel().movePlayer(packet.getUsername(), packet.getX(),
 				packet.getY(), packet.getNumSteps(), packet.isMoving(),
 				packet.getMovingDir());
 	}
@@ -97,6 +97,14 @@ public class GameClient extends Thread {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public Game getGame() {
+		return game;
+	}
+
+	public void setGame(Game game) {
+		this.game = game;
 	}
 
 }
