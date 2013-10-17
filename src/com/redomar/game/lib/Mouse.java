@@ -4,10 +4,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+import com.redomar.game.Game;
 import com.redomar.game.menu.Menu;
 
 public class Mouse implements MouseListener, MouseMotionListener{
-	
 
 	public void mouseDragged(MouseEvent e) {
 		
@@ -17,25 +17,41 @@ public class Mouse implements MouseListener, MouseMotionListener{
 		if (e.getX() > 35 && e.getX() < 440){
 			//START is being selected
 			if(e.getY() > 35 && e.getY() < 125){
-				Menu.selectedStart = true;
+				Menu.setSelectedStart(true);
 			}else{
-				Menu.selectedStart = false;
+				Menu.setSelectedStart(false);
 			}
 			//EXIT is being selected
 			if(e.getY() > 160 && e.getY() < 250){
-				Menu.selectedExit = true;
+				Menu.setSelectedExit(true);
 			}else{
-				Menu.selectedExit = false;
+				Menu.setSelectedExit(false);
 			}
 		}else{
-			Menu.selectedStart = false;
-			Menu.selectedExit = false;
+			Menu.setSelectedStart(false);
+			Menu.setSelectedExit(false);
 		}
 		
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		
+		if(Menu.isRunning()){
+			if (e.getX() > 35 && e.getX() < 440){
+				//START game
+				if(e.getY() > 35 && e.getY() < 125){
+					Menu.setRunning(false);
+					Menu.getFrame().setVisible(false);
+					Menu.getFrame().stopFrame();
+					Game.play();
+				}
+				//EXIT game
+				if(e.getY() > 160 && e.getY() < 250){
+					Menu.setRunning(false);
+					Menu.getFrame().setVisible(false);
+					Menu.getFrame().stopFrame();
+				}
+			}			
+		}
 	}
 
 	public void mouseEntered(MouseEvent e) {

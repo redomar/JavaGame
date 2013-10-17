@@ -18,13 +18,14 @@ public class Menu implements Runnable{
 	private static final int SCALE = 3;
 	private static final String NAME = "Menu";
 	
-	private DedicatedJFrame frame = new DedicatedJFrame(WIDTH, HEIGHT, SCALE, NAME);
+	private static boolean running = false;
+	private static boolean selectedStart = false;
+	private static boolean selectedExit = false;
+	private static boolean gameOver = false;
+	
+	private static DedicatedJFrame frame = new DedicatedJFrame(WIDTH, HEIGHT, SCALE, NAME);
 	private Font font = new Font();
-	
-	private boolean running = false;
-	
-	public static boolean selectedStart = false;
-	public static boolean selectedExit = false;
+	private MouseListener Mouse = new Mouse();
 	
 	private Color selected = new Color(0xFFFF8800);
 	private Color deSelected = new Color(0xFFCC5500);
@@ -34,7 +35,7 @@ public class Menu implements Runnable{
 		new Thread(this, "MENU").start();
 	}
 
-	public synchronized void stop() {
+	public static synchronized void stop() {
 		running = false;
 	}
 	
@@ -82,13 +83,13 @@ public class Menu implements Runnable{
 
 	private void render() {
 		//frame.getFrame().getContentPane().setBackground(Color.GREEN);
+		frame.addMouseMotionListener((MouseMotionListener) Mouse);
+		frame.addMouseListener(Mouse);
 		BufferStrategy bs = frame.getBufferStrategy();
 		if (bs == null) {
 			frame.createBufferStrategy(3);
 			return;
 		}
-		MouseListener Mouse = new Mouse();
-		frame.addMouseMotionListener((MouseMotionListener) Mouse);
 		Graphics g = bs.getDrawGraphics();
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, frame.getWidth(), frame.getHeight());
@@ -96,42 +97,46 @@ public class Menu implements Runnable{
 		g.fillRect(12, 12, (WIDTH*3)-30, (HEIGHT*3)-53);
 		g.setColor(new Color(0xFFFF9900));
 		g.setFont(font.getArial());
-		g.drawString("Testing Phase...",35,30);
+		if(isGameOver()){
+			g.drawString("GAME OVER... What will you do now?",35,30);			
+		}else{
+			g.drawString("Welcome to JavaGame",35,30);
+		}
 		g.drawLine(10, (HEIGHT*3)-40, 10, 10);
 		g.drawLine(10, 10, (WIDTH*3)-17, 10);
 		g.drawLine((WIDTH*3)-17, 10, (WIDTH*3)-17, (HEIGHT*3)-40);
 		g.drawLine(10, (HEIGHT*3)-40, (WIDTH*3)-17, (HEIGHT*3)-40);
 		//(LEFT,DOWN,WIDTH,HEIGHT)
-		if (selectedStart == true){
+		if (isSelectedStart() == true){
 			//START
-			g.setColor(selected);
+			g.setColor(getSelected());
 			g.fillRect(35, 35, (frame.getWidth()-70), 90);
 			g.setColor(Color.BLACK);
 			g.drawString("Start", 220, 85);
 			//EXIT
-			g.setColor(deSelected);
+			g.setColor(getDeSelected());
 			g.fillRect(35, 160, (frame.getWidth()-70), 90);
 			g.setColor(Color.BLACK);
 			g.drawString("Exit", 220, 210);
-		} else if (selectedExit == true){
+		} else if (isSelectedExit() == true){
 			//START
-			g.setColor(deSelected);
+			g.setColor(getDeSelected());
 			g.fillRect(35, 35, (frame.getWidth()-70), 90);
 			g.setColor(Color.BLACK);
 			g.drawString("Start", 220, 85);
 			//EXIT
-			g.setColor(selected);
+			g.setColor(getSelected());
 			g.fillRect(35, 160, (frame.getWidth()-70), 90);
 			g.setColor(Color.BLACK);
 			g.drawString("Exit", 220, 210);
 		}else{
 			//START
-			g.setColor(deSelected);
+			g.setColor(getDeSelected());
 			g.fillRect(35, 35, (frame.getWidth()-70), 90);
 			g.setColor(Color.BLACK);
 			g.drawString("Start", 220, 85);
 			//EXIT
-			g.setColor(deSelected);
+			g.setColor(getDeSelected());
 			g.fillRect(35, 160, (frame.getWidth()-70), 90);
 			g.setColor(Color.BLACK);
 			g.drawString("Exit", 220, 210);
@@ -143,6 +148,70 @@ public class Menu implements Runnable{
 
 	public static void main(String[] args) {
 		new Menu().start();
+	}
+
+	public static DedicatedJFrame getFrame() {
+		return Menu.frame;
+	}
+
+	public static void setFrame(DedicatedJFrame frame) {
+		Menu.frame = frame;
+	}
+
+	public static boolean isRunning() {
+		return running;
+	}
+
+	public static void setRunning(boolean running) {
+		Menu.running = running;
+	}
+
+	public static boolean isSelectedStart() {
+		return selectedStart;
+	}
+
+	public static void setSelectedStart(boolean selectedStart) {
+		Menu.selectedStart = selectedStart;
+	}
+
+	public static boolean isSelectedExit() {
+		return selectedExit;
+	}
+
+	public static void setSelectedExit(boolean selectedExit) {
+		Menu.selectedExit = selectedExit;
+	}
+
+	public Color getSelected() {
+		return selected;
+	}
+
+	public void setSelected(Color selected) {
+		this.selected = selected;
+	}
+
+	public Color getDeSelected() {
+		return deSelected;
+	}
+
+	public void setDeSelected(Color deSelected) {
+		this.deSelected = deSelected;
+	}
+
+	public static int getWidth() {
+		return WIDTH;
+	}
+
+	public static int getHeight() {
+		return HEIGHT;
+	}
+
+	public static boolean isGameOver() {
+		return gameOver;
+	}
+
+	public static void setGameOver(boolean gameOver) {
+		Menu.gameOver = gameOver;
 	}
 	
 }
