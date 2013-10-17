@@ -2,9 +2,12 @@ package com.redomar.game.menu;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferStrategy;
 
 import com.redomar.game.lib.Font;
+import com.redomar.game.lib.Mouse;
 
 
 
@@ -19,7 +22,12 @@ public class Menu implements Runnable{
 	private Font font = new Font();
 	
 	private boolean running = false;
-	private boolean selected = true;
+	
+	public static boolean selectedStart = false;
+	public static boolean selectedExit = false;
+	
+	private Color selected = new Color(0xFFFF8800);
+	private Color deSelected = new Color(0xFFCC5500);
 	
 	public synchronized void start() {
 		running = true;
@@ -79,6 +87,8 @@ public class Menu implements Runnable{
 			frame.createBufferStrategy(3);
 			return;
 		}
+		MouseListener Mouse = new Mouse();
+		frame.addMouseMotionListener((MouseMotionListener) Mouse);
 		Graphics g = bs.getDrawGraphics();
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, frame.getWidth(), frame.getHeight());
@@ -92,25 +102,36 @@ public class Menu implements Runnable{
 		g.drawLine((WIDTH*3)-17, 10, (WIDTH*3)-17, (HEIGHT*3)-40);
 		g.drawLine(10, (HEIGHT*3)-40, (WIDTH*3)-17, (HEIGHT*3)-40);
 		//(LEFT,DOWN,WIDTH,HEIGHT)
-		if (selected == true){
+		if (selectedStart == true){
 			//START
-			g.setColor(new Color(0xFFFF8800));
+			g.setColor(selected);
 			g.fillRect(35, 35, (frame.getWidth()-70), 90);
 			g.setColor(Color.BLACK);
 			g.drawString("Start", 220, 85);
 			//EXIT
-			g.setColor(new Color(0xFFFF8800));
+			g.setColor(deSelected);
 			g.fillRect(35, 160, (frame.getWidth()-70), 90);
 			g.setColor(Color.BLACK);
 			g.drawString("Exit", 220, 210);
-		} else {
+		} else if (selectedExit == true){
 			//START
-			g.setColor(new Color(0xFFFF8833));
+			g.setColor(deSelected);
 			g.fillRect(35, 35, (frame.getWidth()-70), 90);
 			g.setColor(Color.BLACK);
 			g.drawString("Start", 220, 85);
 			//EXIT
-			g.setColor(new Color(0xFFFF8833));
+			g.setColor(selected);
+			g.fillRect(35, 160, (frame.getWidth()-70), 90);
+			g.setColor(Color.BLACK);
+			g.drawString("Exit", 220, 210);
+		}else{
+			//START
+			g.setColor(deSelected);
+			g.fillRect(35, 35, (frame.getWidth()-70), 90);
+			g.setColor(Color.BLACK);
+			g.drawString("Start", 220, 85);
+			//EXIT
+			g.setColor(deSelected);
 			g.fillRect(35, 160, (frame.getWidth()-70), 90);
 			g.setColor(Color.BLACK);
 			g.drawString("Exit", 220, 210);
