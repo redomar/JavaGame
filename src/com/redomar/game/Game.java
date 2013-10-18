@@ -28,6 +28,7 @@ import com.redomar.game.menu.Menu;
 import com.redomar.game.net.GameClient;
 import com.redomar.game.net.GameServer;
 import com.redomar.game.net.packets.Packet00Login;
+import com.redomar.game.script.Printing;
 import com.thehowtotutorial.splashscreen.JSplash;
 
 public class Game extends Canvas implements Runnable {
@@ -41,6 +42,7 @@ public class Game extends Canvas implements Runnable {
 	private static final int SCALE = 3;
 	private static final String NAME = "Game";
 	private static Game game;
+	private static Time time = new Time();
 	private static int Jdata_Host;
 	private static String Jdata_UserName = "";
 	private static String Jdata_IP = "127.0.0.1";
@@ -67,7 +69,6 @@ public class Game extends Canvas implements Runnable {
 	private Player player;
 	private Dummy dummy;
 	private Music music = new Music();
-	private Time time = new Time();
 	private Font font = new Font();
 	private Thread musicThread = new Thread(music, "MUSIC");
 	private String nowPlaying;
@@ -76,6 +77,7 @@ public class Game extends Canvas implements Runnable {
 	private int trigger = 0;
 	private GameClient socketClient;
 	private GameServer socketServer;
+	private Printing print = new Printing();
 	
 	
 	public Game() {
@@ -248,7 +250,8 @@ public class Game extends Canvas implements Runnable {
 					musicThread.start();
 					notActive = false;
 				} else {
-					System.out.println("[GAME] Canceled music option");
+					//System.out.println("[GAME] Canceled music option");
+					print.print(" Canceled music option", 1);
 					input.setPlayMusic(false);
 				}
 			}			
@@ -384,6 +387,14 @@ public class Game extends Canvas implements Runnable {
 
 	public void setLevel(LevelHandler level) {
 		this.level = level;
+	}
+
+	public static Time getTime() {
+		return Game.time;
+	}
+
+	public void setTime(Time time) {
+		Game.time = time;
 	}
 
 	public WindowHandler getWindow() {

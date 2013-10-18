@@ -9,7 +9,7 @@ public class Time {
 		
 	}
 	
-	public String getTime(){
+	public synchronized String getTime(){
 		Calendar cal = Calendar.getInstance();
     	cal.getTime();
     	SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
