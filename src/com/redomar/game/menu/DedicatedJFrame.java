@@ -34,5 +34,9 @@ public class DedicatedJFrame extends Canvas {
 		DedicatedJFrame.frame = frame;
 	}
 	
+	public void stopFrame(){
+		getFrame().dispose();
+	}
+	
 	
 }
