@@ -14,15 +14,15 @@ public class Mouse implements MouseListener, MouseMotionListener{
 	}
 
 	public void mouseMoved(MouseEvent e) {
-		if (e.getX() > 35 && e.getX() < 440){
+		if (e.getX() > 35 && e.getX() < 455){
 			//START is being selected
-			if(e.getY() > 35 && e.getY() < 125){
+			if(e.getY() > 38 && e.getY() < 150){
 				Menu.setSelectedStart(true);
 			}else{
 				Menu.setSelectedStart(false);
 			}
 			//EXIT is being selected
-			if(e.getY() > 160 && e.getY() < 250){
+			if(e.getY() > 170 && e.getY() < 280){
 				Menu.setSelectedExit(true);
 			}else{
 				Menu.setSelectedExit(false);
@@ -36,16 +36,16 @@ public class Mouse implements MouseListener, MouseMotionListener{
 
 	public void mouseClicked(MouseEvent e) {
 		if(Menu.isRunning()){
-			if (e.getX() > 35 && e.getX() < 440){
+			if (e.getX() > 35 && e.getX() < 455){
 				//START game
-				if(e.getY() > 35 && e.getY() < 125){
+				if(e.getY() > 38 && e.getY() < 150){
 					Menu.setRunning(false);
 					Menu.getFrame().setVisible(false);
 					Menu.getFrame().stopFrame();
 					new Game().start();
 				}
 				//EXIT game
-				if(e.getY() > 160 && e.getY() < 250){
+				if(e.getY() > 170 && e.getY() < 280){
 					Menu.setRunning(false);
 					Menu.getFrame().setVisible(false);
 					Menu.getFrame().stopFrame();

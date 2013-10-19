@@ -101,7 +101,7 @@ public class Menu implements Runnable{
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, frame.getWidth(), frame.getHeight());
 		g.setColor(new Color(0xFF660000));
-		g.fillRect(12, 12, (WIDTH*3)-30, (HEIGHT*3)-53);
+		g.fillRect(10, 10, (WIDTH*3)-10, (HEIGHT*3)-10);
 		g.setColor(new Color(0xFFFF9900));
 		g.setFont(font.getArial());
 		if(isGameOver()){
@@ -109,44 +109,44 @@ public class Menu implements Runnable{
 		}else{
 			g.drawString("Welcome to JavaGame",35,30);
 		}
-		g.drawLine(10, (HEIGHT*3)-40, 10, 10);
-		g.drawLine(10, 10, (WIDTH*3)-17, 10);
-		g.drawLine((WIDTH*3)-17, 10, (WIDTH*3)-17, (HEIGHT*3)-40);
-		g.drawLine(10, (HEIGHT*3)-40, (WIDTH*3)-17, (HEIGHT*3)-40);
+		g.drawLine(10, (HEIGHT*3), 10, 10);
+		g.drawLine(10, 10, (WIDTH*3), 10);
+		g.drawLine((WIDTH*3), 10, (WIDTH*3), (HEIGHT*3));
+		g.drawLine(10, (HEIGHT*3), (WIDTH*3), (HEIGHT*3));
 		//(LEFT,DOWN,WIDTH,HEIGHT)
 		if (isSelectedStart() == true){
 			//START
 			g.setColor(getSelected());
-			g.fillRect(35, 35, (frame.getWidth()-70), 90);
+			g.fillRect(35, 40, (frame.getWidth()-70), 110);
 			g.setColor(Color.BLACK);
-			g.drawString("Start", 220, 85);
+			g.drawString("Start", 220, 95);
 			//EXIT
 			g.setColor(getDeSelected());
-			g.fillRect(35, 160, (frame.getWidth()-70), 90);
+			g.fillRect(35, 170, (frame.getWidth()-70), 110);
 			g.setColor(Color.BLACK);
-			g.drawString("Exit", 220, 210);
+			g.drawString("Exit", 220, 220);
 		} else if (isSelectedExit() == true){
 			//START
 			g.setColor(getDeSelected());
-			g.fillRect(35, 35, (frame.getWidth()-70), 90);
+			g.fillRect(35, 40, (frame.getWidth()-70), 110);
 			g.setColor(Color.BLACK);
-			g.drawString("Start", 220, 85);
+			g.drawString("Start", 220, 95);
 			//EXIT
 			g.setColor(getSelected());
-			g.fillRect(35, 160, (frame.getWidth()-70), 90);
+			g.fillRect(35, 170, (frame.getWidth()-70), 110);
 			g.setColor(Color.BLACK);
-			g.drawString("Exit", 220, 210);
+			g.drawString("Exit", 220, 220);
 		}else{
 			//START
 			g.setColor(getDeSelected());
-			g.fillRect(35, 35, (frame.getWidth()-70), 90);
+			g.fillRect(35, 40, (frame.getWidth()-70), 110);
 			g.setColor(Color.BLACK);
-			g.drawString("Start", 220, 85);
+			g.drawString("Start", 220, 95);
 			//EXIT
 			g.setColor(getDeSelected());
-			g.fillRect(35, 160, (frame.getWidth()-70), 90);
+			g.fillRect(35, 170, (frame.getWidth()-70), 110);
 			g.setColor(Color.BLACK);
-			g.drawString("Exit", 220, 210);
+			g.drawString("Exit", 220, 220);
 		}
 		bs.show();
 		g.dispose();
