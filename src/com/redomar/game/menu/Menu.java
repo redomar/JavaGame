@@ -6,13 +6,19 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferStrategy;
 
+import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+
+import com.redomar.game.Game;
 import com.redomar.game.lib.Font;
 import com.redomar.game.lib.Mouse;
+import com.thehowtotutorial.splashscreen.JSplash;
 
 
 
 public class Menu implements Runnable{
 
+	private static final String game_Version = "v1.5.3 Alpha";
 	private static final int WIDTH = 160;
 	private static final int HEIGHT = (WIDTH / 3 * 2);
 	private static final int SCALE = 3;
@@ -23,7 +29,7 @@ public class Menu implements Runnable{
 	private static boolean selectedExit = false;
 	private static boolean gameOver = false;
 	
-	private static DedicatedJFrame frame = new DedicatedJFrame(WIDTH, HEIGHT, SCALE, NAME);
+	private static DedicatedJFrame frame;// = new DedicatedJFrame(WIDTH, HEIGHT, SCALE, NAME);
 	private Font font = new Font();
 	private MouseListener Mouse = new Mouse();
 	
@@ -32,6 +38,7 @@ public class Menu implements Runnable{
 	
 	public synchronized void start() {
 		running = true;
+		play();
 		new Thread(this, "MENU").start();
 	}
 
@@ -149,7 +156,49 @@ public class Menu implements Runnable{
 	public static void main(String[] args) {
 		new Menu().start();
 	}
-
+	
+	public static void play(){
+		try {
+			JSplash splash = new JSplash(Game.class.getResource("/splash/splash.png"), true, true, false, game_Version, null, Color.RED, Color.ORANGE);
+			splash.toFront();
+			splash.requestFocus();
+			splash.splashOn();
+			splash.setProgress(10, "Initializing Game");
+			Thread.sleep(250);
+			splash.setProgress(25, "Loading Classes");
+			Thread.sleep(125);
+			splash.setProgress(35, "Applying Configurations");
+			Thread.sleep(125);
+			splash.setProgress(40, "Loading Sprites");
+			Thread.sleep(250);
+			splash.setProgress(50, "Loading Textures");
+			Thread.sleep(125);
+			splash.setProgress(60, "Loading Map");
+			Thread.sleep(500);
+			splash.setProgress(80, "Configuring Map");
+			Thread.sleep(125);
+			splash.setProgress(90, "Pulling InputPanes");
+			Thread.sleep(250);
+			splash.setProgress(92, "Aquring data: Multiplayer");
+			Thread.sleep(125);
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			Game.setJdata_Host(JOptionPane.showConfirmDialog(Game.getGame(), "Do you want to be the HOST?"));
+			if (Game.getJdata_Host() == 1){
+				Game.setJdata_IP(JOptionPane.showInputDialog(Game.getGame(), "Enter the name \nleave blank for local"));
+			}
+			Thread.sleep(125);
+			splash.setProgress(95, "Aquring data: Username");
+			Thread.sleep(125);
+			splash.setProgress(96, "Initalizing as Server:Host");
+			Game.setJdata_UserName(JOptionPane.showInputDialog(Game.getGame(), "Enter a name"));
+			splash.setProgress(97, "Connecting as" + Game.getJdata_UserName());
+			Thread.sleep(250);
+			splash.splashOff();
+			frame = new DedicatedJFrame(WIDTH, HEIGHT, SCALE, NAME);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	public static DedicatedJFrame getFrame() {
 		return Menu.frame;
 	}

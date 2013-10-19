@@ -42,7 +42,7 @@ public class Mouse implements MouseListener, MouseMotionListener{
 					Menu.setRunning(false);
 					Menu.getFrame().setVisible(false);
 					Menu.getFrame().stopFrame();
-					Game.play();
+					new Game().start();
 				}
 				//EXIT game
 				if(e.getY() > 160 && e.getY() < 250){
