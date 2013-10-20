@@ -114,43 +114,45 @@ public class Menu implements Runnable{
 		g.drawLine((WIDTH*3), 10, (WIDTH*3), (HEIGHT*3));
 		g.drawLine(10, (HEIGHT*3), (WIDTH*3), (HEIGHT*3));
 		//(LEFT,DOWN,WIDTH,HEIGHT)
-		if (isSelectedStart() == true){
-			//START
-			g.setColor(getSelected());
-			g.fillRect(35, 40, (frame.getWidth()-70), 110);
-			g.setColor(Color.BLACK);
-			g.drawString("Start", 220, 95);
-			//EXIT
-			g.setColor(getDeSelected());
-			g.fillRect(35, 170, (frame.getWidth()-70), 110);
-			g.setColor(Color.BLACK);
-			g.drawString("Exit", 220, 220);
-		} else if (isSelectedExit() == true){
-			//START
+		paintButtons(isSelectedStart(), isSelectedExit(), g);
+		bs.show();
+		g.dispose();
+		
+	}
+	
+	private void paintButtons(boolean start, boolean exit, Graphics g){
+		//START
+		if(!start){
+			g.setColor(new Color(0xFFBB4400));
+			g.fillRect(35, 40, (frame.getWidth()-67), 113);
 			g.setColor(getDeSelected());
 			g.fillRect(35, 40, (frame.getWidth()-70), 110);
 			g.setColor(Color.BLACK);
-			g.drawString("Start", 220, 95);
-			//EXIT
-			g.setColor(getSelected());
-			g.fillRect(35, 170, (frame.getWidth()-70), 110);
-			g.setColor(Color.BLACK);
-			g.drawString("Exit", 220, 220);
+			g.drawString("Start", 220, 95);			
 		}else{
-			//START
-			g.setColor(getDeSelected());
+			g.setColor(new Color(0xFFDD6600));
+			g.fillRect(35, 40, (frame.getWidth()-67), 113);
+			g.setColor(getSelected());
 			g.fillRect(35, 40, (frame.getWidth()-70), 110);
 			g.setColor(Color.BLACK);
 			g.drawString("Start", 220, 95);
-			//EXIT
+		}
+		//EXIT
+		if(!exit){
+			g.setColor(new Color(0xFFBB4400));
+			g.fillRect(35, 170, (frame.getWidth()-67), 113);
 			g.setColor(getDeSelected());
+			g.fillRect(35, 170, (frame.getWidth()-70), 110);
+			g.setColor(Color.BLACK);
+			g.drawString("Exit", 220, 220);			
+		}else{
+			g.setColor(new Color(0xFFDD6600));
+			g.fillRect(35, 170, (frame.getWidth()-67), 113);
+			g.setColor(getSelected());
 			g.fillRect(35, 170, (frame.getWidth()-70), 110);
 			g.setColor(Color.BLACK);
 			g.drawString("Exit", 220, 220);
 		}
-		bs.show();
-		g.dispose();
-		
 	}
 
 	public static void main(String[] args) {
@@ -199,6 +201,7 @@ public class Menu implements Runnable{
 			e.printStackTrace();
 		}
 	}
+	
 	public static DedicatedJFrame getFrame() {
 		return Menu.frame;
 	}
