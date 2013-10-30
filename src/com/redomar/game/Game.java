@@ -11,7 +11,6 @@ import java.awt.image.DataBufferInt;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
 
 import org.apache.commons.lang3.text.WordUtils;
 
@@ -24,18 +23,18 @@ import com.redomar.game.level.LevelHandler;
 import com.redomar.game.lib.Font;
 import com.redomar.game.lib.Music;
 import com.redomar.game.lib.Time;
+import com.redomar.game.menu.Menu;
 import com.redomar.game.net.GameClient;
 import com.redomar.game.net.GameServer;
 import com.redomar.game.net.packets.Packet00Login;
 import com.redomar.game.script.Printing;
-import com.thehowtotutorial.splashscreen.JSplash;
+
 
 public class Game extends Canvas implements Runnable {
-
+	
+	// Setting the size and name of the frame/canvas
 	private static final long serialVersionUID = 1L;
 	private static final String game_Version = "v1.6.1 Alpha";
-
-	// Setting the size and name of the frame/canvas
 	private static final int WIDTH = 160;
 	private static final int HEIGHT = (WIDTH / 3 * 2);
 	private static final int SCALE = 3;
@@ -127,7 +126,7 @@ public class Game extends Canvas implements Runnable {
 	public void setMap(String Map_str) {
 		setLevel(new LevelHandler(Map_str));
 		setPlayer(new PlayerMP(getLevel(), 100, 100, input,
-				Jdata_UserName, null, -1));
+				getJdata_UserName(), null, -1));
 		level.addEntity(player);
 	}
 	
@@ -148,12 +147,12 @@ public class Game extends Canvas implements Runnable {
 		running = true;
 		new Thread(this, "GAME").start();
 		
-		if (Jdata_Host == 0) {
+		if (getJdata_Host() == 0) {
 			socketServer = new GameServer(this);
 			socketServer.start();
 		}
 
-		setSocketClient(new GameClient(this, Jdata_IP));
+		setSocketClient(new GameClient(this, getJdata_IP()));
 		getSocketClient().start();
 	}
 
@@ -309,51 +308,7 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	public static void main(String[] args) {
-		play();
-	}
-	
-	public static void play(){
-		try {
-			JSplash splash = new JSplash(Game.class.getResource("/splash/splash.png"), true, true, false, game_Version, null, Color.RED, Color.ORANGE);
-			splash.toFront();
-			splash.requestFocus();
-			splash.splashOn();
-			splash.setProgress(10, "Initializing Game");
-			Thread.sleep(250);
-			splash.setProgress(25, "Loading Classes");
-			Thread.sleep(125);
-			splash.setProgress(35, "Applying Configurations");
-			Thread.sleep(125);
-			splash.setProgress(40, "Loading Sprites");
-			Thread.sleep(250);
-			splash.setProgress(50, "Loading Textures");
-			Thread.sleep(125);
-			splash.setProgress(60, "Loading Map");
-			Thread.sleep(500);
-			splash.setProgress(80, "Configuring Map");
-			Thread.sleep(125);
-			splash.setProgress(90, "Pulling InputPanes");
-			Thread.sleep(250);
-			splash.setProgress(92, "Aquring data: Multiplayer");
-			Thread.sleep(125);
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			Jdata_Host = JOptionPane.showConfirmDialog(getGame(), "Do you want to be the HOST?");
-			if (Jdata_Host == 1){
-				Jdata_IP = JOptionPane.showInputDialog(getGame(), "Enter the name \nleave blank for local");
-			}
-			Thread.sleep(125);
-			splash.setProgress(95, "Aquring data: Username");
-			Thread.sleep(125);
-			splash.setProgress(96, "Initalizing as Server:Host");
-			Jdata_UserName = JOptionPane.showInputDialog(getGame(), "Enter a name");
-			splash.setProgress(97, "Connecting as" + Jdata_UserName);
-			Thread.sleep(250);
-			splash.splashOff();
-			new Game().start();
-//			new Menu().start();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		new Menu().start();
 	}
 
 	public JFrame getFrame() {
@@ -458,6 +413,34 @@ public class Game extends Canvas implements Runnable {
 
 	public void setDummy(Dummy dummy) {
 		this.dummy = dummy;
+	}
+
+	public static String getJdata_IP() {
+		return Jdata_IP;
+	}
+
+	public static void setJdata_IP(String jdata_IP) {
+		Jdata_IP = jdata_IP;
+	}
+
+	public static int getJdata_Host() {
+		return Jdata_Host;
+	}
+
+	public static void setJdata_Host(int jdata_Host) {
+		Jdata_Host = jdata_Host;
+	}
+
+	public static String getJdata_UserName() {
+		return Jdata_UserName;
+	}
+
+	public static void setJdata_UserName(String jdata_UserName) {
+		Jdata_UserName = jdata_UserName;
+	}
+
+	public static String getGameVersion() {
+		return game_Version;
 	}
 
 }

@@ -9,7 +9,7 @@ public abstract class Mob extends Entity {
 
 	protected String name;
 	protected Random random = new Random();
-	protected int speed;
+	protected double speed;
 	protected int numSteps = 0;
 	protected boolean isMoving;
 	protected int movingDir = 1;
@@ -19,7 +19,7 @@ public abstract class Mob extends Entity {
 	protected boolean changeLevels = false;
 	protected int ticker;
 
-	public Mob(LevelHandler level, String name, int x, int y, int speed) {
+	public Mob(LevelHandler level, String name, int x, int y, double speed) {
 		super(level);
 		this.name = name;
 		this.setX(x);
@@ -48,8 +48,8 @@ public abstract class Mob extends Entity {
 			if (xa > 0) {
 				movingDir = 3;
 			}
-			setX(getX() + xa * speed);
-			setY(getY() + ya * speed);
+			setX(getX() + xa * (int)speed);
+			setY(getY() + ya * (int)speed);
 		}
 	}
 

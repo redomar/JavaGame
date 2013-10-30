@@ -12,6 +12,10 @@ public class DedicatedJFrame extends Canvas {
 	private static JFrame frame;
 
 	public DedicatedJFrame(int WIDTH, int HEIGHT, int SCALE, String NAME){
+		setMinimumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
+		setMaximumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
+		setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
+		
 		setFrame(new JFrame(NAME));
 		getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getFrame().setLayout(new BorderLayout());
@@ -20,10 +24,6 @@ public class DedicatedJFrame extends Canvas {
 		getFrame().setResizable(false);
 		getFrame().setLocationRelativeTo(null);
 		getFrame().setVisible(true);
-		
-		getFrame().setMinimumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
-		getFrame().setMaximumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
-		getFrame().setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
 	}
 	
 	public JFrame getFrame() {
