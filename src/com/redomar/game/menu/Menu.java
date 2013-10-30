@@ -9,6 +9,8 @@ import java.awt.image.BufferStrategy;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
+import org.apache.commons.lang3.text.WordUtils;
+
 import com.redomar.game.Game;
 import com.redomar.game.lib.Font;
 import com.redomar.game.lib.Mouse;
@@ -107,7 +109,8 @@ public class Menu implements Runnable{
 		if(isGameOver()){
 			g.drawString("GAME OVER... What will you do now?",35,30);			
 		}else{
-			g.drawString("Welcome to JavaGame",35,30);
+			String name = (Game.getJdata_UserName().length() >= 1) ? WordUtils.capitalizeFully(Game.getJdata_UserName()).toString() : "Player"; 
+			g.drawString("Welcome to JavaGame "+name,35,30);
 		}
 		g.drawLine(10, (HEIGHT*3), 10, 10);
 		g.drawLine(10, 10, (WIDTH*3), 10);
@@ -153,10 +156,6 @@ public class Menu implements Runnable{
 			g.setColor(Color.BLACK);
 			g.drawString("Exit", 220, 220);
 		}
-	}
-
-	public static void main(String[] args) {
-		new Menu().start();
 	}
 	
 	public static void play(){
