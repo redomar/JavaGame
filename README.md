@@ -4,7 +4,7 @@ JavaGame Alpha v1.6.1
 [![Ohloh Stats](https://www.ohloh.net/p/JavaGame/widgets/project_thin_badge.gif)](https://www.ohloh.net/p/JavaGame)
 
 #####What is JavaGame?
-JavaGame is a game project that i am working on for an assignment for college.
+JavaGame is a game project that have been working on since May. I have added many features to the game, but now I am running out of ideas.
 
 #####Why name it JavaGame?
 Well i'm still not sure what exactly i'm going to do with it, and I haven't thought of a suitable name either
