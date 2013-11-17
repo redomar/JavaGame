@@ -20,6 +20,8 @@ public abstract class Tile {
 	private static final Tile CARPET_red = new BasicTile(10, 5, 0, Colours.get(-1, 311, 411, 311), 0xFFAA3636);
 	private static final Tile PORTAL = new AnimatedTile(11, new int[][] { { 3,  5 },  { 4, 5 }, { 5, 5 }, { 6, 5 }, { 7, 5 }, { 8, 5 }, { 9, 5 }, { 10, 5 } },  Colours.get(-1, 005, 305, -1), 0xFF00EAFF, 100);
 	private static final Tile MAGMA = new AnimatedTile(12, new int [][] { { 0, 5 }, { 1, 5 }, { 2, 5 }, { 1, 5 } }, Colours.get(-1, 400, 511, -1), 0xFFF00F0F, 1000);
+	private static final Tile DIRT = new BasicTile(13, 3, 0, Colours.get(0, 210, 321, -1), 0xFF442200);
+	private static final Tile DIRT_WET = new AnimatedTile(14, new int[][] { { 1, 5 }, { 2, 5 } }, Colours.get(-1, 211, 322, -1), 0xFF663300, 1500);
 
 	protected byte id;
 	protected boolean solid;
@@ -114,6 +116,14 @@ public abstract class Tile {
 
 	public static Tile getMagma() {
 		return MAGMA;
+	}
+
+	public static Tile getDirt() {
+		return DIRT;
+	}
+
+	public static Tile getDirtWet() {
+		return DIRT_WET;
 	}
 
 }
