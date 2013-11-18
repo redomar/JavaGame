@@ -34,17 +34,17 @@ public class Keys implements KeyListener {
 	private Key down = new Key();
 
 	public void keyPressed(KeyEvent arg0) {
-		
+
 	}
 
 	public void keyReleased(KeyEvent arg0) {
-		
+
 	}
 
 	public void keyTyped(KeyEvent arg0) {
-		
+
 	}
-	
+
 	public void toggleKey(int keyCode, boolean isPressed) {
 		if (keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_UP) {
 			getUp().toggle(isPressed);

@@ -5,42 +5,46 @@ import com.redomar.game.gfx.Colours;
 import com.redomar.game.gfx.Screen;
 import com.redomar.game.level.LevelHandler;
 
-public class Dummy extends Mob{
-	
-	private int colour, shirtCol, faceCol; //= Colours.get(-1, 111, 240, 310);
+public class Dummy extends Mob {
+
+	private int colour, shirtCol, faceCol; // = Colours.get(-1, 111, 240, 310);
 	private int tickCount = 0;
 	private int xa = 0;
 	private int ya = 0;
-	
-	public Dummy(LevelHandler level, String name, int x, int y, int shirtCol, int faceCol) {
+
+	public Dummy(LevelHandler level, String name, int x, int y, int shirtCol,
+			int faceCol) {
 		super(level, "h", x, y, 1);
 		this.faceCol = faceCol;
 		this.shirtCol = shirtCol;
 		this.colour = Colours.get(-1, 111, shirtCol, faceCol);
 	}
-	
+
 	public void tick() {
-		
-		followMovementAI(getX(), getY(), Game.getPlayer().getX(), Game.getPlayer().getY(), xa, ya, this);
+
+		followMovementAI(getX(), getY(), Game.getPlayer().getX(), Game
+				.getPlayer().getY(), xa, ya, this);
 
 		if (level.getTile(this.getX() >> 3, this.getY() >> 3).getId() == 4) {
 			isSwimming = true;
 		}
 
-		if (isSwimming && level.getTile(this.getX() >> 3, this.getY() >> 3).getId() != 4) {
+		if (isSwimming
+				&& level.getTile(this.getX() >> 3, this.getY() >> 3).getId() != 4) {
 			isSwimming = false;
 		}
 
 		if (level.getTile(this.getX() >> 3, this.getY() >> 3).getId() == 12) {
 			isMagma = true;
 		}
-		
-		if (isMagma && level.getTile(this.getX() >> 3, this.getY() >> 3).getId() != 12){
+
+		if (isMagma
+				&& level.getTile(this.getX() >> 3, this.getY() >> 3).getId() != 12) {
 			isMagma = false;
 		}
 
 		tickCount++;
-		
+
 	}
 
 	public void render(Screen screen) {
@@ -84,7 +88,7 @@ public class Dummy extends Mob{
 			screen.render(xOffset + 8, yOffset + 3, 31 + 31 * 32, waterColour,
 					0x01, 1);
 		}
-		
+
 		if (isMagma) {
 			int waterColour = 0;
 			yOffset += 4;
@@ -102,7 +106,7 @@ public class Dummy extends Mob{
 				yOffset--;
 				waterColour = Colours.get(-1, -1, 521, 510);
 			}
-			
+
 			screen.render(xOffset, yOffset + 3, 31 + 31 * 32, waterColour,
 					0x00, 1);
 			screen.render(xOffset + 8, yOffset + 3, 31 + 31 * 32, waterColour,

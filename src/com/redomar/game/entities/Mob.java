@@ -48,8 +48,8 @@ public abstract class Mob extends Entity {
 			if (xa > 0) {
 				movingDir = 3;
 			}
-			setX(getX() + xa * (int)speed);
-			setY(getY() + ya * (int)speed);
+			setX(getX() + xa * (int) speed);
+			setY(getY() + ya * (int) speed);
 		}
 	}
 
@@ -61,9 +61,10 @@ public abstract class Mob extends Entity {
 			return false;
 		}
 
-		Tile lastTile = level.getTile((this.getX() + x) >> 3, (this.getY() + y) >> 3);
-		Tile newtTile = level.getTile((this.getX() + x + xa) >> 3,
-				(this.getY() + y + ya) >> 3);
+		Tile lastTile = level.getTile((this.getX() + x) >> 3,
+				(this.getY() + y) >> 3);
+		Tile newtTile = level.getTile((this.getX() + x + xa) >> 3, (this.getY()
+				+ y + ya) >> 3);
 
 		if (!lastTile.equals(newtTile) && newtTile.isSolid()) {
 			return true;
@@ -71,18 +72,23 @@ public abstract class Mob extends Entity {
 
 		return false;
 	}
-	
-	protected void followMovementAI(int x, int y, int px, int py, int xa, int ya, Mob mob){
+
+	protected void followMovementAI(int x, int y, int px, int py, int xa,
+			int ya, Mob mob) {
 		ya = 0;
 		xa = 0;
-		if(px > x) xa++;
-		if(px < x) xa--;
-		if(py > y) ya++;
-		if(py < y) ya--;
+		if (px > x)
+			xa++;
+		if (px < x)
+			xa--;
+		if (py > y)
+			ya++;
+		if (py < y)
+			ya--;
 		moveMob(xa, ya, mob);
 	}
-	
-	protected void moveMob(int xa, int ya, Mob mob){
+
+	protected void moveMob(int xa, int ya, Mob mob) {
 		if (xa != 0 || ya != 0) {
 			mob.move(xa, ya);
 			mob.isMoving = true;
@@ -106,5 +112,5 @@ public abstract class Mob extends Entity {
 	public void setMovingDir(int movingDir) {
 		this.movingDir = movingDir;
 	}
-	
+
 }

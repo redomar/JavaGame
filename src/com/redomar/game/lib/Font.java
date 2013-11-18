@@ -3,11 +3,11 @@ package com.redomar.game.lib;
 import com.redomar.game.gfx.Screen;
 
 public class Font {
-	
+
 	private static java.awt.Font arial;
 	private static java.awt.Font segoe;
-	
-	public Font(){
+
+	public Font() {
 		Font.setArial(new java.awt.Font("Arial", java.awt.Font.BOLD, 14));
 		Font.setSegoe(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
 	}

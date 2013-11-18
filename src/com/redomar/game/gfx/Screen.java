@@ -64,13 +64,15 @@ public class Screen {
 
 					for (int yScale = 0; yScale < scale; yScale++) {
 
-						if (yPixel + yScale < 0 | yPixel + yScale >= getHeight()) {
+						if (yPixel + yScale < 0
+								| yPixel + yScale >= getHeight()) {
 							continue;
 						}
 
 						for (int xScale = 0; xScale < scale; xScale++) {
 
-							if (xPixel + xScale < 0 | xPixel + xScale >= getWidth()) {
+							if (xPixel + xScale < 0
+									| xPixel + xScale >= getWidth()) {
 								continue;
 							}
 

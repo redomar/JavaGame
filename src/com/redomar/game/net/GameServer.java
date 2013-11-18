@@ -79,12 +79,12 @@ public class GameServer extends Thread {
 			break;
 		case MOVE:
 			packet = new Packet02Move(data);
-			this.handleMove(((Packet02Move)packet));
+			this.handleMove(((Packet02Move) packet));
 		}
 	}
 
 	private void handleMove(Packet02Move packet) {
-		if(getPlayerMP(packet.getUsername()) != null){
+		if (getPlayerMP(packet.getUsername()) != null) {
 			int index = getPlayerMPIndex(packet.getUsername());
 			PlayerMP player = this.connectedPlayers.get(index);
 			player.setX(packet.getX());
@@ -126,19 +126,19 @@ public class GameServer extends Thread {
 		packet.writeData(this);
 	}
 
-	public PlayerMP getPlayerMP(String username){
-		for(PlayerMP player : this.connectedPlayers){
-			if(player.getUsername().equalsIgnoreCase(username)){
+	public PlayerMP getPlayerMP(String username) {
+		for (PlayerMP player : this.connectedPlayers) {
+			if (player.getUsername().equalsIgnoreCase(username)) {
 				return player;
 			}
 		}
 		return null;
 	}
-	
-	public int getPlayerMPIndex(String username){
+
+	public int getPlayerMPIndex(String username) {
 		int index = 0;
-		for(PlayerMP player : this.connectedPlayers){
-			if(player.getUsername().equalsIgnoreCase(username)){
+		for (PlayerMP player : this.connectedPlayers) {
+			if (player.getUsername().equalsIgnoreCase(username)) {
 				break;
 			} else {
 				index++;
@@ -146,7 +146,7 @@ public class GameServer extends Thread {
 		}
 		return index;
 	}
-	
+
 	public void sendData(byte[] data, InetAddress ipAddress, int port) {
 		DatagramPacket packet = new DatagramPacket(data, data.length,
 				ipAddress, port);

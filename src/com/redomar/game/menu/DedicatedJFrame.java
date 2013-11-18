@@ -11,11 +11,11 @@ public class DedicatedJFrame extends Canvas {
 	private static final long serialVersionUID = 1L;
 	private static JFrame frame;
 
-	public DedicatedJFrame(int WIDTH, int HEIGHT, int SCALE, String NAME){
+	public DedicatedJFrame(int WIDTH, int HEIGHT, int SCALE, String NAME) {
 		setMinimumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
 		setMaximumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
 		setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
-		
+
 		setFrame(new JFrame(NAME));
 		getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getFrame().setLayout(new BorderLayout());
@@ -25,7 +25,7 @@ public class DedicatedJFrame extends Canvas {
 		getFrame().setLocationRelativeTo(null);
 		getFrame().setVisible(true);
 	}
-	
+
 	public JFrame getFrame() {
 		return frame;
 	}
@@ -33,10 +33,9 @@ public class DedicatedJFrame extends Canvas {
 	public void setFrame(JFrame frame) {
 		DedicatedJFrame.frame = frame;
 	}
-	
-	public void stopFrame(){
+
+	public void stopFrame() {
 		getFrame().dispose();
 	}
-	
-	
+
 }

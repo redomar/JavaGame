@@ -16,28 +16,26 @@ import com.redomar.game.lib.Font;
 import com.redomar.game.lib.Mouse;
 import com.thehowtotutorial.splashscreen.JSplash;
 
+public class Menu implements Runnable {
 
-
-public class Menu implements Runnable{
-
-	
 	private static final int WIDTH = 160;
 	private static final int HEIGHT = (WIDTH / 3 * 2);
 	private static final int SCALE = 3;
 	private static final String NAME = "Menu";
-	
+
 	private static boolean running = false;
 	private static boolean selectedStart = false;
 	private static boolean selectedExit = false;
 	private static boolean gameOver = false;
-	
-	private static DedicatedJFrame frame;// = new DedicatedJFrame(WIDTH, HEIGHT, SCALE, NAME);
+
+	private static DedicatedJFrame frame;// = new DedicatedJFrame(WIDTH, HEIGHT,
+											// SCALE, NAME);
 	private Font font = new Font();
 	private MouseListener Mouse = new Mouse();
-	
+
 	private Color selected = new Color(0xFFFF8800);
 	private Color deSelected = new Color(0xFFCC5500);
-	
+
 	public synchronized void start() {
 		running = true;
 		play();
@@ -47,7 +45,7 @@ public class Menu implements Runnable{
 	public static synchronized void stop() {
 		running = false;
 	}
-	
+
 	public void run() {
 		long lastTime = System.nanoTime();
 		double nsPerTick = 1000000000D / 30D;
@@ -83,7 +81,8 @@ public class Menu implements Runnable{
 
 			if (System.currentTimeMillis() - lastTimer >= 1000) {
 				lastTimer += 1000;
-				frame.getFrame().setTitle("Frames: " + frames + " Ticks: " + ticks);
+				frame.getFrame().setTitle(
+						"Frames: " + frames + " Ticks: " + ticks);
 				frames = 0;
 				ticks = 0;
 			}
@@ -91,7 +90,7 @@ public class Menu implements Runnable{
 	}
 
 	private void render() {
-		//frame.getFrame().getContentPane().setBackground(Color.GREEN);
+		// frame.getFrame().getContentPane().setBackground(Color.GREEN);
 		frame.addMouseMotionListener((MouseMotionListener) Mouse);
 		frame.addMouseListener(Mouse);
 		BufferStrategy bs = frame.getBufferStrategy();
@@ -103,64 +102,66 @@ public class Menu implements Runnable{
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, frame.getWidth(), frame.getHeight());
 		g.setColor(new Color(0xFF660000));
-		g.fillRect(10, 10, (WIDTH*3)-10, (HEIGHT*3)-10);
+		g.fillRect(10, 10, (WIDTH * 3) - 10, (HEIGHT * 3) - 10);
 		g.setColor(new Color(0xFFFF9900));
 		g.setFont(font.getArial());
-		if(isGameOver()){
-			g.drawString("GAME OVER... What will you do now?",35,30);			
-		}else{
-			String name = (Game.getJdata_UserName().length() >= 1) ? WordUtils.capitalizeFully(Game.getJdata_UserName()).toString() : "Player"; 
-			g.drawString("Welcome to JavaGame "+name,35,30);
+		if (isGameOver()) {
+			g.drawString("GAME OVER... What will you do now?", 35, 30);
+		} else {
+			String name = (Game.getJdata_UserName().length() >= 1) ? WordUtils.capitalizeFully(Game.getJdata_UserName()).toString() : "Player";
+			g.drawString("Welcome to JavaGame " + name, 35, 30);
 		}
-		g.drawLine(10, (HEIGHT*3), 10, 10);
-		g.drawLine(10, 10, (WIDTH*3), 10);
-		g.drawLine((WIDTH*3), 10, (WIDTH*3), (HEIGHT*3));
-		g.drawLine(10, (HEIGHT*3), (WIDTH*3), (HEIGHT*3));
-		//(LEFT,DOWN,WIDTH,HEIGHT)
+		g.drawLine(10, (HEIGHT * 3), 10, 10);
+		g.drawLine(10, 10, (WIDTH * 3), 10);
+		g.drawLine((WIDTH * 3), 10, (WIDTH * 3), (HEIGHT * 3));
+		g.drawLine(10, (HEIGHT * 3), (WIDTH * 3), (HEIGHT * 3));
+		// (LEFT,DOWN,WIDTH,HEIGHT)
 		paintButtons(isSelectedStart(), isSelectedExit(), g);
 		bs.show();
 		g.dispose();
-		
+
 	}
-	
-	private void paintButtons(boolean start, boolean exit, Graphics g){
-		//START
-		if(!start){
+
+	private void paintButtons(boolean start, boolean exit, Graphics g) {
+		// START
+		if (!start) {
 			g.setColor(new Color(0xFFBB4400));
-			g.fillRect(35, 40, (frame.getWidth()-67), 113);
+			g.fillRect(35, 40, (frame.getWidth() - 67), 113);
 			g.setColor(getDeSelected());
-			g.fillRect(35, 40, (frame.getWidth()-70), 110);
+			g.fillRect(35, 40, (frame.getWidth() - 70), 110);
 			g.setColor(Color.BLACK);
-			g.drawString("Start", 220, 95);			
-		}else{
+			g.drawString("Start", 220, 95);
+		} else {
 			g.setColor(new Color(0xFFDD6600));
-			g.fillRect(35, 40, (frame.getWidth()-67), 113);
+			g.fillRect(35, 40, (frame.getWidth() - 67), 113);
 			g.setColor(getSelected());
-			g.fillRect(35, 40, (frame.getWidth()-70), 110);
+			g.fillRect(35, 40, (frame.getWidth() - 70), 110);
 			g.setColor(Color.BLACK);
 			g.drawString("Start", 220, 95);
 		}
-		//EXIT
-		if(!exit){
+		// EXIT
+		if (!exit) {
 			g.setColor(new Color(0xFFBB4400));
-			g.fillRect(35, 170, (frame.getWidth()-67), 113);
+			g.fillRect(35, 170, (frame.getWidth() - 67), 113);
 			g.setColor(getDeSelected());
-			g.fillRect(35, 170, (frame.getWidth()-70), 110);
+			g.fillRect(35, 170, (frame.getWidth() - 70), 110);
 			g.setColor(Color.BLACK);
-			g.drawString("Exit", 220, 220);			
-		}else{
+			g.drawString("Exit", 220, 220);
+		} else {
 			g.setColor(new Color(0xFFDD6600));
-			g.fillRect(35, 170, (frame.getWidth()-67), 113);
+			g.fillRect(35, 170, (frame.getWidth() - 67), 113);
 			g.setColor(getSelected());
-			g.fillRect(35, 170, (frame.getWidth()-70), 110);
+			g.fillRect(35, 170, (frame.getWidth() - 70), 110);
 			g.setColor(Color.BLACK);
 			g.drawString("Exit", 220, 220);
 		}
 	}
-	
-	public static void play(){
+
+	public static void play() {
 		try {
-			JSplash splash = new JSplash(Game.class.getResource("/splash/splash.png"), true, true, false, Game.getGameVersion(), null, Color.RED, Color.ORANGE);
+			JSplash splash = new JSplash(
+					Game.class.getResource("/splash/splash.png"), true, true,
+					false, Game.getGameVersion(), null, Color.RED, Color.ORANGE);
 			splash.toFront();
 			splash.requestFocus();
 			splash.splashOn();
@@ -183,15 +184,18 @@ public class Menu implements Runnable{
 			splash.setProgress(92, "Aquring data: Multiplayer");
 			Thread.sleep(125);
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			Game.setJdata_Host(JOptionPane.showConfirmDialog(Game.getGame(), "Do you want to be the HOST?"));
-			if (Game.getJdata_Host() == 1){
-				Game.setJdata_IP(JOptionPane.showInputDialog(Game.getGame(), "Enter the name \nleave blank for local"));
+			Game.setJdata_Host(JOptionPane.showConfirmDialog(Game.getGame(),
+					"Do you want to be the HOST?"));
+			if (Game.getJdata_Host() == 1) {
+				Game.setJdata_IP(JOptionPane.showInputDialog(Game.getGame(),
+						"Enter the name \nleave blank for local"));
 			}
 			Thread.sleep(125);
 			splash.setProgress(95, "Aquring data: Username");
 			Thread.sleep(125);
 			splash.setProgress(96, "Initalizing as Server:Host");
-			Game.setJdata_UserName(JOptionPane.showInputDialog(Game.getGame(), "Enter a name"));
+			Game.setJdata_UserName(JOptionPane.showInputDialog(Game.getGame(),
+					"Enter a name"));
 			splash.setProgress(97, "Connecting as" + Game.getJdata_UserName());
 			Thread.sleep(250);
 			splash.splashOff();
@@ -200,7 +204,7 @@ public class Menu implements Runnable{
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static DedicatedJFrame getFrame() {
 		return Menu.frame;
 	}
@@ -264,5 +268,5 @@ public class Menu implements Runnable{
 	public static void setGameOver(boolean gameOver) {
 		Menu.gameOver = gameOver;
 	}
-	
+
 }

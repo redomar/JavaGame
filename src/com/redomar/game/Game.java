@@ -29,9 +29,8 @@ import com.redomar.game.net.GameServer;
 import com.redomar.game.net.packets.Packet00Login;
 import com.redomar.game.script.Printing;
 
-
 public class Game extends Canvas implements Runnable {
-	
+
 	// Setting the size and name of the frame/canvas
 	private static final long serialVersionUID = 1L;
 	private static final String game_Version = "v1.6.1 Alpha";
@@ -59,7 +58,8 @@ public class Game extends Canvas implements Runnable {
 			.getData();
 	private int[] colours = new int[6 * 6 * 6];
 
-	private BufferedImage image2 = new BufferedImage(WIDTH, HEIGHT - 30, BufferedImage.TYPE_INT_RGB);
+	private BufferedImage image2 = new BufferedImage(WIDTH, HEIGHT - 30,
+			BufferedImage.TYPE_INT_RGB);
 	private Screen screen;
 	private InputHandler input;
 	private WindowHandler window;
@@ -76,8 +76,7 @@ public class Game extends Canvas implements Runnable {
 	private GameClient socketClient;
 	private GameServer socketServer;
 	private Printing print = new Printing();
-	
-	
+
 	public Game() {
 		setMinimumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
 		setMaximumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
@@ -113,7 +112,8 @@ public class Game extends Canvas implements Runnable {
 		setWindow(new WindowHandler(this));
 		setMap("/levels/custom_level.png");
 		setMap(1);
-		Packet00Login loginPacket = new Packet00Login(player.getUsername(), player.getX(), player.getY());
+		Packet00Login loginPacket = new Packet00Login(player.getUsername(),
+				player.getX(), player.getY());
 
 		if (socketServer != null) {
 			socketServer.addConnection((PlayerMP) getPlayer(), loginPacket);
@@ -129,16 +129,16 @@ public class Game extends Canvas implements Runnable {
 				getJdata_UserName(), null, -1));
 		level.addEntity(player);
 	}
-	
-	public static void npcSpawn(){
-		if(isNpc() == true){
+
+	public static void npcSpawn() {
+		if (isNpc() == true) {
 			game.setDummy(new Dummy(Game.getLevel(), "h", 215, 215, 500, 543));
 			game.level.addEntity(Game.getDummy());
 		}
 	}
-	
-	public static void npcKill(){
-		if(isNpc() == false){
+
+	public static void npcKill() {
+		if (isNpc() == false) {
 			game.level.removeEntity(Game.getDummy());
 		}
 	}
@@ -146,7 +146,7 @@ public class Game extends Canvas implements Runnable {
 	public synchronized void start() {
 		running = true;
 		new Thread(this, "GAME").start();
-		
+
 		if (getJdata_Host() == 0) {
 			socketServer = new GameServer(this);
 			socketServer.start();
@@ -240,67 +240,80 @@ public class Game extends Canvas implements Runnable {
 				}
 			}
 		}
-		
-		if (noAudioDevice == false){
-			if (input.isPlayMusic() == true && notActive == true){
-				int musicOption = JOptionPane.showConfirmDialog(this, "You are about to turn on music and can be VERY loud", "Music Options", 2, 2);
-				if (musicOption == 0){
+
+		if (noAudioDevice == false) {
+			if (input.isPlayMusic() == true && notActive == true) {
+				int musicOption = JOptionPane.showConfirmDialog(this,
+						"You are about to turn on music and can be VERY loud",
+						"Music Options", 2, 2);
+				if (musicOption == 0) {
 					musicThread.start();
 					notActive = false;
 				} else {
-					//System.out.println("[GAME] Canceled music option");
+					// System.out.println("[GAME] Canceled music option");
 					print.print(" Canceled music option", 1);
 					input.setPlayMusic(false);
 				}
-			}			
+			}
 		}
-		
-		if (isChangeLevel() == true && getTickCount() % 60 == 0){
+
+		if (isChangeLevel() == true && getTickCount() % 60 == 0) {
 			Game.setChangeLevel(true);
 			setChangeLevel(false);
 		}
-		
-		if (changeLevel == true){
-			if(getMap() == 1){
-				setMap("/levels/water_level.png");	
+
+		if (changeLevel == true) {
+			if (getMap() == 1) {
+				setMap("/levels/water_level.png");
 				setMap(2);
-			}else if(getMap() == 2){
+			} else if (getMap() == 2) {
 				setMap("/levels/custom_level.png");
 				setMap(1);
 			}
 			changeLevel = false;
 		}
-		
+
 		Graphics g = bs.getDrawGraphics();
 		g.drawRect(0, 0, getWidth(), getHeight());
-		g.drawImage(image, 0, 0, getWidth(), getHeight()-30, null);
-//		Font.render("Hi", screen, 0, 0, Colours.get(-1, -1, -1, 555), 1);
-		g.drawImage(image2, 0, getHeight()-30, getWidth(), getHeight(), null);
+		g.drawImage(image, 0, 0, getWidth(), getHeight() - 30, null);
+		// Font.render("Hi", screen, 0, 0, Colours.get(-1, -1, -1, 555), 1);
+		g.drawImage(image2, 0, getHeight() - 30, getWidth(), getHeight(), null);
 		g.setColor(Color.WHITE);
 		g.setFont(font.getSegoe());
-		g.drawString("Welcome "+WordUtils.capitalizeFully(player.getSantizedUsername()), 3, getHeight()-17);
+		g.drawString(
+				"Welcome "
+						+ WordUtils.capitalizeFully(player
+								.getSantizedUsername()), 3, getHeight() - 17);
 		g.setColor(Color.YELLOW);
-		g.drawString(time.getTime(), (getWidth() - 58), (getHeight()-3));
+		g.drawString(time.getTime(), (getWidth() - 58), (getHeight() - 3));
 		g.setColor(Color.WHITE);
-		if(noAudioDevice == true){
+		if (noAudioDevice == true) {
 			g.setColor(Color.RED);
-			g.drawString("MUSIC is OFF | no audio device for playback", 3, getHeight()-3);
+			g.drawString("MUSIC is OFF | no audio device for playback", 3,
+					getHeight() - 3);
 			trigger++;
-			if(trigger == 25){
-				JOptionPane.showMessageDialog(this, "No Audio device found", "Audio Issue", 0);
+			if (trigger == 25) {
+				JOptionPane.showMessageDialog(this, "No Audio device found",
+						"Audio Issue", 0);
 			}
-		} else if (notActive == true){
+		} else if (notActive == true) {
 			g.setColor(Color.RED);
-			g.drawString("MUSIC is OFF | press 'M' to start", 3, getHeight()-3);
-		} else{
+			g.drawString("MUSIC is OFF | press 'M' to start", 3,
+					getHeight() - 3);
+		} else {
 			g.setColor(Color.GREEN);
-			g.drawString("MUSIC is ON | You cannot turn off the music", 3, getHeight()-3);
+			g.drawString("MUSIC is ON | You cannot turn off the music", 3,
+					getHeight() - 3);
 			g.setColor(Color.WHITE);
-			setNowPlaying(WordUtils.capitalize(music.getSongName()[music.getSongNumber()].substring(7, (music.getSongName()[music.getSongNumber()].length() - 4))));
-			if (getNowPlaying().startsWith("T")){
-				g.drawString(nowPlaying, getWidth() - (nowPlaying.length() * 9) + 12, getHeight() - 17);
+			setNowPlaying(WordUtils.capitalize(music.getSongName()[music
+					.getSongNumber()].substring(7,
+					(music.getSongName()[music.getSongNumber()].length() - 4))));
+			if (getNowPlaying().startsWith("T")) {
+				g.drawString(nowPlaying, getWidth() - (nowPlaying.length() * 9)
+						+ 12, getHeight() - 17);
 			} else {
-				g.drawString(nowPlaying, getWidth() - (nowPlaying.length() * 9) + 8, getHeight() - 17);
+				g.drawString(nowPlaying, getWidth() - (nowPlaying.length() * 9)
+						+ 8, getHeight() - 17);
 			}
 		}
 		g.dispose();

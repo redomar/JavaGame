@@ -8,24 +8,24 @@ public class Printing {
 	private Time time = new Time();
 	private String message;
 	private String typeName = "[System]";
-	
-	public Printing(){
-		
+
+	public Printing() {
+
 	}
-	
-	public void print(String message, int type){
+
+	public void print(String message, int type) {
 		setType(type);
 		setMessage(message);
-		System.out.println("["+time.getTime()+"]"+type()+getMessage());		
+		System.out.println("[" + time.getTime() + "]" + type() + getMessage());
 	}
-	
-	private String type(){
-		if (getType() == 1){
+
+	private String type() {
+		if (getType() == 1) {
 			this.typeName = "[GAME]";
-		}else if(getType() == 2){
+		} else if (getType() == 2) {
 			this.typeName = "[MUSIC]";
 		}
-		
+
 		return this.typeName;
 	}
 

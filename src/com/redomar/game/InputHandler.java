@@ -61,32 +61,32 @@ public class InputHandler implements KeyListener {
 		if (keyCode == KeyEvent.VK_D || keyCode == KeyEvent.VK_RIGHT) {
 			getRight().toggle(isPressed);
 		}
-		if (keyCode == KeyEvent.VK_M){
+		if (keyCode == KeyEvent.VK_M) {
 			this.setPlayMusic(true);
 		}
-		if (keyCode == KeyEvent.VK_Z){
-//			if (map == 0){
-//				Game.getGame().setMap("/levels/water_level.png");
-//				map++;
-//			} else{
-//				Game.getGame().setMap("/levels/custom_level.png");
-//				map--;
-//			}
-			if(Game.getMap() == 2){
+		if (keyCode == KeyEvent.VK_Z) {
+			// if (map == 0){
+			// Game.getGame().setMap("/levels/water_level.png");
+			// map++;
+			// } else{
+			// Game.getGame().setMap("/levels/custom_level.png");
+			// map--;
+			// }
+			if (Game.getMap() == 2) {
 				Game.setChangeLevel(true);
 				Game.getLevel().removeEntity(Game.getDummy());
 				Game.setNpc(false);
 			}
 		}
-		if (keyCode == KeyEvent.VK_N){
-			if(Game.isNpc() == false){
+		if (keyCode == KeyEvent.VK_N) {
+			if (Game.isNpc() == false) {
 				Game.setNpc(true);
 				Game.npcSpawn();
 				System.out.println("[GAME] Dummy has been spawned");
 			}
 		}
-		if (keyCode == KeyEvent.VK_K){
-			if(Game.isNpc() == true){
+		if (keyCode == KeyEvent.VK_K) {
+			if (Game.isNpc() == true) {
 				Game.setNpc(false);
 				Game.npcKill();
 				System.out.println("[GAME] Dummy has been despawned");

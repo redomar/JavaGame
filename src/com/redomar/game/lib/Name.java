@@ -6,14 +6,14 @@ public class Name {
 
 	private Random rand = new Random();
 	private static int name_ID;
-	
-	public Name(){
+
+	public Name() {
 		setRand(rand);
 	}
-	
-	public String setName(String name){
-		
-		String finalName = name+getName_ID();
+
+	public String setName(String name) {
+
+		String finalName = name + getName_ID();
 		return finalName;
 	}
 

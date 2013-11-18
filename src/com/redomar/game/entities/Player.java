@@ -13,13 +13,13 @@ public class Player extends Mob {
 
 	private InputHandler input;
 	private static Name customeName = new Name();
-	
+
 	private int colour = Colours.get(-1, 111, 240, 310);
 	private int tickCount = 0;
 	private String userName;
 
 	public static String guestPlayerName = customeName.setName("Player ");
-	
+
 	public Player(LevelHandler level, int x, int y, InputHandler input,
 			String userName) {
 		super(level, "Player", x, y, 1);
@@ -49,10 +49,12 @@ public class Player extends Mob {
 		if (xa != 0 || ya != 0) {
 			move(xa, ya);
 			isMoving = true;
-			
-			Packet02Move packet = new Packet02Move(this.getUsername(), this.getX(), this.getY(), this.numSteps, this.isMoving, this.movingDir);
+
+			Packet02Move packet = new Packet02Move(this.getUsername(),
+					this.getX(), this.getY(), this.numSteps, this.isMoving,
+					this.movingDir);
 			packet.writeData(Game.getGame().getSocketClient());
-			
+
 		} else {
 			isMoving = false;
 		}
@@ -60,23 +62,25 @@ public class Player extends Mob {
 		if (level.getTile(this.getX() >> 3, this.getY() >> 3).getId() == 4) {
 			isSwimming = true;
 		}
-		
-		if (isSwimming && level.getTile(this.getX() >> 3, this.getY() >> 3).getId() != 4) {
+
+		if (isSwimming
+				&& level.getTile(this.getX() >> 3, this.getY() >> 3).getId() != 4) {
 			isSwimming = false;
 		}
-		
-		if (level.getTile(this.getX() >> 3, this.getY() >> 3).getId() == 11){
+
+		if (level.getTile(this.getX() >> 3, this.getY() >> 3).getId() == 11) {
 			changeLevels = true;
 		}
 
 		if (level.getTile(this.getX() >> 3, this.getY() >> 3).getId() == 12) {
 			isMagma = true;
 		}
-		
-		if (isMagma && level.getTile(this.getX() >> 3, this.getY() >> 3).getId() != 12){
+
+		if (isMagma
+				&& level.getTile(this.getX() >> 3, this.getY() >> 3).getId() != 12) {
 			isMagma = false;
 		}
-		
+
 		tickCount++;
 	}
 
@@ -97,8 +101,8 @@ public class Player extends Mob {
 		int modifier = 8 * scale;
 		int xOffset = getX() - modifier / 2;
 		int yOffset = getY() - modifier / 2 - 4;
-		
-		if (changeLevels){
+
+		if (changeLevels) {
 			Game.setChangeLevel(true);
 		}
 
@@ -125,7 +129,7 @@ public class Player extends Mob {
 			screen.render(xOffset + 8, yOffset + 3, 31 + 31 * 32, waterColour,
 					0x01, 1);
 		}
-		
+
 		if (isMagma) {
 			int waterColour = 0;
 			yOffset += 4;
@@ -206,7 +210,7 @@ public class Player extends Mob {
 	}
 
 	public String getUsername() {
-		if(this.userName.isEmpty()){
+		if (this.userName.isEmpty()) {
 			return guestPlayerName;
 		}
 		return this.userName;
@@ -215,13 +219,13 @@ public class Player extends Mob {
 	public void setUsername(String name) {
 		this.userName = name;
 	}
-	
+
 	public String getSantizedUsername() {
-		if(this.getUsername() == null || this.userName.isEmpty()){
+		if (this.getUsername() == null || this.userName.isEmpty()) {
 			setUsername(guestPlayerName);
 			return guestPlayerName;
-		}
-		else return this.getUsername();
+		} else
+			return this.getUsername();
 	}
 
 }
