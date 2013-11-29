@@ -16,6 +16,7 @@ public abstract class Mob extends Entity {
 	protected int scale = 1;
 	protected boolean isSwimming = false;
 	protected boolean isMagma = false;
+	protected boolean isMuddy = false;
 	protected boolean changeLevels = false;
 	protected int ticker;
 
