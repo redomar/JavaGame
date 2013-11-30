@@ -62,7 +62,7 @@ public class Player extends Mob {
 			isMoving = false;
 		}
 		
-		Swimming();
+		swimming();
 
 		if (level.getTile(this.getX() >> 3, this.getY() >> 3).getId() == 11) {
 			changeLevels = true;
@@ -71,7 +71,7 @@ public class Player extends Mob {
 		tickCount++;
 	}
 
-	private void Swimming() {
+	private void swimming() {
 
 		setSwim(new Swim(level, getX(), getY()));
 
