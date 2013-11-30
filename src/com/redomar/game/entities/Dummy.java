@@ -12,8 +12,9 @@ public class Dummy extends Mob {
 	private int tickCount = 0;
 	private int xa = 0;
 	private int ya = 0;
+	private boolean[] swimType;
 	
-	private Swim swim; 
+	private Swim swim;
 
 	public Dummy(LevelHandler level, String name, int x, int y, int shirtCol,
 			int faceCol) {
@@ -28,18 +29,14 @@ public class Dummy extends Mob {
 		followMovementAI(getX(), getY(), Game.getPlayer().getX(), Game
 				.getPlayer().getY(), xa, ya, this);
 		
-		swimming();
+		setSwim(new Swim(level, getX(), getY()));
+		swimType = getSwim().swimming(isSwimming, isMagma, isMuddy);
+		isSwimming = swimType[0];
+		isMagma = swimType[1];
+		isMuddy = swimType[2];
 
 		tickCount++;
 
-	}
-	
-	private void swimming(){
-		setSwim(new Swim(level, getX(), getY()));
-		
-		isSwimming = getSwim().water(isSwimming);
-		isMagma = getSwim().magma(isMagma);
-		isMuddy = getSwim().mud(isMuddy);
 	}
 
 	public void render(Screen screen) {
