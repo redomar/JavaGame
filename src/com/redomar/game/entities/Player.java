@@ -19,7 +19,7 @@ public class Player extends Mob {
 	private int colour = Colours.get(-1, 111, 240, 310);
 	private int tickCount = 0;
 	private String userName;
-	
+	private boolean[] swimType;
 
 	public static String guestPlayerName = customeName.setName("Player ");
 
@@ -61,23 +61,18 @@ public class Player extends Mob {
 		} else {
 			isMoving = false;
 		}
-		
-		Swimming();
+
+		setSwim(new Swim(level, getX(), getY()));
+		swimType = getSwim().swimming(isSwimming, isMagma, isMuddy);
+		isSwimming = swimType[0];
+		isMagma = swimType[1];
+		isMuddy = swimType[2];
 
 		if (level.getTile(this.getX() >> 3, this.getY() >> 3).getId() == 11) {
 			changeLevels = true;
 		}
 
 		tickCount++;
-	}
-
-	private void Swimming() {
-
-		setSwim(new Swim(level, getX(), getY()));
-
-		isSwimming = getSwim().water(isSwimming);
-		isMagma = getSwim().magma(isMagma);
-		isMuddy = getSwim().mud(isMuddy);
 	}
 
 	public void render(Screen screen) {
@@ -149,7 +144,7 @@ public class Player extends Mob {
 			screen.render(xOffset + 8, yOffset + 3, 31 + 31 * 32, waterColour,
 					0x01, 1);
 		}
-		
+
 		if (isMuddy) {
 			int waterColour = 0;
 			yOffset += 4;

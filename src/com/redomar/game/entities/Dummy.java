@@ -1,6 +1,7 @@
 package com.redomar.game.entities;
 
 import com.redomar.game.Game;
+import com.redomar.game.entities.efx.Swim;
 import com.redomar.game.gfx.Colours;
 import com.redomar.game.gfx.Screen;
 import com.redomar.game.level.LevelHandler;
@@ -11,6 +12,9 @@ public class Dummy extends Mob {
 	private int tickCount = 0;
 	private int xa = 0;
 	private int ya = 0;
+	private boolean[] swimType;
+
+	private Swim swim;
 
 	public Dummy(LevelHandler level, String name, int x, int y, int shirtCol,
 			int faceCol) {
@@ -25,32 +29,11 @@ public class Dummy extends Mob {
 		followMovementAI(getX(), getY(), Game.getPlayer().getX(), Game
 				.getPlayer().getY(), xa, ya, this);
 
-		if (level.getTile(this.getX() >> 3, this.getY() >> 3).getId() == 4) {
-			isSwimming = true;
-		}
-
-		if (isSwimming
-				&& level.getTile(this.getX() >> 3, this.getY() >> 3).getId() != 4) {
-			isSwimming = false;
-		}
-
-		if (level.getTile(this.getX() >> 3, this.getY() >> 3).getId() == 12) {
-			isMagma = true;
-		}
-
-		if (isMagma
-				&& level.getTile(this.getX() >> 3, this.getY() >> 3).getId() != 12) {
-			isMagma = false;
-		}
-		
-		if (level.getTile(this.getX() >> 3, this.getY() >> 3).getId() == 14){
-			isMuddy = true;
-		}
-		
-		if(isMuddy
-				&& level.getTile(this.getX() >> 3, this.getY() >> 3).getId() != 14){
-			isMuddy = false;
-		}
+		setSwim(new Swim(level, getX(), getY()));
+		swimType = getSwim().swimming(isSwimming, isMagma, isMuddy);
+		isSwimming = swimType[0];
+		isMagma = swimType[1];
+		isMuddy = swimType[2];
 
 		tickCount++;
 
@@ -121,12 +104,12 @@ public class Dummy extends Mob {
 			screen.render(xOffset + 8, yOffset + 3, 31 + 31 * 32, waterColour,
 					0x01, 1);
 		}
-		
+
 		if (isMuddy) {
 			int waterColour = 0;
 			yOffset += 4;
 
-			colour = Colours.get(-1, 111, -1, 310);
+			colour = Colours.get(-1, 111, -1, faceCol);
 
 			if (tickCount % 60 < 15) {
 				waterColour = Colours.get(-1, -1, 422, -1);
@@ -192,5 +175,13 @@ public class Dummy extends Mob {
 		}
 
 		return false;
+	}
+
+	public Swim getSwim() {
+		return swim;
+	}
+
+	public void setSwim(Swim swim) {
+		this.swim = swim;
 	}
 }
