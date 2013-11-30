@@ -2,6 +2,7 @@ package com.redomar.game.entities;
 
 import com.redomar.game.Game;
 import com.redomar.game.InputHandler;
+import com.redomar.game.entities.efx.Swim;
 import com.redomar.game.gfx.Colours;
 import com.redomar.game.gfx.Screen;
 import com.redomar.game.level.LevelHandler;
@@ -13,10 +14,12 @@ public class Player extends Mob {
 
 	private InputHandler input;
 	private static Name customeName = new Name();
+	private Swim swim;
 
 	private int colour = Colours.get(-1, 111, 240, 310);
 	private int tickCount = 0;
 	private String userName;
+	
 
 	public static String guestPlayerName = customeName.setName("Player ");
 
@@ -58,39 +61,23 @@ public class Player extends Mob {
 		} else {
 			isMoving = false;
 		}
-
-		if (level.getTile(this.getX() >> 3, this.getY() >> 3).getId() == 4) {
-			isSwimming = true;
-		}
-
-		if (isSwimming
-				&& level.getTile(this.getX() >> 3, this.getY() >> 3).getId() != 4) {
-			isSwimming = false;
-		}
+		
+		Swimming();
 
 		if (level.getTile(this.getX() >> 3, this.getY() >> 3).getId() == 11) {
 			changeLevels = true;
 		}
 
-		if (level.getTile(this.getX() >> 3, this.getY() >> 3).getId() == 12) {
-			isMagma = true;
-		}
-
-		if (isMagma
-				&& level.getTile(this.getX() >> 3, this.getY() >> 3).getId() != 12) {
-			isMagma = false;
-		}
-		
-		if (level.getTile(this.getX() >> 3, this.getY() >> 3).getId() == 14){
-			isMuddy = true;
-		}
-		
-		if(isMuddy
-				&& level.getTile(this.getX() >> 3, this.getY() >> 3).getId() != 14){
-			isMuddy = false;
-		}
-
 		tickCount++;
+	}
+
+	private void Swimming() {
+
+		setSwim(new Swim(level, getX(), getY()));
+
+		isSwimming = getSwim().water(isSwimming);
+		isMagma = getSwim().magma(isMagma);
+		isMuddy = getSwim().mud(isMuddy);
 	}
 
 	public void render(Screen screen) {
@@ -259,6 +246,14 @@ public class Player extends Mob {
 			return guestPlayerName;
 		} else
 			return this.getUsername();
+	}
+
+	public Swim getSwim() {
+		return swim;
+	}
+
+	public void setSwim(Swim swim) {
+		this.swim = swim;
 	}
 
 }
