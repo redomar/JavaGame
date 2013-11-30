@@ -13,7 +13,7 @@ public class Dummy extends Mob {
 	private int xa = 0;
 	private int ya = 0;
 	private boolean[] swimType;
-	
+
 	private Swim swim;
 
 	public Dummy(LevelHandler level, String name, int x, int y, int shirtCol,
@@ -28,7 +28,7 @@ public class Dummy extends Mob {
 
 		followMovementAI(getX(), getY(), Game.getPlayer().getX(), Game
 				.getPlayer().getY(), xa, ya, this);
-		
+
 		setSwim(new Swim(level, getX(), getY()));
 		swimType = getSwim().swimming(isSwimming, isMagma, isMuddy);
 		isSwimming = swimType[0];
@@ -104,12 +104,12 @@ public class Dummy extends Mob {
 			screen.render(xOffset + 8, yOffset + 3, 31 + 31 * 32, waterColour,
 					0x01, 1);
 		}
-		
+
 		if (isMuddy) {
 			int waterColour = 0;
 			yOffset += 4;
 
-			colour = Colours.get(-1, 111, -1, 310);
+			colour = Colours.get(-1, 111, -1, faceCol);
 
 			if (tickCount % 60 < 15) {
 				waterColour = Colours.get(-1, -1, 422, -1);

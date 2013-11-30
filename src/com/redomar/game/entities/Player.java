@@ -20,7 +20,6 @@ public class Player extends Mob {
 	private int tickCount = 0;
 	private String userName;
 	private boolean[] swimType;
-	
 
 	public static String guestPlayerName = customeName.setName("Player ");
 
@@ -62,7 +61,7 @@ public class Player extends Mob {
 		} else {
 			isMoving = false;
 		}
-		
+
 		setSwim(new Swim(level, getX(), getY()));
 		swimType = getSwim().swimming(isSwimming, isMagma, isMuddy);
 		isSwimming = swimType[0];
@@ -76,7 +75,6 @@ public class Player extends Mob {
 		tickCount++;
 	}
 
-	
 	public void render(Screen screen) {
 		int xTile = 0;
 		int yTile = 28;
@@ -146,7 +144,7 @@ public class Player extends Mob {
 			screen.render(xOffset + 8, yOffset + 3, 31 + 31 * 32, waterColour,
 					0x01, 1);
 		}
-		
+
 		if (isMuddy) {
 			int waterColour = 0;
 			yOffset += 4;
