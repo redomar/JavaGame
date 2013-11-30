@@ -52,4 +52,12 @@ public class Swim {
 		return isMuddy;
 	}
 	
+	public boolean[] swimming(boolean isSwimming, boolean isMagma, boolean isMuddy) {
+		boolean[] swimminhType;
+		swimminhType = new boolean[3];
+		swimminhType [0] = water(isSwimming);
+		swimminhType [1] = magma(isMagma);
+		swimminhType [2] = mud(isMuddy);
+		return swimminhType;
+	}
 }
