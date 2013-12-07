@@ -13,6 +13,7 @@ public class Dummy extends Mob {
 	private int xa = 0;
 	private int ya = 0;
 	private boolean[] swimType;
+	private int[] swimColour;
 
 	private Swim swim;
 
@@ -57,70 +58,24 @@ public class Dummy extends Mob {
 		int xOffset = getX() - modifier / 2;
 		int yOffset = getY() - modifier / 2 - 4;
 
-		if (isSwimming) {
+		if (isSwimming || isMagma || isMuddy) {
+			swimColour = getSwim().waveCols(isSwimming, isMagma, isMuddy);
+			
 			int waterColour = 0;
 			yOffset += 4;
 
 			colour = Colours.get(-1, 111, -1, faceCol);
 
 			if (tickCount % 60 < 15) {
-				waterColour = Colours.get(-1, -1, 255, -1);
+				waterColour = Colours.get(-1, -1, swimColour[0], -1);
 			} else if (15 <= tickCount % 60 && tickCount % 60 < 30) {
 				yOffset--;
-				waterColour = Colours.get(-1, 225, 115, -1);
+				waterColour = Colours.get(-1, swimColour[1], swimColour[2], -1);
 			} else if (30 <= tickCount % 60 && tickCount % 60 < 45) {
-				waterColour = Colours.get(-1, 115, -1, 225);
+				waterColour = Colours.get(-1, swimColour[2], -1, swimColour[1]);
 			} else {
 				yOffset--;
-				waterColour = Colours.get(-1, -1, 225, 115);
-			}
-
-			screen.render(xOffset, yOffset + 3, 31 + 31 * 32, waterColour,
-					0x00, 1);
-			screen.render(xOffset + 8, yOffset + 3, 31 + 31 * 32, waterColour,
-					0x01, 1);
-		}
-
-		if (isMagma) {
-			int waterColour = 0;
-			yOffset += 4;
-
-			colour = Colours.get(-1, 111, -1, faceCol);
-
-			if (tickCount % 60 < 15) {
-				waterColour = Colours.get(-1, -1, 541, -1);
-			} else if (15 <= tickCount % 60 && tickCount % 60 < 30) {
-				yOffset--;
-				waterColour = Colours.get(-1, 521, 510, -1);
-			} else if (30 <= tickCount % 60 && tickCount % 60 < 45) {
-				waterColour = Colours.get(-1, 510, -1, 521);
-			} else {
-				yOffset--;
-				waterColour = Colours.get(-1, -1, 521, 510);
-			}
-
-			screen.render(xOffset, yOffset + 3, 31 + 31 * 32, waterColour,
-					0x00, 1);
-			screen.render(xOffset + 8, yOffset + 3, 31 + 31 * 32, waterColour,
-					0x01, 1);
-		}
-
-		if (isMuddy) {
-			int waterColour = 0;
-			yOffset += 4;
-
-			colour = Colours.get(-1, 111, -1, faceCol);
-
-			if (tickCount % 60 < 15) {
-				waterColour = Colours.get(-1, -1, 422, -1);
-			} else if (15 <= tickCount % 60 && tickCount % 60 < 30) {
-				yOffset--;
-				waterColour = Colours.get(-1, 410, 321, -1);
-			} else if (30 <= tickCount % 60 && tickCount % 60 < 45) {
-				waterColour = Colours.get(-1, 321, -1, 410);
-			} else {
-				yOffset--;
-				waterColour = Colours.get(-1, -1, 410, 321);
+				waterColour = Colours.get(-1, -1, swimColour[1], swimColour[2]);
 			}
 
 			screen.render(xOffset, yOffset + 3, 31 + 31 * 32, waterColour,
