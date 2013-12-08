@@ -11,15 +11,15 @@ public class PlayerMP extends Player {
 	public int port;
 
 	public PlayerMP(LevelHandler level, int x, int y, InputHandler input,
-			String userName, InetAddress ipAddress, int port) {
-		super(level, x, y, input, userName);
+			String userName, InetAddress ipAddress, int port, int shirtCol, int faceCol) {
+		super(level, x, y, input, userName, shirtCol, faceCol);
 		this.ipAddess = ipAddress;
 		this.port = port;
 	}
 
 	public PlayerMP(LevelHandler level, int x, int y, String userName,
-			InetAddress ipAddress, int port) {
-		super(level, x, y, null, userName);
+			InetAddress ipAddress, int port, int shirtCol, int faceCol) {
+		super(level, x, y, null, userName, shirtCol, faceCol);
 		this.ipAddess = ipAddress;
 		this.port = port;
 	}
