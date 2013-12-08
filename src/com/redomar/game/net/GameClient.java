@@ -79,7 +79,7 @@ public class GameClient extends Thread {
 		System.out.println("[" + address.getHostAddress() + ":" + port + "] "
 				+ packet.getUsername() + " has joined...");
 		PlayerMP player = new PlayerMP(Game.getLevel(), packet.getX(),
-				packet.getY(), packet.getUsername(), address, port);
+				packet.getY(), packet.getUsername(), address, port, Game.getShirtCol(), Game.getFaceCol());
 		Game.getLevel().addEntity(player);
 	}
 

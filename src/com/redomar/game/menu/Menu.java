@@ -191,11 +191,34 @@ public class Menu implements Runnable {
 						"Enter the name \nleave blank for local"));
 			}
 			Thread.sleep(125);
-			splash.setProgress(95, "Aquring data: Username");
+			splash.setProgress(94, "Aquring data: Username");
 			Thread.sleep(125);
-			splash.setProgress(96, "Initalizing as Server:Host");
+			splash.setProgress(95, "Initalizing as Server:Host");
 			Game.setJdata_UserName(JOptionPane.showInputDialog(Game.getGame(),
 					"Enter a name"));
+			Thread.sleep(250);
+			splash.setProgress(96, "Collecting Player Data");
+			Object[] options = { "African", "Caucasian"};
+			int n = JOptionPane.showOptionDialog(frame,
+					"Choose a race for the charater to be",
+					"Choose a race", JOptionPane.YES_NO_OPTION,
+					JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+			if(n == 0){
+				Game.setAternateColsR(true);
+			}else{
+				Game.setAternateColsR(false);
+			}
+			Thread.sleep(250);
+			Object[] options1 = { "Orange", "Black"};
+			int n1 = JOptionPane.showOptionDialog(frame,
+					"Which Colour do you want the shirt to be?",
+					"Choose a shirt Colour", JOptionPane.YES_NO_OPTION,
+					JOptionPane.QUESTION_MESSAGE, null, options1, options1[0]);
+			if(n1 == 0){
+				Game.setAternateColsS(true);
+			}else{
+				Game.setAternateColsS(false);
+			}
 			splash.setProgress(97, "Connecting as" + Game.getJdata_UserName());
 			Thread.sleep(250);
 			splash.splashOff();
