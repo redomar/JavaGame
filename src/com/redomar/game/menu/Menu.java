@@ -2,6 +2,7 @@ package com.redomar.game.menu;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferStrategy;
@@ -32,6 +33,7 @@ public class Menu implements Runnable {
 											// SCALE, NAME);
 	private Font font = new Font();
 	private MouseListener Mouse = new Mouse();
+	private KeyListener Key = new MenuInput();
 
 	private Color selected = new Color(0xFFFF8800);
 	private Color deSelected = new Color(0xFFCC5500);
@@ -93,6 +95,7 @@ public class Menu implements Runnable {
 		// frame.getFrame().getContentPane().setBackground(Color.GREEN);
 		frame.addMouseMotionListener((MouseMotionListener) Mouse);
 		frame.addMouseListener(Mouse);
+		frame.addKeyListener(Key);
 		BufferStrategy bs = frame.getBufferStrategy();
 		if (bs == null) {
 			frame.createBufferStrategy(3);

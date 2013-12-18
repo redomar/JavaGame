@@ -47,9 +47,9 @@ public class Game extends Canvas implements Runnable {
 	private static boolean npc = false;
 	private static int map = 0;
 
-	private JFrame frame;
+	private static JFrame frame;
 
-	private boolean running = false;
+	private static boolean running = false;
 	private int tickCount = 0;
 
 	private BufferedImage image = new BufferedImage(WIDTH, HEIGHT,
@@ -144,7 +144,7 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	public synchronized void start() {
-		running = true;
+		Game.setRunning(true);
 		new Thread(this, "GAME").start();
 
 		if (getJdata_Host() == 0) {
@@ -157,7 +157,7 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	public synchronized void stop() {
-		running = false;
+		Game.setRunning(false);
 	}
 
 	public void run() {
@@ -172,7 +172,7 @@ public class Game extends Canvas implements Runnable {
 
 		init();
 
-		while (running) {
+		while (Game.isRunning()) {
 			long now = System.nanoTime();
 			delta += (now - lastTime) / nsPerTick;
 			lastTime = now;
@@ -329,7 +329,7 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	public void setFrame(JFrame frame) {
-		this.frame = frame;
+		Game.frame = frame;
 	}
 
 	public GameClient getSocketClient() {
@@ -394,6 +394,14 @@ public class Game extends Canvas implements Runnable {
 
 	public static void setGame(Game game) {
 		Game.game = game;
+	}
+
+	public static boolean isRunning() {
+		return running;
+	}
+
+	public static void setRunning(boolean running) {
+		Game.running = running;
 	}
 
 	public static boolean isChangeLevel() {
