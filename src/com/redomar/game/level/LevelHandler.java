@@ -9,10 +9,12 @@ import java.util.logging.Level;
 
 import javax.imageio.ImageIO;
 
+import com.redomar.game.Game;
 import com.redomar.game.entities.Entity;
 import com.redomar.game.entities.PlayerMP;
 import com.redomar.game.gfx.Screen;
 import com.redomar.game.level.tiles.Tile;
+import com.redomar.game.net.packets.Packet01Disconnect;
 
 public class LevelHandler {
 
@@ -164,6 +166,8 @@ public class LevelHandler {
 			index++;
 		}
 		this.getEntities().remove(index);
+		Packet01Disconnect packet = new Packet01Disconnect(Game.getPlayer().getUsername());
+		packet.writeData(Game.getSocketClient());
 	}
 
 	private int getPlayerMPIndex(String username) {

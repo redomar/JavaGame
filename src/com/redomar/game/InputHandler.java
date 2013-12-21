@@ -92,6 +92,12 @@ public class InputHandler implements KeyListener {
 				System.out.println("[GAME] Dummy has been despawned");
 			}
 		}
+		if (keyCode == KeyEvent.VK_Q){
+			Game.getLevel().removeEntity(Game.getPlayer().getSantizedUsername());
+			Game.setRunning(false);
+			Game.getFrame().dispose();
+			System.exit(1);
+		}
 	}
 
 	public int getMap() {

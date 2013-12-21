@@ -14,12 +14,14 @@ import com.redomar.game.net.packets.Packet00Login;
 import com.redomar.game.net.packets.Packet01Disconnect;
 import com.redomar.game.net.packets.Packet.PacketTypes;
 import com.redomar.game.net.packets.Packet02Move;
+import com.redomar.game.script.*;
 
 public class GameClient extends Thread {
 
 	private InetAddress ipAddress;
 	private DatagramSocket socket;
 	private Game game;
+	private Printing print = new Printing();
 
 	public GameClient(Game game, String ipAddress) {
 		this.setGame(game);
@@ -62,9 +64,9 @@ public class GameClient extends Thread {
 			break;
 		case DISCONNECT:
 			packet = new Packet01Disconnect(data);
-			System.out.println("[" + address.getHostAddress() + ":" + port
+			print.print("[" + address.getHostAddress() + ":" + port
 					+ "] " + ((Packet01Disconnect) packet).getUsername()
-					+ " has disconnected...");
+					+ " has disconnected...", PrintTypes.NETWORK);
 			Game.getLevel().removeEntity(
 					((Packet01Disconnect) packet).getUsername());
 			break;
@@ -76,8 +78,8 @@ public class GameClient extends Thread {
 	}
 
 	private void handleLogin(Packet00Login packet, InetAddress address, int port) {
-		System.out.println("[" + address.getHostAddress() + ":" + port + "] "
-				+ packet.getUsername() + " has joined...");
+		print.print("[" + address.getHostAddress() + ":" + port + "] "
+				+ packet.getUsername() + " has joined...", PrintTypes.NETWORK);
 		PlayerMP player = new PlayerMP(Game.getLevel(), packet.getX(),
 				packet.getY(), packet.getUsername(), address, port);
 		Game.getLevel().addEntity(player);

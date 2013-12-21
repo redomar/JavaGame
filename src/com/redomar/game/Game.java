@@ -27,6 +27,7 @@ import com.redomar.game.menu.Menu;
 import com.redomar.game.net.GameClient;
 import com.redomar.game.net.GameServer;
 import com.redomar.game.net.packets.Packet00Login;
+import com.redomar.game.script.PrintTypes;
 import com.redomar.game.script.Printing;
 
 public class Game extends Canvas implements Runnable {
@@ -47,9 +48,9 @@ public class Game extends Canvas implements Runnable {
 	private static boolean npc = false;
 	private static int map = 0;
 
-	private JFrame frame;
+	private static JFrame frame;
 
-	private boolean running = false;
+	private static boolean running = false;
 	private int tickCount = 0;
 
 	private BufferedImage image = new BufferedImage(WIDTH, HEIGHT,
@@ -73,7 +74,7 @@ public class Game extends Canvas implements Runnable {
 	private boolean notActive = true;
 	private boolean noAudioDevice = false;
 	private int trigger = 0;
-	private GameClient socketClient;
+	private static GameClient socketClient;
 	private GameServer socketServer;
 	private Printing print = new Printing();
 
@@ -144,7 +145,7 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	public synchronized void start() {
-		running = true;
+		Game.setRunning(true);
 		new Thread(this, "GAME").start();
 
 		if (getJdata_Host() == 0) {
@@ -157,7 +158,7 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	public synchronized void stop() {
-		running = false;
+		Game.setRunning(false);
 	}
 
 	public void run() {
@@ -172,7 +173,7 @@ public class Game extends Canvas implements Runnable {
 
 		init();
 
-		while (running) {
+		while (Game.isRunning()) {
 			long now = System.nanoTime();
 			delta += (now - lastTime) / nsPerTick;
 			lastTime = now;
@@ -251,7 +252,7 @@ public class Game extends Canvas implements Runnable {
 					notActive = false;
 				} else {
 					// System.out.println("[GAME] Canceled music option");
-					print.print(" Canceled music option", 1);
+					print.print(" Canceled music option", PrintTypes.GAME);
 					input.setPlayMusic(false);
 				}
 			}
@@ -284,6 +285,8 @@ public class Game extends Canvas implements Runnable {
 				"Welcome "
 						+ WordUtils.capitalizeFully(player
 								.getSantizedUsername()), 3, getHeight() - 17);
+		g.setColor(Color.ORANGE);
+		g.drawString("Press Q to quit", (getWidth()/2)-("Press Q to quit".length()*3), getHeight() -17);
 		g.setColor(Color.YELLOW);
 		g.drawString(time.getTime(), (getWidth() - 58), (getHeight() - 3));
 		g.setColor(Color.WHITE);
@@ -324,20 +327,20 @@ public class Game extends Canvas implements Runnable {
 		new Menu().start();
 	}
 
-	public JFrame getFrame() {
-		return frame;
+	public static JFrame getFrame() {
+		return Game.frame;
 	}
 
-	public void setFrame(JFrame frame) {
-		this.frame = frame;
+	public static void setFrame(JFrame frame) {
+		Game.frame = frame;
 	}
 
-	public GameClient getSocketClient() {
+	public static GameClient getSocketClient() {
 		return socketClient;
 	}
 
 	public void setSocketClient(GameClient socketClient) {
-		this.socketClient = socketClient;
+		Game.socketClient = socketClient;
 	}
 
 	public static Player getPlayer() {
@@ -394,6 +397,14 @@ public class Game extends Canvas implements Runnable {
 
 	public static void setGame(Game game) {
 		Game.game = game;
+	}
+
+	public static boolean isRunning() {
+		return running;
+	}
+
+	public static void setRunning(boolean running) {
+		Game.running = running;
 	}
 
 	public static boolean isChangeLevel() {

@@ -7,11 +7,32 @@ public class Swim {
 	private static LevelHandler level;
 	private int x;
 	private int y;
+	private int[] swimCols = new int[3];
 
 	public Swim(LevelHandler level, int x, int y) {
 		Swim.level = level;
 		this.x = x;
 		this.y = y;
+	}
+	
+	public int[] waveCols(boolean isSwimming, boolean isMagma, boolean isMuddy){
+		
+		if(isSwimming){
+			swimCols[0] = 255;
+			swimCols[1] = 255;
+			swimCols[2] = 115;
+		}
+		if(isMagma){		
+			swimCols[0] = 541;
+			swimCols[1] = 521;
+			swimCols[2] = 510;
+		}
+		if(isMuddy){		
+			swimCols[0] = 422;
+			swimCols[1] = 410;
+			swimCols[2] = 321;
+		}
+		return swimCols;
 	}
 
 	public boolean water(boolean isSwimming) {
