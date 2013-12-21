@@ -27,6 +27,7 @@ import com.redomar.game.menu.Menu;
 import com.redomar.game.net.GameClient;
 import com.redomar.game.net.GameServer;
 import com.redomar.game.net.packets.Packet00Login;
+import com.redomar.game.script.PrintTypes;
 import com.redomar.game.script.Printing;
 
 public class Game extends Canvas implements Runnable {
@@ -251,7 +252,7 @@ public class Game extends Canvas implements Runnable {
 					notActive = false;
 				} else {
 					// System.out.println("[GAME] Canceled music option");
-					print.print(" Canceled music option", 1);
+					print.print(" Canceled music option", PrintTypes.GAME);
 					input.setPlayMusic(false);
 				}
 			}
