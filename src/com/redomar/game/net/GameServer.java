@@ -15,12 +15,14 @@ import com.redomar.game.net.packets.Packet00Login;
 import com.redomar.game.net.packets.Packet.PacketTypes;
 import com.redomar.game.net.packets.Packet01Disconnect;
 import com.redomar.game.net.packets.Packet02Move;
+import com.redomar.game.script.*;
 
 public class GameServer extends Thread {
 
 	private DatagramSocket socket;
 	private Game game;
 	private List<PlayerMP> connectedPlayers = new ArrayList<PlayerMP>();
+	private Printing print = new Printing();
 
 	public GameServer(Game game) {
 		this.setGame(game);
@@ -63,18 +65,18 @@ public class GameServer extends Thread {
 			break;
 		case LOGIN:
 			packet = new Packet00Login(data);
-			System.out.println("[" + address.getHostAddress() + ":" + port
+			print.print("[" + address.getHostAddress() + ":" + port
 					+ "] " + ((Packet00Login) packet).getUsername()
-					+ " has connected...");
+					+ " has connected...", PrintTypes.SERVER);
 			PlayerMP player = new PlayerMP(Game.getLevel(), 10, 10,
 					((Packet00Login) packet).getUsername(), address, port);
 			this.addConnection(player, (Packet00Login) packet);
 			break;
 		case DISCONNECT:
 			packet = new Packet01Disconnect(data);
-			System.out.println("[" + address.getHostAddress() + ":" + port
+			print.print("[" + address.getHostAddress() + ":" + port
 					+ "] " + ((Packet01Disconnect) packet).getUsername()
-					+ " has disconnected...");
+					+ " has disconnected...", PrintTypes.SERVER);
 			this.removeConnection((Packet01Disconnect) packet);
 			break;
 		case MOVE:
