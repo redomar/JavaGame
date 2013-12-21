@@ -284,6 +284,8 @@ public class Game extends Canvas implements Runnable {
 				"Welcome "
 						+ WordUtils.capitalizeFully(player
 								.getSantizedUsername()), 3, getHeight() - 17);
+		g.setColor(Color.ORANGE);
+		g.drawString("Press Q to quit", (getWidth()/2)-("Press Q to quit".length()*3), getHeight() -17);
 		g.setColor(Color.YELLOW);
 		g.drawString(time.getTime(), (getWidth() - 58), (getHeight() - 3));
 		g.setColor(Color.WHITE);

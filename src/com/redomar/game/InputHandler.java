@@ -3,9 +3,14 @@ package com.redomar.game;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import com.redomar.game.net.packets.Packet01Disconnect;
+
 public class InputHandler implements KeyListener {
+	
+	private final Game game;
 
 	public InputHandler(Game game) {
+		this.game = game;
 		game.addKeyListener(this);
 	}
 
@@ -91,6 +96,11 @@ public class InputHandler implements KeyListener {
 				Game.npcKill();
 				System.out.println("[GAME] Dummy has been despawned");
 			}
+		}
+		if (keyCode == KeyEvent.VK_Q){
+			Packet01Disconnect packet = new Packet01Disconnect(Game.getPlayer().getUsername());
+			packet.writeData(this.game.getSocketClient());
+			System.exit(1);
 		}
 	}
 
