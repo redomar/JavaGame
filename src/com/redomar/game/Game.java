@@ -74,7 +74,7 @@ public class Game extends Canvas implements Runnable {
 	private boolean notActive = true;
 	private boolean noAudioDevice = false;
 	private int trigger = 0;
-	private GameClient socketClient;
+	private static GameClient socketClient;
 	private GameServer socketServer;
 	private Printing print = new Printing();
 
@@ -327,20 +327,20 @@ public class Game extends Canvas implements Runnable {
 		new Menu().start();
 	}
 
-	public JFrame getFrame() {
-		return frame;
+	public static JFrame getFrame() {
+		return Game.frame;
 	}
 
-	public void setFrame(JFrame frame) {
+	public static void setFrame(JFrame frame) {
 		Game.frame = frame;
 	}
 
-	public GameClient getSocketClient() {
+	public static GameClient getSocketClient() {
 		return socketClient;
 	}
 
 	public void setSocketClient(GameClient socketClient) {
-		this.socketClient = socketClient;
+		Game.socketClient = socketClient;
 	}
 
 	public static Player getPlayer() {

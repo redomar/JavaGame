@@ -7,11 +7,12 @@ import com.redomar.game.net.packets.Packet01Disconnect;
 
 public class WindowHandler implements WindowListener {
 
+	@SuppressWarnings("unused")
 	private final Game game;
 
 	public WindowHandler(Game game) {
 		this.game = game;
-		this.game.getFrame().addWindowListener(this);
+		Game.getFrame().addWindowListener(this);
 	}
 
 	@Override
@@ -28,7 +29,7 @@ public class WindowHandler implements WindowListener {
 	public void windowClosing(WindowEvent event) {
 		Packet01Disconnect packet = new Packet01Disconnect(Game.getPlayer()
 				.getUsername());
-		packet.writeData(this.game.getSocketClient());
+		packet.writeData(Game.getSocketClient());
 	}
 
 	@Override

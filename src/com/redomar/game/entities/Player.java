@@ -57,7 +57,8 @@ public class Player extends Mob {
 			Packet02Move packet = new Packet02Move(this.getUsername(),
 					this.getX(), this.getY(), this.numSteps, this.isMoving,
 					this.movingDir);
-			packet.writeData(Game.getGame().getSocketClient());
+			Game.getGame();
+			packet.writeData(Game.getSocketClient());
 
 		} else {
 			isMoving = false;

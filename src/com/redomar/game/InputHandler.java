@@ -3,14 +3,9 @@ package com.redomar.game;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import com.redomar.game.net.packets.Packet01Disconnect;
-
 public class InputHandler implements KeyListener {
-	
-	private final Game game;
 
 	public InputHandler(Game game) {
-		this.game = game;
 		game.addKeyListener(this);
 	}
 
@@ -98,8 +93,9 @@ public class InputHandler implements KeyListener {
 			}
 		}
 		if (keyCode == KeyEvent.VK_Q){
-			Packet01Disconnect packet = new Packet01Disconnect(Game.getPlayer().getUsername());
-			packet.writeData(this.game.getSocketClient());
+			Game.getLevel().removeEntity(Game.getPlayer().getSantizedUsername());
+			Game.setRunning(false);
+			Game.getFrame().dispose();
 			System.exit(1);
 		}
 	}
