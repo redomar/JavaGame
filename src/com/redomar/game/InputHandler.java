@@ -3,6 +3,9 @@ package com.redomar.game;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import com.redomar.game.script.PrintTypes;
+import com.redomar.game.script.Printing;
+
 public class InputHandler implements KeyListener {
 
 	public InputHandler(Game game) {
@@ -33,6 +36,7 @@ public class InputHandler implements KeyListener {
 	private Key down = new Key();
 	private Key left = new Key();
 	private Key right = new Key();
+	private Printing print = new Printing();
 	private boolean PlayMusic = false;
 	private int map;
 
@@ -82,14 +86,14 @@ public class InputHandler implements KeyListener {
 			if (Game.isNpc() == false) {
 				Game.setNpc(true);
 				Game.npcSpawn();
-				System.out.println("[GAME] Dummy has been spawned");
+				print.print("Dummy has been spawned", PrintTypes.GAME);
 			}
 		}
 		if (keyCode == KeyEvent.VK_K) {
 			if (Game.isNpc() == true) {
 				Game.setNpc(false);
 				Game.npcKill();
-				System.out.println("[GAME] Dummy has been despawned");
+				print.print("Dummy has been despawned", PrintTypes.GAME);
 			}
 		}
 		if (keyCode == KeyEvent.VK_Q){
