@@ -25,3 +25,6 @@ Watch this video [here](http://youtu.be/_3nCgac3KKM) or checkout the [GitHub Pag
 * Commit your changes (```git commit -am "Change Title"```)
 * Push to the branch (```git push origin my_branch```)
 * Open a [Pull Request](https://github.com/redomar/JavaGame/pull/new/master)
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/redomar/javagame/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
