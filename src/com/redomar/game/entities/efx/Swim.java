@@ -78,4 +78,16 @@ public class Swim {
 		swimminhType[2] = mud(isMuddy);
 		return swimminhType;
 	}
+	
+	public boolean isActive(boolean[] swimmingType){
+		if(swimmingType[0] == true){
+			return true;
+		}else if(swimmingType[1] == true){
+			return true;
+		}else if(swimmingType[2] == true){
+			return true;
+		} else {			
+			return false;
+		}
+	}
 }

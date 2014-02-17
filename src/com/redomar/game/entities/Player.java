@@ -86,6 +86,11 @@ public class Player extends Mob {
 
 		if (movingDir == 1) {
 			xTile += 2;
+			if (!isMoving || swim.isActive(swimType)){
+				yTile -= 2;
+			}
+		} else if (movingDir == 0 && !isMoving || movingDir == 0 && swim.isActive(swimType)) {
+			yTile -= 2;
 		} else if (movingDir > 1) {
 			xTile += 4 + ((numSteps >> walkingSpeed) & 1) * 2;
 			flipTop = (movingDir - 1) % 2;
