@@ -1,4 +1,4 @@
-JavaGame Alpha v1.6.3
+JavaGame Alpha v1.6.4
 =====================
 
 [![Ohloh Stats](https://www.ohloh.net/p/JavaGame/widgets/project_thin_badge.gif)](https://www.ohloh.net/p/JavaGame)
