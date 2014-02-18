@@ -139,7 +139,7 @@ public class Game extends Canvas implements Runnable {
 			Game.setFaceCol(310);
 		}
 		if(!alternateCols[1]){
-			Game.setFaceCol(444);
+			Game.setFaceCol(543);
 		}
 		setPlayer(new PlayerMP(getLevel(), 100, 100, input,
 				getJdata_UserName(), null, -1, shirtCol, faceCol));
