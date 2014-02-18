@@ -47,6 +47,9 @@ public class Game extends Canvas implements Runnable {
 	private static boolean changeLevel = false;
 	private static boolean npc = false;
 	private static int map = 0;
+	private static int shirtCol;
+	private static int faceCol;
+	private static boolean[] alternateCols = new boolean[2];
 
 	private static JFrame frame;
 
@@ -126,8 +129,20 @@ public class Game extends Canvas implements Runnable {
 
 	public void setMap(String Map_str) {
 		setLevel(new LevelHandler(Map_str));
+		if(alternateCols[0]){
+			Game.setShirtCol(240);
+		}
+		if(!alternateCols[0]){
+			Game.setShirtCol(111);
+		}
+		if(alternateCols[1]){
+			Game.setFaceCol(310);
+		}
+		if(!alternateCols[1]){
+			Game.setFaceCol(543);
+		}
 		setPlayer(new PlayerMP(getLevel(), 100, 100, input,
-				getJdata_UserName(), null, -1));
+				getJdata_UserName(), null, -1, shirtCol, faceCol));
 		level.addEntity(player);
 	}
 
@@ -465,6 +480,38 @@ public class Game extends Canvas implements Runnable {
 
 	public static String getGameVersion() {
 		return game_Version;
+	}
+
+	public static int getShirtCol() {
+		return shirtCol;
+	}
+
+	public static void setShirtCol(int shirtCol) {
+		Game.shirtCol = shirtCol;
+	}
+
+	public static int getFaceCol() {
+		return faceCol;
+	}
+
+	public static void setFaceCol(int faceCol) {
+		Game.faceCol = faceCol;
+	}
+
+	public static boolean[] getAlternateCols() {
+		return alternateCols;
+	}
+
+	public static void setAlternateCols(boolean[] alternateCols) {
+		Game.alternateCols = alternateCols;
+	}
+	
+	public static void setAternateColsR(boolean alternateCols){
+		Game.alternateCols[1] = alternateCols;
+	}
+	
+	public static void setAternateColsS(boolean alternateCols){
+		Game.alternateCols[0] = alternateCols;
 	}
 
 }

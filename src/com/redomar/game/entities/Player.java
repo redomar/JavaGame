@@ -16,7 +16,7 @@ public class Player extends Mob {
 	private static Name customeName = new Name();
 	private Swim swim;
 
-	private int colour = Colours.get(-1, 111, 240, 310);
+	private int colour, shirtCol, faceCol;
 	private int tickCount = 0;
 	private String userName;
 	private boolean[] swimType;
@@ -25,10 +25,13 @@ public class Player extends Mob {
 	public static String guestPlayerName = customeName.setName("Player ");
 
 	public Player(LevelHandler level, int x, int y, InputHandler input,
-			String userName) {
+			String userName,  int shirtCol,	int faceCol) {
 		super(level, "Player", x, y, 1);
 		this.input = input;
 		this.userName = userName;
+		this.faceCol = faceCol;
+		this.shirtCol = shirtCol;
+		this.colour = Colours.get(-1, 111, shirtCol, faceCol);
 	}
 
 	public void tick() {
@@ -110,7 +113,7 @@ public class Player extends Mob {
 			int waterColour = 0;
 			yOffset += 4;
 
-			colour = Colours.get(-1, 111, -1, 310);
+			colour = Colours.get(-1, 111, -1, faceCol);
 
 			if (tickCount % 60 < 15) {
 				waterColour = Colours.get(-1, -1, swimColour[0], -1);
@@ -141,7 +144,7 @@ public class Player extends Mob {
 			screen.render((xOffset + modifier - (modifier * flipBottom)),
 					(yOffset + modifier), ((xTile + 1) + (yTile + 1) * 32),
 					colour, flipBottom, scale);
-			colour = Colours.get(-1, 111, 240, 310);
+			colour = Colours.get(-1, 111, shirtCol, faceCol);
 			;
 		}
 

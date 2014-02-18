@@ -69,7 +69,7 @@ public class GameServer extends Thread {
 					+ "] " + ((Packet00Login) packet).getUsername()
 					+ " has connected...", PrintTypes.SERVER);
 			PlayerMP player = new PlayerMP(Game.getLevel(), 10, 10,
-					((Packet00Login) packet).getUsername(), address, port);
+					((Packet00Login) packet).getUsername(), address, port, Game.getShirtCol(), Game.getFaceCol());
 			this.addConnection(player, (Packet00Login) packet);
 			break;
 		case DISCONNECT:
