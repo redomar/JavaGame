@@ -9,6 +9,7 @@ import com.redomar.game.level.LevelHandler;
 import com.redomar.game.lib.Font;
 import com.redomar.game.lib.Name;
 import com.redomar.game.net.packets.Packet02Move;
+import com.redomar.game.objects.Inventory;
 
 public class Player extends Mob {
 
@@ -86,6 +87,8 @@ public class Player extends Mob {
 		int walkingSpeed = 4;
 		int flipTop = (numSteps >> walkingSpeed) & 1;
 		int flipBottom = (numSteps >> walkingSpeed) & 1;
+		
+		Inventory.activate();
 
 		if (movingDir == 1) {
 			xTile += 2;
