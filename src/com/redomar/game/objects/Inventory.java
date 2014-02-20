@@ -14,9 +14,21 @@ public class Inventory {
 		
 		if(Game.getLevel().getTile(x >> 3, y >> 3).getId() == 8){
 			if(!open){
-				System.out.println("Open");
+				System.out.println("Opened\nInside this Bag their is:"+inside());
 				open = true;
 			}
+		}else{
+			if(open){
+				open = false;
+			}
 		}
+	}
+	
+	private static String inside(){
+		String items = " ";
+		for (Items item : Items.values()) {
+			items = items + item.toString() + ", ";
+		}
+		return items;
 	}
 }
