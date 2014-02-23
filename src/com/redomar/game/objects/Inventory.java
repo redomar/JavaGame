@@ -7,6 +7,7 @@ public class Inventory {
 	public static int x;
 	public static int y;
 	public static boolean open = false;
+	private static InventoryWindow inv_window = new InventoryWindow();
 	
 	public static void activate() {
 		x = Game.getPlayer().getX();
@@ -16,10 +17,15 @@ public class Inventory {
 			if(!open){
 				System.out.println("Opened\nInside this Bag their is:"+inside());
 				open = true;
+				Game.getPlayer().setMoving(false);
+				inv_window.start();
 			}
 		}else{
 			if(open){
 				open = false;
+				inv_window.stop();
+				inv_window.getFrame().setVisible(false);
+				inv_window.getFrame().stopFrame();
 			}
 		}
 	}
