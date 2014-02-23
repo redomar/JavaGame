@@ -18,11 +18,13 @@ public class Inventory {
 				System.out.println("Opened\nInside this Bag their is:"+inside());
 				open = true;
 				Game.getPlayer().setMoving(false);
+				//Game.getInput().untoggle(true);
 				inv_window.start();
 			}
 		}else{
 			if(open){
 				open = false;
+				//Game.getInput().untoggle(false);
 				inv_window.stop();
 				inv_window.getFrame().setVisible(false);
 				inv_window.getFrame().stopFrame();

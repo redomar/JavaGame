@@ -65,7 +65,7 @@ public class Game extends Canvas implements Runnable {
 	private BufferedImage image2 = new BufferedImage(WIDTH, HEIGHT - 30,
 			BufferedImage.TYPE_INT_RGB);
 	private Screen screen;
-	private InputHandler input;
+	private static InputHandler input;
 	private WindowHandler window;
 	private LevelHandler level;
 	private Player player;
@@ -512,6 +512,14 @@ public class Game extends Canvas implements Runnable {
 	
 	public static void setAternateColsS(boolean alternateCols){
 		Game.alternateCols[0] = alternateCols;
+	}
+
+	public static InputHandler getInput() {
+		return input;
+	}
+
+	public void setInput(InputHandler input) {
+		Game.input = input;
 	}
 
 }
