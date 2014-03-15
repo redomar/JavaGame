@@ -36,6 +36,13 @@ public abstract class Mob extends Entity {
 			return;
 		}
 		numSteps++;
+		
+		//Moving Directions
+		//0 = Facing UP
+		//1 = Facing Down
+		//2 = Facing Left
+		//3 = Facing Right
+		
 		if (!hasCollided(xa, ya)) {
 			if (ya < 0) {
 				movingDir = 0;
