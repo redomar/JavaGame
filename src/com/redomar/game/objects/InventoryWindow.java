@@ -16,6 +16,7 @@ public class InventoryWindow implements Runnable{
 	private static boolean running = false;
 	
 	private static DedicatedJFrame frame;
+	private static InventoryHandler window;
 
 	public synchronized void start(){
 		running = true;
@@ -36,6 +37,8 @@ public class InventoryWindow implements Runnable{
 
 		long lastTimer = System.currentTimeMillis();
 		double delta = 0;
+		
+		setWindow(new InventoryHandler(getFrame()));
 
 		while (running) {
 			long now = System.nanoTime();
@@ -92,5 +95,13 @@ public class InventoryWindow implements Runnable{
 
 	public static void setFrame(DedicatedJFrame frame) {
 		InventoryWindow.frame = frame;
+	}
+
+	public static InventoryHandler getWindow() {
+		return window;
+	}
+
+	public static void setWindow(InventoryHandler inventoryHandler) {
+		InventoryWindow.window = inventoryHandler;
 	}
 }

@@ -29,6 +29,10 @@ public class DedicatedJFrame extends Canvas {
 	public JFrame getFrame() {
 		return frame;
 	}
+	
+	public static JFrame getFrameStatic(){
+		return frame;
+	}
 
 	public void setFrame(JFrame frame) {
 		DedicatedJFrame.frame = frame;
