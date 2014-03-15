@@ -106,6 +106,10 @@ public abstract class Mob extends Entity {
 		this.numSteps = numSteps;
 	}
 
+	public int getNumSteps() {
+		return numSteps;
+	}
+
 	public void setMoving(boolean isMoving) {
 		this.isMoving = isMoving;
 	}

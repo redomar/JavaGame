@@ -50,6 +50,9 @@ public class Game extends Canvas implements Runnable {
 	private static int shirtCol;
 	private static int faceCol;
 	private static boolean[] alternateCols = new boolean[2];
+	private static int fps;
+	private static int tps;
+	private static int steps;
 
 	private static JFrame frame;
 
@@ -215,6 +218,8 @@ public class Game extends Canvas implements Runnable {
 			if (System.currentTimeMillis() - lastTimer >= 1000) {
 				lastTimer += 1000;
 				getFrame().setTitle("Frames: " + frames + " Ticks: " + ticks);
+				fps = frames;
+				tps = ticks;
 				frames = 0;
 				ticks = 0;
 			}
@@ -304,6 +309,7 @@ public class Game extends Canvas implements Runnable {
 		g.drawString("Press Q to quit", (getWidth()/2)-("Press Q to quit".length()*3), getHeight() -17);
 		g.setColor(Color.YELLOW);
 		g.drawString(time.getTime(), (getWidth() - 58), (getHeight() - 3));
+		status(g, true);
 		g.setColor(Color.WHITE);
 		if (noAudioDevice == true) {
 			g.setColor(Color.RED);
@@ -336,6 +342,19 @@ public class Game extends Canvas implements Runnable {
 		}
 		g.dispose();
 		bs.show();
+	}
+
+	private void status(Graphics g, boolean TerminalMode) {
+		if (TerminalMode == true){
+			g.setColor(Color.GREEN);
+			g.drawString("JavaGame Stats", 0, 10);
+			g.drawString("FPS/TPS: " + fps + "/" + tps, 0, 25);
+			if ((player.getNumSteps() & 15) == 15) {
+				steps += 1;
+			}
+			g.drawString("Foot Steps: " + steps, 0, 40);
+			g.drawString("NPC: " + WordUtils.capitalize(String.valueOf(isNpc())) , 0, 55);
+		}
 	}
 
 	public static void main(String[] args) {
