@@ -3,6 +3,7 @@ package com.redomar.game;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import com.redomar.game.lib.SleepThread;
 import com.redomar.game.script.PrintTypes;
 import com.redomar.game.script.Printing;
 
@@ -40,7 +41,7 @@ public class InputHandler implements KeyListener {
 	private boolean PlayMusic = false;
 	private int map;
 	private boolean untoggle = false;
-
+	
 	public void keyPressed(KeyEvent e) {
 		toggleKey(e.getKeyCode(), true);
 	}
@@ -109,6 +110,14 @@ public class InputHandler implements KeyListener {
 			Game.setRunning(false);
 			Game.getFrame().dispose();
 			System.exit(1);
+		}
+
+		if (keyCode == KeyEvent.VK_BACK_QUOTE){
+			if (Game.isDevTime() == false && Game.isDevMode() == false){
+				Game.setDevMode(true);
+				Game.setDevTime(true);
+				new Thread(new SleepThread());
+			}
 		}
 	}
 	

@@ -53,6 +53,7 @@ public class Game extends Canvas implements Runnable {
 	private static int fps;
 	private static int tps;
 	private static int steps;
+	private static boolean[] devMode = new boolean[2];
 
 	private static JFrame frame;
 
@@ -98,6 +99,8 @@ public class Game extends Canvas implements Runnable {
 		getFrame().setLocationRelativeTo(null);
 		getFrame().setVisible(true);
 
+		setDevMode(false);
+		setDevTime(false);
 	}
 
 	public void init() {
@@ -309,7 +312,7 @@ public class Game extends Canvas implements Runnable {
 		g.drawString("Press Q to quit", (getWidth()/2)-("Press Q to quit".length()*3), getHeight() -17);
 		g.setColor(Color.YELLOW);
 		g.drawString(time.getTime(), (getWidth() - 58), (getHeight() - 3));
-		status(g, true);
+		status(g, isDevMode());
 		g.setColor(Color.WHITE);
 		if (noAudioDevice == true) {
 			g.setColor(Color.RED);
@@ -539,6 +542,22 @@ public class Game extends Canvas implements Runnable {
 
 	public void setInput(InputHandler input) {
 		Game.input = input;
+	}
+
+	public static boolean isDevMode() {
+		return devMode[0];
+	}
+
+	public static void setDevMode(boolean devMode) {
+		Game.devMode[0] = devMode;
+	}
+
+	public static boolean isDevTime() {
+		return devMode[1];
+	}
+
+	public static void setDevTime(boolean devTime) {
+		Game.devMode[1] = devTime;
 	}
 
 }
