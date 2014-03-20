@@ -33,6 +33,8 @@ public class Dummy extends Mob {
 		if (players.size() > 0) {
 			followMovementAI(getX(), getY(), Game.getPlayer().getX(), Game
 					.getPlayer().getY(), xa, ya, this);
+		}else{
+			isMoving = false;
 		}
 
 		setSwim(new Swim(level, getX(), getY()));
@@ -62,6 +64,9 @@ public class Dummy extends Mob {
 		} else if (movingDir > 1) {
 			xTile += 4 + ((numSteps >> walkingSpeed) & 1) * 2;
 			flipTop = (movingDir - 1) % 2;
+			if(!isMoving){
+				xTile = 4;
+			}
 		}
 
 		int modifier = 8 * scale;
@@ -107,39 +112,6 @@ public class Dummy extends Mob {
 					colour, flipBottom, scale);
 			colour = Colours.get(-1, 111, shirtCol, faceCol);
 		}
-	}
-
-	public boolean hasCollided(int xa, int ya) {
-		int xMin = 0;
-		int xMax = 7;
-		int yMin = 3;
-		int yMax = 7;
-
-		for (int x = xMin; x < xMax; x++) {
-			if (isSolid(xa, ya, x, yMin)) {
-				return true;
-			}
-		}
-
-		for (int x = xMin; x < xMax; x++) {
-			if (isSolid(xa, ya, x, yMax)) {
-				return true;
-			}
-		}
-
-		for (int y = yMin; y < yMax; y++) {
-			if (isSolid(xa, ya, xMin, y)) {
-				return true;
-			}
-		}
-
-		for (int y = yMin; y < yMax; y++) {
-			if (isSolid(xa, ya, xMax, y)) {
-				return true;
-			}
-		}
-
-		return false;
 	}
 
 	public Swim getSwim() {

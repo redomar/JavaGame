@@ -43,25 +43,57 @@ public abstract class Mob extends Entity {
 		//2 = Facing Left
 		//3 = Facing Right
 		
+		if (ya < 0) {
+			movingDir = 0;
+		}
+		if (ya > 0) {
+			movingDir = 1;
+		}
+		if (xa < 0) {
+			movingDir = 2;
+		}
+		if (xa > 0) {
+			movingDir = 3;
+		}
+		
 		if (!hasCollided(xa, ya)) {
-			if (ya < 0) {
-				movingDir = 0;
-			}
-			if (ya > 0) {
-				movingDir = 1;
-			}
-			if (xa < 0) {
-				movingDir = 2;
-			}
-			if (xa > 0) {
-				movingDir = 3;
-			}
 			setX(getX() + xa * (int) speed);
 			setY(getY() + ya * (int) speed);
 		}
 	}
 
-	public abstract boolean hasCollided(int xa, int ya);
+	public boolean hasCollided(int xa, int ya){
+		int xMin = 0;
+		int xMax = 7;
+		int yMin = 3;
+		int yMax = 7;
+
+		for (int x = xMin; x < xMax; x++) {
+			if (isSolid(xa, ya, x, yMin)) {
+				return true;
+			}
+		}
+
+		for (int x = xMin; x < xMax; x++) {
+			if (isSolid(xa, ya, x, yMax)) {
+				return true;
+			}
+		}
+
+		for (int y = yMin; y < yMax; y++) {
+			if (isSolid(xa, ya, xMin, y)) {
+				return true;
+			}
+		}
+
+		for (int y = yMin; y < yMax; y++) {
+			if (isSolid(xa, ya, xMax, y)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 
 	protected boolean isSolid(int xa, int ya, int x, int y) {
 
