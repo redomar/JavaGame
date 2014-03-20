@@ -56,9 +56,16 @@ public abstract class Mob extends Entity {
 			movingDir = 3;
 		}
 		
-		if (!hasCollided(xa, ya)) {
-			setX(getX() + xa * (int) speed);
-			setY(getY() + ya * (int) speed);
+		for (int x = 0; x < Math.abs(xa); x++) {
+			if (!hasCollided(abs(xa), ya)) {
+				setX(getX() + abs(xa) * (int) speed);
+			}
+		}
+		
+		for (int y = 0; y < Math.abs(ya); y++) {
+			if (!hasCollided(xa, abs(ya))) {
+				setY(getY() + abs(ya) * (int) speed);
+			}
 		}
 	}
 
@@ -93,6 +100,25 @@ public abstract class Mob extends Entity {
 		}
 
 		return false;
+	}
+	
+	public boolean hasCollidedAlt(int xa, int ya){
+		boolean solid = false;
+		for (int c = 0; c < 4; c++) {
+			int xt = ((x + xa) - c % 2 * 8) / 8;
+			int yt = ((y + ya) - c / 2 * 8) / 8;
+			int ix = (int) Math.ceil(xt);
+			int iy = (int) Math.ceil(yt);
+			if (c % 2 == 0) ix = (int) Math.floor(xt);
+			if (c / 2 == 0) iy = (int) Math.floor(yt);
+			if(level.getTile(ix, iy).isSolid()) solid = true;
+		}
+		return solid;
+	}
+	
+	private int abs(int i){
+		if (i < 0) return -1;
+		return 1;
 	}
 
 	protected boolean isSolid(int xa, int ya, int x, int y) {

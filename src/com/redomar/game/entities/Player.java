@@ -17,6 +17,8 @@ public class Player extends Mob {
 	private static Name customeName = new Name();
 	private Swim swim;
 
+	private static double speed = 1;
+	
 	private int colour, shirtCol, faceCol;
 	private int tickCount = 0;
 	private String userName;
@@ -27,7 +29,7 @@ public class Player extends Mob {
 
 	public Player(LevelHandler level, int x, int y, InputHandler input,
 			String userName,  int shirtCol,	int faceCol) {
-		super(level, "Player", x, y, 1);
+		super(level, "Player", x, y, speed);
 		this.input = input;
 		this.userName = userName;
 		this.faceCol = faceCol;
@@ -186,6 +188,14 @@ public class Player extends Mob {
 
 	public void setSwim(Swim swim) {
 		this.swim = swim;
+	}
+
+	public static double getSpeed() {
+		return speed;
+	}
+
+	public static void setSpeed(double speed) {
+		Player.speed = speed;
 	}
 
 }
