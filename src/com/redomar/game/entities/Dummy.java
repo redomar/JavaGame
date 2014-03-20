@@ -1,5 +1,7 @@
 package com.redomar.game.entities;
 
+import java.util.List;
+
 import com.redomar.game.Game;
 import com.redomar.game.entities.efx.Swim;
 import com.redomar.game.gfx.Colours;
@@ -27,8 +29,11 @@ public class Dummy extends Mob {
 
 	public void tick() {
 
-		followMovementAI(getX(), getY(), Game.getPlayer().getX(), Game
-				.getPlayer().getY(), xa, ya, this);
+		List<Player> players = level.getPlayers(this, 10);
+		if (players.size() > 0) {
+			followMovementAI(getX(), getY(), Game.getPlayer().getX(), Game
+					.getPlayer().getY(), xa, ya, this);
+		}
 
 		setSwim(new Swim(level, getX(), getY()));
 		swimType = getSwim().swimming(isSwimming, isMagma, isMuddy);
