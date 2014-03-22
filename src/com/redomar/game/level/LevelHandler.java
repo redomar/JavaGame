@@ -196,12 +196,12 @@ public class LevelHandler {
 	
 	public List<Entity> getEntities(Entity e, int radius){
 		List<Entity> result = new ArrayList<Entity>();
-		int ex = e.getX();
-		int ey = e.getY();
+		int ex = (int) e.getX();
+		int ey = (int) e.getY();
 		for (int i = 0; i < entities.size(); i++) {
 			Entity entity = entities.get(i);
-			int x = entity.getX();
-			int y = entity.getY();
+			int x = (int) entity.getX();
+			int y = (int) entity.getY();
 			
 			int dx = Math.abs(x - ex);
 			int dy = Math.abs(y - ey);

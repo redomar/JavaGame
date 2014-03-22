@@ -5,7 +5,7 @@ import com.redomar.game.level.LevelHandler;
 
 public abstract class Entity {
 
-	protected int x, y;
+	protected double x, y;
 	protected LevelHandler level;
 
 	public Entity(LevelHandler level) {
@@ -20,7 +20,7 @@ public abstract class Entity {
 
 	public abstract void render(Screen screen);
 
-	public int getX() {
+	public double getX() {
 		return x;
 	}
 
@@ -28,7 +28,7 @@ public abstract class Entity {
 		this.x = x;
 	}
 
-	public int getY() {
+	public double getY() {
 		return y;
 	}
 

@@ -61,7 +61,7 @@ public class Player extends Mob {
 			isMoving = true;
 
 			Packet02Move packet = new Packet02Move(this.getUsername(),
-					this.getX(), this.getY(), this.numSteps, this.isMoving,
+					(int) this.getX(), (int) this.getY(), this.numSteps, this.isMoving,
 					this.movingDir);
 			Game.getGame();
 			packet.writeData(Game.getSocketClient());
@@ -70,13 +70,13 @@ public class Player extends Mob {
 			isMoving = false;
 		}
 
-		setSwim(new Swim(level, getX(), getY()));
+		setSwim(new Swim(level, (int) getX(), (int) getY()));
 		swimType = getSwim().swimming(isSwimming, isMagma, isMuddy);
 		isSwimming = swimType[0];
 		isMagma = swimType[1];
 		isMuddy = swimType[2];
 
-		if (level.getTile(this.getX() >> 3, this.getY() >> 3).getId() == 11) {
+		if (level.getTile((int) this.getX() >> 3, (int) this.getY() >> 3).getId() == 11) {
 			changeLevels = true;
 		}
 
@@ -108,8 +108,8 @@ public class Player extends Mob {
 		}
 
 		int modifier = 8 * scale;
-		int xOffset = getX() - modifier / 2;
-		int yOffset = getY() - modifier / 2 - 4;
+		int xOffset = (int) getX() - modifier / 2;
+		int yOffset = (int) getY() - modifier / 2 - 4;
 
 		if (changeLevels) {
 			Game.setChangeLevel(true);

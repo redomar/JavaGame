@@ -58,13 +58,13 @@ public abstract class Mob extends Entity {
 		
 		for (int x = 0; x < Math.abs(xa); x++) {
 			if (!hasCollided(abs(xa), ya)) {
-				setX(getX() + abs(xa) * (int) speed);
+				this.x += abs(xa) * (int) speed;
 			}
 		}
 		
 		for (int y = 0; y < Math.abs(ya); y++) {
 			if (!hasCollided(xa, abs(ya))) {
-				setY(getY() + abs(ya) * (int) speed);
+				this.y += abs(ya) * (int) speed;
 			}
 		}
 	}
@@ -105,8 +105,8 @@ public abstract class Mob extends Entity {
 	public boolean hasCollidedAlt(int xa, int ya){
 		boolean solid = false;
 		for (int c = 0; c < 4; c++) {
-			int xt = ((x + xa) - c % 2 * 8) / 8;
-			int yt = ((y + ya) - c / 2 * 8) / 8;
+			double xt = ((x + xa) - c % 2 * 8) / 8;
+			double yt = ((y + ya) - c / 2 * 8) / 8;
 			int ix = (int) Math.ceil(xt);
 			int iy = (int) Math.ceil(yt);
 			if (c % 2 == 0) ix = (int) Math.floor(xt);
@@ -127,9 +127,9 @@ public abstract class Mob extends Entity {
 			return false;
 		}
 
-		Tile lastTile = level.getTile((this.getX() + x) >> 3,
-				(this.getY() + y) >> 3);
-		Tile newtTile = level.getTile((this.getX() + x + xa) >> 3, (this.getY()
+		Tile lastTile = level.getTile(((int) this.getX() + x) >> 3,
+				((int) this.getY() + y) >> 3);
+		Tile newtTile = level.getTile(((int) this.getX() + x + xa) >> 3, ((int) this.getY()
 				+ y + ya) >> 3);
 
 		if (!lastTile.equals(newtTile) && newtTile.isSolid()) {
