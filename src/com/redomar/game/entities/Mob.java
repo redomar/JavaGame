@@ -28,7 +28,7 @@ public abstract class Mob extends Entity {
 		this.speed = speed;
 	}
 
-	public void move(int xa, int ya) {
+	public void move(double xa, double ya) {
 		if (xa != 0 && ya != 0) {
 			move(xa, 0);
 			move(0, ya);
@@ -55,46 +55,63 @@ public abstract class Mob extends Entity {
 		if (xa > 0) {
 			movingDir = 3;
 		}
-		
-		for (int x = 0; x < Math.abs(xa); x++) {
-			if (!hasCollided(abs(xa), ya)) {
-				this.x += abs(xa) * (int) speed;
+
+		while (xa != 0){
+			if (Math.abs(xa) > 1){
+				if (!hasCollided(abs(xa), ya)) {
+					this.x += abs(xa);
+				}
+				xa -= abs(xa);
+			} else {
+				if (!hasCollided(abs(xa), ya)) {
+					this.x += xa;
+				}
+				xa = 0;
 			}
 		}
 		
-		for (int y = 0; y < Math.abs(ya); y++) {
-			if (!hasCollided(xa, abs(ya))) {
-				this.y += abs(ya) * (int) speed;
+		while (ya != 0){
+			if (Math.abs(ya) > 1){
+				if (!hasCollided(xa, abs(ya))) {
+					this.y += abs(ya);
+				}
+				ya -= abs(ya);
+			} else {
+				if (!hasCollided(xa, abs(ya))) {
+					this.y += ya;
+				}
+				ya = 0;
 			}
 		}
+		
 	}
 
-	public boolean hasCollided(int xa, int ya){
+	public boolean hasCollided(double xa, double ya){
 		int xMin = 0;
 		int xMax = 7;
 		int yMin = 3;
 		int yMax = 7;
 
 		for (int x = xMin; x < xMax; x++) {
-			if (isSolid(xa, ya, x, yMin)) {
+			if (isSolid((int) xa, (int) ya, x, yMin)) {
 				return true;
 			}
 		}
 
 		for (int x = xMin; x < xMax; x++) {
-			if (isSolid(xa, ya, x, yMax)) {
+			if (isSolid((int) xa, (int) ya, x, yMax)) {
 				return true;
 			}
 		}
 
 		for (int y = yMin; y < yMax; y++) {
-			if (isSolid(xa, ya, xMin, y)) {
+			if (isSolid((int) xa, (int) ya, xMin, y)) {
 				return true;
 			}
 		}
 
 		for (int y = yMin; y < yMax; y++) {
-			if (isSolid(xa, ya, xMax, y)) {
+			if (isSolid((int) xa, (int) ya, xMax, y)) {
 				return true;
 			}
 		}
@@ -116,7 +133,7 @@ public abstract class Mob extends Entity {
 		return solid;
 	}
 	
-	private int abs(int i){
+	private int abs(double i){
 		if (i < 0) return -1;
 		return 1;
 	}
@@ -139,22 +156,22 @@ public abstract class Mob extends Entity {
 		return false;
 	}
 
-	protected void followMovementAI(int x, int y, int px, int py, int xa,
-			int ya, Mob mob) {
+	protected void followMovementAI(int x, int y, int px, int py, double xa,
+			double ya, double speed, Mob mob) {
 		ya = 0;
 		xa = 0;
 		if (px > x)
-			xa++;
+			xa+=speed;
 		if (px < x)
-			xa--;
+			xa-=speed;
 		if (py > y)
-			ya++;
+			ya+=speed;
 		if (py < y)
-			ya--;
+			ya-=speed;
 		moveMob(xa, ya, mob);
 	}
 
-	protected void moveMob(int xa, int ya, Mob mob) {
+	protected void moveMob(double xa, double ya, Mob mob) {
 		if (xa != 0 || ya != 0) {
 			mob.move(xa, ya);
 			mob.isMoving = true;

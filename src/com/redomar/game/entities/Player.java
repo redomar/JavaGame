@@ -38,21 +38,21 @@ public class Player extends Mob {
 	}
 
 	public void tick() {
-		int xa = 0;
-		int ya = 0;
+		double xa = 0;
+		double ya = 0;
 
 		if (input != null) {
 			if (input.getUp().isPressed()) {
-				ya--;
+				ya -= speed;
 			}
 			if (input.getDown().isPressed()) {
-				ya++;
+				ya += speed;
 			}
 			if (input.getLeft().isPressed()) {
-				xa--;
+				xa -= speed;
 			}
 			if (input.getRight().isPressed()) {
-				xa++;
+				xa += speed;
 			}
 		}
 
