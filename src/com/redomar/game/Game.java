@@ -123,7 +123,7 @@ public class Game extends Canvas implements Runnable {
 		setMap("/levels/custom_level.png");
 		setMap(1);
 		Packet00Login loginPacket = new Packet00Login(player.getUsername(),
-				player.getX(), player.getY());
+				(int) player.getX(), (int) player.getY());
 
 		if (socketServer != null) {
 			socketServer.addConnection((PlayerMP) getPlayer(), loginPacket);
@@ -242,8 +242,8 @@ public class Game extends Canvas implements Runnable {
 			return;
 		}
 
-		int xOffset = getPlayer().getX() - (screen.getWidth() / 2);
-		int yOffset = getPlayer().getY() - (screen.getHeight() / 2);
+		int xOffset = (int) getPlayer().getX() - (screen.getWidth() / 2);
+		int yOffset = (int) getPlayer().getY() - (screen.getHeight() / 2);
 
 		getLevel().renderTiles(screen, xOffset, yOffset);
 

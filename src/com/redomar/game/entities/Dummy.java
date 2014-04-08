@@ -12,16 +12,17 @@ public class Dummy extends Mob {
 
 	private int colour, shirtCol, faceCol; // = Colours.get(-1, 111, 240, 310);
 	private int tickCount = 0;
-	private int xa = 0;
-	private int ya = 0;
+	private double xa = 0;
+	private double ya = 0;
 	private boolean[] swimType;
 	private int[] swimColour;
+	private static double speed = 0.75;
 
 	private Swim swim;
 
 	public Dummy(LevelHandler level, String name, int x, int y, int shirtCol,
 			int faceCol) {
-		super(level, "h", x, y, 1);
+		super(level, "h", x, y, speed);
 		this.faceCol = faceCol;
 		this.shirtCol = shirtCol;
 		this.colour = Colours.get(-1, 111, shirtCol, faceCol);
@@ -29,15 +30,15 @@ public class Dummy extends Mob {
 
 	public void tick() {
 
-		List<Player> players = level.getPlayers(this, 10);
+		List<Player> players = level.getPlayers(this, 8);
 		if (players.size() > 0) {
-			followMovementAI(getX(), getY(), Game.getPlayer().getX(), Game
-					.getPlayer().getY(), xa, ya, this);
+			followMovementAI((int) getX(), (int) getY(), (int) Game.getPlayer().getX(), (int) Game
+					.getPlayer().getY(), xa, ya, speed, this);
 		}else{
 			isMoving = false;
 		}
 
-		setSwim(new Swim(level, getX(), getY()));
+		setSwim(new Swim(level, (int) getX(), (int) getY()));
 		swimType = getSwim().swimming(isSwimming, isMagma, isMuddy);
 		isSwimming = swimType[0];
 		isMagma = swimType[1];
@@ -70,8 +71,8 @@ public class Dummy extends Mob {
 		}
 
 		int modifier = 8 * scale;
-		int xOffset = getX() - modifier / 2;
-		int yOffset = getY() - modifier / 2 - 4;
+		int xOffset = (int) getX() - modifier / 2;
+		int yOffset = (int) getY() - modifier / 2 - 4;
 
 		if (isSwimming || isMagma || isMuddy) {
 			swimColour = getSwim().waveCols(isSwimming, isMagma, isMuddy);

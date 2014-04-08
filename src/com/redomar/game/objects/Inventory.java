@@ -12,8 +12,8 @@ public class Inventory {
 	private static InventoryWindow inv_window = new InventoryWindow();
 
 	public static void activate() {
-		x = Game.getPlayer().getX();
-		y = Game.getPlayer().getY();
+		x = (int) Game.getPlayer().getX();
+		y = (int) Game.getPlayer().getY();
 
 		if (Game.getLevel().getTile(x >> 3, y >> 3).getId() == 8) {
 			if (!reset) {
