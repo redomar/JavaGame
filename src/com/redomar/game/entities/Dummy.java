@@ -1,5 +1,7 @@
 package com.redomar.game.entities;
 
+import java.util.List;
+
 import com.redomar.game.Game;
 import com.redomar.game.entities.efx.Swim;
 import com.redomar.game.gfx.Colours;
@@ -10,16 +12,17 @@ public class Dummy extends Mob {
 
 	private int colour, shirtCol, faceCol; // = Colours.get(-1, 111, 240, 310);
 	private int tickCount = 0;
-	private int xa = 0;
-	private int ya = 0;
+	private double xa = 0;
+	private double ya = 0;
 	private boolean[] swimType;
 	private int[] swimColour;
+	private static double speed = 0.75;
 
 	private Swim swim;
 
 	public Dummy(LevelHandler level, String name, int x, int y, int shirtCol,
 			int faceCol) {
-		super(level, "h", x, y, 1);
+		super(level, "h", x, y, speed);
 		this.faceCol = faceCol;
 		this.shirtCol = shirtCol;
 		this.colour = Colours.get(-1, 111, shirtCol, faceCol);
@@ -27,10 +30,15 @@ public class Dummy extends Mob {
 
 	public void tick() {
 
-		followMovementAI(getX(), getY(), Game.getPlayer().getX(), Game
-				.getPlayer().getY(), xa, ya, this);
+		List<Player> players = level.getPlayers(this, 8);
+		if (players.size() > 0) {
+			followMovementAI((int) getX(), (int) getY(), (int) Game.getPlayer().getX(), (int) Game
+					.getPlayer().getY(), xa, ya, speed, this);
+		}else{
+			isMoving = false;
+		}
 
-		setSwim(new Swim(level, getX(), getY()));
+		setSwim(new Swim(level, (int) getX(), (int) getY()));
 		swimType = getSwim().swimming(isSwimming, isMagma, isMuddy);
 		isSwimming = swimType[0];
 		isMagma = swimType[1];
@@ -57,11 +65,14 @@ public class Dummy extends Mob {
 		} else if (movingDir > 1) {
 			xTile += 4 + ((numSteps >> walkingSpeed) & 1) * 2;
 			flipTop = (movingDir - 1) % 2;
+			if(!isMoving){
+				xTile = 4;
+			}
 		}
 
 		int modifier = 8 * scale;
-		int xOffset = getX() - modifier / 2;
-		int yOffset = getY() - modifier / 2 - 4;
+		int xOffset = (int) getX() - modifier / 2;
+		int yOffset = (int) getY() - modifier / 2 - 4;
 
 		if (isSwimming || isMagma || isMuddy) {
 			swimColour = getSwim().waveCols(isSwimming, isMagma, isMuddy);
@@ -102,39 +113,6 @@ public class Dummy extends Mob {
 					colour, flipBottom, scale);
 			colour = Colours.get(-1, 111, shirtCol, faceCol);
 		}
-	}
-
-	public boolean hasCollided(int xa, int ya) {
-		int xMin = 0;
-		int xMax = 7;
-		int yMin = 3;
-		int yMax = 7;
-
-		for (int x = xMin; x < xMax; x++) {
-			if (isSolid(xa, ya, x, yMin)) {
-				return true;
-			}
-		}
-
-		for (int x = xMin; x < xMax; x++) {
-			if (isSolid(xa, ya, x, yMax)) {
-				return true;
-			}
-		}
-
-		for (int y = yMin; y < yMax; y++) {
-			if (isSolid(xa, ya, xMin, y)) {
-				return true;
-			}
-		}
-
-		for (int y = yMin; y < yMax; y++) {
-			if (isSolid(xa, ya, xMax, y)) {
-				return true;
-			}
-		}
-
-		return false;
 	}
 
 	public Swim getSwim() {

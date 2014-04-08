@@ -3,6 +3,7 @@ package com.redomar.game;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import com.redomar.game.lib.SleepThread;
 import com.redomar.game.script.PrintTypes;
 import com.redomar.game.script.Printing;
 
@@ -39,7 +40,8 @@ public class InputHandler implements KeyListener {
 	private Printing print = new Printing();
 	private boolean PlayMusic = false;
 	private int map;
-
+	private boolean untoggle = false;
+	
 	public void keyPressed(KeyEvent e) {
 		toggleKey(e.getKeyCode(), true);
 	}
@@ -53,17 +55,24 @@ public class InputHandler implements KeyListener {
 	}
 
 	public void toggleKey(int keyCode, boolean isPressed) {
-		if (keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_UP) {
-			getUp().toggle(isPressed);
-		}
-		if (keyCode == KeyEvent.VK_S || keyCode == KeyEvent.VK_DOWN) {
-			getDown().toggle(isPressed);
-		}
-		if (keyCode == KeyEvent.VK_A || keyCode == KeyEvent.VK_LEFT) {
-			getLeft().toggle(isPressed);
-		}
-		if (keyCode == KeyEvent.VK_D || keyCode == KeyEvent.VK_RIGHT) {
-			getRight().toggle(isPressed);
+		if(untoggle == false){
+			if (keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_UP) {
+				getUp().toggle(isPressed);
+			}
+			if (keyCode == KeyEvent.VK_S || keyCode == KeyEvent.VK_DOWN) {
+				getDown().toggle(isPressed);
+			}
+			if (keyCode == KeyEvent.VK_A || keyCode == KeyEvent.VK_LEFT) {
+				getLeft().toggle(isPressed);
+			}
+			if (keyCode == KeyEvent.VK_D || keyCode == KeyEvent.VK_RIGHT) {
+				getRight().toggle(isPressed);
+			}
+		}else{
+			getUp().toggle(false);
+			getDown().toggle(false);
+			getLeft().toggle(false);
+			getRight().toggle(false);
 		}
 		if (keyCode == KeyEvent.VK_M) {
 			this.setPlayMusic(true);
@@ -102,7 +111,20 @@ public class InputHandler implements KeyListener {
 			Game.getFrame().dispose();
 			System.exit(1);
 		}
+
+		if (keyCode == KeyEvent.VK_BACK_QUOTE){
+			if (Game.isDevTime() == false && Game.isDevMode() == false){
+				Game.setDevMode(true);
+				Game.setDevTime(true);
+				new Thread(new SleepThread());
+			}
+		}
 	}
+	
+	public void untoggle(boolean toggle){
+		this.untoggle = toggle;
+	}
+	
 
 	public int getMap() {
 		return map;
@@ -150,6 +172,14 @@ public class InputHandler implements KeyListener {
 
 	public void setRight(Key right) {
 		this.right = right;
+	}
+
+	public boolean isUntoggle() {
+		return untoggle;
+	}
+
+	public void setUntoggle(boolean untoggle) {
+		this.untoggle = untoggle;
 	}
 
 }

@@ -7,6 +7,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferStrategy;
 
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
@@ -226,6 +227,8 @@ public class Menu implements Runnable {
 			Thread.sleep(250);
 			splash.splashOff();
 			frame = new DedicatedJFrame(WIDTH, HEIGHT, SCALE, NAME);
+			frame.getFrame();
+			frame.getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

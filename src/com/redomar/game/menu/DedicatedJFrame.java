@@ -17,7 +17,7 @@ public class DedicatedJFrame extends Canvas {
 		setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
 
 		setFrame(new JFrame(NAME));
-		getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getFrame().setLayout(new BorderLayout());
 		getFrame().add(this, BorderLayout.CENTER);
 		getFrame().pack();
@@ -27,6 +27,10 @@ public class DedicatedJFrame extends Canvas {
 	}
 
 	public JFrame getFrame() {
+		return frame;
+	}
+	
+	public static JFrame getFrameStatic(){
 		return frame;
 	}
 

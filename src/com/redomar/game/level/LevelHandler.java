@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 
 import com.redomar.game.Game;
 import com.redomar.game.entities.Entity;
+import com.redomar.game.entities.Player;
 import com.redomar.game.entities.PlayerMP;
 import com.redomar.game.gfx.Screen;
 import com.redomar.game.level.tiles.Tile;
@@ -191,6 +192,37 @@ public class LevelHandler {
 		player.setNumSteps(numSteps);
 		player.setMoving(isMoving);
 		player.setMovingDir(movingDir);
+	}
+	
+	public List<Entity> getEntities(Entity e, int radius){
+		List<Entity> result = new ArrayList<Entity>();
+		int ex = (int) e.getX();
+		int ey = (int) e.getY();
+		for (int i = 0; i < entities.size(); i++) {
+			Entity entity = entities.get(i);
+			int x = (int) entity.getX();
+			int y = (int) entity.getY();
+			
+			int dx = Math.abs(x - ex);
+			int dy = Math.abs(y - ey);
+			
+			double distance = Math.sqrt((dx*2) + (dy*2));
+			if(distance <= radius){
+				result.add(entity);
+			}
+		}
+		return result;
+	}
+	
+	public List<Player> getPlayers(Entity e, int radius){
+		List<Entity> entities = getEntities(e, radius);
+		List<Player> result = new ArrayList<Player>();
+		for (int i = 0; i < entities.size(); i++) {
+			if (entities.get(i) instanceof Player) {
+				result.add((Player) entities.get(i));
+			}
+		}
+		return result;
 	}
 
 }

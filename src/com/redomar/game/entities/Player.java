@@ -9,6 +9,7 @@ import com.redomar.game.level.LevelHandler;
 import com.redomar.game.lib.Font;
 import com.redomar.game.lib.Name;
 import com.redomar.game.net.packets.Packet02Move;
+import com.redomar.game.objects.Inventory;
 
 public class Player extends Mob {
 
@@ -16,6 +17,8 @@ public class Player extends Mob {
 	private static Name customeName = new Name();
 	private Swim swim;
 
+	private static double speed = 1;
+	
 	private int colour, shirtCol, faceCol;
 	private int tickCount = 0;
 	private String userName;
@@ -26,7 +29,7 @@ public class Player extends Mob {
 
 	public Player(LevelHandler level, int x, int y, InputHandler input,
 			String userName,  int shirtCol,	int faceCol) {
-		super(level, "Player", x, y, 1);
+		super(level, "Player", x, y, speed);
 		this.input = input;
 		this.userName = userName;
 		this.faceCol = faceCol;
@@ -35,21 +38,21 @@ public class Player extends Mob {
 	}
 
 	public void tick() {
-		int xa = 0;
-		int ya = 0;
+		double xa = 0;
+		double ya = 0;
 
 		if (input != null) {
 			if (input.getUp().isPressed()) {
-				ya--;
+				ya -= speed;
 			}
 			if (input.getDown().isPressed()) {
-				ya++;
+				ya += speed;
 			}
 			if (input.getLeft().isPressed()) {
-				xa--;
+				xa -= speed;
 			}
 			if (input.getRight().isPressed()) {
-				xa++;
+				xa += speed;
 			}
 		}
 
@@ -58,7 +61,7 @@ public class Player extends Mob {
 			isMoving = true;
 
 			Packet02Move packet = new Packet02Move(this.getUsername(),
-					this.getX(), this.getY(), this.numSteps, this.isMoving,
+					(int) this.getX(), (int) this.getY(), this.numSteps, this.isMoving,
 					this.movingDir);
 			Game.getGame();
 			packet.writeData(Game.getSocketClient());
@@ -67,13 +70,13 @@ public class Player extends Mob {
 			isMoving = false;
 		}
 
-		setSwim(new Swim(level, getX(), getY()));
+		setSwim(new Swim(level, (int) getX(), (int) getY()));
 		swimType = getSwim().swimming(isSwimming, isMagma, isMuddy);
 		isSwimming = swimType[0];
 		isMagma = swimType[1];
 		isMuddy = swimType[2];
 
-		if (level.getTile(this.getX() >> 3, this.getY() >> 3).getId() == 11) {
+		if (level.getTile((int) this.getX() >> 3, (int) this.getY() >> 3).getId() == 11) {
 			changeLevels = true;
 		}
 
@@ -86,6 +89,8 @@ public class Player extends Mob {
 		int walkingSpeed = 4;
 		int flipTop = (numSteps >> walkingSpeed) & 1;
 		int flipBottom = (numSteps >> walkingSpeed) & 1;
+		
+		Inventory.activate();
 
 		if (movingDir == 1) {
 			xTile += 2;
@@ -97,11 +102,14 @@ public class Player extends Mob {
 		} else if (movingDir > 1) {
 			xTile += 4 + ((numSteps >> walkingSpeed) & 1) * 2;
 			flipTop = (movingDir - 1) % 2;
+			if(!isMoving){
+				xTile = 4;
+			}
 		}
 
 		int modifier = 8 * scale;
-		int xOffset = getX() - modifier / 2;
-		int yOffset = getY() - modifier / 2 - 4;
+		int xOffset = (int) getX() - modifier / 2;
+		int yOffset = (int) getY() - modifier / 2 - 4;
 
 		if (changeLevels) {
 			Game.setChangeLevel(true);
@@ -155,39 +163,6 @@ public class Player extends Mob {
 		}
 	}
 
-	public boolean hasCollided(int xa, int ya) {
-		int xMin = 0;
-		int xMax = 7;
-		int yMin = 3;
-		int yMax = 7;
-
-		for (int x = xMin; x < xMax; x++) {
-			if (isSolid(xa, ya, x, yMin)) {
-				return true;
-			}
-		}
-
-		for (int x = xMin; x < xMax; x++) {
-			if (isSolid(xa, ya, x, yMax)) {
-				return true;
-			}
-		}
-
-		for (int y = yMin; y < yMax; y++) {
-			if (isSolid(xa, ya, xMin, y)) {
-				return true;
-			}
-		}
-
-		for (int y = yMin; y < yMax; y++) {
-			if (isSolid(xa, ya, xMax, y)) {
-				return true;
-			}
-		}
-
-		return false;
-	}
-
 	public String getUsername() {
 		if (this.userName.isEmpty()) {
 			return guestPlayerName;
@@ -213,6 +188,14 @@ public class Player extends Mob {
 
 	public void setSwim(Swim swim) {
 		this.swim = swim;
+	}
+
+	public static double getSpeed() {
+		return speed;
+	}
+
+	public static void setSpeed(double speed) {
+		Player.speed = speed;
 	}
 
 }

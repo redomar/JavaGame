@@ -34,7 +34,7 @@ public class Game extends Canvas implements Runnable {
 
 	// Setting the size and name of the frame/canvas
 	private static final long serialVersionUID = 1L;
-	private static final String game_Version = "v1.6.4 Alpha";
+	private static final String game_Version = "v1.7 Alpha";
 	private static final int WIDTH = 160;
 	private static final int HEIGHT = (WIDTH / 3 * 2);
 	private static final int SCALE = 3;
@@ -50,6 +50,10 @@ public class Game extends Canvas implements Runnable {
 	private static int shirtCol;
 	private static int faceCol;
 	private static boolean[] alternateCols = new boolean[2];
+	private static int fps;
+	private static int tps;
+	private static int steps;
+	private static boolean[] devMode = new boolean[2];
 
 	private static JFrame frame;
 
@@ -65,7 +69,7 @@ public class Game extends Canvas implements Runnable {
 	private BufferedImage image2 = new BufferedImage(WIDTH, HEIGHT - 30,
 			BufferedImage.TYPE_INT_RGB);
 	private Screen screen;
-	private InputHandler input;
+	private static InputHandler input;
 	private WindowHandler window;
 	private LevelHandler level;
 	private Player player;
@@ -95,6 +99,8 @@ public class Game extends Canvas implements Runnable {
 		getFrame().setLocationRelativeTo(null);
 		getFrame().setVisible(true);
 
+		setDevMode(false);
+		setDevTime(false);
 	}
 
 	public void init() {
@@ -117,7 +123,7 @@ public class Game extends Canvas implements Runnable {
 		setMap("/levels/custom_level.png");
 		setMap(1);
 		Packet00Login loginPacket = new Packet00Login(player.getUsername(),
-				player.getX(), player.getY());
+				(int) player.getX(), (int) player.getY());
 
 		if (socketServer != null) {
 			socketServer.addConnection((PlayerMP) getPlayer(), loginPacket);
@@ -215,6 +221,8 @@ public class Game extends Canvas implements Runnable {
 			if (System.currentTimeMillis() - lastTimer >= 1000) {
 				lastTimer += 1000;
 				getFrame().setTitle("JavaGame - Version "+WordUtils.capitalize(game_Version).substring(1, game_Version.length()));
+				fps = frames;
+				tps = ticks;
 				frames = 0;
 				ticks = 0;
 			}
@@ -234,8 +242,8 @@ public class Game extends Canvas implements Runnable {
 			return;
 		}
 
-		int xOffset = getPlayer().getX() - (screen.getWidth() / 2);
-		int yOffset = getPlayer().getY() - (screen.getHeight() / 2);
+		int xOffset = (int) getPlayer().getX() - (screen.getWidth() / 2);
+		int yOffset = (int) getPlayer().getY() - (screen.getHeight() / 2);
 
 		getLevel().renderTiles(screen, xOffset, yOffset);
 
@@ -304,6 +312,7 @@ public class Game extends Canvas implements Runnable {
 		g.drawString("Press Q to quit", (getWidth()/2)-("Press Q to quit".length()*3), getHeight() -17);
 		g.setColor(Color.YELLOW);
 		g.drawString(time.getTime(), (getWidth() - 58), (getHeight() - 3));
+		status(g, isDevMode());
 		g.setColor(Color.WHITE);
 		if (noAudioDevice == true) {
 			g.setColor(Color.RED);
@@ -336,6 +345,19 @@ public class Game extends Canvas implements Runnable {
 		}
 		g.dispose();
 		bs.show();
+	}
+
+	private void status(Graphics g, boolean TerminalMode) {
+		if (TerminalMode == true){
+			g.setColor(Color.GREEN);
+			g.drawString("JavaGame Stats", 0, 10);
+			g.drawString("FPS/TPS: " + fps + "/" + tps, 0, 25);
+			if ((player.getNumSteps() & 15) == 15) {
+				steps += 1;
+			}
+			g.drawString("Foot Steps: " + steps, 0, 40);
+			g.drawString("NPC: " + WordUtils.capitalize(String.valueOf(isNpc())) , 0, 55);
+		}
 	}
 
 	public static void main(String[] args) {
@@ -512,6 +534,30 @@ public class Game extends Canvas implements Runnable {
 	
 	public static void setAternateColsS(boolean alternateCols){
 		Game.alternateCols[0] = alternateCols;
+	}
+
+	public static InputHandler getInput() {
+		return input;
+	}
+
+	public void setInput(InputHandler input) {
+		Game.input = input;
+	}
+
+	public static boolean isDevMode() {
+		return devMode[0];
+	}
+
+	public static void setDevMode(boolean devMode) {
+		Game.devMode[0] = devMode;
+	}
+
+	public static boolean isDevTime() {
+		return devMode[1];
+	}
+
+	public static void setDevTime(boolean devTime) {
+		Game.devMode[1] = devTime;
 	}
 
 }
