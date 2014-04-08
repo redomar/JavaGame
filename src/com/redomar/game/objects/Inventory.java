@@ -9,6 +9,7 @@ public class Inventory {
 	public static boolean open = false;
 	public static boolean closing;
 	public static boolean reset;
+	public static boolean enabled;
 	private static InventoryWindow inv_window = new InventoryWindow();
 
 	public static void activate() {
@@ -16,7 +17,7 @@ public class Inventory {
 		y = (int) Game.getPlayer().getY();
 
 		if (Game.getLevel().getTile(x >> 3, y >> 3).getId() == 8) {
-			if (!reset) {
+			if (enabled) {
 				if (!open) {
 					if (!closing) {
 						System.out.println("Opened\nInside this Bag their is:"
