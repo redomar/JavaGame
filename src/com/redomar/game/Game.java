@@ -220,7 +220,7 @@ public class Game extends Canvas implements Runnable {
 
 			if (System.currentTimeMillis() - lastTimer >= 1000) {
 				lastTimer += 1000;
-				getFrame().setTitle("Frames: " + frames + " Ticks: " + ticks);
+				getFrame().setTitle("JavaGame - Version "+WordUtils.capitalize(game_Version).substring(1, game_Version.length()));
 				fps = frames;
 				tps = ticks;
 				frames = 0;
