@@ -28,6 +28,13 @@ public class Vector2i {
 		return this;
 	}
 	
+	public boolean equals(Object object){
+		if (!(object instanceof Vector2i)) return false;
+		Vector2i vector = (Vector2i) object;
+		if(vector.getX() == this.getX() && vector.getY() == this.getY()) return true;
+		return false;
+	}
+	
 	public void set(int x, int y){
 		this.x = x;
 		this.y = y;

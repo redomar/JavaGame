@@ -4,6 +4,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -15,6 +17,7 @@ import com.redomar.game.entities.Player;
 import com.redomar.game.entities.PlayerMP;
 import com.redomar.game.gfx.Screen;
 import com.redomar.game.level.tiles.Tile;
+import com.redomar.game.lib.utils.Vector2i;
 import com.redomar.game.net.packets.Packet01Disconnect;
 
 public class LevelHandler {
@@ -26,6 +29,16 @@ public class LevelHandler {
 	private String imagePath;
 	private BufferedImage image;
 
+	private Comparator<Node> nodeSorter = new Comparator<Node>() {
+
+		public int compare(Node n0, Node n1) {
+			if(n1.fCost < n0.fCost) return +1;
+			if(n1.fCost > n0.fCost) return -1;
+			return 0;
+		}
+		
+	};
+	
 	public LevelHandler(String imagePath) {
 
 		if (imagePath != null) {
@@ -192,6 +205,60 @@ public class LevelHandler {
 		player.setNumSteps(numSteps);
 		player.setMoving(isMoving);
 		player.setMovingDir(movingDir);
+	}
+	
+	public List<Node> findPath(Vector2i start, Vector2i goal){
+		List<Node> openList = new ArrayList<Node>();
+		List<Node> closedList = new ArrayList<Node>();
+		Node current = new Node(start, null, 0, getDistance(start, goal));
+		openList.add(current);
+		while(openList.size() > 0){
+			Collections.sort(openList, nodeSorter);
+			current = openList.get(0);
+			if(current.tile.equals(goal)){
+				List<Node> path = new ArrayList<Node>();
+				while (current.parent != null) {
+					path.add(current);
+					current = current.parent;
+				}
+				openList.clear();
+				closedList.clear();
+				return path;
+			}
+			openList.remove(current);
+			closedList.add(current);
+			for(int i = 0; i < 9; i++){
+				if(i == 4) continue;
+				int x = current.tile.getX();
+				int y = current.tile.getY();
+				int xi = (i % 3) - 1;
+				int yi = (i / 3) - 1;
+				Tile at = getTile(x + xi,y + yi);
+				if(at == null) continue;
+				if(at.isSolid()) continue;
+				Vector2i a = new Vector2i(x + xi, y + yi);
+				double gCost = current.gCost + getDistance(current.tile, a);
+				double hCost = getDistance(a, goal);
+				Node node = new Node(a, current, gCost, hCost);
+				if(isVectorInList(closedList, a) && gCost >= node.gCost) continue;
+				if(!isVectorInList(openList, a) || gCost < node.gCost) openList.add(node);
+			}
+		}
+		closedList.clear();
+		return null;
+	}
+	
+	private boolean isVectorInList(List<Node> list, Vector2i vector){
+		for(Node n : list){
+			if(n.tile.equals(vector)) return true;
+		}
+		return false;
+	}
+	
+	private double getDistance(Vector2i tile, Vector2i goal){
+		double dx = tile.getX() - goal.getX();
+		double dy = tile.getY() - goal.getY();
+		return Math.sqrt(dx * dx + dy * dy);
 	}
 	
 	public List<Entity> getEntities(Entity e, int radius){
