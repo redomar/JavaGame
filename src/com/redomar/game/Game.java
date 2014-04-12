@@ -53,7 +53,8 @@ public class Game extends Canvas implements Runnable {
 	private static int fps;
 	private static int tps;
 	private static int steps;
-	private static boolean[] devMode = new boolean[2];
+	private static boolean devMode;
+	private static boolean closingMode;
 
 	private static JFrame frame;
 
@@ -100,7 +101,7 @@ public class Game extends Canvas implements Runnable {
 		getFrame().setVisible(true);
 
 		setDevMode(false);
-		setDevTime(false);
+		setClosing(false);
 	}
 
 	public void init() {
@@ -312,7 +313,7 @@ public class Game extends Canvas implements Runnable {
 		g.drawString("Press Q to quit", (getWidth()/2)-("Press Q to quit".length()*3), getHeight() -17);
 		g.setColor(Color.YELLOW);
 		g.drawString(time.getTime(), (getWidth() - 58), (getHeight() - 3));
-		status(g, isDevMode());
+		status(g, isDevMode(), isClosing());
 		g.setColor(Color.WHITE);
 		if (noAudioDevice == true) {
 			g.setColor(Color.RED);
@@ -347,7 +348,7 @@ public class Game extends Canvas implements Runnable {
 		bs.show();
 	}
 
-	private void status(Graphics g, boolean TerminalMode) {
+	private void status(Graphics g, boolean TerminalMode, boolean TerminalQuit) {
 		if (TerminalMode == true){
 			g.setColor(Color.GREEN);
 			g.drawString("JavaGame Stats", 0, 10);
@@ -357,6 +358,13 @@ public class Game extends Canvas implements Runnable {
 			}
 			g.drawString("Foot Steps: " + steps, 0, 40);
 			g.drawString("NPC: " + WordUtils.capitalize(String.valueOf(isNpc())) , 0, 55);
+		}
+		if (TerminalQuit == true){
+			g.setColor(Color.BLACK);
+			g.fillRect(0, 0, getWidth(), getHeight());
+			g.setColor(Color.RED);
+			g.drawString("Shutting down the Game", (getWidth()/2)-70, (getHeight()/2)-8);
+			g.dispose();
 		}
 	}
 
@@ -545,19 +553,19 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	public static boolean isDevMode() {
-		return devMode[0];
+		return devMode;
 	}
 
 	public static void setDevMode(boolean devMode) {
-		Game.devMode[0] = devMode;
+		Game.devMode = devMode;
 	}
 
-	public static boolean isDevTime() {
-		return devMode[1];
+	public static boolean isClosing() {
+		return closingMode;
 	}
 
-	public static void setDevTime(boolean devTime) {
-		Game.devMode[1] = devTime;
+	public static void setClosing(boolean closing) {
+		Game.closingMode = closing;
 	}
 
 }

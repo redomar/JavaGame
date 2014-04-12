@@ -7,7 +7,7 @@ public class SleepThread implements Runnable{
 	public void run() {
 		try {
 			Thread.sleep(1500);
-			Game.setDevTime(false);
+			Game.setClosing(false);
 			System.out.println("time up");
 		} catch (InterruptedException e) {
 			e.printStackTrace();

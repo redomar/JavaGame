@@ -106,6 +106,12 @@ public class InputHandler implements KeyListener {
 			}
 		}
 		if (keyCode == KeyEvent.VK_Q){
+			Game.setClosing(true);
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			Game.getLevel().removeEntity(Game.getPlayer().getSantizedUsername());
 			Game.setRunning(false);
 			Game.getFrame().dispose();
@@ -113,9 +119,8 @@ public class InputHandler implements KeyListener {
 		}
 
 		if (keyCode == KeyEvent.VK_BACK_QUOTE){
-			if (Game.isDevTime() == false && Game.isDevMode() == false){
+			if (Game.isClosing() == false && Game.isDevMode() == false){
 				Game.setDevMode(true);
-				Game.setDevTime(true);
 				new Thread(new SleepThread());
 			}
 		}
