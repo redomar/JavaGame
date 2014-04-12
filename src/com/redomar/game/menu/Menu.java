@@ -188,9 +188,11 @@ public class Menu implements Runnable {
 			splash.setProgress(92, "Aquring data: Multiplayer");
 			Thread.sleep(125);
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			Game.setJdata_Host(JOptionPane.showConfirmDialog(Game.getGame(),
-					"Do you want to be the HOST?"));
-			if (Game.getJdata_Host() == 1) {
+			String multiMsg = "Sorry but multiplayer has been disabled on this version.\nIf you would like multiplayer checkout Alpha 1.6"; 
+			JOptionPane.showMessageDialog(Game.getGame(), multiMsg, "Multiplayer Warning", JOptionPane.WARNING_MESSAGE);
+			//Game.setJdata_Host(JOptionPane.showConfirmDialog(Game.getGame(), "Do you want to be the HOST?"));
+			Game.setJdata_Host(1);
+			if (Game.getJdata_Host() != 1) { //Game.getJdata_Host() == 1
 				Game.setJdata_IP(JOptionPane.showInputDialog(Game.getGame(),
 						"Enter the name \nleave blank for local"));
 			}
