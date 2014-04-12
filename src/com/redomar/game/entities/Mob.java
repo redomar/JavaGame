@@ -1,9 +1,12 @@
 package com.redomar.game.entities;
 
+import java.util.List;
 import java.util.Random;
 
 import com.redomar.game.level.LevelHandler;
+import com.redomar.game.level.Node;
 import com.redomar.game.level.tiles.Tile;
+import com.redomar.game.lib.utils.Vector2i;
 
 public abstract class Mob extends Entity {
 
@@ -154,6 +157,25 @@ public abstract class Mob extends Entity {
 		}
 
 		return false;
+	}
+	
+	protected void aStarMovementAI(int x, int y, int px, int py, double xa,
+			double ya, double speed, Mob mob, List<Node> path, int time){
+		xa = 0;
+		ya = 0;
+		Vector2i start = new Vector2i(x >> 3, y >> 3);
+		Vector2i goal = new Vector2i(px >> 3, py >> 3);
+		path = level.findPath(start, goal);
+		if(path != null) {
+			if(path.size() > 0){
+				Vector2i vector = path.get(path.size() - 1).tile;
+				if(x < vector.getX() << 3) xa++;
+				if(x > vector.getX() << 3) xa--;
+				if(y < vector.getY() << 3) ya++;
+				if(y > vector.getY() << 3) ya--;
+			}
+		}
+		moveMob(xa, ya, mob);
 	}
 
 	protected void followMovementAI(int x, int y, int px, int py, double xa,
