@@ -90,9 +90,9 @@ public abstract class Mob extends Entity {
 	}
 
 	public boolean hasCollided(double xa, double ya){
-		int xMin = 0;
-		int xMax = 7;
-		int yMin = 3;
+		int xMin = -2;
+		int xMax = 8;
+		int yMin = 0;
 		int yMax = 7;
 
 		for (int x = xMin; x < xMax; x++) {
@@ -169,13 +169,13 @@ public abstract class Mob extends Entity {
 		if(path != null) {
 			if(path.size() > 0){
 				Vector2i vector = path.get(path.size() - 1).tile;
-				if(x < vector.getX() << 3) xa++;
-				if(x > vector.getX() << 3) xa--;
-				if(y < vector.getY() << 3) ya++;
-				if(y > vector.getY() << 3) ya--;
+				if(x < vector.getX() << 3) xa =+ speed;
+				if(x > vector.getX() << 3) xa =- speed;
+				if(y < vector.getY() << 3) ya =+ speed;
+				if(y > vector.getY() << 3) ya =- speed;
+				moveMob(xa, ya, mob);
 			}
 		}
-		moveMob(xa, ya, mob);
 	}
 
 	protected void followMovementAI(int x, int y, int px, int py, double xa,
