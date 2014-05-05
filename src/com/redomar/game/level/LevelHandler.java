@@ -237,7 +237,7 @@ public class LevelHandler {
 				if(at == null) continue;
 				if(at.isSolid()) continue;
 				Vector2i a = new Vector2i(x + xi, y + yi);
-				double gCost = current.gCost + getDistance(current.tile, a);
+				double gCost = current.gCost + (getDistance(current.tile, a) == 1 ? 1 : 0.95);
 				double hCost = getDistance(a, goal);
 				Node node = new Node(a, current, gCost, hCost);
 				if(isVectorInList(closedList, a) && gCost >= node.gCost) continue;

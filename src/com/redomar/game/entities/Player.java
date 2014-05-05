@@ -24,12 +24,13 @@ public class Player extends Mob {
 	private String userName;
 	private boolean[] swimType;
 	private int[] swimColour;
+	private static int[] collisionBoders = {-2, 8, 0, 7};
 
 	public static String guestPlayerName = customeName.setName("Player ");
 
 	public Player(LevelHandler level, int x, int y, InputHandler input,
 			String userName,  int shirtCol,	int faceCol) {
-		super(level, "Player", x, y, speed);
+		super(level, "Player", x, y, speed, collisionBoders);
 		this.input = input;
 		this.userName = userName;
 		this.faceCol = faceCol;

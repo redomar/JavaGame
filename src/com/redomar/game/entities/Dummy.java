@@ -20,12 +20,13 @@ public class Dummy extends Mob {
 	private static double speed = 0.75;
 	private List<Node> path = null;
 	private int time = 0;
+	private static int[] collisionBoders = {0, 7, 0, 7};
 
 	private Swim swim;
 
 	public Dummy(LevelHandler level, String name, int x, int y, int shirtCol,
 			int faceCol) {
-		super(level, "h", x, y, speed);
+		super(level, "h", x, y, speed, collisionBoders);
 		this.faceCol = faceCol;
 		this.shirtCol = shirtCol;
 		this.colour = Colours.get(-1, 111, shirtCol, faceCol);
