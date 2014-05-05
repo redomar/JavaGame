@@ -22,13 +22,21 @@ public abstract class Mob extends Entity {
 	protected boolean isMuddy = false;
 	protected boolean changeLevels = false;
 	protected int ticker;
+	/**
+	 * [0] Contains the <strong>xMin</strong><br>
+	 * [1] Contains the <strong>xMax</strong><br>
+	 * [2] Contains the <strong>yMin</strong><br>
+	 * [3] Contains the <strong>yMax
+	 */
+	protected int[] collisionBoders = new int[4];
 
-	public Mob(LevelHandler level, String name, int x, int y, double speed) {
+	public Mob(LevelHandler level, String name, int x, int y, double speed, int[] collisionBoders) {
 		super(level);
 		this.name = name;
 		this.setX(x);
 		this.setY(y);
 		this.speed = speed;
+		this.collisionBoders = collisionBoders;
 	}
 
 	public void move(double xa, double ya) {
@@ -90,10 +98,10 @@ public abstract class Mob extends Entity {
 	}
 
 	public boolean hasCollided(double xa, double ya){
-		int xMin = -2;
-		int xMax = 8;
-		int yMin = 0;
-		int yMax = 7;
+		int xMin = collisionBoders[0];
+		int xMax = collisionBoders[1];
+		int yMin = collisionBoders[2];
+		int yMax = collisionBoders[3];
 
 		for (int x = xMin; x < xMax; x++) {
 			if (isSolid((int) xa, (int) ya, x, yMin)) {

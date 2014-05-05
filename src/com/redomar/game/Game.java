@@ -86,6 +86,10 @@ public class Game extends Canvas implements Runnable {
 	private GameServer socketServer;
 	private Printing print = new Printing();
 
+	/**
+	 * @author Redomar
+	 * @version Alpha 1.7
+	 */
 	public Game() {
 		setMinimumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
 		setMaximumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
