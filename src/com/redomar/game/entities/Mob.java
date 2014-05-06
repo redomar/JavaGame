@@ -1,9 +1,12 @@
 package com.redomar.game.entities;
 
+import java.util.List;
 import java.util.Random;
 
 import com.redomar.game.level.LevelHandler;
+import com.redomar.game.level.Node;
 import com.redomar.game.level.tiles.Tile;
+import com.redomar.game.lib.utils.Vector2i;
 
 public abstract class Mob extends Entity {
 
@@ -19,13 +22,21 @@ public abstract class Mob extends Entity {
 	protected boolean isMuddy = false;
 	protected boolean changeLevels = false;
 	protected int ticker;
+	/**
+	 * [0] Contains the <strong>xMin</strong><br>
+	 * [1] Contains the <strong>xMax</strong><br>
+	 * [2] Contains the <strong>yMin</strong><br>
+	 * [3] Contains the <strong>yMax
+	 */
+	protected int[] collisionBoders = new int[4];
 
-	public Mob(LevelHandler level, String name, int x, int y, double speed) {
+	public Mob(LevelHandler level, String name, int x, int y, double speed, int[] collisionBoders) {
 		super(level);
 		this.name = name;
 		this.setX(x);
 		this.setY(y);
 		this.speed = speed;
+		this.collisionBoders = collisionBoders;
 	}
 
 	public void move(double xa, double ya) {
@@ -87,10 +98,10 @@ public abstract class Mob extends Entity {
 	}
 
 	public boolean hasCollided(double xa, double ya){
-		int xMin = 0;
-		int xMax = 7;
-		int yMin = 3;
-		int yMax = 7;
+		int xMin = collisionBoders[0];
+		int xMax = collisionBoders[1];
+		int yMin = collisionBoders[2];
+		int yMax = collisionBoders[3];
 
 		for (int x = xMin; x < xMax; x++) {
 			if (isSolid((int) xa, (int) ya, x, yMin)) {
@@ -154,6 +165,25 @@ public abstract class Mob extends Entity {
 		}
 
 		return false;
+	}
+	
+	protected void aStarMovementAI(int x, int y, int px, int py, double xa,
+			double ya, double speed, Mob mob, List<Node> path, int time){
+		xa = 0;
+		ya = 0;
+		Vector2i start = new Vector2i(x >> 3, y >> 3);
+		Vector2i goal = new Vector2i(px >> 3, py >> 3);
+		path = level.findPath(start, goal);
+		if(path != null) {
+			if(path.size() > 0){
+				Vector2i vector = path.get(path.size() - 1).tile;
+				if(x < vector.getX() << 3) xa =+ speed;
+				if(x > vector.getX() << 3) xa =- speed;
+				if(y < vector.getY() << 3) ya =+ speed;
+				if(y > vector.getY() << 3) ya =- speed;
+				moveMob(xa, ya, mob);
+			}
+		}
 	}
 
 	protected void followMovementAI(int x, int y, int px, int py, double xa,

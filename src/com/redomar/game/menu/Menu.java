@@ -112,7 +112,9 @@ public class Menu implements Runnable {
 		if (isGameOver()) {
 			g.drawString("GAME OVER... What will you do now?", 35, 30);
 		} else {
-			String name = (Game.getJdata_UserName().length() >= 1) ? WordUtils.capitalizeFully(Game.getJdata_UserName()).toString() : "Player";
+			String name = (Game.getJdata_UserName().length() >= 1) ? WordUtils
+					.capitalizeFully(Game.getJdata_UserName()).toString()
+					: "Player";
 			g.drawString("Welcome to JavaGame " + name, 35, 30);
 		}
 		g.drawLine(10, (HEIGHT * 3), 10, 10);
@@ -188,39 +190,44 @@ public class Menu implements Runnable {
 			splash.setProgress(92, "Aquring data: Multiplayer");
 			Thread.sleep(125);
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			Game.setJdata_Host(JOptionPane.showConfirmDialog(Game.getGame(),
-					"Do you want to be the HOST?"));
-			if (Game.getJdata_Host() == 1) {
+			String multiMsg = "Sorry but multiplayer has been disabled on this version.\nIf you would like multiplayer checkout Alpha 1.6";
+			JOptionPane.showMessageDialog(Game.getGame(), multiMsg,
+					"Multiplayer Warning", JOptionPane.WARNING_MESSAGE);
+			// Game.setJdata_Host(JOptionPane.showConfirmDialog(Game.getGame(),
+			// "Do you want to be the HOST?"));
+			Game.setJdata_Host(1);
+			if (Game.getJdata_Host() != 1) { // Game.getJdata_Host() == 1
 				Game.setJdata_IP(JOptionPane.showInputDialog(Game.getGame(),
 						"Enter the name \nleave blank for local"));
 			}
 			Thread.sleep(125);
 			splash.setProgress(94, "Aquring data: Username");
+			String s = JOptionPane.showInputDialog(Game.getGame(),
+					"Enter a name");
+			if (s != null) {
+				Game.setJdata_UserName(s);
+			}
 			Thread.sleep(125);
-			splash.setProgress(95, "Initalizing as Server:Host");
-			Game.setJdata_UserName(JOptionPane.showInputDialog(Game.getGame(),
-					"Enter a name"));
-			Thread.sleep(250);
 			splash.setProgress(96, "Collecting Player Data");
-			Object[] options = { "African", "Caucasian"};
+			Object[] options = { "African", "Caucasian" };
 			int n = JOptionPane.showOptionDialog(frame,
-					"Choose a race for the charater to be",
-					"Choose a race", JOptionPane.YES_NO_OPTION,
-					JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-			if(n == 0){
+					"Choose a race for the charater to be", "Choose a race",
+					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
+					null, options, options[0]);
+			if (n == 0) {
 				Game.setAternateColsR(true);
-			}else{
+			} else {
 				Game.setAternateColsR(false);
 			}
 			Thread.sleep(250);
-			Object[] options1 = { "Orange", "Black"};
+			Object[] options1 = { "Orange", "Black" };
 			int n1 = JOptionPane.showOptionDialog(frame,
 					"Which Colour do you want the shirt to be?",
 					"Choose a shirt Colour", JOptionPane.YES_NO_OPTION,
 					JOptionPane.QUESTION_MESSAGE, null, options1, options1[0]);
-			if(n1 == 0){
+			if (n1 == 0) {
 				Game.setAternateColsS(true);
-			}else{
+			} else {
 				Game.setAternateColsS(false);
 			}
 			splash.setProgress(97, "Connecting as" + Game.getJdata_UserName());

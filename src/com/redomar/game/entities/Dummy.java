@@ -7,6 +7,7 @@ import com.redomar.game.entities.efx.Swim;
 import com.redomar.game.gfx.Colours;
 import com.redomar.game.gfx.Screen;
 import com.redomar.game.level.LevelHandler;
+import com.redomar.game.level.Node;
 
 public class Dummy extends Mob {
 
@@ -17,12 +18,15 @@ public class Dummy extends Mob {
 	private boolean[] swimType;
 	private int[] swimColour;
 	private static double speed = 0.75;
+	private List<Node> path = null;
+	private int time = 0;
+	private static int[] collisionBoders = {0, 7, 0, 7};
 
 	private Swim swim;
 
 	public Dummy(LevelHandler level, String name, int x, int y, int shirtCol,
 			int faceCol) {
-		super(level, "h", x, y, speed);
+		super(level, "h", x, y, speed, collisionBoders);
 		this.faceCol = faceCol;
 		this.shirtCol = shirtCol;
 		this.colour = Colours.get(-1, 111, shirtCol, faceCol);
@@ -30,13 +34,10 @@ public class Dummy extends Mob {
 
 	public void tick() {
 
-		List<Player> players = level.getPlayers(this, 8);
-		if (players.size() > 0) {
-			followMovementAI((int) getX(), (int) getY(), (int) Game.getPlayer().getX(), (int) Game
-					.getPlayer().getY(), xa, ya, speed, this);
-		}else{
-			isMoving = false;
-		}
+		//List<Player> players = level.getPlayers(this, 8);
+		aStarMovementAI((int) getX(), (int) getY(), (int) Game.getPlayer().getX(), (int) Game
+					.getPlayer().getY(), xa, ya, speed, this, path, time);
+		
 
 		setSwim(new Swim(level, (int) getX(), (int) getY()));
 		swimType = getSwim().swimming(isSwimming, isMagma, isMuddy);
@@ -49,6 +50,7 @@ public class Dummy extends Mob {
 	}
 
 	public void render(Screen screen) {
+		time++;
 		int xTile = 8;
 		int yTile = 28;
 		int walkingSpeed = 4;
