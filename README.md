@@ -1,4 +1,4 @@
-JavaGame Alpha v1.7.1 - 1 Year anniversary
+JavaGame Alpha v1.7.1 - 1 Year Anniversary
 =====================
 
 [![Ohloh Stats](https://www.ohloh.net/p/JavaGame/widgets/project_thin_badge.gif)](https://www.ohloh.net/p/JavaGame)
