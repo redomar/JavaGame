@@ -225,6 +225,10 @@ public abstract class Mob extends Entity {
 	public void setMoving(boolean isMoving) {
 		this.isMoving = isMoving;
 	}
+	
+	public boolean isMoving(){
+		return this.isMoving;
+	}
 
 	public void setMovingDir(int movingDir) {
 		this.movingDir = movingDir;
