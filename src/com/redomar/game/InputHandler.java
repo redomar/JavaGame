@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import com.redomar.game.lib.SleepThread;
+import com.redomar.game.script.PopUp;
 import com.redomar.game.script.PrintTypes;
 import com.redomar.game.script.Printing;
 
@@ -31,6 +32,11 @@ public class InputHandler implements KeyListener {
 				numTimesPressed++;
 			}
 		}
+		
+		public void off(){
+			pressed = false;
+			numTimesPressed = 0;
+		}
 	}
 
 	private Key up = new Key();
@@ -40,7 +46,8 @@ public class InputHandler implements KeyListener {
 	private Printing print = new Printing();
 	private boolean PlayMusic = false;
 	private int map;
-	private boolean untoggle = false;
+	private boolean ignoreInput = false;
+	private PopUp popup = new PopUp();
 	
 	public void keyPressed(KeyEvent e) {
 		toggleKey(e.getKeyCode(), true);
@@ -55,7 +62,7 @@ public class InputHandler implements KeyListener {
 	}
 
 	public void toggleKey(int keyCode, boolean isPressed) {
-		if(untoggle == false){
+		if(isIgnoreInput() == false){
 			if (keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_UP) {
 				getUp().toggle(isPressed);
 			}
@@ -68,7 +75,8 @@ public class InputHandler implements KeyListener {
 			if (keyCode == KeyEvent.VK_D || keyCode == KeyEvent.VK_RIGHT) {
 				getRight().toggle(isPressed);
 			}
-		}else{
+		}
+		if(isIgnoreInput() == true){
 			getUp().toggle(false);
 			getDown().toggle(false);
 			getLeft().toggle(false);
@@ -92,6 +100,14 @@ public class InputHandler implements KeyListener {
 			}
 		}
 		if (keyCode == KeyEvent.VK_N) {
+			if (Game.getPlayer().isMoving()){
+				setIgnoreInput(true);
+				int n = popup.Warn("Stop moving before spawing dummy AI");
+				if(n == 0){
+					setIgnoreInput(false);
+				}
+				return;
+			}
 			if (Game.isNpc() == false) {
 				Game.setNpc(true);
 				Game.npcSpawn();
@@ -127,7 +143,7 @@ public class InputHandler implements KeyListener {
 	}
 	
 	public void untoggle(boolean toggle){
-		this.untoggle = toggle;
+		this.ignoreInput = toggle;
 	}
 	
 
@@ -179,12 +195,12 @@ public class InputHandler implements KeyListener {
 		this.right = right;
 	}
 
-	public boolean isUntoggle() {
-		return untoggle;
+	public boolean isIgnoreInput() {
+		return ignoreInput;
 	}
 
-	public void setUntoggle(boolean untoggle) {
-		this.untoggle = untoggle;
+	public void setIgnoreInput(boolean ignoreInput) {
+		this.ignoreInput = ignoreInput;
 	}
 
 }
