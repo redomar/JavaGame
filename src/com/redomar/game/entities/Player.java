@@ -157,10 +157,19 @@ public class Player extends Mob {
 			;
 		}
 
-		if (userName != null) {
-			Font.render(userName, screen, xOffset
-					- ((userName.length() - 1) / 2 * 8), yOffset - 10,
+		if (userName != null) {	
+			/*
+			 * Improved userName centering above player's sprite.
+			 * Using player's own x value cast to int with an adjusted formula
+			 * -posmicanomaly
+			 */
+			int fontCharSize = 8;
+			Font.render(userName, 
+					screen, 
+					(int)x - ((userName.length() /2) * fontCharSize),
+					yOffset - 10,
 					Colours.get(-1, -1, -1, 555), 1);
+			
 		}
 	}
 
