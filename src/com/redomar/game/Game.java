@@ -71,6 +71,7 @@ public class Game extends Canvas implements Runnable {
 			BufferedImage.TYPE_INT_RGB);
 	private Screen screen;
 	private static InputHandler input;
+	private static MouseHandler mouse;
 	private WindowHandler window;
 	private LevelHandler level;
 	private Player player;
@@ -124,6 +125,7 @@ public class Game extends Canvas implements Runnable {
 
 		screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/sprite_sheet.png"));
 		input = new InputHandler(this);
+		setMouse(new MouseHandler(this));
 		setWindow(new WindowHandler(this));
 		setMap("/levels/custom_level.png");
 		setMap(1);
@@ -305,6 +307,7 @@ public class Game extends Canvas implements Runnable {
 		Graphics g = bs.getDrawGraphics();
 		g.drawRect(0, 0, getWidth(), getHeight());
 		g.drawImage(image, 0, 0, getWidth(), getHeight() - 30, null);
+		status(g, isDevMode(), isClosing());
 		// Font.render("Hi", screen, 0, 0, Colours.get(-1, -1, -1, 555), 1);
 		g.drawImage(image2, 0, getHeight() - 30, getWidth(), getHeight(), null);
 		g.setColor(Color.WHITE);
@@ -317,7 +320,6 @@ public class Game extends Canvas implements Runnable {
 		g.drawString("Press Q to quit", (getWidth()/2)-("Press Q to quit".length()*3), getHeight() -17);
 		g.setColor(Color.YELLOW);
 		g.drawString(time.getTime(), (getWidth() - 58), (getHeight() - 3));
-		status(g, isDevMode(), isClosing());
 		g.setColor(Color.WHITE);
 		if (noAudioDevice == true) {
 			g.setColor(Color.RED);
@@ -354,7 +356,7 @@ public class Game extends Canvas implements Runnable {
 
 	private void status(Graphics g, boolean TerminalMode, boolean TerminalQuit) {
 		if (TerminalMode == true){
-			g.setColor(Color.GREEN);
+			g.setColor(Color.CYAN);
 			g.drawString("JavaGame Stats", 0, 10);
 			g.drawString("FPS/TPS: " + fps + "/" + tps, 0, 25);
 			if ((player.getNumSteps() & 15) == 15) {
@@ -362,6 +364,10 @@ public class Game extends Canvas implements Runnable {
 			}
 			g.drawString("Foot Steps: " + steps, 0, 40);
 			g.drawString("NPC: " + WordUtils.capitalize(String.valueOf(isNpc())) , 0, 55);
+			g.drawString("Mouse: " + getMouse().getX() + "x |" + getMouse().getY() + "y", 0, 70);
+			if(getMouse().getButton() != -1) g.drawString("Button: " + getMouse().getButton(), 0, 85);
+			g.setColor(Color.CYAN);
+			g.fillRect(getMouse().getX()-12, getMouse().getY()-12, 24, 24);
 		}
 		if (TerminalQuit == true){
 			g.setColor(Color.BLACK);
@@ -554,6 +560,14 @@ public class Game extends Canvas implements Runnable {
 
 	public void setInput(InputHandler input) {
 		Game.input = input;
+	}
+
+	public static MouseHandler getMouse() {
+		return mouse;
+	}
+
+	public static void setMouse(MouseHandler mouse) {
+		Game.mouse = mouse;
 	}
 
 	public static boolean isDevMode() {
