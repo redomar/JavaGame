@@ -7,6 +7,8 @@ import com.redomar.game.level.LevelHandler;
 import com.redomar.game.level.Node;
 import com.redomar.game.level.tiles.Tile;
 import com.redomar.game.lib.utils.Vector2i;
+import com.redomar.game.script.PrintTypes;
+import com.redomar.game.script.Printing;
 
 public abstract class Mob extends Entity {
 
@@ -208,6 +210,12 @@ public abstract class Mob extends Entity {
 		} else {
 			mob.isMoving = false;
 		}
+	}
+	
+	protected void shoot(double x, double y, double dir){
+		Printing print = new Printing();
+		dir = dir * (180 /Math.PI); 
+		print.print("Angle: "+ dir, PrintTypes.GAME);
 	}
 
 	public String getName() {

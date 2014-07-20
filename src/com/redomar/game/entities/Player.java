@@ -56,6 +56,13 @@ public class Player extends Mob {
 				xa += speed;
 			}
 		}
+		
+		if (Game.getMouse().getButton() == 1){
+			double dx = Game.getMouse().getX() - 480/2;
+			double dy = Game.getMouse().getY() - 320/2;
+			double dir = Math.atan2(dy, dx);
+			shoot(x, y, dir);
+		}
 
 		if (xa != 0 || ya != 0) {
 			move(xa, ya);
