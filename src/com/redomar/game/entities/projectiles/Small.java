@@ -5,13 +5,14 @@ import com.redomar.game.gfx.Screen;
 import com.redomar.game.level.LevelHandler;
 
 public class Small extends Projectile{
+	
+	public static final int FIRE_RATE = 12;
 
 	public Small(LevelHandler level, int x, int y, double dir) {
 		super(level, x, y, dir);
-		range = life.nextInt(25) + 50;
+		range = 50 + life.nextInt(5);
 		damage = 20;
-		rate = 15;
-		speed = 4;
+		speed = 3;
 		
 		nx = speed * Math.cos(angle);
 		ny = speed * Math.sin(angle);
@@ -31,7 +32,7 @@ public class Small extends Projectile{
 	}
 
 	public void render(Screen screen) {
-		screen.render((int)x + 6,(int)y, 8 * 32, Colours.get(-1, 222, 333, 555), 0x00, 1);
+		screen.render((int)x,(int)y, 8 * 32, Colours.get(-1, 222, 333, 555), 0x00, 1);
 	}
 
 }

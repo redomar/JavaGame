@@ -10,7 +10,7 @@ public abstract class Projectile extends Entity{
 	protected final double xOrigin, yOrigin;
 	protected double angle;
 	protected double nx, ny;
-	protected double speed, rate, range, damage, distance;
+	protected double speed, range, damage, distance;
 	protected Random life = new Random();
 	
 	private boolean removed = false;
