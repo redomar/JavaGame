@@ -29,7 +29,7 @@ public abstract class Mob extends Entity {
 	 * [0] Contains the <strong>xMin</strong><br>
 	 * [1] Contains the <strong>xMax</strong><br>
 	 * [2] Contains the <strong>yMin</strong><br>
-	 * [3] Contains the <strong>yMax
+	 * [3] Contains the <strong>yMax</strong>
 	 */
 	protected int[] collisionBoders = new int[4];
 	

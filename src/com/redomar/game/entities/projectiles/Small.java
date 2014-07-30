@@ -8,7 +8,7 @@ public class Small extends Projectile{
 
 	public Small(LevelHandler level, int x, int y, double dir) {
 		super(level, x, y, dir);
-		range = 200;
+		range = life.nextInt(25) + 50;
 		damage = 20;
 		rate = 15;
 		speed = 4;
@@ -24,10 +24,14 @@ public class Small extends Projectile{
 	protected void move(){
 		x += nx;
 		y += ny;
+		
+		double distance = Math.sqrt(Math.abs((xOrigin - x)*(xOrigin - x)+(yOrigin - y)*(yOrigin - y)));
+		this.distance = distance;
+		if(this.distance > range) remove();
 	}
 
 	public void render(Screen screen) {
-		screen.render((int)x,(int)y, 8 * 32, Colours.get(-1, 222, 333, 555), 0x00, 1);
+		screen.render((int)x + 6,(int)y, 8 * 32, Colours.get(-1, 222, 333, 555), 0x00, 1);
 	}
 
 }

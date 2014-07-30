@@ -3,6 +3,7 @@ package com.redomar.game.entities;
 import com.redomar.game.Game;
 import com.redomar.game.InputHandler;
 import com.redomar.game.entities.efx.Swim;
+import com.redomar.game.entities.projectiles.Projectile;
 import com.redomar.game.gfx.Colours;
 import com.redomar.game.gfx.Screen;
 import com.redomar.game.level.LevelHandler;
@@ -62,6 +63,14 @@ public class Player extends Mob {
 			double dy = Game.getMouse().getY() - 320/2;
 			double dir = Math.atan2(dy, dx);
 			shoot(x, y, dir);
+		}
+		
+		for (int i = 0; i < projectiles.size(); i++) {
+			Projectile p = projectiles.get(i);
+			if(p.isRemoved()){
+				projectiles.remove(i);
+				Game.getLevel().removeProjectileEntities(p);
+			}
 		}
 
 		if (xa != 0 || ya != 0) {
