@@ -64,11 +64,13 @@ public class Player extends Mob {
 		if(fireRate > 0) fireRate--;
 		
 		if (Game.getMouse().getButton() == 1 && fireRate <= 0){
-			double dx = Game.getMouse().getX() - 480/2;
-			double dy = Game.getMouse().getY() - 320/2;
-			double dir = Math.atan2(dy, dx);
-			shoot(x, y, dir);
-			fireRate = Small.FIRE_RATE;
+			if(!swim.isActive(swimType)){
+				double dx = Game.getMouse().getX() - 480/2;
+				double dy = Game.getMouse().getY() - 320/2;
+				double dir = Math.atan2(dy, dx);
+				shoot(x, y, dir);
+				fireRate = Small.FIRE_RATE;
+			}
 		}
 		
 		for (int i = 0; i < projectiles.size(); i++) {

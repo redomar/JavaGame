@@ -6,19 +6,20 @@ import com.redomar.game.level.LevelHandler;
 
 public class Small extends Projectile{
 	
-	public static final int FIRE_RATE = 12;
+	public static final int FIRE_RATE = 7;
 
 	public Small(LevelHandler level, int x, int y, double dir) {
 		super(level, x, y, dir);
-		range = 50 + life.nextInt(5);
+		range = 125 - life.nextInt(30);
 		damage = 20;
-		speed = 3;
+		speed = 2;
 		
 		nx = speed * Math.cos(angle);
 		ny = speed * Math.sin(angle);
 	}
 
 	public void tick() {
+		if (tileCollision(x, y,(int) nx,(int) ny)) remove();
 		move();
 	}
 	
