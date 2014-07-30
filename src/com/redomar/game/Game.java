@@ -262,6 +262,7 @@ public class Game extends Canvas implements Runnable {
 		 */
 
 		getLevel().renderEntities(screen);
+		getLevel().renderProjectileEntities(screen);
 
 		for (int y = 0; y < screen.getHeight(); y++) {
 			for (int x = 0; x < screen.getWidth(); x++) {
