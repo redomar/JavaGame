@@ -26,6 +26,7 @@ public class LevelHandler {
 	private int width;
 	private int height;
 	private List<Entity> entities = new ArrayList<Entity>();
+	private List<Entity> entities_p = new ArrayList<Entity>();
 	private String imagePath;
 	private BufferedImage image;
 
@@ -111,12 +112,20 @@ public class LevelHandler {
 	public synchronized List<Entity> getEntities() {
 		return this.entities;
 	}
+	
+	public synchronized List<Entity> getProjectileEntities() {
+		return this.entities_p;
+	}
 
 	public void tick() {
 		for (Entity e : getEntities()) {
 			e.tick();
 		}
-
+		
+		for (Entity e : getProjectileEntities()) {
+			e.tick();
+		}
+		
 		for (Tile t : Tile.getTiles()) {
 			if (t == null) {
 				break;
@@ -154,6 +163,12 @@ public class LevelHandler {
 			e.render(screen);
 		}
 	}
+	
+	public void renderProjectileEntities(Screen screen){
+		for (Entity e : getProjectileEntities()){
+			e.render(screen);
+		}
+	}
 
 	public Tile getTile(int x, int y) {
 		if (0 > x || x >= width || 0 > y || y >= height) {
@@ -165,9 +180,17 @@ public class LevelHandler {
 	public void addEntity(Entity entity) {
 		this.getEntities().add(entity);
 	}
+	
+	public void addProjectileEntities(Entity entity) {
+		this.getProjectileEntities().add(entity);
+	}
 
 	public void removeEntity(Entity entity) {
 		this.getEntities().remove(entity);
+	}
+	
+	public void removeProjectileEntities(Entity entity) {
+		this.getProjectileEntities().remove(entity);
 	}
 
 	public void removeEntity(String username) {

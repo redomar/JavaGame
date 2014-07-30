@@ -1,8 +1,11 @@
 package com.redomar.game.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.redomar.game.entities.projectiles.Projectile;
+import com.redomar.game.entities.projectiles.Small;
 import com.redomar.game.level.LevelHandler;
 import com.redomar.game.level.Node;
 import com.redomar.game.level.tiles.Tile;
@@ -29,6 +32,8 @@ public abstract class Mob extends Entity {
 	 * [3] Contains the <strong>yMax
 	 */
 	protected int[] collisionBoders = new int[4];
+	
+	protected List<Projectile> projectiles = new ArrayList<Projectile>();
 
 	public Mob(LevelHandler level, String name, int x, int y, double speed, int[] collisionBoders) {
 		super(level);
@@ -208,6 +213,15 @@ public abstract class Mob extends Entity {
 		} else {
 			mob.isMoving = false;
 		}
+	}
+	
+	protected void shoot(double x, double y, double dir){
+//		dir = dir * (180 /Math.PI); 
+//		Printing print = new Printing();
+//		print.print("Angle: "+ dir, PrintTypes.GAME);
+		Projectile p = new Small(level, (int) x,(int) y, dir);
+		projectiles.add(p);
+		level.addProjectileEntities(p);
 	}
 
 	public String getName() {
