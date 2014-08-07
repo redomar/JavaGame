@@ -3,6 +3,8 @@ package com.redomar.game.entities;
 import com.redomar.game.Game;
 import com.redomar.game.InputHandler;
 import com.redomar.game.entities.efx.Swim;
+import com.redomar.game.entities.projectiles.Projectile;
+import com.redomar.game.entities.projectiles.Small;
 import com.redomar.game.gfx.Colours;
 import com.redomar.game.gfx.Screen;
 import com.redomar.game.level.LevelHandler;
@@ -25,6 +27,7 @@ public class Player extends Mob {
 	private boolean[] swimType;
 	private int[] swimColour;
 	private static int[] collisionBoders = {-2, 8, 0, 7};
+	private int fireRate = 0;
 
 	public static String guestPlayerName = customeName.setName("Player ");
 
@@ -36,6 +39,7 @@ public class Player extends Mob {
 		this.faceCol = faceCol;
 		this.shirtCol = shirtCol;
 		this.colour = Colours.get(-1, 111, shirtCol, faceCol);
+		fireRate = Small.FIRE_RATE;
 	}
 
 	public void tick() {
@@ -57,11 +61,24 @@ public class Player extends Mob {
 			}
 		}
 		
-		if (Game.getMouse().getButton() == 1){
-			double dx = Game.getMouse().getX() - 480/2;
-			double dy = Game.getMouse().getY() - 320/2;
-			double dir = Math.atan2(dy, dx);
-			shoot(x, y, dir);
+		if(fireRate > 0) fireRate--;
+		
+		if (Game.getMouse().getButton() == 1 && fireRate <= 0){
+			if(!swim.isActive(swimType)){
+				double dx = Game.getMouse().getX() - 480/2;
+				double dy = Game.getMouse().getY() - 320/2;
+				double dir = Math.atan2(dy, dx);
+				shoot(x, y, dir);
+				fireRate = Small.FIRE_RATE;
+			}
+		}
+		
+		for (int i = 0; i < projectiles.size(); i++) {
+			Projectile p = projectiles.get(i);
+			if(p.isRemoved()){
+				projectiles.remove(i);
+				Game.getLevel().removeProjectileEntities(p);
+			}
 		}
 
 		if (xa != 0 || ya != 0) {

@@ -19,6 +19,8 @@ import com.redomar.game.gfx.Screen;
 import com.redomar.game.level.tiles.Tile;
 import com.redomar.game.lib.utils.Vector2i;
 import com.redomar.game.net.packets.Packet01Disconnect;
+import com.redomar.game.script.PrintTypes;
+import com.redomar.game.script.Printing;
 
 public class LevelHandler {
 
@@ -29,6 +31,7 @@ public class LevelHandler {
 	private List<Entity> entities_p = new ArrayList<Entity>();
 	private String imagePath;
 	private BufferedImage image;
+	private Printing print;
 
 	private Comparator<Node> nodeSorter = new Comparator<Node>() {
 
@@ -51,6 +54,8 @@ public class LevelHandler {
 			this.height = 64;
 			this.generateLevel();
 		}
+		
+		print = new Printing();
 	}
 
 	private void loadLevelFromFile() {
@@ -179,6 +184,12 @@ public class LevelHandler {
 
 	public void addEntity(Entity entity) {
 		this.getEntities().add(entity);
+		print.print("Added "+entity.getName()+" Entity", PrintTypes.LEVEL);
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void addProjectileEntities(Entity entity) {
@@ -187,6 +198,12 @@ public class LevelHandler {
 
 	public void removeEntity(Entity entity) {
 		this.getEntities().remove(entity);
+		print.print("Removed "+entity.getName()+" Entity", PrintTypes.LEVEL);
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void removeProjectileEntities(Entity entity) {

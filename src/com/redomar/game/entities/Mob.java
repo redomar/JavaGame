@@ -13,7 +13,6 @@ import com.redomar.game.lib.utils.Vector2i;
 
 public abstract class Mob extends Entity {
 
-	protected String name;
 	protected Random random = new Random();
 	protected double speed;
 	protected int numSteps = 0;
@@ -29,7 +28,7 @@ public abstract class Mob extends Entity {
 	 * [0] Contains the <strong>xMin</strong><br>
 	 * [1] Contains the <strong>xMax</strong><br>
 	 * [2] Contains the <strong>yMin</strong><br>
-	 * [3] Contains the <strong>yMax
+	 * [3] Contains the <strong>yMax</strong>
 	 */
 	protected int[] collisionBoders = new int[4];
 	
@@ -204,6 +203,25 @@ public abstract class Mob extends Entity {
 		if (py < y)
 			ya-=speed;
 		moveMob(xa, ya, mob);
+	}
+	
+	protected double[] randomMovementAI(double x, double y, double xa, double ya, int tick) {
+		if (tick % (random.nextInt(50) + 30) == 0) {
+			xa = random.nextInt(3) - 1;
+			ya = random.nextInt(3) - 1;
+			if (random.nextInt(4) == 0) {
+				xa = 0;
+				ya = 0;
+			}
+		}
+		if(x <= 180){
+			xa = 1;
+			ya = -1;
+		}
+		double move[] = new double[2];
+		move[0] = xa;
+		move[1] = ya;
+		return move;
 	}
 
 	protected void moveMob(double xa, double ya, Mob mob) {

@@ -8,6 +8,7 @@ public class Printing {
 	private PrintTypes type;
 	private Time time = new Time();
 	private String message;
+	private boolean redMode = false;
 
 	public Printing() {
 
@@ -16,13 +17,18 @@ public class Printing {
 	public void print(String message, PrintTypes type) {
 		this.type = type;
 		setMessage(message);
+		readMessageType(type);
 		printOut();		
 	}
 	
 	private void printOut(){
 		String msgTime = "[" + time.getTime() + "]";
 		String msgType = "[" + type.toString() + "]";
-		System.out.println(msgType + msgTime + getMessage());
+		if(redMode == true){
+			System.err.println(msgType + msgTime + getMessage());
+		}else{
+			System.out.println(msgType + msgTime + getMessage());
+		}
 	}
 
 	public String getMessage() {
@@ -31,5 +37,13 @@ public class Printing {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+	
+	private void readMessageType(PrintTypes type){
+		if(type == PrintTypes.LEVEL){
+			this.redMode = true;
+		} else {
+			this.redMode = false;
+		}
 	}
 }

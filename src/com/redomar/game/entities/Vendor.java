@@ -2,19 +2,20 @@ package com.redomar.game.entities;
 
 import java.util.List;
 
-import com.redomar.game.Game;
 import com.redomar.game.entities.efx.Swim;
 import com.redomar.game.gfx.Colours;
 import com.redomar.game.gfx.Screen;
 import com.redomar.game.level.LevelHandler;
 import com.redomar.game.level.Node;
 
-public class Dummy extends Mob {
+public class Vendor extends Mob {
 
 	private int colour, shirtCol, faceCol; // = Colours.get(-1, 111, 240, 310);
 	private int tickCount = 0;
+	private int tick = 0;
 	private double xa = 0;
 	private double ya = 0;
+	private double[] movement;
 	private boolean[] swimType;
 	private int[] swimColour;
 	private static double speed = 0.75;
@@ -24,7 +25,7 @@ public class Dummy extends Mob {
 
 	private Swim swim;
 
-	public Dummy(LevelHandler level, String name, int x, int y, int shirtCol,
+	public Vendor(LevelHandler level, String name, int x, int y, int shirtCol,
 			int faceCol) {
 		super(level, name, x, y, speed, collisionBoders);
 		this.faceCol = faceCol;
@@ -33,12 +34,15 @@ public class Dummy extends Mob {
 	}
 
 	public void tick() {
-
-		//List<Player> players = level.getPlayers(this, 8);
-		aStarMovementAI((int) getX(), (int) getY(), (int) Game.getPlayer().getX(), (int) Game
-					.getPlayer().getY(), xa, ya, speed, this, path, time);
 		
-
+		tick++;
+		movement = randomMovementAI(x, y, xa, ya, tick);
+		
+		this.xa = movement[0];
+		this.ya = movement[1];
+		
+		moveMob(xa, ya, this);
+		
 		setSwim(new Swim(level, (int) getX(), (int) getY()));
 		swimType = getSwim().swimming(isSwimming, isMagma, isMuddy);
 		isSwimming = swimType[0];
@@ -50,7 +54,7 @@ public class Dummy extends Mob {
 	}
 
 	public void render(Screen screen) {
-		time++;
+		setTime(getTime() + 1);
 		int xTile = 8;
 		int yTile = 28;
 		int walkingSpeed = 4;
@@ -123,5 +127,21 @@ public class Dummy extends Mob {
 
 	public void setSwim(Swim swim) {
 		this.swim = swim;
+	}
+
+	public List<Node> getPath() {
+		return path;
+	}
+
+	public void setPath(List<Node> path) {
+		this.path = path;
+	}
+
+	public int getTime() {
+		return time;
+	}
+
+	public void setTime(int time) {
+		this.time = time;
 	}
 }
