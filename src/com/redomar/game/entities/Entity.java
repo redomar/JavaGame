@@ -6,6 +6,7 @@ import com.redomar.game.level.LevelHandler;
 public abstract class Entity {
 
 	protected double x, y;
+	protected String name;
 	protected LevelHandler level;
 
 	public Entity(LevelHandler level) {
@@ -34,5 +35,13 @@ public abstract class Entity {
 
 	public void setY(int y) {
 		this.y = y;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }

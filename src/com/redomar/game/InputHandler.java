@@ -95,7 +95,6 @@ public class InputHandler implements KeyListener {
 			// }
 			if (Game.getMap() == 2) {
 				Game.setChangeLevel(true);
-				Game.getLevel().removeEntity(Game.getDummy());
 				Game.setNpc(false);
 			}
 		}

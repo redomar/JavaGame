@@ -141,7 +141,7 @@ public class Game extends Canvas implements Runnable {
 		// socketClient.sendData("ping".getBytes());
 		loginPacket.writeData(getSocketClient());
 		
-		game.setVendor(new Vendor(getLevel(), "g", 215, 215, 304, 543));
+		game.setVendor(new Vendor(getLevel(), "Vendor", 215, 215, 304, 543));
 		getLevel().addEntity(getVendor());
 	}
 
@@ -166,7 +166,7 @@ public class Game extends Canvas implements Runnable {
 
 	public static void npcSpawn() {
 		if (isNpc() == true) {
-			game.setDummy(new Dummy(Game.getLevel(), "h", 100, 150, 500, 543));
+			game.setDummy(new Dummy(Game.getLevel(), "Dummy", 100, 150, 500, 543));
 			game.level.addEntity(Game.getDummy());
 		}
 	}
@@ -300,14 +300,17 @@ public class Game extends Canvas implements Runnable {
 		}
 
 		if (changeLevel == true) {
+			print.print("Teleported into new world", PrintTypes.GAME);
 			if (getMap() == 1) {
 				setMap("/levels/water_level.png");
-				setMap(2);
+				getLevel().removeEntity(getDummy()); setNpc(false);
 				getLevel().removeEntity(getVendor());
+				setMap(2);
 			} else if (getMap() == 2) {
 				setMap("/levels/custom_level.png");
-				setMap(1);
+				getLevel().removeEntity(getDummy()); setNpc(false);
 				getLevel().addEntity(getVendor());
+				setMap(1);
 			}
 			changeLevel = false;
 		}

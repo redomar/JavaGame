@@ -27,7 +27,7 @@ public class Vendor extends Mob {
 
 	public Vendor(LevelHandler level, String name, int x, int y, int shirtCol,
 			int faceCol) {
-		super(level, "h", x, y, speed, collisionBoders);
+		super(level, name, x, y, speed, collisionBoders);
 		this.faceCol = faceCol;
 		this.shirtCol = shirtCol;
 		this.colour = Colours.get(-1, 111, shirtCol, faceCol);

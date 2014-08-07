@@ -13,7 +13,6 @@ import com.redomar.game.lib.utils.Vector2i;
 
 public abstract class Mob extends Entity {
 
-	protected String name;
 	protected Random random = new Random();
 	protected double speed;
 	protected int numSteps = 0;
