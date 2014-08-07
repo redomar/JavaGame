@@ -205,6 +205,25 @@ public abstract class Mob extends Entity {
 			ya-=speed;
 		moveMob(xa, ya, mob);
 	}
+	
+	protected double[] randomMovementAI(double x, double y, double xa, double ya, int tick) {
+		if (tick % (random.nextInt(50) + 30) == 0) {
+			xa = random.nextInt(3) - 1;
+			ya = random.nextInt(3) - 1;
+			if (random.nextInt(4) == 0) {
+				xa = 0;
+				ya = 0;
+			}
+		}
+		if(x <= 180){
+			xa = 1;
+			ya = -1;
+		}
+		double move[] = new double[2];
+		move[0] = xa;
+		move[1] = ya;
+		return move;
+	}
 
 	protected void moveMob(double xa, double ya, Mob mob) {
 		if (xa != 0 || ya != 0) {

@@ -17,6 +17,7 @@ import org.apache.commons.lang3.text.WordUtils;
 import com.redomar.game.entities.Dummy;
 import com.redomar.game.entities.Player;
 import com.redomar.game.entities.PlayerMP;
+import com.redomar.game.entities.Vendor;
 import com.redomar.game.gfx.Screen;
 import com.redomar.game.gfx.SpriteSheet;
 import com.redomar.game.level.LevelHandler;
@@ -76,6 +77,7 @@ public class Game extends Canvas implements Runnable {
 	private LevelHandler level;
 	private Player player;
 	private Dummy dummy;
+	private Vendor vendor;
 	private Music music = new Music();
 	private Font font = new Font();
 	private Thread musicThread = new Thread(music, "MUSIC");
@@ -138,6 +140,9 @@ public class Game extends Canvas implements Runnable {
 
 		// socketClient.sendData("ping".getBytes());
 		loginPacket.writeData(getSocketClient());
+		
+		game.setVendor(new Vendor(getLevel(), "g", 215, 215, 304, 543));
+		getLevel().addEntity(getVendor());
 	}
 
 	public void setMap(String Map_str) {
@@ -161,7 +166,7 @@ public class Game extends Canvas implements Runnable {
 
 	public static void npcSpawn() {
 		if (isNpc() == true) {
-			game.setDummy(new Dummy(Game.getLevel(), "h", 215, 215, 500, 543));
+			game.setDummy(new Dummy(Game.getLevel(), "h", 100, 150, 500, 543));
 			game.level.addEntity(Game.getDummy());
 		}
 	}
@@ -298,9 +303,11 @@ public class Game extends Canvas implements Runnable {
 			if (getMap() == 1) {
 				setMap("/levels/water_level.png");
 				setMap(2);
+				getLevel().removeEntity(getVendor());
 			} else if (getMap() == 2) {
 				setMap("/levels/custom_level.png");
 				setMap(1);
+				getLevel().addEntity(getVendor());
 			}
 			changeLevel = false;
 		}
@@ -493,6 +500,14 @@ public class Game extends Canvas implements Runnable {
 
 	public void setDummy(Dummy dummy) {
 		this.dummy = dummy;
+	}
+
+	public Vendor getVendor() {
+		return vendor;
+	}
+
+	public void setVendor(Vendor vendor) {
+		this.vendor = vendor;
 	}
 
 	public static String getJdata_IP() {
