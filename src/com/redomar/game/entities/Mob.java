@@ -234,7 +234,7 @@ public abstract class Mob extends Entity {
 		}
 	}
 	
-	protected double shoot(double x, double y, double dir, double buttonId){
+	protected void shoot(double x, double y, double dir, double buttonId){
 //		dir = dir * (180 /Math.PI); 
 //		Printing print = new Printing();
 //		print.print("Angle: "+ dir, PrintTypes.GAME);
@@ -242,14 +242,10 @@ public abstract class Mob extends Entity {
 			Projectile p = new Small(level, (int) x,(int) y, dir);
 			projectiles.add(p);
 			level.addProjectileEntities(p);
-			return 1;
-		} else if(buttonId == 2){
+		} else if(buttonId == 3){
 			Projectile p = new Medium(level, (int) x,(int) y, dir);
 			projectiles.add(p);
 			level.addProjectileEntities(p);
-			return 2;
-		} else {
-			return 0;
 		}
 	}
 
