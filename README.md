@@ -9,7 +9,7 @@ Well i'm still not sure what exactly i'm going to do with it, and I haven't thou
 
 #####Play the Game
 * For latest version get 
-   * [v1.7.1](https://github.com/redomar/JavaGame/releases/tag/v1.7.1)
+   * [v1.8](https://github.com/redomar/JavaGame/releases/tag/v1.8)
 * For multiplayer enabled get 
    * [v1.5.4](https://github.com/redomar/JavaGame/releases/tag/v1.5.4)
 
