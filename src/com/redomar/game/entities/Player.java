@@ -3,6 +3,9 @@ package com.redomar.game.entities;
 import com.redomar.game.Game;
 import com.redomar.game.InputHandler;
 import com.redomar.game.entities.efx.Swim;
+import com.redomar.game.entities.projectiles.Medium;
+import com.redomar.game.entities.projectiles.Projectile;
+import com.redomar.game.entities.projectiles.Small;
 import com.redomar.game.gfx.Colours;
 import com.redomar.game.gfx.Screen;
 import com.redomar.game.level.LevelHandler;
@@ -25,6 +28,7 @@ public class Player extends Mob {
 	private boolean[] swimType;
 	private int[] swimColour;
 	private static int[] collisionBoders = {-2, 8, 0, 7};
+	private int fireRate = 0;
 
 	public static String guestPlayerName = customeName.setName("Player ");
 
@@ -36,6 +40,7 @@ public class Player extends Mob {
 		this.faceCol = faceCol;
 		this.shirtCol = shirtCol;
 		this.colour = Colours.get(-1, 111, shirtCol, faceCol);
+		fireRate = Small.FIRE_RATE;
 	}
 
 	public void tick() {
@@ -43,17 +48,43 @@ public class Player extends Mob {
 		double ya = 0;
 
 		if (input != null) {
-			if (input.getUp().isPressed()) {
+			if (input.getUp().isPressed() && input.isIgnoreInput() == false) {
 				ya -= speed;
 			}
-			if (input.getDown().isPressed()) {
+			if (input.getDown().isPressed() && input.isIgnoreInput() == false) {
 				ya += speed;
 			}
-			if (input.getLeft().isPressed()) {
+			if (input.getLeft().isPressed() && input.isIgnoreInput() == false) {
 				xa -= speed;
 			}
-			if (input.getRight().isPressed()) {
+			if (input.getRight().isPressed() && input.isIgnoreInput() == false) {
 				xa += speed;
+			}
+		}
+		
+		if(fireRate > 0) fireRate--;
+		
+		if (Game.getMouse().getButton() == 1 || Game.getMouse().getButton() == 3){
+			if(fireRate <= 0){
+				if(Game.getMouse().getButton()== 1){
+					fireRate = Small.FIRE_RATE;	
+				}else if(Game.getMouse().getButton() == 3){
+					fireRate = Medium.FIRE_RATE;
+				}
+				if(!swim.isActive(swimType)){
+					double dx = Game.getMouse().getX() - 480/2;
+					double dy = Game.getMouse().getY() - 320/2;
+					double dir = Math.atan2(dy, dx);
+					shoot(x, y, dir, Game.getMouse().getButton(), false);
+				}				
+			}
+		}
+		
+		for (int i = 0; i < projectiles.size(); i++) {
+			Projectile p = projectiles.get(i);
+			if(p.isRemoved()){
+				projectiles.remove(i);
+				Game.getLevel().removeProjectileEntities(p);
 			}
 		}
 

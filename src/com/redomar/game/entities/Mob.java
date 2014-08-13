@@ -1,8 +1,12 @@
 package com.redomar.game.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.redomar.game.entities.projectiles.Medium;
+import com.redomar.game.entities.projectiles.Projectile;
+import com.redomar.game.entities.projectiles.Small;
 import com.redomar.game.level.LevelHandler;
 import com.redomar.game.level.Node;
 import com.redomar.game.level.tiles.Tile;
@@ -10,7 +14,6 @@ import com.redomar.game.lib.utils.Vector2i;
 
 public abstract class Mob extends Entity {
 
-	protected String name;
 	protected Random random = new Random();
 	protected double speed;
 	protected int numSteps = 0;
@@ -26,9 +29,11 @@ public abstract class Mob extends Entity {
 	 * [0] Contains the <strong>xMin</strong><br>
 	 * [1] Contains the <strong>xMax</strong><br>
 	 * [2] Contains the <strong>yMin</strong><br>
-	 * [3] Contains the <strong>yMax
+	 * [3] Contains the <strong>yMax</strong>
 	 */
 	protected int[] collisionBoders = new int[4];
+	
+	protected List<Projectile> projectiles = new ArrayList<Projectile>();
 
 	public Mob(LevelHandler level, String name, int x, int y, double speed, int[] collisionBoders) {
 		super(level);
@@ -200,6 +205,25 @@ public abstract class Mob extends Entity {
 			ya-=speed;
 		moveMob(xa, ya, mob);
 	}
+	
+	protected double[] randomMovementAI(double x, double y, double xa, double ya, int tick) {
+		if (tick % (random.nextInt(50) + 30) == 0) {
+			xa = random.nextInt(3) - 1;
+			ya = random.nextInt(3) - 1;
+			if (random.nextInt(4) == 0) {
+				xa = 0;
+				ya = 0;
+			}
+		}
+		if(x <= 180){
+			xa = 1;
+			ya = -1;
+		}
+		double move[] = new double[2];
+		move[0] = xa;
+		move[1] = ya;
+		return move;
+	}
 
 	protected void moveMob(double xa, double ya, Mob mob) {
 		if (xa != 0 || ya != 0) {
@@ -207,6 +231,21 @@ public abstract class Mob extends Entity {
 			mob.isMoving = true;
 		} else {
 			mob.isMoving = false;
+		}
+	}
+	
+	protected void shoot(double x, double y, double dir, double buttonId, boolean secondry){
+//		dir = dir * (180 /Math.PI); 
+//		Printing print = new Printing();
+//		print.print("Angle: "+ dir, PrintTypes.GAME);
+		if(buttonId == 1){
+			Projectile p = new Small(level, (int) x,(int) y, dir);
+			projectiles.add(p);
+			level.addProjectileEntities(p);
+		} else if(buttonId == 3 && secondry == true){
+			Projectile p = new Medium(level, (int) x,(int) y, dir);
+			projectiles.add(p);
+			level.addProjectileEntities(p);
 		}
 	}
 
@@ -224,6 +263,10 @@ public abstract class Mob extends Entity {
 
 	public void setMoving(boolean isMoving) {
 		this.isMoving = isMoving;
+	}
+	
+	public boolean isMoving(){
+		return this.isMoving;
 	}
 
 	public void setMovingDir(int movingDir) {

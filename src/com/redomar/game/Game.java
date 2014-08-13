@@ -17,6 +17,7 @@ import org.apache.commons.lang3.text.WordUtils;
 import com.redomar.game.entities.Dummy;
 import com.redomar.game.entities.Player;
 import com.redomar.game.entities.PlayerMP;
+import com.redomar.game.entities.Vendor;
 import com.redomar.game.gfx.Screen;
 import com.redomar.game.gfx.SpriteSheet;
 import com.redomar.game.level.LevelHandler;
@@ -34,7 +35,7 @@ public class Game extends Canvas implements Runnable {
 
 	// Setting the size and name of the frame/canvas
 	private static final long serialVersionUID = 1L;
-	private static final String game_Version = "v1.7.1 Alpha";
+	private static final String game_Version = "v1.8 Alpha";
 	private static final int WIDTH = 160;
 	private static final int HEIGHT = (WIDTH / 3 * 2);
 	private static final int SCALE = 3;
@@ -71,10 +72,12 @@ public class Game extends Canvas implements Runnable {
 			BufferedImage.TYPE_INT_RGB);
 	private Screen screen;
 	private static InputHandler input;
+	private static MouseHandler mouse;
 	private WindowHandler window;
 	private LevelHandler level;
 	private Player player;
 	private Dummy dummy;
+	private Vendor vendor;
 	private Music music = new Music();
 	private Font font = new Font();
 	private Thread musicThread = new Thread(music, "MUSIC");
@@ -88,7 +91,7 @@ public class Game extends Canvas implements Runnable {
 
 	/**
 	 * @author Redomar
-	 * @version Alpha 1.7.1
+	 * @version Alpha 1.8
 	 */
 	public Game() {
 		setMinimumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
@@ -124,6 +127,7 @@ public class Game extends Canvas implements Runnable {
 
 		screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/sprite_sheet.png"));
 		input = new InputHandler(this);
+		setMouse(new MouseHandler(this));
 		setWindow(new WindowHandler(this));
 		setMap("/levels/custom_level.png");
 		setMap(1);
@@ -136,6 +140,9 @@ public class Game extends Canvas implements Runnable {
 
 		// socketClient.sendData("ping".getBytes());
 		loginPacket.writeData(getSocketClient());
+		
+		game.setVendor(new Vendor(getLevel(), "Vendor", 215, 215, 304, 543));
+		getLevel().addEntity(getVendor());
 	}
 
 	public void setMap(String Map_str) {
@@ -159,7 +166,7 @@ public class Game extends Canvas implements Runnable {
 
 	public static void npcSpawn() {
 		if (isNpc() == true) {
-			game.setDummy(new Dummy(Game.getLevel(), "h", 215, 215, 500, 543));
+			game.setDummy(new Dummy(Game.getLevel(), "Dummy", 100, 150, 500, 543));
 			game.level.addEntity(Game.getDummy());
 		}
 	}
@@ -260,6 +267,7 @@ public class Game extends Canvas implements Runnable {
 		 */
 
 		getLevel().renderEntities(screen);
+		getLevel().renderProjectileEntities(screen);
 
 		for (int y = 0; y < screen.getHeight(); y++) {
 			for (int x = 0; x < screen.getWidth(); x++) {
@@ -292,11 +300,16 @@ public class Game extends Canvas implements Runnable {
 		}
 
 		if (changeLevel == true) {
+			print.print("Teleported into new world", PrintTypes.GAME);
 			if (getMap() == 1) {
 				setMap("/levels/water_level.png");
+				getLevel().removeEntity(getDummy()); setNpc(false);
+				getLevel().removeEntity(getVendor());
 				setMap(2);
 			} else if (getMap() == 2) {
 				setMap("/levels/custom_level.png");
+				getLevel().removeEntity(getDummy()); setNpc(false);
+				getLevel().addEntity(getVendor());
 				setMap(1);
 			}
 			changeLevel = false;
@@ -305,6 +318,7 @@ public class Game extends Canvas implements Runnable {
 		Graphics g = bs.getDrawGraphics();
 		g.drawRect(0, 0, getWidth(), getHeight());
 		g.drawImage(image, 0, 0, getWidth(), getHeight() - 30, null);
+		status(g, isDevMode(), isClosing());
 		// Font.render("Hi", screen, 0, 0, Colours.get(-1, -1, -1, 555), 1);
 		g.drawImage(image2, 0, getHeight() - 30, getWidth(), getHeight(), null);
 		g.setColor(Color.WHITE);
@@ -317,7 +331,6 @@ public class Game extends Canvas implements Runnable {
 		g.drawString("Press Q to quit", (getWidth()/2)-("Press Q to quit".length()*3), getHeight() -17);
 		g.setColor(Color.YELLOW);
 		g.drawString(time.getTime(), (getWidth() - 58), (getHeight() - 3));
-		status(g, isDevMode(), isClosing());
 		g.setColor(Color.WHITE);
 		if (noAudioDevice == true) {
 			g.setColor(Color.RED);
@@ -354,7 +367,7 @@ public class Game extends Canvas implements Runnable {
 
 	private void status(Graphics g, boolean TerminalMode, boolean TerminalQuit) {
 		if (TerminalMode == true){
-			g.setColor(Color.GREEN);
+			g.setColor(Color.CYAN);
 			g.drawString("JavaGame Stats", 0, 10);
 			g.drawString("FPS/TPS: " + fps + "/" + tps, 0, 25);
 			if ((player.getNumSteps() & 15) == 15) {
@@ -362,6 +375,10 @@ public class Game extends Canvas implements Runnable {
 			}
 			g.drawString("Foot Steps: " + steps, 0, 40);
 			g.drawString("NPC: " + WordUtils.capitalize(String.valueOf(isNpc())) , 0, 55);
+			g.drawString("Mouse: " + getMouse().getX() + "x |" + getMouse().getY() + "y", 0, 70);
+			if(getMouse().getButton() != -1) g.drawString("Button: " + getMouse().getButton(), 0, 85);
+			g.setColor(Color.CYAN);
+			g.fillRect(getMouse().getX()-12, getMouse().getY()-12, 24, 24);
 		}
 		if (TerminalQuit == true){
 			g.setColor(Color.BLACK);
@@ -488,6 +505,14 @@ public class Game extends Canvas implements Runnable {
 		this.dummy = dummy;
 	}
 
+	public Vendor getVendor() {
+		return vendor;
+	}
+
+	public void setVendor(Vendor vendor) {
+		this.vendor = vendor;
+	}
+
 	public static String getJdata_IP() {
 		return Jdata_IP;
 	}
@@ -554,6 +579,14 @@ public class Game extends Canvas implements Runnable {
 
 	public void setInput(InputHandler input) {
 		Game.input = input;
+	}
+
+	public static MouseHandler getMouse() {
+		return mouse;
+	}
+
+	public static void setMouse(MouseHandler mouse) {
+		Game.mouse = mouse;
 	}
 
 	public static boolean isDevMode() {
