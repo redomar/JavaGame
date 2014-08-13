@@ -40,7 +40,7 @@ public class Printing {
 	}
 	
 	private void readMessageType(PrintTypes type){
-		if(type == PrintTypes.LEVEL){
+		if(type == PrintTypes.ERROR){
 			this.redMode = true;
 		} else {
 			this.redMode = false;

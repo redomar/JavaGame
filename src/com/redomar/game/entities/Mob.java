@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.redomar.game.entities.projectiles.Medium;
 import com.redomar.game.entities.projectiles.Projectile;
 import com.redomar.game.entities.projectiles.Small;
 import com.redomar.game.level.LevelHandler;
@@ -233,13 +234,19 @@ public abstract class Mob extends Entity {
 		}
 	}
 	
-	protected void shoot(double x, double y, double dir){
+	protected void shoot(double x, double y, double dir, double buttonId, boolean secondry){
 //		dir = dir * (180 /Math.PI); 
 //		Printing print = new Printing();
 //		print.print("Angle: "+ dir, PrintTypes.GAME);
-		Projectile p = new Small(level, (int) x,(int) y, dir);
-		projectiles.add(p);
-		level.addProjectileEntities(p);
+		if(buttonId == 1){
+			Projectile p = new Small(level, (int) x,(int) y, dir);
+			projectiles.add(p);
+			level.addProjectileEntities(p);
+		} else if(buttonId == 3 && secondry == true){
+			Projectile p = new Medium(level, (int) x,(int) y, dir);
+			projectiles.add(p);
+			level.addProjectileEntities(p);
+		}
 	}
 
 	public String getName() {

@@ -3,6 +3,7 @@ package com.redomar.game.entities;
 import com.redomar.game.Game;
 import com.redomar.game.InputHandler;
 import com.redomar.game.entities.efx.Swim;
+import com.redomar.game.entities.projectiles.Medium;
 import com.redomar.game.entities.projectiles.Projectile;
 import com.redomar.game.entities.projectiles.Small;
 import com.redomar.game.gfx.Colours;
@@ -63,13 +64,19 @@ public class Player extends Mob {
 		
 		if(fireRate > 0) fireRate--;
 		
-		if (Game.getMouse().getButton() == 1 && fireRate <= 0){
-			if(!swim.isActive(swimType)){
-				double dx = Game.getMouse().getX() - 480/2;
-				double dy = Game.getMouse().getY() - 320/2;
-				double dir = Math.atan2(dy, dx);
-				shoot(x, y, dir);
-				fireRate = Small.FIRE_RATE;
+		if (Game.getMouse().getButton() == 1 || Game.getMouse().getButton() == 3){
+			if(fireRate <= 0){
+				if(Game.getMouse().getButton()== 1){
+					fireRate = Small.FIRE_RATE;	
+				}else if(Game.getMouse().getButton() == 3){
+					fireRate = Medium.FIRE_RATE;
+				}
+				if(!swim.isActive(swimType)){
+					double dx = Game.getMouse().getX() - 480/2;
+					double dy = Game.getMouse().getY() - 320/2;
+					double dir = Math.atan2(dy, dx);
+					shoot(x, y, dir, Game.getMouse().getButton(), false);
+				}				
 			}
 		}
 		
