@@ -2,38 +2,53 @@ package com.redomar.game;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.im.InputContext;
 
 import com.redomar.game.lib.SleepThread;
 import com.redomar.game.script.PopUp;
 import com.redomar.game.script.PrintTypes;
 import com.redomar.game.script.Printing;
 
-public class InputHandler implements KeyListener {
-
-	public InputHandler(Game game) {
+public class InputHandler implements KeyListener
+{
+	
+	private boolean isAzertyCountry;
+	
+	public InputHandler(Game game)
+	{
+		InputContext context = InputContext.getInstance();
+		// Important to know wether the keyboard is in Azerty or Qwerty.
+		// Azerty countries used QZSD instead of WASD keys.
+		isAzertyCountry = context.getLocale().getCountry().equals("BE") || context.getLocale().getCountry().equals("FR");
 		game.addKeyListener(this);
 	}
 
-	public class Key {
+	public class Key
+	{
 		private int numTimesPressed = 0;
 		private boolean pressed = false;
 
-		public int getNumTimesPressed() {
+		public int getNumTimesPressed()
+		{
 			return numTimesPressed;
 		}
 
-		public boolean isPressed() {
+		public boolean isPressed()
+		{
 			return pressed;
 		}
 
-		public void toggle(boolean isPressed) {
+		public void toggle(boolean isPressed)
+		{
 			pressed = isPressed;
-			if (isPressed) {
+			if (isPressed)
+			{
 				numTimesPressed++;
 			}
 		}
-		
-		public void off(){
+
+		public void off()
+		{
 			pressed = false;
 			numTimesPressed = 0;
 		}
@@ -48,157 +63,258 @@ public class InputHandler implements KeyListener {
 	private int map;
 	private boolean ignoreInput = false;
 	private PopUp popup = new PopUp();
-	
-	public void keyPressed(KeyEvent e) {
+
+	public void keyPressed(KeyEvent e)
+	{
 		toggleKey(e.getKeyCode(), true);
 	}
 
-	public void keyReleased(KeyEvent e) {
+	public void keyReleased(KeyEvent e)
+	{
 		toggleKey(e.getKeyCode(), false);
 	}
 
-	public void keyTyped(KeyEvent e) {
+	public void keyTyped(KeyEvent e)
+	{
 
 	}
 
-	public void toggleKey(int keyCode, boolean isPressed) {
-		if(isIgnoreInput() == false){
-			if (keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_UP) {
-				getUp().toggle(isPressed);
+	public void toggleKey(int keyCode, boolean isPressed)
+	{
+		if (isIgnoreInput() == false)
+		{
+			if(isAzertyCountry)
+			{
+				if (keyCode == KeyEvent.VK_Z || keyCode == KeyEvent.VK_UP)
+				{
+					getUp().toggle(isPressed);
+				}
+				
+				if (keyCode == KeyEvent.VK_Q || keyCode == KeyEvent.VK_LEFT)
+				{
+					getLeft().toggle(isPressed);
+				}
 			}
-			if (keyCode == KeyEvent.VK_S || keyCode == KeyEvent.VK_DOWN) {
+			else
+			{
+				if (keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_UP)
+				{
+					getUp().toggle(isPressed);
+				}
+				
+				if (keyCode == KeyEvent.VK_A || keyCode == KeyEvent.VK_LEFT)
+				{
+					getLeft().toggle(isPressed);
+				}
+			}
+
+			if (keyCode == KeyEvent.VK_S || keyCode == KeyEvent.VK_DOWN)
+			{
 				getDown().toggle(isPressed);
 			}
-			if (keyCode == KeyEvent.VK_A || keyCode == KeyEvent.VK_LEFT) {
-				getLeft().toggle(isPressed);
-			}
-			if (keyCode == KeyEvent.VK_D || keyCode == KeyEvent.VK_RIGHT) {
+
+			if (keyCode == KeyEvent.VK_D || keyCode == KeyEvent.VK_RIGHT)
+			{
 				getRight().toggle(isPressed);
 			}
 		}
-		if(isIgnoreInput() == true){
+		if (isIgnoreInput() == true)
+		{
 			getUp().toggle(false);
 			getDown().toggle(false);
 			getLeft().toggle(false);
 			getRight().toggle(false);
 		}
-		if (keyCode == KeyEvent.VK_M) {
+		if (keyCode == KeyEvent.VK_M)
+		{
 			this.setPlayMusic(true);
 		}
-		if (keyCode == KeyEvent.VK_Z) {
-			// if (map == 0){
-			// Game.getGame().setMap("/levels/water_level.png");
-			// map++;
-			// } else{
-			// Game.getGame().setMap("/levels/custom_level.png");
-			// map--;
-			// }
-			if (Game.getMap() == 2) {
-				Game.setChangeLevel(true);
-				Game.setNpc(false);
+		
+		if(isAzertyCountry)
+		{
+			if (keyCode == KeyEvent.VK_W)
+			{
+				// if (map == 0){
+				// Game.getGame().setMap("/levels/water_level.png");
+				// map++;
+				// } else{
+				// Game.getGame().setMap("/levels/custom_level.png");
+				// map--;
+				// }
+				if (Game.getMap() == 2)
+				{
+					Game.setChangeLevel(true);
+					Game.setNpc(false);
+				}
 			}
 		}
-		if (keyCode == KeyEvent.VK_N) {
-			if (Game.getPlayer().isMoving()){
+		else
+		{
+			if (keyCode == KeyEvent.VK_Z)
+			{
+				// if (map == 0){
+				// Game.getGame().setMap("/levels/water_level.png");
+				// map++;
+				// } else{
+				// Game.getGame().setMap("/levels/custom_level.png");
+				// map--;
+				// }
+				if (Game.getMap() == 2)
+				{
+					Game.setChangeLevel(true);
+					Game.setNpc(false);
+				}
+			}
+		}
+		if (keyCode == KeyEvent.VK_N)
+		{
+			if (Game.getPlayer().isMoving())
+			{
 				setIgnoreInput(true);
 				int n = popup.Warn("Stop moving before spawing dummy AI");
-				if(n == 0){
+				if (n == 0)
+				{
 					setIgnoreInput(false);
 				}
 				return;
 			}
-			if (Game.isNpc() == false) {
+			if (Game.isNpc() == false)
+			{
 				Game.setNpc(true);
 				Game.npcSpawn();
 				print.print("Dummy has been spawned", PrintTypes.GAME);
 			}
 		}
-		if (keyCode == KeyEvent.VK_K) {
-			if (Game.isNpc() == true) {
+		if (keyCode == KeyEvent.VK_K)
+		{
+			if (Game.isNpc() == true)
+			{
 				Game.setNpc(false);
 				Game.npcKill();
 				print.print("Dummy has been despawned", PrintTypes.GAME);
 			}
 		}
-		if (keyCode == KeyEvent.VK_Q){
-			Game.setClosing(true);
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+		if(isAzertyCountry)
+		{
+			if (keyCode == KeyEvent.VK_A)
+			{
+				Game.setClosing(true);
+				try
+				{
+					Thread.sleep(1000);
+				} catch (InterruptedException e)
+				{
+					e.printStackTrace();
+				}
+				Game.getLevel()
+						.removeEntity(Game.getPlayer().getSantizedUsername());
+				Game.setRunning(false);
+				Game.getFrame().dispose();
+				System.exit(1);
 			}
-			Game.getLevel().removeEntity(Game.getPlayer().getSantizedUsername());
-			Game.setRunning(false);
-			Game.getFrame().dispose();
-			System.exit(1);
+		}
+		else
+		{
+			if (keyCode == KeyEvent.VK_Q)
+			{
+				Game.setClosing(true);
+				try
+				{
+					Thread.sleep(1000);
+				} catch (InterruptedException e)
+				{
+					e.printStackTrace();
+				}
+				Game.getLevel()
+						.removeEntity(Game.getPlayer().getSantizedUsername());
+				Game.setRunning(false);
+				Game.getFrame().dispose();
+				System.exit(1);
+			}
 		}
 
-		if (keyCode == KeyEvent.VK_BACK_QUOTE){
-			if (Game.isClosing() == false && Game.isDevMode() == false){
+		if (keyCode == KeyEvent.VK_BACK_QUOTE)
+		{
+			if (Game.isClosing() == false && Game.isDevMode() == false)
+			{
 				Game.setDevMode(true);
 				new Thread(new SleepThread());
 			}
 		}
 	}
-	
-	public void untoggle(boolean toggle){
+
+	public void untoggle(boolean toggle)
+	{
 		this.ignoreInput = toggle;
 	}
-	
 
-	public int getMap() {
+	public int getMap()
+	{
 		return map;
 	}
 
-	public void setMap(int map) {
+	public void setMap(int map)
+	{
 		this.map = map;
 	}
 
-	public boolean isPlayMusic() {
+	public boolean isPlayMusic()
+	{
 		return PlayMusic;
 	}
 
-	public void setPlayMusic(boolean playMusic) {
+	public void setPlayMusic(boolean playMusic)
+	{
 		PlayMusic = playMusic;
 	}
 
-	public Key getUp() {
+	public Key getUp()
+	{
 		return up;
 	}
 
-	public void setUp(Key up) {
+	public void setUp(Key up)
+	{
 		this.up = up;
 	}
 
-	public Key getDown() {
+	public Key getDown()
+	{
 		return down;
 	}
 
-	public void setDown(Key down) {
+	public void setDown(Key down)
+	{
 		this.down = down;
 	}
 
-	public Key getLeft() {
+	public Key getLeft()
+	{
 		return left;
 	}
 
-	public void setLeft(Key left) {
+	public void setLeft(Key left)
+	{
 		this.left = left;
 	}
 
-	public Key getRight() {
+	public Key getRight()
+	{
 		return right;
 	}
 
-	public void setRight(Key right) {
+	public void setRight(Key right)
+	{
 		this.right = right;
 	}
 
-	public boolean isIgnoreInput() {
+	public boolean isIgnoreInput()
+	{
 		return ignoreInput;
 	}
 
-	public void setIgnoreInput(boolean ignoreInput) {
+	public void setIgnoreInput(boolean ignoreInput)
+	{
 		this.ignoreInput = ignoreInput;
 	}
 

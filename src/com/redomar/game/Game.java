@@ -5,6 +5,7 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.im.InputContext;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
@@ -56,7 +57,8 @@ public class Game extends Canvas implements Runnable {
 	private static int steps;
 	private static boolean devMode;
 	private static boolean closingMode;
-
+	private static boolean isAzertyCountry;
+	
 	private static JFrame frame;
 
 	private static boolean running = false;
@@ -88,12 +90,14 @@ public class Game extends Canvas implements Runnable {
 	private static GameClient socketClient;
 	private GameServer socketServer;
 	private Printing print = new Printing();
-
+	private static InputContext context;
+	
 	/**
 	 * @author Redomar
 	 * @version Alpha 1.8
 	 */
 	public Game() {
+		context = InputContext.getInstance();
 		setMinimumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
 		setMaximumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
 		setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
@@ -328,7 +332,15 @@ public class Game extends Canvas implements Runnable {
 						+ WordUtils.capitalizeFully(player
 								.getSantizedUsername()), 3, getHeight() - 17);
 		g.setColor(Color.ORANGE);
-		g.drawString("Press Q to quit", (getWidth()/2)-("Press Q to quit".length()*3), getHeight() -17);
+		
+		if(context.getLocale().getCountry().equals("BE") || context.getLocale().getCountry().equals("FR"))
+		{
+			g.drawString("Press A to quit", (getWidth()/2)-("Press A to quit".length()*3), getHeight() -17);
+		}
+		else
+		{
+			g.drawString("Press Q to quit", (getWidth()/2)-("Press Q to quit".length()*3), getHeight() -17);
+		}
 		g.setColor(Color.YELLOW);
 		g.drawString(time.getTime(), (getWidth() - 58), (getHeight() - 3));
 		g.setColor(Color.WHITE);
