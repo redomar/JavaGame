@@ -1,0 +1,1119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.6" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true">  
+  <class id="1" language="java" name="com.redomar.game.Game" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/Game.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="1827" width="213" x="2669" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="com.redomar.game.InputHandler.Key" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/InputHandler.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="189" width="152" x="3383" y="2948"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="com.redomar.game.WindowHandler" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/WindowHandler.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="207" width="221" x="2408" y="1914"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="com.redomar.game.InputHandler" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/InputHandler.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="495" width="165" x="3383" y="2413"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="com.redomar.game.MouseHandler" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/MouseHandler.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="315" width="193" x="2954" y="1914"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="com.redomar.game.entities.PlayerMP" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/entities/PlayerMP.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="153" width="365" x="2782" y="2413"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="com.redomar.game.entities.Player" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/entities/Player.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="441" width="275" x="3480" y="1914"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="com.redomar.game.entities.Entity" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/entities/Entity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="297" width="133" x="3701" y="3609"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="com.redomar.game.entities.Mob" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/entities/Mob.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="585" width="394" x="4053" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="10" language="java" name="com.redomar.game.entities.Vendor" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/entities/Vendor.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="459" width="218" x="3795" y="1914"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="11" language="java" name="com.redomar.game.entities.Dummy" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/entities/Dummy.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="351" width="218" x="4053" y="1914"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="12" language="java" name="com.redomar.game.entities.efx.Swim" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/entities/efx/Swim.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="243" width="249" x="3764" y="2413"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="13" language="java" name="com.redomar.game.entities.projectiles.Projectile" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/entities/projectiles/Projectile.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="387" width="222" x="4334" y="3946"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="14" language="java" name="com.redomar.game.entities.projectiles.Small" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/entities/projectiles/Small.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="153" width="184" x="4452" y="4373"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="15" language="java" name="com.redomar.game.entities.projectiles.Medium" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/entities/projectiles/Medium.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="153" width="195" x="4217" y="4373"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="16" language="java" name="com.redomar.game.gfx.Screen" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/gfx/Screen.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="405" width="170" x="2198" y="1914"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="17" language="java" name="com.redomar.game.gfx.Colours" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/gfx/Colours.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="117" width="116" x="352" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="18" language="java" name="com.redomar.game.gfx.SpriteSheet" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/gfx/SpriteSheet.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="225" width="121" x="2198" y="2413"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="19" language="java" name="com.redomar.game.level.Node" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/level/Node.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="135" width="197" x="4053" y="2413"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="20" language="java" name="com.redomar.game.level.LevelHandler" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/level/LevelHandler.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="621" width="238" x="3105" y="2948"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="21" language="java" name="com.redomar.game.level.tiles.BasicSolidTile" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/level/tiles/BasicSolidTile.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="81" width="167" x="1470" y="2413"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="22" language="java" name="com.redomar.game.level.tiles.AnimatedTile" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/level/tiles/AnimatedTile.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="171" width="174" x="1256" y="2413"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="23" language="java" name="com.redomar.game.level.tiles.BasicTile" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/level/tiles/BasicTile.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="153" width="217" x="1420" y="1914"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="24" language="java" name="com.redomar.game.level.tiles.Tile" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/level/tiles/Tile.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="549" width="221" x="1420" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="25" language="java" name="com.redomar.game.lib.Name" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/lib/Name.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="171" width="136" x="3588" y="2413"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="26" language="java" name="com.redomar.game.lib.Font" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/lib/Font.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="225" width="211" x="3229" y="1914"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="27" language="java" name="com.redomar.game.lib.Mouse" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/lib/Mouse.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="207" width="193" x="508" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="28" language="java" name="com.redomar.game.lib.Music" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/lib/Music.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="315" width="138" x="1999" y="1914"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="29" language="java" name="com.redomar.game.lib.Time" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/lib/Time.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="99" width="103" x="1658" y="3946"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="30" language="java" name="com.redomar.game.lib.Keys" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/lib/Keys.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="225" width="165" x="4487" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="31" language="java" name="com.redomar.game.lib.Keys.Key" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/lib/Keys.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="171" width="152" x="4487" y="1914"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="32" language="java" name="com.redomar.game.lib.SleepThread" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/lib/SleepThread.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="99" width="103" x="209" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="33" language="java" name="com.redomar.game.lib.utils.Vector2i" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/lib/utils/Vector2i.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="297" width="157" x="4053" y="2948"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="34" language="java" name="com.redomar.game.menu.Menu" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/menu/Menu.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="693" width="243" x="3770" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="35" language="java" name="com.redomar.game.menu.MenuInput" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/menu/MenuInput.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="171" width="165" x="741" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="36" language="java" name="com.redomar.game.menu.DedicatedJFrame" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/menu/DedicatedJFrame.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="189" width="187" x="4437" y="2948"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="37" language="java" name="com.redomar.game.net.GameClient" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/net/GameClient.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="243" width="261" x="1698" y="1914"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="38" language="java" name="com.redomar.game.net.GameServer" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/net/GameServer.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="297" width="245" x="2669" y="1914"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="39" language="java" name="com.redomar.game.net.packets.Packet00Login" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/net/packets/Packet00Login.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="261" width="165" x="946" y="1914"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="40" language="java" name="com.redomar.game.net.packets.Packet02Move" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/net/packets/Packet02Move.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="369" width="229" x="1151" y="1914"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="41" language="java" name="com.redomar.game.net.packets.Packet" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/net/packets/Packet.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="207" width="189" x="946" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <enumeration id="42" language="java" name="com.redomar.game.net.packets.Packet.PacketTypes" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/net/packets/Packet.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="189" width="156" x="545" y="1914"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </enumeration>  
+  <class id="43" language="java" name="com.redomar.game.net.packets.Packet01Disconnect" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/net/packets/Packet01Disconnect.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="189" width="165" x="741" y="1914"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="44" language="java" name="com.redomar.game.objects.Inventory" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/objects/Inventory.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="225" width="124" x="4692" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <enumeration id="45" language="java" name="com.redomar.game.objects.Items" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/objects/Items.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="82" y="101"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </enumeration>  
+  <class id="46" language="java" name="com.redomar.game.objects.InventoryHandler" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/objects/InventoryHandler.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="207" width="221" x="4437" y="2413"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="47" language="java" name="com.redomar.game.objects.InventoryWindow" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/objects/InventoryWindow.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="315" width="194" x="4679" y="1914"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <enumeration id="48" language="java" name="com.redomar.game.script.PrintTypes" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/script/PrintTypes.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="189" width="133" x="2158" y="3946"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </enumeration>  
+  <class id="49" language="java" name="com.redomar.game.script.PopUp" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/script/PopUp.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="117" width="117" x="3575" y="2948"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="50" language="java" name="com.redomar.game.script.Printing" project="JavaGame" 
+    file="/JavaGame/src/com/redomar/game/script/Printing.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="207" width="196" x="2158" y="3609"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <association id="51">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="52" name="player"/>      
+      <multiplicity id="53" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="54">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="55" name="down"/>      
+      <multiplicity id="56" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="57">    
+    <end type="SOURCE" refId="20" navigable="false">      
+      <attribute id="58" name="entities_p"/>      
+      <multiplicity id="59" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="60">    
+    <end type="SOURCE" refId="39"/>    
+    <end type="TARGET" refId="41"/>  
+  </generalization>  
+  <association id="61">    
+    <end type="SOURCE" refId="24" navigable="false">      
+      <attribute id="62" name="CHISELED_stone"/>      
+      <multiplicity id="63" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="24" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="64">    
+    <end type="SOURCE" refId="44" navigable="false">      
+      <attribute id="65" name="inv_window"/>      
+      <multiplicity id="66" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="47" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="67">    
+    <end type="SOURCE" refId="50" navigable="false">      
+      <attribute id="68" name="time"/>      
+      <multiplicity id="69" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="29" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="70">    
+    <end type="SOURCE" refId="24" navigable="false">      
+      <attribute id="71" name="MAGMA"/>      
+      <multiplicity id="72" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="24" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="73">    
+    <end type="SOURCE" refId="23"/>    
+    <end type="TARGET" refId="24"/>  
+  </generalization>  
+  <association id="74">    
+    <end type="SOURCE" refId="24" navigable="false">      
+      <attribute id="75" name="VOID"/>      
+      <multiplicity id="76" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="24" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="77">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="78" name="up"/>      
+      <multiplicity id="79" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="80">    
+    <end type="SOURCE" refId="24" navigable="false">      
+      <attribute id="81" name="CHEST_a"/>      
+      <multiplicity id="82" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="24" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="83">    
+    <end type="SOURCE" refId="24" navigable="false">      
+      <attribute id="84" name="CHEST_b"/>      
+      <multiplicity id="85" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="24" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="86">    
+    <end type="SOURCE" refId="46" navigable="false">      
+      <attribute id="87" name="frame"/>      
+      <multiplicity id="88" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="36" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="89">    
+    <end type="SOURCE" refId="14"/>    
+    <end type="TARGET" refId="13"/>  
+  </generalization>  
+  <association id="90">    
+    <end type="SOURCE" refId="24" navigable="false">      
+      <attribute id="91" name="GRASS"/>      
+      <multiplicity id="92" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="24" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="93">    
+    <end type="SOURCE" refId="30" navigable="false">      
+      <attribute id="94" name="down"/>      
+      <multiplicity id="95" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="31" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="96">    
+    <end type="SOURCE" refId="30" navigable="false">      
+      <attribute id="97" name="up"/>      
+      <multiplicity id="98" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="31" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="99">    
+    <bendpoint x="2088" y="2413"/>    
+    <bendpoint x="2088" y="2948"/>    
+    <end type="SOURCE" refId="28" navigable="false">      
+      <attribute id="100" name="print"/>      
+      <multiplicity id="101" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="50" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="102">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="103" name="font"/>      
+      <multiplicity id="104" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="26" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="105">    
+    <end type="SOURCE" refId="34" navigable="false">      
+      <attribute id="106" name="font"/>      
+      <multiplicity id="107" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="26" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="108">    
+    <bendpoint x="2779" y="2948"/>    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="109" name="print"/>      
+      <multiplicity id="110" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="50" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="111">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="112" name="swim"/>      
+      <multiplicity id="113" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="12" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="114">    
+    <end type="SOURCE" refId="40"/>    
+    <end type="TARGET" refId="41"/>  
+  </generalization>  
+  <association id="115">    
+    <bendpoint x="4301" y="1914"/>    
+    <bendpoint x="4311" y="2413"/>    
+    <end type="SOURCE" refId="34" navigable="false">      
+      <attribute id="116" name="frame"/>      
+      <multiplicity id="117" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="36" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="118">    
+    <bendpoint x="3198" y="1914"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="119" name="input"/>      
+      <multiplicity id="120" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="121">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="122" name="customeName"/>      
+      <multiplicity id="123" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="25" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="124">    
+    <end type="SOURCE" refId="24" navigable="false">      
+      <attribute id="125" name="SAND"/>      
+      <multiplicity id="126" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="24" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="127">    
+    <end type="SOURCE" refId="38" navigable="false">      
+      <attribute id="128" name="game"/>      
+      <multiplicity id="129" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="130">    
+    <bendpoint x="4688" y="2413"/>    
+    <end type="SOURCE" refId="47" navigable="false">      
+      <attribute id="131" name="frame"/>      
+      <multiplicity id="132" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="36" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="133">    
+    <end type="SOURCE" refId="12" navigable="false">      
+      <attribute id="134" name="level"/>      
+      <multiplicity id="135" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="20" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="136">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="137" name="screen"/>      
+      <multiplicity id="138" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="16" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="139">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="140" name="socketServer"/>      
+      <multiplicity id="141" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="38" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="142">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="143" name="swim"/>      
+      <multiplicity id="144" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="12" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="145">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="9"/>  
+  </generalization>  
+  <generalization id="146">    
+    <end type="SOURCE" refId="15"/>    
+    <end type="TARGET" refId="13"/>  
+  </generalization>  
+  <association id="147">    
+    <end type="SOURCE" refId="24" navigable="false">      
+      <attribute id="148" name="FLOWER_rose"/>      
+      <multiplicity id="149" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="24" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="150">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="151" name="game"/>      
+      <multiplicity id="152" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="153">    
+    <bendpoint x="3177" y="1914"/>    
+    <bendpoint x="3177" y="2413"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="154" name="level"/>      
+      <multiplicity id="155" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="20" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="156">    
+    <end type="SOURCE" refId="16" navigable="false">      
+      <attribute id="157" name="sheet"/>      
+      <multiplicity id="158" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="18" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="159">    
+    <end type="SOURCE" refId="24" navigable="false">      
+      <attribute id="160" name="tiles"/>      
+      <multiplicity id="161" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="24" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="162">    
+    <bendpoint x="1937" y="2413"/>    
+    <bendpoint x="1937" y="2948"/>    
+    <end type="SOURCE" refId="37" navigable="false">      
+      <attribute id="163" name="print"/>      
+      <multiplicity id="164" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="50" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="165">    
+    <bendpoint x="4322" y="1914"/>    
+    <bendpoint x="4290" y="2413"/>    
+    <bendpoint x="4290" y="2948"/>    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="8"/>  
+  </generalization>  
+  <association id="166">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="167" name="path"/>      
+      <multiplicity id="168" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="19" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <nesting id="169">    
+    <end type="SOURCE" refId="30"/>    
+    <end type="TARGET" refId="31"/>  
+  </nesting>  
+  <association id="170">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="171" name="mouse"/>      
+      <multiplicity id="172" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="173">    
+    <bendpoint x="2167" y="1914"/>    
+    <bendpoint x="2167" y="2413"/>    
+    <bendpoint x="2167" y="2948"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="174" name="print"/>      
+      <multiplicity id="175" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="50" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="176">    
+    <end type="SOURCE" refId="19" navigable="false">      
+      <attribute id="177" name="tile"/>      
+      <multiplicity id="178" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="33" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="179">    
+    <end type="SOURCE" refId="24" navigable="false">      
+      <attribute id="180" name="STONE"/>      
+      <multiplicity id="181" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="24" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="182">    
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="183" name="path"/>      
+      <multiplicity id="184" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="19" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="185">    
+    <end type="SOURCE" refId="24" navigable="false">      
+      <attribute id="186" name="DIRT"/>      
+      <multiplicity id="187" minimum="0" maximum="1">        
+        <position height="16" width="23" x="1657" y="551"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="24" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="188">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="7"/>  
+  </generalization>  
+  <association id="189">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="190" name="level"/>      
+      <multiplicity id="191" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="20" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="192">    
+    <end type="SOURCE" refId="24" navigable="false">      
+      <attribute id="193" name="CARPET_red"/>      
+      <multiplicity id="194" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="24" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="195">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="196" name="right"/>      
+      <multiplicity id="197" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="198">    
+    <end type="SOURCE" refId="24" navigable="false">      
+      <attribute id="199" name="DIRT_WET"/>      
+      <multiplicity id="200" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="24" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="201">    
+    <end type="SOURCE" refId="22"/>    
+    <end type="TARGET" refId="23"/>  
+  </generalization>  
+  <association id="202">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="203" name="left"/>      
+      <multiplicity id="204" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <nesting id="205">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="2"/>  
+  </nesting>  
+  <generalization id="206">    
+    <end type="SOURCE" refId="13"/>    
+    <end type="TARGET" refId="8"/>  
+  </generalization>  
+  <association id="207">    
+    <end type="SOURCE" refId="24" navigable="false">      
+      <attribute id="208" name="WATER"/>      
+      <multiplicity id="209" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="24" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="210">    
+    <bendpoint x="4343" y="1914"/>    
+    <bendpoint x="4343" y="2413"/>    
+    <bendpoint x="4343" y="2948"/>    
+    <bendpoint x="4343" y="3609"/>    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="211" name="projectiles"/>      
+      <multiplicity id="212" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="13" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="213">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="214" name="dummy"/>      
+      <multiplicity id="215" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="216">    
+    <end type="SOURCE" refId="20" navigable="false">      
+      <attribute id="217" name="print"/>      
+      <multiplicity id="218" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="50" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="219">    
+    <end type="SOURCE" refId="24" navigable="false">      
+      <attribute id="220" name="FLOWER_dandelion"/>      
+      <multiplicity id="221" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="24" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="222">    
+    <end type="SOURCE" refId="20" navigable="false">      
+      <attribute id="223" name="entities"/>      
+      <multiplicity id="224" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="225">    
+    <end type="SOURCE" refId="21"/>    
+    <end type="TARGET" refId="23"/>  
+  </generalization>  
+  <association id="226">    
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="227" name="swim"/>      
+      <multiplicity id="228" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="12" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="229">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="230" name="input"/>      
+      <multiplicity id="231" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="232">    
+    <bendpoint x="2423" y="2413"/>    
+    <bendpoint x="2423" y="2948"/>    
+    <end type="SOURCE" refId="38" navigable="false">      
+      <attribute id="233" name="print"/>      
+      <multiplicity id="234" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="50" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="235">    
+    <end type="SOURCE" refId="38" navigable="false">      
+      <attribute id="236" name="connectedPlayers"/>      
+      <multiplicity id="237" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="238">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="239" name="music"/>      
+      <multiplicity id="240" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="28" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="241">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="9"/>  
+  </generalization>  
+  <association id="242">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="243" name="socketClient"/>      
+      <multiplicity id="244" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="37" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="245">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="9"/>  
+  </generalization>  
+  <association id="246">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="247" name="window"/>      
+      <multiplicity id="248" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="249">    
+    <end type="SOURCE" refId="37" navigable="false">      
+      <attribute id="250" name="game"/>      
+      <multiplicity id="251" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="252">    
+    <bendpoint x="1667" y="1914"/>    
+    <bendpoint x="1667" y="2413"/>    
+    <bendpoint x="1667" y="2948"/>    
+    <bendpoint x="1667" y="3609"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="253" name="time"/>      
+      <multiplicity id="254" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="29" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="255">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="256" name="vendor"/>      
+      <multiplicity id="257" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="10" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="258">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="259" name="popup"/>      
+      <multiplicity id="260" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="49" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="261">    
+    <end type="SOURCE" refId="19" navigable="false">      
+      <attribute id="262" name="parent"/>      
+      <multiplicity id="263" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="19" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="264">    
+    <end type="SOURCE" refId="43"/>    
+    <end type="TARGET" refId="41"/>  
+  </generalization>  
+  <association id="265">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="266" name="game"/>      
+      <multiplicity id="267" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="268">    
+    <end type="SOURCE" refId="24" navigable="false">      
+      <attribute id="269" name="PORTAL">        
+        <position height="18" width="48" x="1667" y="552"/>      
+      </attribute>      
+      <multiplicity id="270" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="24" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="271">    
+    <end type="SOURCE" refId="47" navigable="false">      
+      <attribute id="272" name="window"/>      
+      <multiplicity id="273" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="46" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="274">    
+    <end type="SOURCE" refId="50" navigable="false">      
+      <attribute id="275" name="type"/>      
+      <multiplicity id="276" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="48" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <nesting id="277">    
+    <end type="SOURCE" refId="41"/>    
+    <end type="TARGET" refId="42"/>  
+  </nesting>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>
