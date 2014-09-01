@@ -57,7 +57,6 @@ public class Game extends Canvas implements Runnable {
 	private static int steps;
 	private static boolean devMode;
 	private static boolean closingMode;
-	private static boolean isAzertyCountry;
 	
 	private static JFrame frame;
 
@@ -307,12 +306,18 @@ public class Game extends Canvas implements Runnable {
 			print.print("Teleported into new world", PrintTypes.GAME);
 			if (getMap() == 1) {
 				setMap("/levels/water_level.png");
-				getLevel().removeEntity(getDummy()); setNpc(false);
+				if(getDummy()!=null){ // Gave nullPointerException(); upon entering new world.
+					getLevel().removeEntity(getDummy()); 
+					setNpc(false);
+				}
 				getLevel().removeEntity(getVendor());
 				setMap(2);
 			} else if (getMap() == 2) {
 				setMap("/levels/custom_level.png");
-				getLevel().removeEntity(getDummy()); setNpc(false);
+				if(getDummy()!=null){
+					getLevel().removeEntity(getDummy());
+					setNpc(false);
+				}
 				getLevel().addEntity(getVendor());
 				setMap(1);
 			}
