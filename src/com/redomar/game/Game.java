@@ -314,7 +314,10 @@ public class Game extends Canvas implements Runnable {
 				setMap(2);
 			} else if (getMap() == 2) {
 				setMap("/levels/custom_level.png");
-				getLevel().removeEntity(getDummy()); setNpc(false);
+				if(getDummy()!=null){
+					getLevel().removeEntity(getDummy());
+					setNpc(false);
+				}
 				getLevel().addEntity(getVendor());
 				setMap(1);
 			}
