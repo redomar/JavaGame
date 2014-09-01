@@ -187,7 +187,7 @@ public class Menu implements Runnable {
 			Thread.sleep(125);
 			splash.setProgress(90, "Pulling InputPanes");
 			Thread.sleep(250);
-			splash.setProgress(92, "Aquring data: Multiplayer");
+			splash.setProgress(92, "Acquiring data: Multiplayer");
 			Thread.sleep(125);
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			String multiMsg = "Sorry but multiplayer has been disabled on this version.\nIf you would like multiplayer checkout Alpha 1.6";
@@ -201,7 +201,7 @@ public class Menu implements Runnable {
 						"Enter the name \nleave blank for local"));
 			}
 			Thread.sleep(125);
-			splash.setProgress(94, "Aquring data: Username");
+			splash.setProgress(94, "Acquiring data: Username");
 			String s = JOptionPane.showInputDialog(Game.getGame(),
 					"Enter a name");
 			if (s != null) {
