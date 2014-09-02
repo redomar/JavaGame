@@ -30,7 +30,7 @@ public class SpriteSheet {
 		this.setWidth(image.getWidth());
 		this.height = image.getHeight();
 
-		pixels = image.getRGB(0, 0, getWidth(), height, null, 0, getWidth());
+		pixels = image.getRGB(0, 0, width, height, null, 0, width);
 
 		for (int i = 0; i < pixels.length; i++) {
 			pixels[i] = (pixels[i] & 0xff) / 64; // removes alpha (transparency)

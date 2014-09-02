@@ -73,35 +73,35 @@ public class InputHandler implements KeyListener {
 		if (isIgnoreInput() == false) {
 			if (isAzertyCountry) {
 				if (keyCode == KeyEvent.VK_Z || keyCode == KeyEvent.VK_UP) {
-					getUp().toggle(isPressed);
+					up.toggle(isPressed);
 				}
 
 				if (keyCode == KeyEvent.VK_Q || keyCode == KeyEvent.VK_LEFT) {
-					getLeft().toggle(isPressed);
+					left.toggle(isPressed);
 				}
 			} else {
 				if (keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_UP) {
-					getUp().toggle(isPressed);
+					up.toggle(isPressed);
 				}
 
 				if (keyCode == KeyEvent.VK_A || keyCode == KeyEvent.VK_LEFT) {
-					getLeft().toggle(isPressed);
+					left.toggle(isPressed);
 				}
 			}
 
 			if (keyCode == KeyEvent.VK_S || keyCode == KeyEvent.VK_DOWN) {
-				getDown().toggle(isPressed);
+				down.toggle(isPressed);
 			}
 
 			if (keyCode == KeyEvent.VK_D || keyCode == KeyEvent.VK_RIGHT) {
-				getRight().toggle(isPressed);
+				right.toggle(isPressed);
 			}
 		}
 		if (isIgnoreInput() == true) {
-			getUp().toggle(false);
-			getDown().toggle(false);
-			getLeft().toggle(false);
-			getRight().toggle(false);
+			up.toggle(false);
+			down.toggle(false);
+			left.toggle(false);
+			right.toggle(false);
 		}
 		if (keyCode == KeyEvent.VK_M) {
 			this.setPlayMusic(true);

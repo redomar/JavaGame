@@ -123,7 +123,7 @@ public class LevelHandler {
 	}
 
 	public void tick() {
-		for (Entity e : getEntities()) {
+		for (Entity e : entities) {
 			e.tick();
 		}
 		
@@ -164,7 +164,7 @@ public class LevelHandler {
 	}
 
 	public void renderEntities(Screen screen) {
-		for (Entity e : getEntities()) {
+		for (Entity e : entities) {
 			e.render(screen);
 		}
 	}
@@ -183,7 +183,7 @@ public class LevelHandler {
 	}
 
 	public void addEntity(Entity entity) {
-		this.getEntities().add(entity);
+		this.entities.add(entity);
 		print.print("Added "+entity.getName()+" Entity", PrintTypes.LEVEL);
 		try {
 			Thread.sleep(100);
@@ -197,7 +197,7 @@ public class LevelHandler {
 	}
 
 	public void removeEntity(Entity entity) {
-		this.getEntities().remove(entity);
+		this.entities.remove(entity);
 		print.print("Removed "+entity.getName()+" Entity", PrintTypes.LEVEL);
 		try {
 			Thread.sleep(100);
@@ -212,21 +212,21 @@ public class LevelHandler {
 
 	public void removeEntity(String username) {
 		int index = 0;
-		for (Entity e : getEntities()) {
+		for (Entity e : entities) {
 			if (e instanceof PlayerMP
 					&& ((PlayerMP) e).getUsername().equalsIgnoreCase(username)) {
 				break;
 			}
 			index++;
 		}
-		this.getEntities().remove(index);
+		this.entities.remove(index);
 		Packet01Disconnect packet = new Packet01Disconnect(Game.getPlayer().getUsername());
 		packet.writeData(Game.getSocketClient());
 	}
 
 	private int getPlayerMPIndex(String username) {
 		int index = 0;
-		for (Entity e : getEntities()) {
+		for (Entity e : entities) {
 			if (e instanceof PlayerMP
 					&& ((PlayerMP) e).getUsername().equalsIgnoreCase(username)) {
 				break;
@@ -239,7 +239,7 @@ public class LevelHandler {
 	public void movePlayer(String username, int x, int y, int numSteps,
 			boolean isMoving, int movingDir) {
 		int index = getPlayerMPIndex(username);
-		PlayerMP player = (PlayerMP) this.getEntities().get(index);
+		PlayerMP player = (PlayerMP) this.entities.get(index);
 		player.setX(x);
 		player.setY(y);
 		player.setNumSteps(numSteps);

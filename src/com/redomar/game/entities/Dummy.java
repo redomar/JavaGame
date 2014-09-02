@@ -40,7 +40,7 @@ public class Dummy extends Mob {
 		
 
 		setSwim(new Swim(level, (int) getX(), (int) getY()));
-		swimType = getSwim().swimming(isSwimming, isMagma, isMuddy);
+		swimType = swim.swimming(isSwimming, isMagma, isMuddy);
 		isSwimming = swimType[0];
 		isMagma = swimType[1];
 		isMuddy = swimType[2];
@@ -77,7 +77,7 @@ public class Dummy extends Mob {
 		int yOffset = (int) getY() - modifier / 2 - 4;
 
 		if (isSwimming || isMagma || isMuddy) {
-			swimColour = getSwim().waveCols(isSwimming, isMagma, isMuddy);
+			swimColour = swim.waveCols(isSwimming, isMagma, isMuddy);
 			
 			int waterColour = 0;
 			yOffset += 4;
