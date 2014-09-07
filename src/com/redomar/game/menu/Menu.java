@@ -262,7 +262,7 @@ public class Menu implements Runnable {
 	}
 
 	public static void setSelectedStart(boolean selectedStart) {
-		selectedStart = selectedStart;
+		Menu.selectedStart = selectedStart;
 	}
 
 	public static boolean isSelectedExit() {

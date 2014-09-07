@@ -25,7 +25,6 @@ import com.redomar.game.level.LevelHandler;
 import com.redomar.game.lib.Font;
 import com.redomar.game.lib.Music;
 import com.redomar.game.lib.Time;
-import com.redomar.game.menu.Menu;
 import com.redomar.game.net.GameClient;
 import com.redomar.game.net.GameServer;
 import com.redomar.game.net.packets.Packet00Login;
@@ -169,7 +168,7 @@ public class Game extends Canvas implements Runnable {
 
 	public static void npcSpawn() {
 		if (isNpc() == true) {
-			game.setDummy(new Dummy(game.getLevel(), "Dummy", 100, 150, 500,
+			game.setDummy(new Dummy(game.level, "Dummy", 100, 150, 500,
 					543));
 			game.level.addEntity(Game.getDummy());
 		}
