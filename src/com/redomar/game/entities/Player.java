@@ -103,7 +103,7 @@ public class Player extends Mob {
 		}
 
 		setSwim(new Swim(level, (int) getX(), (int) getY()));
-		swimType = getSwim().swimming(isSwimming, isMagma, isMuddy);
+		swimType = swim.swimming(isSwimming, isMagma, isMuddy);
 		isSwimming = swimType[0];
 		isMagma = swimType[1];
 		isMuddy = swimType[2];
@@ -148,7 +148,7 @@ public class Player extends Mob {
 		}
 
 		if(isSwimming || isMagma || isMuddy){
-			swimColour = getSwim().waveCols(isSwimming, isMagma, isMuddy);
+			swimColour = swim.waveCols(isSwimming, isMagma, isMuddy);
 			
 			int waterColour = 0;
 			yOffset += 4;

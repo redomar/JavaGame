@@ -47,7 +47,7 @@ public class Keys implements KeyListener {
 
 	public void toggleKey(int keyCode, boolean isPressed) {
 		if (keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_UP) {
-			getUp().toggle(isPressed);
+			up.toggle(isPressed);
 		}
 		if (keyCode == KeyEvent.VK_S || keyCode == KeyEvent.VK_DOWN) {
 			getDown().toggle(isPressed);

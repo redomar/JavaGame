@@ -25,9 +25,9 @@ public class Printing {
 		String msgTime = "[" + time.getTime() + "]";
 		String msgType = "[" + type.toString() + "]";
 		if(redMode == true){
-			System.err.println(msgType + msgTime + getMessage());
+			System.err.println(msgType + msgTime + message);
 		}else{
-			System.out.println(msgType + msgTime + getMessage());
+			System.out.println(msgType + msgTime + message);
 		}
 	}
 
