@@ -57,7 +57,7 @@ public class Game extends Canvas implements Runnable {
 	private static int steps;
 	private static boolean devMode;
 	private static boolean closingMode;
-	
+
 	private static JFrame frame;
 
 	private static boolean running = false;
@@ -90,7 +90,7 @@ public class Game extends Canvas implements Runnable {
 	private GameServer socketServer;
 	private Printing print = new Printing();
 	private static InputContext context;
-	
+
 	/**
 	 * @author Redomar
 	 * @version Alpha 1.8
@@ -143,33 +143,34 @@ public class Game extends Canvas implements Runnable {
 
 		// socketClient.sendData("ping".getBytes());
 		loginPacket.writeData(getSocketClient());
-		
-		game.setVendor(new Vendor(getLevel(), "Vendor", 215, 215, 304, 543));
-		getLevel().addEntity(getVendor());
+
+		game.setVendor(new Vendor(level, "Vendor", 215, 215, 304, 543));
+		level.addEntity(getVendor());
 	}
 
 	public void setMap(String Map_str) {
 		setLevel(new LevelHandler(Map_str));
-		if(alternateCols[0]){
+		if (alternateCols[0]) {
 			Game.setShirtCol(240);
 		}
-		if(!alternateCols[0]){
+		if (!alternateCols[0]) {
 			Game.setShirtCol(111);
 		}
-		if(alternateCols[1]){
+		if (alternateCols[1]) {
 			Game.setFaceCol(310);
 		}
-		if(!alternateCols[1]){
+		if (!alternateCols[1]) {
 			Game.setFaceCol(543);
 		}
-		setPlayer(new PlayerMP(getLevel(), 100, 100, input,
+		setPlayer(new PlayerMP(level, 100, 100, input,
 				getJdata_UserName(), null, -1, shirtCol, faceCol));
 		level.addEntity(player);
 	}
 
 	public static void npcSpawn() {
 		if (isNpc() == true) {
-			game.setDummy(new Dummy(Game.getLevel(), "Dummy", 100, 150, 500, 543));
+			game.setDummy(new Dummy(game.getLevel(), "Dummy", 100, 150, 500,
+					543));
 			game.level.addEntity(Game.getDummy());
 		}
 	}
@@ -235,7 +236,10 @@ public class Game extends Canvas implements Runnable {
 
 			if (System.currentTimeMillis() - lastTimer >= 1000) {
 				lastTimer += 1000;
-				getFrame().setTitle("JavaGame - Version "+WordUtils.capitalize(game_Version).substring(1, game_Version.length()));
+				getFrame().setTitle(
+						"JavaGame - Version "
+								+ WordUtils.capitalize(game_Version).substring(
+										1, game_Version.length()));
 				fps = frames;
 				tps = ticks;
 				frames = 0;
@@ -247,7 +251,7 @@ public class Game extends Canvas implements Runnable {
 
 	public void tick() {
 		setTickCount(getTickCount() + 1);
-		getLevel().tick();
+		level.tick();
 	}
 
 	public void render() {
@@ -260,7 +264,7 @@ public class Game extends Canvas implements Runnable {
 		int xOffset = (int) getPlayer().getX() - (screen.getWidth() / 2);
 		int yOffset = (int) getPlayer().getY() - (screen.getHeight() / 2);
 
-		getLevel().renderTiles(screen, xOffset, yOffset);
+		level.renderTiles(screen, xOffset, yOffset);
 
 		/*
 		 * for (int x = 0; x < level.width; x++) { int colour = Colours.get(-1,
@@ -269,8 +273,8 @@ public class Game extends Canvas implements Runnable {
 		 * colour, 1); }
 		 */
 
-		getLevel().renderEntities(screen);
-		getLevel().renderProjectileEntities(screen);
+		level.renderEntities(screen);
+		level.renderProjectileEntities(screen);
 
 		for (int y = 0; y < screen.getHeight(); y++) {
 			for (int x = 0; x < screen.getWidth(); x++) {
@@ -306,19 +310,18 @@ public class Game extends Canvas implements Runnable {
 			print.print("Teleported into new world", PrintTypes.GAME);
 			if (getMap() == 1) {
 				setMap("/levels/water_level.png");
-				if(getDummy()!=null){ // Gave nullPointerException(); upon entering new world.
-					getLevel().removeEntity(getDummy()); 
+				if (getDummy() != null) { // Gave nullPointerException(); upon
+											// entering new world.
+					level.removeEntity(getDummy());
 					setNpc(false);
 				}
-				getLevel().removeEntity(getVendor());
+				level.removeEntity(getVendor());
 				setMap(2);
 			} else if (getMap() == 2) {
 				setMap("/levels/custom_level.png");
-				if(getDummy()!=null){
-					getLevel().removeEntity(getDummy());
-					setNpc(false);
-				}
-				getLevel().addEntity(getVendor());
+				level.removeEntity(getDummy());
+				setNpc(false);
+				level.addEntity(getVendor());
 				setMap(1);
 			}
 			changeLevel = false;
@@ -337,14 +340,14 @@ public class Game extends Canvas implements Runnable {
 						+ WordUtils.capitalizeFully(player
 								.getSantizedUsername()), 3, getHeight() - 17);
 		g.setColor(Color.ORANGE);
-		
-		if(context.getLocale().getCountry().equals("BE") || context.getLocale().getCountry().equals("FR"))
-		{
-			g.drawString("Press A to quit", (getWidth()/2)-("Press A to quit".length()*3), getHeight() -17);
-		}
-		else
-		{
-			g.drawString("Press Q to quit", (getWidth()/2)-("Press Q to quit".length()*3), getHeight() -17);
+
+		if (context.getLocale().getCountry().equals("BE")
+				|| context.getLocale().getCountry().equals("FR")) {
+			g.drawString("Press A to quit", (getWidth() / 2)
+					- ("Press A to quit".length() * 3), getHeight() - 17);
+		} else {
+			g.drawString("Press Q to quit", (getWidth() / 2)
+					- ("Press Q to quit".length() * 3), getHeight() - 17);
 		}
 		g.setColor(Color.YELLOW);
 		g.drawString(time.getTime(), (getWidth() - 58), (getHeight() - 3));
@@ -383,7 +386,7 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	private void status(Graphics g, boolean TerminalMode, boolean TerminalQuit) {
-		if (TerminalMode == true){
+		if (TerminalMode == true) {
 			g.setColor(Color.CYAN);
 			g.drawString("JavaGame Stats", 0, 10);
 			g.drawString("FPS/TPS: " + fps + "/" + tps, 0, 25);
@@ -391,23 +394,24 @@ public class Game extends Canvas implements Runnable {
 				steps += 1;
 			}
 			g.drawString("Foot Steps: " + steps, 0, 40);
-			g.drawString("NPC: " + WordUtils.capitalize(String.valueOf(isNpc())) , 0, 55);
-			g.drawString("Mouse: " + getMouse().getX() + "x |" + getMouse().getY() + "y", 0, 70);
-			if(getMouse().getButton() != -1) g.drawString("Button: " + getMouse().getButton(), 0, 85);
+			g.drawString(
+					"NPC: " + WordUtils.capitalize(String.valueOf(isNpc())), 0,
+					55);
+			g.drawString("Mouse: " + getMouse().getX() + "x |"
+					+ getMouse().getY() + "y", 0, 70);
+			if (getMouse().getButton() != -1)
+				g.drawString("Button: " + getMouse().getButton(), 0, 85);
 			g.setColor(Color.CYAN);
-			g.fillRect(getMouse().getX()-12, getMouse().getY()-12, 24, 24);
+			g.fillRect(getMouse().getX() - 12, getMouse().getY() - 12, 24, 24);
 		}
-		if (TerminalQuit == true){
+		if (TerminalQuit == true) {
 			g.setColor(Color.BLACK);
 			g.fillRect(0, 0, getWidth(), getHeight());
 			g.setColor(Color.RED);
-			g.drawString("Shutting down the Game", (getWidth()/2)-70, (getHeight()/2)-8);
+			g.drawString("Shutting down the Game", (getWidth() / 2) - 70,
+					(getHeight() / 2) - 8);
 			g.dispose();
 		}
-	}
-
-	public static void main(String[] args) {
-		new Menu().start();
 	}
 
 	public static JFrame getFrame() {
@@ -581,12 +585,12 @@ public class Game extends Canvas implements Runnable {
 	public static void setAlternateCols(boolean[] alternateCols) {
 		Game.alternateCols = alternateCols;
 	}
-	
-	public static void setAternateColsR(boolean alternateCols){
+
+	public static void setAternateColsR(boolean alternateCols) {
 		Game.alternateCols[1] = alternateCols;
 	}
-	
-	public static void setAternateColsS(boolean alternateCols){
+
+	public static void setAternateColsS(boolean alternateCols) {
 		Game.alternateCols[0] = alternateCols;
 	}
 

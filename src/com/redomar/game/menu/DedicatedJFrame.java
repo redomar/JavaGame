@@ -17,13 +17,13 @@ public class DedicatedJFrame extends Canvas {
 		setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
 
 		setFrame(new JFrame(NAME));
-		//getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		getFrame().setLayout(new BorderLayout());
-		getFrame().add(this, BorderLayout.CENTER);
-		getFrame().pack();
-		getFrame().setResizable(false);
-		getFrame().setLocationRelativeTo(null);
-		getFrame().setVisible(true);
+		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setLayout(new BorderLayout());
+		frame.add(this, BorderLayout.CENTER);
+		frame.pack();
+		frame.setResizable(false);
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
 	}
 
 	public JFrame getFrame() {
@@ -39,7 +39,7 @@ public class DedicatedJFrame extends Canvas {
 	}
 
 	public void stopFrame() {
-		getFrame().dispose();
+		frame.dispose();
 	}
 
 }
