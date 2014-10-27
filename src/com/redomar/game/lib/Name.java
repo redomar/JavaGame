@@ -13,7 +13,7 @@ public class Name {
 
 	public String setName(String name) {
 
-		String finalName = name + getName_ID();
+		String finalName = name + name_ID;
 		return finalName;
 	}
 

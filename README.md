@@ -1,4 +1,4 @@
-JavaGame Alpha v1.8
+JavaGame Alpha v1.8.1
 ===================
 
 #####What is JavaGame?
@@ -35,6 +35,3 @@ Watch this video [here](http://youtu.be/_3nCgac3KKM) or checkout the [GitHub Pag
 * Commit your changes (```git commit -m "Change Title"```)
 * Push to the branch (```git push origin my_branch```)
 * Open a [Pull Request](https://github.com/redomar/JavaGame/pull/new/master)
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/redomar/javagame/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-[![Ohloh Stats](https://www.ohloh.net/p/JavaGame/widgets/project_thin_badge.gif)](https://www.ohloh.net/p/JavaGame)

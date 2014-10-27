@@ -44,7 +44,7 @@ public class Vendor extends Mob {
 		moveMob(xa, ya, this);
 		
 		setSwim(new Swim(level, (int) getX(), (int) getY()));
-		swimType = getSwim().swimming(isSwimming, isMagma, isMuddy);
+		swimType = swim.swimming(isSwimming, isMagma, isMuddy);
 		isSwimming = swimType[0];
 		isMagma = swimType[1];
 		isMuddy = swimType[2];
@@ -54,7 +54,7 @@ public class Vendor extends Mob {
 	}
 
 	public void render(Screen screen) {
-		setTime(getTime() + 1);
+		setTime(time + 1);
 		int xTile = 8;
 		int yTile = 28;
 		int walkingSpeed = 4;
@@ -81,7 +81,7 @@ public class Vendor extends Mob {
 		int yOffset = (int) getY() - modifier / 2 - 4;
 
 		if (isSwimming || isMagma || isMuddy) {
-			swimColour = getSwim().waveCols(isSwimming, isMagma, isMuddy);
+			swimColour = swim.waveCols(isSwimming, isMagma, isMuddy);
 			
 			int waterColour = 0;
 			yOffset += 4;

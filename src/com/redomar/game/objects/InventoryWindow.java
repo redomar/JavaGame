@@ -38,7 +38,7 @@ public class InventoryWindow implements Runnable{
 		long lastTimer = System.currentTimeMillis();
 		double delta = 0;
 		
-		setWindow(new InventoryHandler(getFrame()));
+		setWindow(new InventoryHandler(frame));
 
 		while (running) {
 			long now = System.nanoTime();
@@ -65,7 +65,7 @@ public class InventoryWindow implements Runnable{
 
 			if (System.currentTimeMillis() - lastTimer >= 1000) {
 				lastTimer += 1000;
-				getFrame().getFrame().setTitle(
+				frame.getFrame().setTitle(
 						"Frames: " + frames + " Ticks: " + ticks);
 				frames = 0;
 				ticks = 0;
@@ -74,9 +74,9 @@ public class InventoryWindow implements Runnable{
 	}
 	
 	private void render() {
-		BufferStrategy bs = getFrame().getBufferStrategy();
+		BufferStrategy bs = frame.getBufferStrategy();
 		if(bs == null){
-			getFrame().createBufferStrategy(3);
+			frame.createBufferStrategy(3);
 			return;
 		}
 		
