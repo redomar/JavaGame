@@ -19,6 +19,7 @@ import com.redomar.game.gfx.Screen;
 import com.redomar.game.level.tiles.Tile;
 import com.redomar.game.lib.utils.Vector2i;
 import com.redomar.game.net.packets.Packet01Disconnect;
+import com.redomar.game.scenes.Scene;
 import com.redomar.game.script.PrintTypes;
 import com.redomar.game.script.Printing;
 
@@ -49,9 +50,9 @@ public class LevelHandler {
 			this.imagePath = imagePath;
 			this.loadLevelFromFile();
 		} else {
-			tiles = new byte[width * height];
-			this.width = 64;
-			this.height = 64;
+			tiles = new byte[getWidth() * getHeight()];
+			this.setWidth(64);
+			this.setHeight(64);
 			this.generateLevel();
 		}
 		
@@ -61,9 +62,9 @@ public class LevelHandler {
 	private void loadLevelFromFile() {
 		try {
 			this.image = ImageIO.read(Level.class.getResource(this.imagePath));
-			this.width = image.getWidth();
-			this.height = image.getHeight();
-			tiles = new byte[width * height];
+			this.setWidth(image.getWidth());
+			this.setHeight(image.getHeight());
+			tiles = new byte[getWidth() * getHeight()];
 			this.loadTiles();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -71,14 +72,14 @@ public class LevelHandler {
 	}
 
 	private void loadTiles() {
-		int[] tileColours = this.image.getRGB(0, 0, width, height, null, 0,
-				width);
-		for (int y = 0; y < height; y++) {
-			for (int x = 0; x < width; x++) {
+		int[] tileColours = this.image.getRGB(0, 0, getWidth(), getHeight(), null, 0,
+				getWidth());
+		for (int y = 0; y < getHeight(); y++) {
+			for (int x = 0; x < getWidth(); x++) {
 				tileCheck: for (Tile t : Tile.getTiles()) {
 					if (t != null
-							&& t.getLevelColour() == tileColours[x + y * width]) {
-						this.tiles[x + y * width] = t.getId();
+							&& t.getLevelColour() == tileColours[x + y * getWidth()]) {
+						this.tiles[x + y * getWidth()] = t.getId();
 						break tileCheck;
 					}
 				}
@@ -98,17 +99,17 @@ public class LevelHandler {
 
 	@SuppressWarnings("unused")
 	private void alterTile(int x, int y, Tile newTile) {
-		this.tiles[x + y * width] = newTile.getId();
+		this.tiles[x + y * getWidth()] = newTile.getId();
 		image.setRGB(x, y, newTile.getLevelColour());
 	}
 
 	private void generateLevel() {
-		for (int y = 0; y < height; y++) {
-			for (int x = 0; x < width; x++) {
+		for (int y = 0; y < getHeight(); y++) {
+			for (int x = 0; x < getWidth(); x++) {
 				if (x * y % 10 < 7) {
-					tiles[x + y * width] = Tile.getGrass().getId();
+					tiles[x + y * getWidth()] = Tile.getGrass().getId();
 				} else {
-					tiles[x + y * width] = Tile.getStone().getId();
+					tiles[x + y * getWidth()] = Tile.getStone().getId();
 				}
 			}
 		}
@@ -144,23 +145,20 @@ public class LevelHandler {
 		if (xOffset < 0) {
 			xOffset = 0;
 		}
-		if (xOffset > ((width << 3) - screen.getWidth())) {
-			xOffset = ((width << 3) - screen.getWidth());
+		if (xOffset > ((getWidth() << 3) - screen.getWidth())) {
+			xOffset = ((getWidth() << 3) - screen.getWidth());
 		}
 		if (yOffset < 0) {
 			yOffset = 0;
 		}
-		if (yOffset > ((height << 3) - screen.getHeight())) {
-			yOffset = ((height << 3) - screen.getHeight());
+		if (yOffset > ((getHeight() << 3) - screen.getHeight())) {
+			yOffset = ((getHeight() << 3) - screen.getHeight());
 		}
 
 		screen.setOffset(xOffset, yOffset);
 
-		for (int y = (yOffset >> 3); y < (yOffset + screen.getHeight() >> 3) + 1; y++) {
-			for (int x = (xOffset >> 3); x < (xOffset + screen.getWidth() >> 3) + 1; x++) {
-				getTile(x, y).render(screen, this, x << 3, y << 3);
-			}
-		}
+		Scene scene = new Scene(xOffset, yOffset, screen, this);
+		scene.playerScene();
 	}
 
 	public void renderEntities(Screen screen) {
@@ -176,10 +174,10 @@ public class LevelHandler {
 	}
 
 	public Tile getTile(int x, int y) {
-		if (0 > x || x >= width || 0 > y || y >= height) {
+		if (0 > x || x >= getWidth() || 0 > y || y >= getHeight()) {
 			return Tile.getVoid();
 		}
-		return Tile.getTiles()[tiles[x + y * width]];
+		return Tile.getTiles()[tiles[x + y * getWidth()]];
 	}
 
 	public void addEntity(Entity entity) {
@@ -330,6 +328,22 @@ public class LevelHandler {
 			}
 		}
 		return result;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
 	}
 
 }
