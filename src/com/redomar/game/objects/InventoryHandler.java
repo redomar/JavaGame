@@ -15,12 +15,10 @@ public class InventoryHandler implements WindowListener {
 		DedicatedJFrame.getFrameStatic().addWindowListener(this);
 	}
 
-	@Override
 	public void windowActivated(WindowEvent e) {
 		
 	}
 
-	@Override
 	public void windowClosed(WindowEvent e) {
 		
 	}
@@ -30,22 +28,22 @@ public class InventoryHandler implements WindowListener {
 		System.out.println("CLOSING");
 	}
 
-	@Override
+
 	public void windowDeactivated(WindowEvent e) {
 		
 	}
 
-	@Override
+
 	public void windowDeiconified(WindowEvent e) {
 		
 	}
 
-	@Override
+
 	public void windowIconified(WindowEvent e) {
 		
 	}
 
-	@Override
+
 	public void windowOpened(WindowEvent e) {
 		
 	}
