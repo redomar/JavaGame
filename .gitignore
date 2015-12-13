@@ -174,3 +174,4 @@ nbactions.xml
 nb-configuration.xml
 manifest.mf
 .build.xml
+/target/
