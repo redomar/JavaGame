@@ -1,6 +1,6 @@
 JavaGame Alpha v1.8.1
 ===================
-Acknowledgement: Inspired by [vanZeben](https://github.com/vanZeben)
+Acknowledgement: Inspired from [vanZeben](https://github.com/vanZeben)
 
 #####What is JavaGame?
 JavaGame is a game project that have been working on since May 2013. I have added many features to the game over the last year and I plan on adding even more features. This game is purely for my own sake to practice my skills in Java.
