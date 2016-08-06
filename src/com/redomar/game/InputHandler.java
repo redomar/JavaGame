@@ -139,7 +139,7 @@ public class InputHandler implements KeyListener {
 		if (keyCode == KeyEvent.VK_N) {
 			if (Game.getPlayer().isMoving()) {
 				setIgnoreInput(true);
-				int n = popup.Warn("Stop moving before spawing dummy AI");
+				int n = popup.Warn("Stop moving before spawning dummy AI");
 				if (n == 0) {
 					setIgnoreInput(false);
 				}
@@ -155,7 +155,7 @@ public class InputHandler implements KeyListener {
 			if (Game.isNpc() == true) {
 				Game.setNpc(false);
 				Game.npcKill();
-				print.print("Dummy has been despawned", PrintTypes.GAME);
+				print.print("Dummy has been removed", PrintTypes.GAME);
 			}
 		}
 		if (isAzertyCountry) {

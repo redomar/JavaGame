@@ -182,3 +182,9 @@ JavaGame.ipr
 JavaGame.iws
 JavaGame.iml
 out/
+
+###############
+## Debugging ##
+###############
+
+.log.txt

@@ -1,14 +1,19 @@
 package com.redomar.game.script;
 
 import com.redomar.game.lib.Time;
-import com.redomar.game.script.PrintTypes;
+
+import java.util.Arrays;
 
 public class Printing {
 
 	private PrintTypes type;
 	private Time time = new Time();
 	private String message;
-	private boolean redMode = false;
+    private String msgTime;
+    private String msgType;
+	private boolean errorMode = false;
+	private PrintToLog logFile;
+    private static int lineNumber = 0;
 
 	public Printing() {
 
@@ -22,10 +27,29 @@ public class Printing {
 	}
 	
 	private void printOut(){
-		String msgTime = "[" + time.getTime() + "]";
-		String msgType = "[" + type.toString() + "]";
-		if(redMode == true){
-			System.err.println(msgType + msgTime + message);
+        msgTime = "[" + time.getTime() + "]";
+        msgType = "[" + type.toString() + "]";
+
+        logFile = new PrintToLog(".log.txt");
+        if (lineNumber == 0){
+
+            String dashes = "";
+            char dash = '-';
+            int number = 16;
+
+            char[] repeat = new char[number];
+            Arrays.fill(repeat, dash);
+            dashes += new String(repeat);
+
+            logFile.log(dashes+msgTime+dashes+"\n" + msgTime + msgType + this.getMessage());
+            lineNumber++;
+        } else {
+            logFile.log(msgTime + msgType + this.getMessage());
+        }
+
+
+		if(errorMode) {
+            System.err.println(msgType + msgTime + message);
 		}else{
 			System.out.println(msgType + msgTime + message);
 		}
@@ -41,9 +65,9 @@ public class Printing {
 	
 	private void readMessageType(PrintTypes type){
 		if(type == PrintTypes.ERROR){
-			this.redMode = true;
+			this.errorMode = true;
 		} else {
-			this.redMode = false;
+			this.errorMode = false;
 		}
 	}
 }
