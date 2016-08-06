@@ -13,7 +13,7 @@ public class Music implements Runnable {
 
 	private InputStream file;
 	private Player musicPlayer;
-	private static String songName[] = { "/music/yoshi song.mp3",
+	private static String songName[] = { "/music/Towards The End.mp3",
 			"/music/Towards The End.mp3", "/music/Towards The End.mp3" };
 	private static int songNumber;
 	private Printing print = new Printing();

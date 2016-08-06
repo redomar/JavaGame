@@ -15,7 +15,7 @@ public class InputHandler implements KeyListener {
 
 	public InputHandler(Game game) {
 		InputContext context = InputContext.getInstance();
-		// Important to know wether the keyboard is in Azerty or Qwerty.
+		// Important to know whether the keyboard is in Azerty or Qwerty.
 		// Azerty countries used QZSD instead of WASD keys.
 		isAzertyCountry = context.getLocale().getCountry().equals("BE")
 				|| context.getLocale().getCountry().equals("FR");
