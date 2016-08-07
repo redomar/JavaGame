@@ -1,9 +1,5 @@
 package com.redomar.game.entities;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import com.redomar.game.entities.projectiles.Medium;
 import com.redomar.game.entities.projectiles.Projectile;
 import com.redomar.game.entities.projectiles.Small;
@@ -11,6 +7,10 @@ import com.redomar.game.level.LevelHandler;
 import com.redomar.game.level.Node;
 import com.redomar.game.level.tiles.Tile;
 import com.redomar.game.lib.utils.Vector2i;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public abstract class Mob extends Entity {
 
@@ -32,7 +32,7 @@ public abstract class Mob extends Entity {
 	 * [3] Contains the <strong>yMax</strong>
 	 */
 	protected int[] collisionBoders = new int[4];
-	
+
 	protected List<Projectile> projectiles = new ArrayList<Projectile>();
 
 	public Mob(LevelHandler level, String name, int x, int y, double speed, int[] collisionBoders) {
@@ -52,13 +52,13 @@ public abstract class Mob extends Entity {
 			return;
 		}
 		numSteps++;
-		
+
 		//Moving Directions
 		//0 = Facing UP
 		//1 = Facing Down
 		//2 = Facing Left
 		//3 = Facing Right
-		
+
 		if (ya < 0) {
 			movingDir = 0;
 		}
@@ -85,7 +85,7 @@ public abstract class Mob extends Entity {
 				xa = 0;
 			}
 		}
-		
+
 		while (ya != 0){
 			if (Math.abs(ya) > 1){
 				if (!hasCollided(xa, abs(ya))) {
@@ -99,7 +99,7 @@ public abstract class Mob extends Entity {
 				ya = 0;
 			}
 		}
-		
+
 	}
 
 	public boolean hasCollided(double xa, double ya){
@@ -134,7 +134,7 @@ public abstract class Mob extends Entity {
 
 		return false;
 	}
-	
+
 	public boolean hasCollidedAlt(int xa, int ya){
 		boolean solid = false;
 		for (int c = 0; c < 4; c++) {
@@ -148,7 +148,7 @@ public abstract class Mob extends Entity {
 		}
 		return solid;
 	}
-	
+
 	private int abs(double i){
 		if (i < 0) return -1;
 		return 1;
@@ -165,15 +165,12 @@ public abstract class Mob extends Entity {
 		Tile newtTile = level.getTile(((int) this.getX() + x + xa) >> 3, ((int) this.getY()
 				+ y + ya) >> 3);
 
-		if (!lastTile.equals(newtTile) && newtTile.isSolid()) {
-			return true;
-		}
+		return !lastTile.equals(newtTile) && newtTile.isSolid();
 
-		return false;
 	}
-	
+
 	protected void aStarMovementAI(int x, int y, int px, int py, double xa,
-			double ya, double speed, Mob mob, List<Node> path, int time){
+								   double ya, double speed, Mob mob, List<Node> path, int time) {
 		xa = 0;
 		ya = 0;
 		Vector2i start = new Vector2i(x >> 3, y >> 3);
@@ -192,7 +189,7 @@ public abstract class Mob extends Entity {
 	}
 
 	protected void followMovementAI(int x, int y, int px, int py, double xa,
-			double ya, double speed, Mob mob) {
+									double ya, double speed, Mob mob) {
 		ya = 0;
 		xa = 0;
 		if (px > x)
@@ -205,7 +202,7 @@ public abstract class Mob extends Entity {
 			ya-=speed;
 		moveMob(xa, ya, mob);
 	}
-	
+
 	protected double[] randomMovementAI(double x, double y, double xa, double ya, int tick) {
 		if (tick % (random.nextInt(50) + 30) == 0) {
 			xa = random.nextInt(3) - 1;
@@ -233,7 +230,7 @@ public abstract class Mob extends Entity {
 			mob.isMoving = false;
 		}
 	}
-	
+
 	protected void shoot(double x, double y, double dir, double buttonId, boolean secondry){
 //		dir = dir * (180 /Math.PI); 
 //		Printing print = new Printing();
@@ -253,20 +250,20 @@ public abstract class Mob extends Entity {
 		return name;
 	}
 
-	public void setNumSteps(int numSteps) {
-		this.numSteps = numSteps;
-	}
-
 	public int getNumSteps() {
 		return numSteps;
 	}
 
+	public void setNumSteps(int numSteps) {
+		this.numSteps = numSteps;
+	}
+
+	public boolean isMoving() {
+		return this.isMoving;
+	}
+
 	public void setMoving(boolean isMoving) {
 		this.isMoving = isMoving;
-	}
-	
-	public boolean isMoving(){
-		return this.isMoving;
 	}
 
 	public void setMovingDir(int movingDir) {

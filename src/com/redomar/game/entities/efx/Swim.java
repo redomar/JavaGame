@@ -14,20 +14,20 @@ public class Swim {
 		this.x = x;
 		this.y = y;
 	}
-	
+
 	public int[] waveCols(boolean isSwimming, boolean isMagma, boolean isMuddy){
-		
+
 		if(isSwimming){
 			swimCols[0] = 255;
 			swimCols[1] = 255;
 			swimCols[2] = 115;
 		}
-		if(isMagma){		
+		if (isMagma) {
 			swimCols[0] = 541;
 			swimCols[1] = 521;
 			swimCols[2] = 510;
 		}
-		if(isMuddy){		
+		if (isMuddy) {
 			swimCols[0] = 422;
 			swimCols[1] = 410;
 			swimCols[2] = 321;
@@ -78,16 +78,12 @@ public class Swim {
 		swimminhType[2] = mud(isMuddy);
 		return swimminhType;
 	}
-	
+
 	public boolean isActive(boolean[] swimmingType){
 		if(swimmingType[0] == true){
 			return true;
 		}else if(swimmingType[1] == true){
 			return true;
-		}else if(swimmingType[2] == true){
-			return true;
-		} else {			
-			return false;
-		}
+		} else return swimmingType[2] == true;
 	}
 }

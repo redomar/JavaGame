@@ -27,8 +27,12 @@ public class Screen {
 		setPixels(new int[width * height]);
 	}
 
+	public static int getMapWidthMask() {
+		return MAP_WIDTH_MASK;
+	}
+
 	public void render(int xPos, int yPos, int tile, int colour, int mirrorDir,
-			int scale) {
+					   int scale) {
 		xPos -= xOffset;
 		yPos -= yOffset;
 
@@ -90,10 +94,6 @@ public class Screen {
 	public void setOffset(int xOffset, int yOffset) {
 		this.xOffset = xOffset;
 		this.yOffset = yOffset;
-	}
-
-	public static int getMapWidthMask() {
-		return MAP_WIDTH_MASK;
 	}
 
 	public int getWidth() {

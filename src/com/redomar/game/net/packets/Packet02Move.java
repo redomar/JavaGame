@@ -23,7 +23,7 @@ public class Packet02Move extends Packet {
 	}
 
 	public Packet02Move(String username, int x, int y, int numSteps,
-			boolean isMoving, int movingDir) {
+						boolean isMoving, int movingDir) {
 		super(02);
 		this.username = username;
 		this.x = x;
@@ -37,7 +37,7 @@ public class Packet02Move extends Packet {
 	public byte[] getData() {
 		return ("02" + this.username + "," + this.x + "," + this.y + ","
 				+ this.getNumSteps() + "," + (this.isMoving ? 1 : 0) + "," + this
-					.getMovingDir()).getBytes();
+				.getMovingDir()).getBytes();
 	}
 
 	@Override

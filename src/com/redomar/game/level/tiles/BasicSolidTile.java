@@ -4,7 +4,7 @@ public class BasicSolidTile extends BasicTile {
 
 	/**
 	 * This is a solid tile, but does not emit any light. This tile does not have any animations.
-	 * 
+	 *
 	 * @param id Unique ID for the Tile
 	 * @param x Specifies the x-coordinate from the SpriteSheet, measured in 8 pixels. Must be 0 - 31
 	 * @param y Specifies the y-coordinate from the SpriteSheet, measured in 8 pixels. Must be 0 - 31

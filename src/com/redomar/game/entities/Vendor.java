@@ -1,15 +1,17 @@
 package com.redomar.game.entities;
 
-import java.util.List;
-
 import com.redomar.game.entities.efx.Swim;
 import com.redomar.game.gfx.Colours;
 import com.redomar.game.gfx.Screen;
 import com.redomar.game.level.LevelHandler;
 import com.redomar.game.level.Node;
 
+import java.util.List;
+
 public class Vendor extends Mob {
 
+	private static double speed = 0.75;
+	private static int[] collisionBoders = {0, 7, 0, 7};
 	private int colour, shirtCol, faceCol; // = Colours.get(-1, 111, 240, 310);
 	private int tickCount = 0;
 	private int tick = 0;
@@ -18,15 +20,12 @@ public class Vendor extends Mob {
 	private double[] movement;
 	private boolean[] swimType;
 	private int[] swimColour;
-	private static double speed = 0.75;
 	private List<Node> path = null;
 	private int time = 0;
-	private static int[] collisionBoders = {0, 7, 0, 7};
-
 	private Swim swim;
 
 	public Vendor(LevelHandler level, String name, int x, int y, int shirtCol,
-			int faceCol) {
+				  int faceCol) {
 		super(level, name, x, y, speed, collisionBoders);
 		this.faceCol = faceCol;
 		this.shirtCol = shirtCol;
@@ -34,15 +33,15 @@ public class Vendor extends Mob {
 	}
 
 	public void tick() {
-		
+
 		tick++;
 		movement = randomMovementAI(x, y, xa, ya, tick);
-		
+
 		this.xa = movement[0];
 		this.ya = movement[1];
-		
+
 		moveMob(xa, ya, this);
-		
+
 		setSwim(new Swim(level, (int) getX(), (int) getY()));
 		swimType = swim.swimming(isSwimming, isMagma, isMuddy);
 		isSwimming = swimType[0];
@@ -82,7 +81,7 @@ public class Vendor extends Mob {
 
 		if (isSwimming || isMagma || isMuddy) {
 			swimColour = swim.waveCols(isSwimming, isMagma, isMuddy);
-			
+
 			int waterColour = 0;
 			yOffset += 4;
 

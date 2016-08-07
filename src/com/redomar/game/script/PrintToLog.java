@@ -7,28 +7,28 @@ import java.io.PrintWriter;
 
 public class PrintToLog {
 
-    private static PrintWriter printer;
-    private File url;
+	private static PrintWriter printer;
+	private File url;
 
-    public  PrintToLog (){
+	public PrintToLog() {
 
-    }
+	}
 
-    public PrintToLog(String url){
-        this.url = new File(url);
-        initiate();
-    }
+	public PrintToLog(String url) {
+		this.url = new File(url);
+		initiate();
+	}
 
-    public void log(String data){
-        printer.println(data);
-        printer.close();
-    }
+	public void log(String data) {
+		printer.println(data);
+		printer.close();
+	}
 
-    private void initiate(){
-        try {
-            printer = new PrintWriter(new FileOutputStream(url, true));
-        } catch (FileNotFoundException e){
-            System.err.println(e);
-        }
-    }
+	private void initiate() {
+		try {
+			printer = new PrintWriter(new FileOutputStream(url, true));
+		} catch (FileNotFoundException e) {
+			System.err.println(e);
+		}
+	}
 }

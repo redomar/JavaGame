@@ -1,24 +1,23 @@
 package com.redomar.game.lib;
 
+import com.redomar.game.Game;
+import com.redomar.game.script.PrintTypes;
+import com.redomar.game.script.Printing;
+import javazoom.jl.player.Player;
+
 import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.util.Random;
 
-import com.redomar.game.Game;
-import com.redomar.game.script.*;
-
-import javazoom.jl.player.Player;
-
 public class Music implements Runnable {
 
-	private InputStream file;
-	private Player musicPlayer;
 	private static String songName[] = { "/music/Towards The End.mp3",
 			"/music/Towards The End.mp3", "/music/Towards The End.mp3" };
 	private static int songNumber;
-	private Printing print = new Printing();
-
 	private static Random rand = new Random();
+	private InputStream file;
+	private Player musicPlayer;
+	private Printing print = new Printing();
 
 	public Music(InputStream url) {
 		this.file = url;
@@ -56,7 +55,7 @@ public class Music implements Runnable {
 			// Thread.sleep(100);
 			print.print(" Playing song: "
 					+ songName[songNumber].substring(7,
-							(songName[songNumber].length() - 4)), PrintTypes.MUSIC);
+					(songName[songNumber].length() - 4)), PrintTypes.MUSIC);
 			music.Play();
 			this.run();
 		} catch (InterruptedException e) {

@@ -1,10 +1,9 @@
 package com.redomar.game.objects;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.image.BufferStrategy;
-
 import com.redomar.game.menu.DedicatedJFrame;
+
+import java.awt.*;
+import java.awt.image.BufferStrategy;
 
 public class InventoryWindow implements Runnable{
 
@@ -12,22 +11,30 @@ public class InventoryWindow implements Runnable{
 	private static final int HEIGHT = (WIDTH / 3 * 2);
 	private static final int SCALE = 2;
 	private static final String NAME = "Inventory";
-	
+
 	private static boolean running = false;
-	
+
 	private static DedicatedJFrame frame;
 	private static InventoryHandler window;
+
+	public static InventoryHandler getWindow() {
+		return window;
+	}
+
+	public static void setWindow(InventoryHandler inventoryHandler) {
+		InventoryWindow.window = inventoryHandler;
+	}
 
 	public synchronized void start(){
 		running = true;
 		setFrame(new DedicatedJFrame(WIDTH, HEIGHT, SCALE, NAME));
 		new Thread(this, NAME).start();
 	}
-	
+
 	public synchronized void stop(){
 		running = false;
 	}
-	
+
 	public void run() {
 		long lastTime = System.nanoTime();
 		double nsPerTick = 1000000000D / 30D;
@@ -37,7 +44,7 @@ public class InventoryWindow implements Runnable{
 
 		long lastTimer = System.currentTimeMillis();
 		double delta = 0;
-		
+
 		setWindow(new InventoryHandler(frame));
 
 		while (running) {
@@ -72,14 +79,14 @@ public class InventoryWindow implements Runnable{
 			}
 		}
 	}
-	
+
 	private void render() {
 		BufferStrategy bs = frame.getBufferStrategy();
 		if(bs == null){
 			frame.createBufferStrategy(3);
 			return;
 		}
-		
+
 		Graphics g = bs.getDrawGraphics();
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, WIDTH*SCALE+10, HEIGHT*SCALE+10);
@@ -95,13 +102,5 @@ public class InventoryWindow implements Runnable{
 
 	public static void setFrame(DedicatedJFrame frame) {
 		InventoryWindow.frame = frame;
-	}
-
-	public static InventoryHandler getWindow() {
-		return window;
-	}
-
-	public static void setWindow(InventoryHandler inventoryHandler) {
-		InventoryWindow.window = inventoryHandler;
 	}
 }

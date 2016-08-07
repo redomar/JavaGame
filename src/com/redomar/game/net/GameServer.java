@@ -1,5 +1,15 @@
 package com.redomar.game.net;
 
+import com.redomar.game.Game;
+import com.redomar.game.entities.PlayerMP;
+import com.redomar.game.net.packets.Packet;
+import com.redomar.game.net.packets.Packet.PacketTypes;
+import com.redomar.game.net.packets.Packet00Login;
+import com.redomar.game.net.packets.Packet01Disconnect;
+import com.redomar.game.net.packets.Packet02Move;
+import com.redomar.game.script.PrintTypes;
+import com.redomar.game.script.Printing;
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -7,15 +17,6 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.redomar.game.Game;
-import com.redomar.game.entities.PlayerMP;
-import com.redomar.game.net.packets.Packet;
-import com.redomar.game.net.packets.Packet00Login;
-import com.redomar.game.net.packets.Packet.PacketTypes;
-import com.redomar.game.net.packets.Packet01Disconnect;
-import com.redomar.game.net.packets.Packet02Move;
-import com.redomar.game.script.*;
 
 public class GameServer extends Thread {
 
@@ -60,28 +61,28 @@ public class GameServer extends Thread {
 		PacketTypes type = Packet.lookupPacket(message.substring(0, 2));
 		Packet packet = null;
 		switch (type) {
-		default:
-		case INVALID:
-			break;
-		case LOGIN:
-			packet = new Packet00Login(data);
-			print.print("[" + address.getHostAddress() + ":" + port
-					+ "] " + ((Packet00Login) packet).getUsername()
-					+ " has connected...", PrintTypes.SERVER);
-			PlayerMP player = new PlayerMP(Game.getLevel(), 10, 10,
-					((Packet00Login) packet).getUsername(), address, port, Game.getShirtCol(), Game.getFaceCol());
-			this.addConnection(player, (Packet00Login) packet);
-			break;
-		case DISCONNECT:
-			packet = new Packet01Disconnect(data);
-			print.print("[" + address.getHostAddress() + ":" + port
-					+ "] " + ((Packet01Disconnect) packet).getUsername()
-					+ " has disconnected...", PrintTypes.SERVER);
-			this.removeConnection((Packet01Disconnect) packet);
-			break;
-		case MOVE:
-			packet = new Packet02Move(data);
-			this.handleMove(((Packet02Move) packet));
+			default:
+			case INVALID:
+				break;
+			case LOGIN:
+				packet = new Packet00Login(data);
+				print.print("[" + address.getHostAddress() + ":" + port
+						+ "] " + ((Packet00Login) packet).getUsername()
+						+ " has connected...", PrintTypes.SERVER);
+				PlayerMP player = new PlayerMP(Game.getLevel(), 10, 10,
+						((Packet00Login) packet).getUsername(), address, port, Game.getShirtCol(), Game.getFaceCol());
+				this.addConnection(player, (Packet00Login) packet);
+				break;
+			case DISCONNECT:
+				packet = new Packet01Disconnect(data);
+				print.print("[" + address.getHostAddress() + ":" + port
+						+ "] " + ((Packet01Disconnect) packet).getUsername()
+						+ " has disconnected...", PrintTypes.SERVER);
+				this.removeConnection((Packet01Disconnect) packet);
+				break;
+			case MOVE:
+				packet = new Packet02Move(data);
+				this.handleMove(((Packet02Move) packet));
 		}
 	}
 

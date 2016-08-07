@@ -1,12 +1,12 @@
 package com.redomar.game.menu;
 
+import com.redomar.game.Game;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import com.redomar.game.Game;
-
 public class MenuInput implements KeyListener {
-	
+
 	private boolean ticket = false;
 
 	public void keyPressed(KeyEvent e) {
@@ -22,17 +22,17 @@ public class MenuInput implements KeyListener {
 	}
 
 	private void toggleKey(int keyCode) {
-		
+
 		if (keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_W) {
 			Menu.setSelectedStart(true);
 			Menu.setSelectedExit(false);
 		}
-		
+
 		if (keyCode == KeyEvent.VK_DOWN || keyCode == KeyEvent.VK_S) {
 			Menu.setSelectedExit(true);
 			Menu.setSelectedStart(false);
 		}
-		
+
 		if(!ticket){
 			if (keyCode == KeyEvent.VK_ENTER) {
 				if (Menu.isSelectedStart()) {
@@ -51,7 +51,7 @@ public class MenuInput implements KeyListener {
 				}
 			}
 		}
-		
+
 		if (keyCode == KeyEvent.VK_ESCAPE) {
 			System.exit(1);
 		}

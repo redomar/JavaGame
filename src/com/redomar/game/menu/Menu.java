@@ -1,22 +1,17 @@
 package com.redomar.game.menu;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.image.BufferStrategy;
-
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.UIManager;
-
-import org.apache.commons.lang3.text.WordUtils;
-
 import com.redomar.game.Game;
 import com.redomar.game.lib.Font;
 import com.redomar.game.lib.Mouse;
 import com.thehowtotutorial.splashscreen.JSplash;
+import org.apache.commons.lang3.text.WordUtils;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferStrategy;
 
 public class Menu implements Runnable {
 
@@ -31,7 +26,7 @@ public class Menu implements Runnable {
 	private static boolean gameOver = false;
 
 	private static DedicatedJFrame frame;// = new DedicatedJFrame(WIDTH, HEIGHT,
-											// SCALE, NAME);
+	// SCALE, NAME);
 	private Font font = new Font();
 	private MouseListener Mouse = new Mouse();
 	private KeyListener Key = new MenuInput();
@@ -39,14 +34,140 @@ public class Menu implements Runnable {
 	private Color selected = new Color(0xFFFF8800);
 	private Color deSelected = new Color(0xFFCC5500);
 
+	public static synchronized void stop() {
+		running = false;
+	}
+
+	public static void play() {
+		try {
+			JSplash splash = new JSplash(
+					Game.class.getResource("/splash/splash.png"), true, true,
+					false, Game.getGameVersion(), null, Color.RED, Color.ORANGE);
+			splash.toFront();
+			splash.requestFocus();
+			splash.splashOn();
+			splash.setProgress(10, "Initializing Game");
+			Thread.sleep(250);
+			splash.setProgress(25, "Loading Classes");
+			Thread.sleep(125);
+			splash.setProgress(35, "Applying Configurations");
+			Thread.sleep(125);
+			splash.setProgress(40, "Loading Sprites");
+			Thread.sleep(250);
+			splash.setProgress(50, "Loading Textures");
+			Thread.sleep(125);
+			splash.setProgress(60, "Loading Map");
+			Thread.sleep(500);
+			splash.setProgress(80, "Configuring Map");
+			Thread.sleep(125);
+			splash.setProgress(90, "Pulling InputPanes");
+			Thread.sleep(250);
+			splash.setProgress(92, "Acquiring data: Multiplayer");
+			Thread.sleep(125);
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			String multiMsg = "Sorry but multiplayer has been disabled on this version.\nIf you would like multiplayer checkout Alpha 1.6";
+			JOptionPane.showMessageDialog(Game.getGame(), multiMsg,
+					"Multiplayer Warning", JOptionPane.WARNING_MESSAGE);
+			// Game.setJdata_Host(JOptionPane.showConfirmDialog(Game.getGame(),
+			// "Do you want to be the HOST?"));
+			Game.setJdata_Host(1);
+			if (Game.getJdata_Host() != 1) { // Game.getJdata_Host() == 1
+				Game.setJdata_IP(JOptionPane.showInputDialog(Game.getGame(),
+						"Enter the name \nleave blank for local"));
+			}
+			Thread.sleep(125);
+			splash.setProgress(94, "Acquiring data: Username");
+			String s = JOptionPane.showInputDialog(Game.getGame(),
+					"Enter a name");
+			if (s != null) {
+				Game.setJdata_UserName(s);
+			}
+			Thread.sleep(125);
+			splash.setProgress(96, "Collecting Player Data");
+			Object[] options = {"African", "Caucasian"};
+			int n = JOptionPane.showOptionDialog(frame,
+					"Choose a race for the charater to be", "Choose a race",
+					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
+					null, options, options[0]);
+			if (n == 0) {
+				Game.setAternateColsR(true);
+			} else {
+				Game.setAternateColsR(false);
+			}
+			Thread.sleep(250);
+			Object[] options1 = {"Orange", "Black"};
+			int n1 = JOptionPane.showOptionDialog(frame,
+					"Which Colour do you want the shirt to be?",
+					"Choose a shirt Colour", JOptionPane.YES_NO_OPTION,
+					JOptionPane.QUESTION_MESSAGE, null, options1, options1[0]);
+			if (n1 == 0) {
+				Game.setAternateColsS(true);
+			} else {
+				Game.setAternateColsS(false);
+			}
+			splash.setProgress(97, "Connecting as" + Game.getJdata_UserName());
+			Thread.sleep(250);
+			splash.splashOff();
+			frame = new DedicatedJFrame(WIDTH, HEIGHT, SCALE, NAME);
+			frame.getFrame();
+			frame.getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static DedicatedJFrame getFrame() {
+		return Menu.frame;
+	}
+
+	public static void setFrame(DedicatedJFrame frame) {
+		Menu.frame = frame;
+	}
+
+	public static boolean isRunning() {
+		return running;
+	}
+
+	public static void setRunning(boolean running) {
+		Menu.running = running;
+	}
+
+	public static boolean isSelectedStart() {
+		return selectedStart;
+	}
+
+	public static void setSelectedStart(boolean selectedStart) {
+		Menu.selectedStart = selectedStart;
+	}
+
+	public static boolean isSelectedExit() {
+		return selectedExit;
+	}
+
+	public static void setSelectedExit(boolean selectedExit) {
+		Menu.selectedExit = selectedExit;
+	}
+
+	public static int getWidth() {
+		return WIDTH;
+	}
+
+	public static int getHeight() {
+		return HEIGHT;
+	}
+
+	public static boolean isGameOver() {
+		return gameOver;
+	}
+
+	public static void setGameOver(boolean gameOver) {
+		Menu.gameOver = gameOver;
+	}
+
 	public synchronized void start() {
 		running = true;
 		play();
 		new Thread(this, "MENU").start();
-	}
-
-	public static synchronized void stop() {
-		running = false;
 	}
 
 	public void run() {
@@ -163,116 +284,6 @@ public class Menu implements Runnable {
 		}
 	}
 
-	public static void play() {
-		try {
-			JSplash splash = new JSplash(
-					Game.class.getResource("/splash/splash.png"), true, true,
-					false, Game.getGameVersion(), null, Color.RED, Color.ORANGE);
-			splash.toFront();
-			splash.requestFocus();
-			splash.splashOn();
-			splash.setProgress(10, "Initializing Game");
-			Thread.sleep(250);
-			splash.setProgress(25, "Loading Classes");
-			Thread.sleep(125);
-			splash.setProgress(35, "Applying Configurations");
-			Thread.sleep(125);
-			splash.setProgress(40, "Loading Sprites");
-			Thread.sleep(250);
-			splash.setProgress(50, "Loading Textures");
-			Thread.sleep(125);
-			splash.setProgress(60, "Loading Map");
-			Thread.sleep(500);
-			splash.setProgress(80, "Configuring Map");
-			Thread.sleep(125);
-			splash.setProgress(90, "Pulling InputPanes");
-			Thread.sleep(250);
-			splash.setProgress(92, "Acquiring data: Multiplayer");
-			Thread.sleep(125);
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			String multiMsg = "Sorry but multiplayer has been disabled on this version.\nIf you would like multiplayer checkout Alpha 1.6";
-			JOptionPane.showMessageDialog(Game.getGame(), multiMsg,
-					"Multiplayer Warning", JOptionPane.WARNING_MESSAGE);
-			// Game.setJdata_Host(JOptionPane.showConfirmDialog(Game.getGame(),
-			// "Do you want to be the HOST?"));
-			Game.setJdata_Host(1);
-			if (Game.getJdata_Host() != 1) { // Game.getJdata_Host() == 1
-				Game.setJdata_IP(JOptionPane.showInputDialog(Game.getGame(),
-						"Enter the name \nleave blank for local"));
-			}
-			Thread.sleep(125);
-			splash.setProgress(94, "Acquiring data: Username");
-			String s = JOptionPane.showInputDialog(Game.getGame(),
-					"Enter a name");
-			if (s != null) {
-				Game.setJdata_UserName(s);
-			}
-			Thread.sleep(125);
-			splash.setProgress(96, "Collecting Player Data");
-			Object[] options = { "African", "Caucasian" };
-			int n = JOptionPane.showOptionDialog(frame,
-					"Choose a race for the charater to be", "Choose a race",
-					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
-					null, options, options[0]);
-			if (n == 0) {
-				Game.setAternateColsR(true);
-			} else {
-				Game.setAternateColsR(false);
-			}
-			Thread.sleep(250);
-			Object[] options1 = { "Orange", "Black" };
-			int n1 = JOptionPane.showOptionDialog(frame,
-					"Which Colour do you want the shirt to be?",
-					"Choose a shirt Colour", JOptionPane.YES_NO_OPTION,
-					JOptionPane.QUESTION_MESSAGE, null, options1, options1[0]);
-			if (n1 == 0) {
-				Game.setAternateColsS(true);
-			} else {
-				Game.setAternateColsS(false);
-			}
-			splash.setProgress(97, "Connecting as" + Game.getJdata_UserName());
-			Thread.sleep(250);
-			splash.splashOff();
-			frame = new DedicatedJFrame(WIDTH, HEIGHT, SCALE, NAME);
-			frame.getFrame();
-			frame.getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	public static DedicatedJFrame getFrame() {
-		return Menu.frame;
-	}
-
-	public static void setFrame(DedicatedJFrame frame) {
-		Menu.frame = frame;
-	}
-
-	public static boolean isRunning() {
-		return running;
-	}
-
-	public static void setRunning(boolean running) {
-		Menu.running = running;
-	}
-
-	public static boolean isSelectedStart() {
-		return selectedStart;
-	}
-
-	public static void setSelectedStart(boolean selectedStart) {
-		Menu.selectedStart = selectedStart;
-	}
-
-	public static boolean isSelectedExit() {
-		return selectedExit;
-	}
-
-	public static void setSelectedExit(boolean selectedExit) {
-		Menu.selectedExit = selectedExit;
-	}
-
 	public Color getSelected() {
 		return selected;
 	}
@@ -287,22 +298,6 @@ public class Menu implements Runnable {
 
 	public void setDeSelected(Color deSelected) {
 		this.deSelected = deSelected;
-	}
-
-	public static int getWidth() {
-		return WIDTH;
-	}
-
-	public static int getHeight() {
-		return HEIGHT;
-	}
-
-	public static boolean isGameOver() {
-		return gameOver;
-	}
-
-	public static void setGameOver(boolean gameOver) {
-		Menu.gameOver = gameOver;
 	}
 
 }

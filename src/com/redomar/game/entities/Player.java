@@ -16,24 +16,21 @@ import com.redomar.game.objects.Inventory;
 
 public class Player extends Mob {
 
-	private InputHandler input;
 	private static Name customeName = new Name();
-	private Swim swim;
-
+	public static String guestPlayerName = customeName.setName("Player ");
 	private static double speed = 1;
-	
+	private static int[] collisionBoders = {-2, 8, 0, 7};
+	private InputHandler input;
+	private Swim swim;
 	private int colour, shirtCol, faceCol;
 	private int tickCount = 0;
 	private String userName;
 	private boolean[] swimType;
 	private int[] swimColour;
-	private static int[] collisionBoders = {-2, 8, 0, 7};
 	private int fireRate = 0;
 
-	public static String guestPlayerName = customeName.setName("Player ");
-
 	public Player(LevelHandler level, int x, int y, InputHandler input,
-			String userName,  int shirtCol,	int faceCol) {
+				  String userName, int shirtCol, int faceCol) {
 		super(level, "Player", x, y, speed, collisionBoders);
 		this.input = input;
 		this.userName = userName;
@@ -41,6 +38,14 @@ public class Player extends Mob {
 		this.shirtCol = shirtCol;
 		this.colour = Colours.get(-1, 111, shirtCol, faceCol);
 		fireRate = Small.FIRE_RATE;
+	}
+
+	public static double getSpeed() {
+		return speed;
+	}
+
+	public static void setSpeed(double speed) {
+		Player.speed = speed;
 	}
 
 	public void tick() {
@@ -61,13 +66,13 @@ public class Player extends Mob {
 				xa += speed;
 			}
 		}
-		
+
 		if(fireRate > 0) fireRate--;
-		
+
 		if (Game.getMouse().getButton() == 1 || Game.getMouse().getButton() == 3){
 			if(fireRate <= 0){
 				if(Game.getMouse().getButton()== 1){
-					fireRate = Small.FIRE_RATE;	
+					fireRate = Small.FIRE_RATE;
 				}else if(Game.getMouse().getButton() == 3){
 					fireRate = Medium.FIRE_RATE;
 				}
@@ -76,10 +81,10 @@ public class Player extends Mob {
 					double dy = Game.getMouse().getY() - 320/2;
 					double dir = Math.atan2(dy, dx);
 					shoot(x, y, dir, Game.getMouse().getButton(), false);
-				}				
+				}
 			}
 		}
-		
+
 		for (int i = 0; i < projectiles.size(); i++) {
 			Projectile p = projectiles.get(i);
 			if(p.isRemoved()){
@@ -121,7 +126,7 @@ public class Player extends Mob {
 		int walkingSpeed = 4;
 		int flipTop = (numSteps >> walkingSpeed) & 1;
 		int flipBottom = (numSteps >> walkingSpeed) & 1;
-		
+
 		Inventory.activate();
 
 		if (movingDir == 1) {
@@ -149,7 +154,7 @@ public class Player extends Mob {
 
 		if(isSwimming || isMagma || isMuddy){
 			swimColour = swim.waveCols(isSwimming, isMagma, isMuddy);
-			
+
 			int waterColour = 0;
 			yOffset += 4;
 
@@ -185,22 +190,21 @@ public class Player extends Mob {
 					(yOffset + modifier), ((xTile + 1) + (yTile + 1) * 32),
 					colour, flipBottom, scale);
 			colour = Colours.get(-1, 111, shirtCol, faceCol);
-			;
 		}
 
-		if (userName != null) {	
+		if (userName != null) {
 			/*
 			 * Improved userName centering above player's sprite.
 			 * Using player's own x value cast to int with an adjusted formula
 			 * -posmicanomaly
 			 */
 			int fontCharSize = 8;
-			Font.render(userName, 
-					screen, 
+			Font.render(userName,
+					screen,
 					(int)x - ((userName.length() /2) * fontCharSize),
 					yOffset - 10,
 					Colours.get(-1, -1, -1, 555), 1);
-			
+
 		}
 	}
 
@@ -229,14 +233,6 @@ public class Player extends Mob {
 
 	public void setSwim(Swim swim) {
 		this.swim = swim;
-	}
-
-	public static double getSpeed() {
-		return speed;
-	}
-
-	public static void setSpeed(double speed) {
-		Player.speed = speed;
 	}
 
 }

@@ -1,10 +1,7 @@
 package com.redomar.game.menu;
 
-import java.awt.BorderLayout;
-import java.awt.Canvas;
-import java.awt.Dimension;
-
-import javax.swing.JFrame;
+import javax.swing.*;
+import java.awt.*;
 
 public class DedicatedJFrame extends Canvas {
 
@@ -26,11 +23,11 @@ public class DedicatedJFrame extends Canvas {
 		frame.setVisible(true);
 	}
 
-	public JFrame getFrame() {
+	public static JFrame getFrameStatic() {
 		return frame;
 	}
-	
-	public static JFrame getFrameStatic(){
+
+	public JFrame getFrame() {
 		return frame;
 	}
 

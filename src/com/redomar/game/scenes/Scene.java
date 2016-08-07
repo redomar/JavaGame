@@ -4,18 +4,18 @@ import com.redomar.game.gfx.Screen;
 import com.redomar.game.level.LevelHandler;
 
 public class Scene {
-	
+
 	private int xOffset, yOffset;
 	private Screen screen;
 	private LevelHandler level;
-	
+
 	public Scene(int xOffset, int yOffset, Screen screen, LevelHandler level){
 		this.xOffset = xOffset;
 		this.yOffset = yOffset;
 		this.screen = screen;
 		this.level = level;
 	}
-	
+
 	public void playerScene(){
 		if (xOffset < 0) {
 			xOffset = 0;

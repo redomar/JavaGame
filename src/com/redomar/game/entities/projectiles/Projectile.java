@@ -1,10 +1,10 @@
 package com.redomar.game.entities.projectiles;
 
-import java.util.Random;
-
 import com.redomar.game.entities.Entity;
 import com.redomar.game.level.LevelHandler;
 import com.redomar.game.level.tiles.Tile;
+
+import java.util.Random;
 
 public abstract class Projectile extends Entity{
 
@@ -13,9 +13,9 @@ public abstract class Projectile extends Entity{
 	protected double nx, ny;
 	protected double speed, range, damage, distance;
 	protected Random life = new Random();
-	
+
 	private boolean removed = false;
-	
+
 	public Projectile(LevelHandler level, int x, int y, double dir) {
 		super(level);
 		xOrigin = x;
@@ -26,7 +26,7 @@ public abstract class Projectile extends Entity{
 	}
 
 	protected abstract void move();
-	
+
 	public boolean tileCollision(double xa, double ya, int nx, int ny){
 		int xMin = 0;
 		int xMax = 7;
@@ -59,7 +59,7 @@ public abstract class Projectile extends Entity{
 
 		return false;
 	}
-	
+
 	private boolean isSolid(int xa, int ya, int x, int y, int nx, int ny) {
 		if (level == null) {
 			return false;
@@ -70,11 +70,8 @@ public abstract class Projectile extends Entity{
 		Tile newtTile = level.getTile((nx + x + xa) >> 3, (ny
 				+ y + ya) >> 3);
 
-		if (!lastTile.equals(newtTile) && newtTile.isSolid()) {
-			return true;
-		}
+		return !lastTile.equals(newtTile) && newtTile.isSolid();
 
-		return false;
 	}
 
 	public void remove(){
@@ -88,5 +85,5 @@ public abstract class Projectile extends Entity{
 	public void setRemoved(boolean removed) {
 		this.removed = removed;
 	}
-	
+
 }

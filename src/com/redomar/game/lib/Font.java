@@ -6,17 +6,16 @@ public class Font {
 
 	private static java.awt.Font arial;
 	private static java.awt.Font segoe;
+	private static String chars = "" + "ABCDEFGHIJKLMNOPQRSTUVWXYZ      "
+			+ "0123456789.,:;'\"!?$%()-=+/      ";
 
 	public Font() {
 		Font.setArial(new java.awt.Font("Arial", java.awt.Font.BOLD, 14));
 		Font.setSegoe(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
 	}
 
-	private static String chars = "" + "ABCDEFGHIJKLMNOPQRSTUVWXYZ      "
-			+ "0123456789.,:;'\"!?$%()-=+/      ";
-
 	public static void render(String msg, Screen screen, int x, int y,
-			int colour, int scale) {
+							  int colour, int scale) {
 		msg = msg.toUpperCase();
 
 		for (int i = 0; i < msg.length(); i++) {

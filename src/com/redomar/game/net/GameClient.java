@@ -1,20 +1,17 @@
 package com.redomar.game.net;
 
-import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
-
 import com.redomar.game.Game;
 import com.redomar.game.entities.PlayerMP;
 import com.redomar.game.net.packets.Packet;
+import com.redomar.game.net.packets.Packet.PacketTypes;
 import com.redomar.game.net.packets.Packet00Login;
 import com.redomar.game.net.packets.Packet01Disconnect;
-import com.redomar.game.net.packets.Packet.PacketTypes;
 import com.redomar.game.net.packets.Packet02Move;
-import com.redomar.game.script.*;
+import com.redomar.game.script.PrintTypes;
+import com.redomar.game.script.Printing;
+
+import java.io.IOException;
+import java.net.*;
 
 public class GameClient extends Thread {
 
@@ -55,25 +52,25 @@ public class GameClient extends Thread {
 		PacketTypes type = Packet.lookupPacket(message.substring(0, 2));
 		Packet packet = null;
 		switch (type) {
-		default:
-		case INVALID:
-			break;
-		case LOGIN:
-			packet = new Packet00Login(data);
-			handleLogin((Packet00Login) packet, address, port);
-			break;
-		case DISCONNECT:
-			packet = new Packet01Disconnect(data);
-			print.print("[" + address.getHostAddress() + ":" + port
-					+ "] " + ((Packet01Disconnect) packet).getUsername()
-					+ " has disconnected...", PrintTypes.NETWORK);
-			Game.getLevel().removeEntity(
-					((Packet01Disconnect) packet).getUsername());
-			break;
-		case MOVE:
-			packet = new Packet02Move(data);
-			this.handleMove((Packet02Move) packet);
-			break;
+			default:
+			case INVALID:
+				break;
+			case LOGIN:
+				packet = new Packet00Login(data);
+				handleLogin((Packet00Login) packet, address, port);
+				break;
+			case DISCONNECT:
+				packet = new Packet01Disconnect(data);
+				print.print("[" + address.getHostAddress() + ":" + port
+						+ "] " + ((Packet01Disconnect) packet).getUsername()
+						+ " has disconnected...", PrintTypes.NETWORK);
+				Game.getLevel().removeEntity(
+						((Packet01Disconnect) packet).getUsername());
+				break;
+			case MOVE:
+				packet = new Packet02Move(data);
+				this.handleMove((Packet02Move) packet);
+				break;
 		}
 	}
 
