@@ -101,7 +101,6 @@ public class Player extends Mob {
 					(int) this.getX(), (int) this.getY(), this.numSteps, this.isMoving,
 					this.movingDir);
 			Game.getGame();
-			packet.writeData(Game.getSocketClient());
 
 		} else {
 			isMoving = false;

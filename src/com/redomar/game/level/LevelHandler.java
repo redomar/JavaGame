@@ -1,13 +1,11 @@
 package com.redomar.game.level;
 
-import com.redomar.game.Game;
 import com.redomar.game.entities.Entity;
 import com.redomar.game.entities.Player;
 import com.redomar.game.entities.PlayerMP;
 import com.redomar.game.gfx.Screen;
 import com.redomar.game.level.tiles.Tile;
 import com.redomar.game.lib.utils.Vector2i;
-import com.redomar.game.net.packets.Packet01Disconnect;
 import com.redomar.game.scenes.Scene;
 import com.redomar.game.script.PrintTypes;
 import com.redomar.game.script.Printing;
@@ -210,15 +208,13 @@ public class LevelHandler {
 	public void removeEntity(String username) {
 		int index = 0;
 		for (Entity e : entities) {
-			if (e instanceof PlayerMP
-					&& ((PlayerMP) e).getUsername().equalsIgnoreCase(username)) {
+			if (e instanceof Player
+					&& ((Player) e).getUsername().equalsIgnoreCase(username)) {
 				break;
 			}
 			index++;
 		}
 		this.entities.remove(index);
-		Packet01Disconnect packet = new Packet01Disconnect(Game.getPlayer().getUsername());
-		packet.writeData(Game.getSocketClient());
 	}
 
 	private int getPlayerMPIndex(String username) {

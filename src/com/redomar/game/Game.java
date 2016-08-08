@@ -2,7 +2,6 @@ package com.redomar.game;
 
 import com.redomar.game.entities.Dummy;
 import com.redomar.game.entities.Player;
-import com.redomar.game.entities.PlayerMP;
 import com.redomar.game.entities.Vendor;
 import com.redomar.game.gfx.Screen;
 import com.redomar.game.gfx.SpriteSheet;
@@ -10,9 +9,6 @@ import com.redomar.game.level.LevelHandler;
 import com.redomar.game.lib.Font;
 import com.redomar.game.lib.Music;
 import com.redomar.game.lib.Time;
-import com.redomar.game.net.GameClient;
-import com.redomar.game.net.GameServer;
-import com.redomar.game.net.packets.Packet00Login;
 import com.redomar.game.script.PrintTypes;
 import com.redomar.game.script.Printing;
 import org.apache.commons.lang3.text.WordUtils;
@@ -55,7 +51,6 @@ public class Game extends Canvas implements Runnable {
 	private static boolean running = false;
 	private static InputHandler input;
 	private static MouseHandler mouse;
-	private static GameClient socketClient;
 	private static InputContext context;
 	private int tickCount = 0;
 	private BufferedImage image = new BufferedImage(WIDTH, HEIGHT,
@@ -78,7 +73,6 @@ public class Game extends Canvas implements Runnable {
 	private boolean notActive = true;
 	private boolean noAudioDevice = false;
 	private int trigger = 0;
-	private GameServer socketServer;
 	private Printing print = new Printing();
 
 	/**
@@ -124,14 +118,6 @@ public class Game extends Canvas implements Runnable {
 
 	public static void setFrame(JFrame frame) {
 		Game.frame = frame;
-	}
-
-	public static GameClient getSocketClient() {
-		return socketClient;
-	}
-
-	public void setSocketClient(GameClient socketClient) {
-		Game.socketClient = socketClient;
 	}
 
 	public static Player getPlayer() {
@@ -184,25 +170,6 @@ public class Game extends Canvas implements Runnable {
 
 	public static int getMap() {
 		return map;
-	}
-
-	public void setMap(String Map_str) {
-		setLevel(new LevelHandler(Map_str));
-		if (alternateCols[0]) {
-			Game.setShirtCol(240);
-		}
-		if (!alternateCols[0]) {
-			Game.setShirtCol(111);
-		}
-		if (alternateCols[1]) {
-			Game.setFaceCol(310);
-		}
-		if (!alternateCols[1]) {
-			Game.setFaceCol(543);
-		}
-		setPlayer(new PlayerMP(level, 100, 100, input,
-				getJdata_UserName(), null, -1, shirtCol, faceCol));
-		level.addEntity(player);
 	}
 
 	public static void setMap(int map) {
@@ -317,6 +284,25 @@ public class Game extends Canvas implements Runnable {
 		Game.closingMode = closing;
 	}
 
+	public void setMap(String Map_str) {
+		setLevel(new LevelHandler(Map_str));
+		if (alternateCols[0]) {
+			Game.setShirtCol(240);
+		}
+		if (!alternateCols[0]) {
+			Game.setShirtCol(111);
+		}
+		if (alternateCols[1]) {
+			Game.setFaceCol(310);
+		}
+		if (!alternateCols[1]) {
+			Game.setFaceCol(543);
+		}
+		setPlayer(new Player(level, 100, 100, input,
+				getJdata_UserName(), shirtCol, faceCol));
+		level.addEntity(player);
+	}
+
 	public void init() {
 		setGame(this);
 		int index = 0;
@@ -337,15 +323,6 @@ public class Game extends Canvas implements Runnable {
 		setWindow(new WindowHandler(this));
 		setMap("/levels/custom_level.png");
 		setMap(1);
-		Packet00Login loginPacket = new Packet00Login(player.getUsername(),
-				(int) player.getX(), (int) player.getY());
-
-		if (socketServer != null) {
-			socketServer.addConnection((PlayerMP) getPlayer(), loginPacket);
-		}
-
-		// socketClient.sendData("ping".getBytes());
-		loginPacket.writeData(getSocketClient());
 
 		game.setVendor(new Vendor(level, "Vendor", 215, 215, 304, 543));
 		level.addEntity(getVendor());
@@ -354,14 +331,6 @@ public class Game extends Canvas implements Runnable {
 	public synchronized void start() {
 		Game.setRunning(true);
 		new Thread(this, "GAME").start();
-
-		if (getJdata_Host() == 0) {
-			socketServer = new GameServer(this);
-			socketServer.start();
-		}
-
-		setSocketClient(new GameClient(this, getJdata_IP()));
-		getSocketClient().start();
 	}
 
 	public synchronized void stop() {
@@ -455,8 +424,8 @@ public class Game extends Canvas implements Runnable {
 			}
 		}
 
-		if (noAudioDevice == false) {
-			if (input.isPlayMusic() == true && notActive == true) {
+		if (!noAudioDevice) {
+			if (input.isPlayMusic() && notActive == true) {
 				int musicOption = JOptionPane.showConfirmDialog(this,
 						"You are about to turn on music and can be VERY loud",
 						"Music Options", 2, 2);
