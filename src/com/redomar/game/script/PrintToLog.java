@@ -10,10 +10,6 @@ public class PrintToLog {
 	private static PrintWriter printer;
 	private File url;
 
-	public PrintToLog() {
-
-	}
-
 	public PrintToLog(String url) {
 		this.url = new File(url);
 		initiate();

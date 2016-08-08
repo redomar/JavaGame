@@ -34,14 +34,15 @@ public class Printing {
 		if (lineNumber == 0) {
 
 			String dashes = "";
+			String title = ("[" + time.getTimeDate() + "]");
 			char dash = '-';
-			int number = 16;
+			int number = title.length() / 3;
 
 			char[] repeat = new char[number];
 			Arrays.fill(repeat, dash);
 			dashes += new String(repeat);
 
-			logFile.log(dashes + msgTime + dashes + "\n" + msgTime + msgType + this.getMessage());
+			logFile.log(dashes + title + dashes + "\n" + msgTime + msgType + this.getMessage());
 			lineNumber++;
 		} else {
 			logFile.log(msgTime + msgType + this.getMessage());
