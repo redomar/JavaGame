@@ -1,52 +1,17 @@
 package com.redomar.game;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.im.InputContext;
-
 import com.redomar.game.lib.SleepThread;
 import com.redomar.game.script.PopUp;
 import com.redomar.game.script.PrintTypes;
 import com.redomar.game.script.Printing;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.im.InputContext;
+
 public class InputHandler implements KeyListener {
 
 	private boolean isAzertyCountry;
-
-	public InputHandler(Game game) {
-		InputContext context = InputContext.getInstance();
-		// Important to know whether the keyboard is in Azerty or Qwerty.
-		// Azerty countries used QZSD instead of WASD keys.
-		isAzertyCountry = context.getLocale().getCountry().equals("BE")
-				|| context.getLocale().getCountry().equals("FR");
-		game.addKeyListener(this);
-	}
-
-	public class Key {
-		private int numTimesPressed = 0;
-		private boolean pressed = false;
-
-		public int getNumTimesPressed() {
-			return numTimesPressed;
-		}
-
-		public boolean isPressed() {
-			return pressed;
-		}
-
-		public void toggle(boolean isPressed) {
-			pressed = isPressed;
-			if (isPressed) {
-				numTimesPressed++;
-			}
-		}
-
-		public void off() {
-			pressed = false;
-			numTimesPressed = 0;
-		}
-	}
-
 	private Key up = new Key();
 	private Key down = new Key();
 	private Key left = new Key();
@@ -56,6 +21,15 @@ public class InputHandler implements KeyListener {
 	private int map;
 	private boolean ignoreInput = false;
 	private PopUp popup = new PopUp();
+
+	public InputHandler(Game game) {
+		InputContext context = InputContext.getInstance();
+		// Important to know whether the keyboard is in Azerty or Qwerty.
+		// Azerty countries used QZSD instead of WASD keys.
+		isAzertyCountry = context.getLocale().getCountry().equals("BE")
+				|| context.getLocale().getCountry().equals("FR");
+		game.addKeyListener(this);
+	}
 
 	public void keyPressed(KeyEvent e) {
 		toggleKey(e.getKeyCode(), true);
@@ -69,24 +43,16 @@ public class InputHandler implements KeyListener {
 
 	}
 
-	public void toggleKey(int keyCode, boolean isPressed) {
-		if (isIgnoreInput() == false) {
-			if (isAzertyCountry) {
-				if (keyCode == KeyEvent.VK_Z || keyCode == KeyEvent.VK_UP) {
-					up.toggle(isPressed);
-				}
+	private void toggleKey(int keyCode, boolean isPressed) {
+		if (!isIgnoreInput()) {
+			if (keyCode == KeyEvent.VK_Z && isAzertyCountry || keyCode == KeyEvent.VK_W && !isAzertyCountry
+					|| keyCode == KeyEvent.VK_UP) {
+				up.toggle(isPressed);
+			}
 
-				if (keyCode == KeyEvent.VK_Q || keyCode == KeyEvent.VK_LEFT) {
-					left.toggle(isPressed);
-				}
-			} else {
-				if (keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_UP) {
-					up.toggle(isPressed);
-				}
-
-				if (keyCode == KeyEvent.VK_A || keyCode == KeyEvent.VK_LEFT) {
-					left.toggle(isPressed);
-				}
+			if (keyCode == KeyEvent.VK_Q && isAzertyCountry || keyCode == KeyEvent.VK_A && !isAzertyCountry
+					|| keyCode == KeyEvent.VK_LEFT) {
+				left.toggle(isPressed);
 			}
 
 			if (keyCode == KeyEvent.VK_S || keyCode == KeyEvent.VK_DOWN) {
@@ -97,7 +63,7 @@ public class InputHandler implements KeyListener {
 				right.toggle(isPressed);
 			}
 		}
-		if (isIgnoreInput() == true) {
+		if (isIgnoreInput()) {
 			up.toggle(false);
 			down.toggle(false);
 			left.toggle(false);
@@ -107,33 +73,17 @@ public class InputHandler implements KeyListener {
 			this.setPlayMusic(true);
 		}
 
-		if (isAzertyCountry) {
-			if (keyCode == KeyEvent.VK_W) {
-				// if (map == 0){
-				// Game.getGame().setMap("/levels/water_level.png");
-				// map++;
-				// } else{
-				// Game.getGame().setMap("/levels/custom_level.png");
-				// map--;
-				// }
-				if (Game.getMap() == 2) {
-					Game.setChangeLevel(true);
-					Game.setNpc(false);
-				}
-			}
-		} else {
-			if (keyCode == KeyEvent.VK_Z) {
-				// if (map == 0){
-				// Game.getGame().setMap("/levels/water_level.png");
-				// map++;
-				// } else{
-				// Game.getGame().setMap("/levels/custom_level.png");
-				// map--;
-				// }
-				if (Game.getMap() == 2) {
-					Game.setChangeLevel(true);
-					Game.setNpc(false);
-				}
+		if (keyCode == KeyEvent.VK_W && isAzertyCountry || keyCode == KeyEvent.VK_Z && !isAzertyCountry) {
+			// if (map == 0){
+			// Game.getGame().setMap("/levels/water_level.png");
+			// map++;
+			// } else{
+			// Game.getGame().setMap("/levels/custom_level.png");
+			// map--;
+			// }
+			if (Game.getMap() == 2) {
+				Game.setChangeLevel(true);
+				if (Game.isNpc()) Game.setNpc(false);
 			}
 		}
 		if (keyCode == KeyEvent.VK_N) {
@@ -145,55 +95,43 @@ public class InputHandler implements KeyListener {
 				}
 				return;
 			}
-			if (Game.isNpc() == false) {
+			if (!Game.isNpc()) {
 				Game.setNpc(true);
 				Game.npcSpawn();
 				print.print("Dummy has been spawned", PrintTypes.GAME);
 			}
 		}
 		if (keyCode == KeyEvent.VK_K) {
-			if (Game.isNpc() == true) {
+			if (Game.isNpc()) {
 				Game.setNpc(false);
 				Game.npcKill();
 				print.print("Dummy has been removed", PrintTypes.GAME);
 			}
 		}
-		if (isAzertyCountry) {
-			if (keyCode == KeyEvent.VK_A) {
-				Game.setClosing(true);
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				Game.getLevel().removeEntity(
-						Game.getPlayer().getSantizedUsername());
-				Game.setRunning(false);
-				Game.getFrame().dispose();
-				System.exit(1);
-			}
-		} else {
-			if (keyCode == KeyEvent.VK_Q) {
-				Game.setClosing(true);
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				Game.getLevel().removeEntity(
-						Game.getPlayer().getSantizedUsername());
-				Game.setRunning(false);
-				Game.getFrame().dispose();
-				System.exit(1);
-			}
-		}
+
+		if (keyCode == KeyEvent.VK_A && isAzertyCountry || keyCode == KeyEvent.VK_Q && !isAzertyCountry)
+			this.quitGame();
 
 		if (keyCode == KeyEvent.VK_BACK_QUOTE) {
-			if (Game.isClosing() == false && Game.isDevMode() == false) {
+			if (!Game.isClosing() && !Game.isDevMode()) {
 				Game.setDevMode(true);
 				new Thread(new SleepThread());
 			}
 		}
+	}
+
+	private void quitGame() {
+		Game.setClosing(true);
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		Game.getLevel().removeEntity(
+				Game.getPlayer().getSantizedUsername());
+		Game.setRunning(false);
+		Game.getFrame().dispose();
+		System.exit(1);
 	}
 
 	public void untoggle(boolean toggle) {
@@ -208,11 +146,11 @@ public class InputHandler implements KeyListener {
 		this.map = map;
 	}
 
-	public boolean isPlayMusic() {
+	boolean isPlayMusic() {
 		return PlayMusic;
 	}
 
-	public void setPlayMusic(boolean playMusic) {
+	void setPlayMusic(boolean playMusic) {
 		PlayMusic = playMusic;
 	}
 
@@ -252,8 +190,33 @@ public class InputHandler implements KeyListener {
 		return ignoreInput;
 	}
 
-	public void setIgnoreInput(boolean ignoreInput) {
+	private void setIgnoreInput(boolean ignoreInput) {
 		this.ignoreInput = ignoreInput;
+	}
+
+	public class Key {
+		private int numTimesPressed = 0;
+		private boolean pressed = false;
+
+		public int getNumTimesPressed() {
+			return numTimesPressed;
+		}
+
+		public boolean isPressed() {
+			return pressed;
+		}
+
+		void toggle(boolean isPressed) {
+			pressed = isPressed;
+			if (isPressed) {
+				numTimesPressed++;
+			}
+		}
+
+		public void off() {
+			pressed = false;
+			numTimesPressed = 0;
+		}
 	}
 
 }
