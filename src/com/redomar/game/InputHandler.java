@@ -82,8 +82,10 @@ public class InputHandler implements KeyListener {
 			// map--;
 			// }
 			if (Game.getMap() == 2) {
+				if (Game.isNpc()) {
+					Game.setNpc(false);
+				}
 				Game.setChangeLevel(true);
-				if (Game.isNpc()) Game.setNpc(false);
 			}
 		}
 		if (keyCode == KeyEvent.VK_N) {
