@@ -11,7 +11,6 @@ import com.redomar.game.gfx.Screen;
 import com.redomar.game.level.LevelHandler;
 import com.redomar.game.lib.Font;
 import com.redomar.game.lib.Name;
-import com.redomar.game.net.packets.Packet02Move;
 import com.redomar.game.objects.Inventory;
 
 public class Player extends Mob {
@@ -96,10 +95,6 @@ public class Player extends Mob {
 		if (xa != 0 || ya != 0) {
 			move(xa, ya);
 			isMoving = true;
-
-			Packet02Move packet = new Packet02Move(this.getUsername(),
-					(int) this.getX(), (int) this.getY(), this.numSteps, this.isMoving,
-					this.movingDir);
 			Game.getGame();
 
 		} else {
