@@ -227,7 +227,7 @@ public class Menu implements Runnable {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, frame.getWidth(), frame.getHeight());
 		g.setColor(new Color(0xFF660000));
-		g.fillRect(10, 10, (WIDTH * 3) - 10, (HEIGHT * 3) - 10);
+		g.fillRect(0, 0, WIDTH * 3, HEIGHT * 3);
 		g.setColor(new Color(0xFFFF9900));
 		g.setFont(font.getArial());
 		if (isGameOver()) {
@@ -238,10 +238,10 @@ public class Menu implements Runnable {
 					: "Player";
 			g.drawString("Welcome to JavaGame " + name, 35, 30);
 		}
-		g.drawLine(10, (HEIGHT * 3), 10, 10);
-		g.drawLine(10, 10, (WIDTH * 3), 10);
-		g.drawLine((WIDTH * 3), 10, (WIDTH * 3), (HEIGHT * 3));
-		g.drawLine(10, (HEIGHT * 3), (WIDTH * 3), (HEIGHT * 3));
+		g.drawLine(0, HEIGHT * 3, 0, 0);
+		g.drawLine(0, 0, (WIDTH * 3), 0);
+		g.drawLine((WIDTH * 3), 0, (WIDTH * 3), (HEIGHT * 3));
+		g.drawLine(0, (HEIGHT * 3), (WIDTH * 3), (HEIGHT * 3));
 		// (LEFT,DOWN,WIDTH,HEIGHT)
 		paintButtons(isSelectedStart(), isSelectedExit(), g);
 		bs.show();
