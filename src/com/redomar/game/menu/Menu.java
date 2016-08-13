@@ -111,6 +111,7 @@ public class Menu implements Runnable {
 			frame = new DedicatedJFrame(WIDTH, HEIGHT, SCALE, NAME);
 			frame.getFrame();
 			frame.getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame.requestFocus();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

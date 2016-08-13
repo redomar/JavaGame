@@ -34,7 +34,7 @@ public class MenuInput implements KeyListener {
 		}
 
 		if(!ticket){
-			if (keyCode == KeyEvent.VK_ENTER) {
+			if (keyCode == KeyEvent.VK_ENTER || keyCode == KeyEvent.VK_SPACE) {
 				if (Menu.isSelectedStart()) {
 					this.ticket = true;
 					Menu.setRunning(false);

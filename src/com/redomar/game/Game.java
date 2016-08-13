@@ -94,6 +94,7 @@ public class Game extends Canvas implements Runnable {
 		getFrame().setLocationRelativeTo(null);
 		getFrame().setVisible(true);
 
+		requestFocus();
 		setDevMode(false);
 		setClosing(false);
 	}
@@ -170,6 +171,25 @@ public class Game extends Canvas implements Runnable {
 
 	public static int getMap() {
 		return map;
+	}
+
+	public void setMap(String Map_str) {
+		setLevel(new LevelHandler(Map_str));
+		if (alternateCols[0]) {
+			Game.setShirtCol(240);
+		}
+		if (!alternateCols[0]) {
+			Game.setShirtCol(111);
+		}
+		if (alternateCols[1]) {
+			Game.setFaceCol(310);
+		}
+		if (!alternateCols[1]) {
+			Game.setFaceCol(543);
+		}
+		setPlayer(new Player(level, 100, 100, input,
+				getJdata_UserName(), shirtCol, faceCol));
+		level.addEntity(player);
 	}
 
 	public static void setMap(int map) {
@@ -282,25 +302,6 @@ public class Game extends Canvas implements Runnable {
 
 	public static void setClosing(boolean closing) {
 		Game.closingMode = closing;
-	}
-
-	public void setMap(String Map_str) {
-		setLevel(new LevelHandler(Map_str));
-		if (alternateCols[0]) {
-			Game.setShirtCol(240);
-		}
-		if (!alternateCols[0]) {
-			Game.setShirtCol(111);
-		}
-		if (alternateCols[1]) {
-			Game.setFaceCol(310);
-		}
-		if (!alternateCols[1]) {
-			Game.setFaceCol(543);
-		}
-		setPlayer(new Player(level, 100, 100, input,
-				getJdata_UserName(), shirtCol, faceCol));
-		level.addEntity(player);
 	}
 
 	public void init() {
