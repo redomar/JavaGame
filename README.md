@@ -1,5 +1,5 @@
-JavaGame Alpha v1.8.1
-===================
+JavaGame Alpha v1.8.2
+=====================
 Acknowledgement: Inspired from [vanZeben](https://github.com/vanZeben)
 
 #####What is JavaGame?
