@@ -1,1 +1,7 @@
 language: java
+
+# blocklist
+branches:
+  except:
+  - develop
+  - unitTesting
