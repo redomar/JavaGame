@@ -24,7 +24,12 @@ public class PrintToLog {
 		try {
 			printer = new PrintWriter(new FileOutputStream(url, true));
 		} catch (FileNotFoundException e) {
+			//throw new FileNotFoundException();
 			System.err.println(e);
 		}
+	}
+
+	public File getUrl(){
+		return this.url;
 	}
 }
