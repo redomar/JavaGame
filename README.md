@@ -1,4 +1,4 @@
-JavaGame Alpha v1.8.2
+JavaGame Alpha v1.8.2 [![Travis-CI Build Status](https://travis-ci.org/redomar/JavaGame.svg?branch=master)](https://travis-ci.org/redomar/JavaGame)
 =====================
 Acknowledgement: Inspired from [vanZeben](https://github.com/vanZeben)
 
