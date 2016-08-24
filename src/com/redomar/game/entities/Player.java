@@ -213,7 +213,7 @@ public class Player extends Mob {
 		this.userName = name;
 	}
 
-	public String getSantizedUsername() {
+	public String getSanitisedUsername() {
 		if (this.getUsername() == null || this.userName.isEmpty()) {
 			setUsername(guestPlayerName);
 			return guestPlayerName;

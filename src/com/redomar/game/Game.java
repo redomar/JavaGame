@@ -478,7 +478,7 @@ public class Game extends Canvas implements Runnable {
 		g.drawString(
 				"Welcome "
 						+ WordUtils.capitalizeFully(player
-						.getSantizedUsername()), 3, getHeight() - 17);
+						.getSanitisedUsername()), 3, getHeight() - 17);
 		g.setColor(Color.ORANGE);
 
 		if (context.getLocale().getCountry().equals("BE")

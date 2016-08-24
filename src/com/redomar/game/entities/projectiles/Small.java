@@ -33,7 +33,7 @@ public class Small extends Projectile{
 	}
 
 	public void render(Screen screen) {
-		screen.render((int)x,(int)y, 8 * 32, Colours.get(-1, 222, 333, 555), 0x00, 1);
+		screen.render((int)x,(int)y, 8 * 32, Colours.get(-1, 522, 540, 555), 0x00, 1);
 	}
 
 }

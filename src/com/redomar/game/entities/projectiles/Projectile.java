@@ -20,7 +20,7 @@ public abstract class Projectile extends Entity{
 		super(level);
 		xOrigin = x;
 		yOrigin = y;
-		angle = dir;
+		angle = dir + (Math.random() * (dir + 0.2));
 		this.x = x;
 		this.y = y;
 	}

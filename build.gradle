@@ -10,7 +10,7 @@ sourceSets.main.resources.srcDirs 'res'
 dependencies{
     compile 'org.apache.commons:commons-lang3:3.4'
     compile 'javazoom:jlayer:1.0.1'
-    compile 'junit:junit:4.12'
+    testCompile 'junit:junit:4.12'
     compile files('res/jars/JSplashScreen.jar')
 }
 

@@ -130,7 +130,7 @@ public class InputHandler implements KeyListener {
 			e.printStackTrace();
 		}
 		Game.getLevel().removeEntity(
-				Game.getPlayer().getSantizedUsername());
+				Game.getPlayer().getSanitisedUsername());
 		Game.setRunning(false);
 		Game.getFrame().dispose();
 		System.exit(1);
