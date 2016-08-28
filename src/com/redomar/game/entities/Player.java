@@ -29,8 +29,6 @@ public class Player extends Mob {
 	private int[] swimColour;
 	private int fireRate = 0;
 
-	private static AudioEffect shootSound;
-
 	public Player(LevelHandler level, int x, int y, InputHandler input,
 				  String userName, int shirtCol, int faceCol) {
 		super(level, "Player", x, y, speed, collisionBoders);
@@ -75,8 +73,6 @@ public class Player extends Mob {
 			if(fireRate <= 0){
 				if(Game.getMouse().getButton()== 1){
 					fireRate = Small.FIRE_RATE;
-					shootSound.setVolume(-15);
-					shootSound.play();
 				}else if(Game.getMouse().getButton() == 3){
 					fireRate = Medium.FIRE_RATE;
 				}
@@ -205,14 +201,6 @@ public class Player extends Mob {
 					Colours.get(-1, -1, -1, 555), 1);
 
 		}
-	}
-
-	public static AudioEffect getShootSound() {
-		return shootSound;
-	}
-
-	public static void setShootSound(AudioEffect shootSound) {
-		Player.shootSound = shootSound;
 	}
 
 	public String getUsername() {

@@ -50,7 +50,7 @@ public class Menu implements Runnable {
 			splash.requestFocus();
 			splash.splashOn();
 			splash.setProgress(10, "Initializing SFX");
-			Player.setShootSound( new AudioEffect("/sfx/smallProjectile.wav"));
+
 			splash.setProgress(30, "Loading Music");
 			Game.setBackgroundMusic(new AudioHandler("/music/Towards The End.mp3"));
 			splash.setProgress(40, "Setting Volume");
