@@ -124,6 +124,7 @@ public class InputHandler implements KeyListener {
 
 	private void quitGame() {
 		Game.setClosing(true);
+		print.removeLog();
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {

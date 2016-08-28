@@ -5,6 +5,7 @@ public enum PrintTypes {
 	LEVEL,
 	MUSIC,
 	ERROR,
+	TEST,
 	NETWORK,
-	SERVER;
+	SERVER
 }
