@@ -16,7 +16,9 @@ sourceSets{
 
 dependencies{
     compile 'org.apache.commons:commons-lang3:3.4'
-    compile 'javazoom:jlayer:1.0.1'
+    compile('com.googlecode.soundlibs:mp3spi:1.9.5-1'){
+        exclude module: 'junit'
+    }
     testCompile 'junit:junit:4.12'
     compile files('res/jars/JSplashScreen.jar')
 }
