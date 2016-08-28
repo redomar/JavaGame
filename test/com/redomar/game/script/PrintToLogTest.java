@@ -2,6 +2,7 @@ package com.redomar.game.script;
 
 import org.junit.Test;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -11,7 +12,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class PrintToLogTest {
 
-	PrintToLog print;
+	private PrintToLog print;
 
 	@Test(expected = NullPointerException.class)
 	public void PrintToLogNullFile() {
@@ -20,9 +21,9 @@ public class PrintToLogTest {
 
 	@Test
 	public void PrintToLogDoesWork() {
-		print = new PrintToLog(".Test.txt");
+		print = new PrintToLog(".PrintToLogDoesWork.txt");
 		assertTrue(print.getUrl().exists());
-		print.getUrl().delete();
+		assertTrue(print.getUrl().delete());
 	}
 
 }

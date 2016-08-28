@@ -4,8 +4,15 @@ repositories{
 
 apply plugin: 'java'
 
-sourceSets.main.java.srcDir 'src'
-sourceSets.main.resources.srcDirs 'res'
+sourceSets{
+    main{
+        java.srcDir 'src'
+        resources.srcDir 'res'
+    }
+    test{
+        java.srcDir 'test'
+    }
+}
 
 dependencies{
     compile 'org.apache.commons:commons-lang3:3.4'
