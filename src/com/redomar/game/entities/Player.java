@@ -2,6 +2,7 @@ package com.redomar.game.entities;
 
 import com.redomar.game.Game;
 import com.redomar.game.InputHandler;
+import com.redomar.game.audio.AudioEffect;
 import com.redomar.game.entities.efx.Swim;
 import com.redomar.game.entities.projectiles.Medium;
 import com.redomar.game.entities.projectiles.Projectile;
@@ -213,7 +214,7 @@ public class Player extends Mob {
 		this.userName = name;
 	}
 
-	public String getSantizedUsername() {
+	public String getSanitisedUsername() {
 		if (this.getUsername() == null || this.userName.isEmpty()) {
 			setUsername(guestPlayerName);
 			return guestPlayerName;

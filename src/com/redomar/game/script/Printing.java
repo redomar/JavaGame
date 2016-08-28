@@ -2,6 +2,7 @@ package com.redomar.game.script;
 
 import com.redomar.game.lib.Time;
 
+import java.io.File;
 import java.util.Arrays;
 
 public class Printing {
@@ -30,7 +31,7 @@ public class Printing {
 		msgTime = "[" + time.getTime() + "]";
 		msgType = "[" + type.toString() + "]";
 
-		logFile = new PrintToLog(".log.txt");
+		logFile = printToLogType(type);
 		if (lineNumber == 0) {
 
 			String dashes = "";
@@ -54,6 +55,18 @@ public class Printing {
 		}else{
 			System.out.println(msgType + msgTime + message);
 		}
+	}
+
+	private PrintToLog printToLogType(PrintTypes type){
+		if (type == PrintTypes.TEST){
+			return new PrintToLog(".PrintType-TEST.txt");
+		} else {
+			return new PrintToLog(".log.txt");
+		}
+	}
+
+	public void removeLog(){
+		new File(".log.txt").delete();
 	}
 
 	public String getMessage() {

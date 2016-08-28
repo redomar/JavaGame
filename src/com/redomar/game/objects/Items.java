@@ -4,5 +4,5 @@ public enum Items {
 	Stick,
 	Torch,
 	Sword,
-	Apple;
+	Apple
 }
