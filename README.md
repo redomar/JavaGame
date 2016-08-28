@@ -1,6 +1,5 @@
-JavaGame Alpha v1.8.2 [![Travis-CI Build Status](https://travis-ci.org/redomar/JavaGame.svg?branch=master)](https://travis-ci.org/redomar/JavaGame)
-=====================
-Acknowledgement: Inspired from [vanZeben](https://github.com/vanZeben)
+JavaGame [![GitHub release](https://img.shields.io/github/release/redomar/JavaGame.svg?style=flat-square&label=Alpha)](https://github.com/redomar/JavaGame/releases/latest) [![Travis-CI Build Status](https://img.shields.io/travis/redomar/JavaGame.svg?style=flat-square)](https://travis-ci.org/redomar/JavaGame) [![GitHub license](https://img.shields.io/badge/license-AGPLv3-red.svg?style=flat-square)](https://raw.githubusercontent.com/Redomar/JavaGame/master/LICENSE)
+==
 
 #####What is JavaGame?
 JavaGame is a game project that have been working on since May 2013. I have added many features to the game over the last year and I plan on adding even more features. This game is purely for my own sake to practice my skills in Java.
@@ -10,9 +9,9 @@ Well i'm still not sure what exactly i'm going to do with it, and I haven't thou
 
 #####Play the Game
 * For latest version get 
-   * [v1.8](https://github.com/redomar/JavaGame/releases/tag/v1.8)
+   * [![GitHub release](https://img.shields.io/github/release/redomar/JavaGame.svg?style=flat-square&label=Alpha)](https://github.com/redomar/JavaGame/releases/latest)
 * For multiplayer enabled get 
-   * [v1.5.4](https://github.com/redomar/JavaGame/releases/tag/v1.5.4)
+   * [![GitHub release](https://img.shields.io/badge/Alpha-v1.5.4-cc0000.svg)](https://github.com/redomar/JavaGame/releases/v1.5.4)
 
 #####Your version naming is all wrong
 Yes, I recently noticed that there is a standard called Semantic Versioning that I should follow. Currently my project isn't organised as well as I hoped so starting from the Beta I will follow Semantic Versioning schema.
@@ -36,3 +35,5 @@ Watch this video [here](http://youtu.be/_3nCgac3KKM) or checkout the [GitHub Pag
 * Commit your changes (```git commit -m "Change Title"```)
 * Push to the branch (```git push origin my_branch```)
 * Open a [Pull Request](https://github.com/redomar/JavaGame/pull/new/master)
+
+Inspired from [vanZeben](https://github.com/vanZeben).
