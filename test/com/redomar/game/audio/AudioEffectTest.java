@@ -13,13 +13,6 @@ import static org.junit.Assert.*;
 public class AudioEffectTest {
 
 	@Test
-	public void playSoundEffectAndSetVolume() {
-		AudioHandler sound = new AudioHandler("/sfx/smallProjectile.wav");
-		sound.setVolume(-15);
-		sound.play();
-	}
-
-	@Test
 	public void sfxFileExists() throws Exception {
 		File sfx = new File("res/sfx/smallProjectile.wav");
 		assertTrue(sfx.exists());
