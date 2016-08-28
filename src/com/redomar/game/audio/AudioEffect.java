@@ -2,25 +2,19 @@ package com.redomar.game.audio;
 
 import javax.sound.sampled.*;
 
+/**
+ * For uncompressed files like .wav
+ */
+public class AudioEffect{
 
-public class AudioHandler {
+	Clip clip;
 
-	private Clip clip;
-
-	public AudioHandler(String path){
-		try{
+	public AudioEffect(String path){
+		try {
 			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(getClass().getResourceAsStream(path));
 			AudioFormat baseformat = audioInputStream.getFormat();
-			AudioFormat decodeFormat = new AudioFormat(
-					AudioFormat.Encoding.PCM_SIGNED,
-					baseformat.getSampleRate(), 16,
-					baseformat.getChannels(),
-					baseformat.getChannels() * 2,
-					baseformat.getSampleRate(),
-					false
-			);
 			AudioInputStream decodedAudioInputStream = AudioSystem.getAudioInputStream(
-					decodeFormat, audioInputStream);
+					baseformat, audioInputStream);
 			clip = AudioSystem.getClip();
 			clip.open(decodedAudioInputStream);
 		} catch (Exception e){
@@ -49,5 +43,4 @@ public class AudioHandler {
 		stop();
 		clip.close();
 	}
-
 }
