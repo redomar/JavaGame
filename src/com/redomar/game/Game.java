@@ -1,5 +1,6 @@
 package com.redomar.game;
 
+import com.redomar.game.audio.AudioHandler;
 import com.redomar.game.entities.Dummy;
 import com.redomar.game.entities.Player;
 import com.redomar.game.entities.Vendor;
@@ -46,7 +47,7 @@ public class Game extends Canvas implements Runnable {
 	private static boolean closingMode;
 
 	private static JFrame frame;
-
+	private static AudioHandler backgroundMusic;
 	private static boolean running = false;
 	private static InputHandler input;
 	private static MouseHandler mouse;
@@ -260,12 +261,20 @@ public class Game extends Canvas implements Runnable {
 		Game.alternateCols = alternateCols;
 	}
 
-	public static void setAternateColsR(boolean alternateCols) {
+	public static void setAlternateColsR(boolean alternateCols) {
 		Game.alternateCols[1] = alternateCols;
 	}
 
-	public static void setAternateColsS(boolean alternateCols) {
+	public static void setAlternateColsS(boolean alternateCols) {
 		Game.alternateCols[0] = alternateCols;
+	}
+
+	public static void setBackgroundMusic(AudioHandler backgroundMusic) {
+		Game.backgroundMusic = backgroundMusic;
+	}
+
+	public static AudioHandler getBackgroundMusic(){
+		return Game.backgroundMusic;
 	}
 
 	public static InputHandler getInput() {
@@ -471,7 +480,10 @@ public class Game extends Canvas implements Runnable {
 		}
 		g.setColor(Color.YELLOW);
 		g.drawString(time.getTime(), (getWidth() - 58), (getHeight() - 3));
-		g.setColor(Color.WHITE);
+		g.setColor(Color.GREEN);
+		if(backgroundMusic.getActive()) {
+			g.drawString("MUSIC is ON ", 3, getHeight() - 3);
+		}
 		g.dispose();
 		bs.show();
 	}

@@ -68,9 +68,15 @@ public class InputHandler implements KeyListener {
 			left.toggle(false);
 			right.toggle(false);
 		}
+
 		if (keyCode == KeyEvent.VK_M) {
-			//music here
+			Game.getBackgroundMusic().play();
 		}
+
+		if (keyCode == KeyEvent.VK_COMMA) {
+			Game.getBackgroundMusic().stop();
+		}
+
 
 		if (keyCode == KeyEvent.VK_W && isAzertyCountry || keyCode == KeyEvent.VK_Z && !isAzertyCountry) {
 			// if (map == 0){

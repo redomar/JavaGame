@@ -1,6 +1,9 @@
 package com.redomar.game.menu;
 
 import com.redomar.game.Game;
+import com.redomar.game.audio.AudioEffect;
+import com.redomar.game.audio.AudioHandler;
+import com.redomar.game.entities.Player;
 import com.redomar.game.lib.Font;
 import com.redomar.game.lib.Mouse;
 import com.thehowtotutorial.splashscreen.JSplash;
@@ -46,23 +49,13 @@ public class Menu implements Runnable {
 			splash.toFront();
 			splash.requestFocus();
 			splash.splashOn();
-			splash.setProgress(10, "Initializing Game");
-			Thread.sleep(250);
-			splash.setProgress(25, "Loading Classes");
-			Thread.sleep(125);
-			splash.setProgress(35, "Applying Configurations");
-			Thread.sleep(125);
-			splash.setProgress(40, "Loading Sprites");
-			Thread.sleep(250);
-			splash.setProgress(50, "Loading Textures");
-			Thread.sleep(125);
-			splash.setProgress(60, "Loading Map");
-			Thread.sleep(500);
-			splash.setProgress(80, "Configuring Map");
-			Thread.sleep(125);
-			splash.setProgress(90, "Pulling InputPanes");
-			Thread.sleep(250);
-			splash.setProgress(92, "Acquiring data: Multiplayer");
+			splash.setProgress(10, "Initializing SFX");
+			Player.setShootSound( new AudioEffect("/sfx/smallProjectile.wav"));
+			splash.setProgress(30, "Loading Music");
+			Game.setBackgroundMusic(new AudioHandler("/music/Towards The End.mp3"));
+			splash.setProgress(40, "Setting Volume");
+			Game.getBackgroundMusic().setVolume(-20);
+			splash.setProgress(50, "Acquiring data: Multiplayer");
 			Thread.sleep(125);
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			String multiMsg = "Sorry but multiplayer has been disabled on this version.\nIf you would like multiplayer checkout Alpha 1.6";
@@ -76,23 +69,23 @@ public class Menu implements Runnable {
 						"Enter the name \nleave blank for local"));
 			}
 			Thread.sleep(125);
-			splash.setProgress(94, "Acquiring data: Username");
+			splash.setProgress(70, "Acquiring data: Username");
 			String s = JOptionPane.showInputDialog(Game.getGame(),
 					"Enter a name");
 			if (s != null) {
 				Game.setJdata_UserName(s);
 			}
 			Thread.sleep(125);
-			splash.setProgress(96, "Collecting Player Data");
+			splash.setProgress(90, "Collecting Player Data");
 			Object[] options = {"African", "Caucasian"};
 			int n = JOptionPane.showOptionDialog(frame,
 					"Choose a race for the charater to be", "Choose a race",
 					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
 					null, options, options[0]);
 			if (n == 0) {
-				Game.setAternateColsR(true);
+				Game.setAlternateColsR(true);
 			} else {
-				Game.setAternateColsR(false);
+				Game.setAlternateColsR(false);
 			}
 			Thread.sleep(250);
 			Object[] options1 = {"Orange", "Black"};
@@ -101,11 +94,11 @@ public class Menu implements Runnable {
 					"Choose a shirt Colour", JOptionPane.YES_NO_OPTION,
 					JOptionPane.QUESTION_MESSAGE, null, options1, options1[0]);
 			if (n1 == 0) {
-				Game.setAternateColsS(true);
+				Game.setAlternateColsS(true);
 			} else {
-				Game.setAternateColsS(false);
+				Game.setAlternateColsS(false);
 			}
-			splash.setProgress(97, "Connecting as" + Game.getJdata_UserName());
+			splash.setProgress(100, "Connecting as" + Game.getJdata_UserName());
 			Thread.sleep(250);
 			splash.splashOff();
 			frame = new DedicatedJFrame(WIDTH, HEIGHT, SCALE, NAME);

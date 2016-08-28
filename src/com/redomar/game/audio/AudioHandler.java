@@ -6,6 +6,7 @@ import javax.sound.sampled.*;
 public class AudioHandler {
 
 	private Clip clip;
+	private boolean active = false;
 
 	public AudioHandler(String path){
 		try{
@@ -33,6 +34,7 @@ public class AudioHandler {
 		stop();
 		clip.setFramePosition(0);
 		clip.start();
+		active = true;
 	}
 
 	public void setVolume(float velocity){
@@ -43,11 +45,16 @@ public class AudioHandler {
 
 	public void stop() {
 		if (clip.isRunning()) clip.stop();
+		active = false;
 	}
 
 	public void close(){
 		stop();
 		clip.close();
+	}
+
+	public boolean getActive(){
+		return this.active;
 	}
 
 }
