@@ -17,7 +17,6 @@ public class InputHandler implements KeyListener {
 	private Key left = new Key();
 	private Key right = new Key();
 	private Printing print = new Printing();
-	private boolean PlayMusic = false;
 	private int map;
 	private boolean ignoreInput = false;
 	private PopUp popup = new PopUp();
@@ -70,7 +69,7 @@ public class InputHandler implements KeyListener {
 			right.toggle(false);
 		}
 		if (keyCode == KeyEvent.VK_M) {
-			this.setPlayMusic(true);
+			//music here
 		}
 
 		if (keyCode == KeyEvent.VK_W && isAzertyCountry || keyCode == KeyEvent.VK_Z && !isAzertyCountry) {
@@ -147,14 +146,6 @@ public class InputHandler implements KeyListener {
 
 	public void setMap(int map) {
 		this.map = map;
-	}
-
-	boolean isPlayMusic() {
-		return PlayMusic;
-	}
-
-	void setPlayMusic(boolean playMusic) {
-		PlayMusic = playMusic;
 	}
 
 	public Key getUp() {

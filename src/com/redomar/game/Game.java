@@ -7,7 +7,6 @@ import com.redomar.game.gfx.Screen;
 import com.redomar.game.gfx.SpriteSheet;
 import com.redomar.game.level.LevelHandler;
 import com.redomar.game.lib.Font;
-import com.redomar.game.lib.Music;
 import com.redomar.game.lib.Time;
 import com.redomar.game.script.PrintTypes;
 import com.redomar.game.script.Printing;
@@ -66,12 +65,9 @@ public class Game extends Canvas implements Runnable {
 	private Player player;
 	private Dummy dummy;
 	private Vendor vendor;
-	private Music music = new Music();
 	private Font font = new Font();
-	private Thread musicThread = new Thread(music, "MUSIC");
 	private String nowPlaying;
 	private boolean notActive = true;
-	private boolean noAudioDevice = false;
 	private int trigger = 0;
 	private Printing print = new Printing();
 
@@ -425,22 +421,6 @@ public class Game extends Canvas implements Runnable {
 			}
 		}
 
-		if (!noAudioDevice) {
-			if (input.isPlayMusic() && notActive == true) {
-				int musicOption = JOptionPane.showConfirmDialog(this,
-						"You are about to turn on music and can be VERY loud",
-						"Music Options", 2, 2);
-				if (musicOption == 0) {
-					musicThread.start();
-					notActive = false;
-				} else {
-					// System.out.println("[GAME] Canceled music option");
-					print.print(" Canceled music option", PrintTypes.GAME);
-					input.setPlayMusic(false);
-				}
-			}
-		}
-
 		if (isChangeLevel() == true && getTickCount() % 60 == 0) {
 			Game.setChangeLevel(true);
 			setChangeLevel(false);
@@ -492,35 +472,6 @@ public class Game extends Canvas implements Runnable {
 		g.setColor(Color.YELLOW);
 		g.drawString(time.getTime(), (getWidth() - 58), (getHeight() - 3));
 		g.setColor(Color.WHITE);
-		if (noAudioDevice == true) {
-			g.setColor(Color.RED);
-			g.drawString("MUSIC is OFF | no audio device for playback", 3,
-					getHeight() - 3);
-			trigger++;
-			if (trigger == 25) {
-				JOptionPane.showMessageDialog(this, "No Audio device found",
-						"Audio Issue", 0);
-			}
-		} else if (notActive == true) {
-			g.setColor(Color.RED);
-			g.drawString("MUSIC is OFF | press 'M' to start", 3,
-					getHeight() - 3);
-		} else {
-			g.setColor(Color.GREEN);
-			g.drawString("MUSIC is ON | You cannot turn off the music", 3,
-					getHeight() - 3);
-			g.setColor(Color.WHITE);
-			setNowPlaying(WordUtils.capitalize(music.getSongName()[music
-					.getSongNumber()].substring(7,
-					(music.getSongName()[music.getSongNumber()].length() - 4))));
-			if (getNowPlaying().startsWith("T")) {
-				g.drawString(nowPlaying, getWidth() - (nowPlaying.length() * 9)
-						+ 12, getHeight() - 17);
-			} else {
-				g.drawString(nowPlaying, getWidth() - (nowPlaying.length() * 9)
-						+ 8, getHeight() - 17);
-			}
-		}
 		g.dispose();
 		bs.show();
 	}

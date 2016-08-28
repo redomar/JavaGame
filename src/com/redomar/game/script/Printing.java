@@ -66,7 +66,7 @@ public class Printing {
 	}
 
 	public void removeLog(){
-		new File(".log.txt").delete()
+		new File(".log.txt").delete();
 	}
 
 	public String getMessage() {
