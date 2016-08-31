@@ -19,4 +19,10 @@ public class AudioHandlerTest {
 		assertTrue(sfx.exists());
 	}
 
+	@Test(expected = NullPointerException.class)
+	public void expectReturnExceptionFileEmptyDir(){
+		File empty = new File("");
+		AudioHandler audio = new AudioHandler(empty);
+	}
+
 }

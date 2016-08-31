@@ -10,9 +10,8 @@ import java.io.File;
 public class Small extends Projectile{
 
 	public static final int FIRE_RATE = 10;
-
-	public AudioHandler smallSound;
-	public File file;
+	private static final File smallShot = new File("/music/small.mp3");
+	private static AudioHandler smallSound;
 
 	public Small(LevelHandler level, int x, int y, double dir) {
 		super(level, x, y, dir);
@@ -23,9 +22,7 @@ public class Small extends Projectile{
 		nx = speed * Math.cos(angle);
 		ny = speed * Math.sin(angle);
 
-		file = new File("/music/small.mp3");
-
-		smallSound = new AudioHandler(file);
+		smallSound = new AudioHandler(smallShot);
 		smallSound.setVolume(-15);
 		smallSound.play();
 	}

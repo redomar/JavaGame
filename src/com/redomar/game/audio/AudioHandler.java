@@ -14,10 +14,19 @@ public class AudioHandler {
 	}
 
 	public AudioHandler(File file){
-		initiate(file.toString());
+		try {
+			if(file.toString() != ""){
+				initiate(file.toString());
+			} else {
+				throw new NullPointerException();
+			}
+		} catch (NullPointerException e){
+			System.err.println("Destination Cannot be empty");
+			throw e;
+		}
 	}
 
-	public void initiate(String path){
+	private void initiate(String path){
 		try{
 			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(getClass().getResourceAsStream(path));
 			AudioFormat baseformat = audioInputStream.getFormat();
