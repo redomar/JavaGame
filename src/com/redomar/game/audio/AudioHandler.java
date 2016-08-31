@@ -1,6 +1,7 @@
 package com.redomar.game.audio;
 
 import javax.sound.sampled.*;
+import java.io.File;
 
 
 public class AudioHandler {
@@ -9,6 +10,23 @@ public class AudioHandler {
 	private boolean active = false;
 
 	public AudioHandler(String path){
+		initiate(path);
+	}
+
+	public AudioHandler(File file){
+		try {
+			if(file.toString() != ""){
+				initiate(file.toString());
+			} else {
+				throw new NullPointerException();
+			}
+		} catch (NullPointerException e){
+			System.err.println("Destination Cannot be empty");
+			throw e;
+		}
+	}
+
+	private void initiate(String path){
 		try{
 			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(getClass().getResourceAsStream(path));
 			AudioFormat baseformat = audioInputStream.getFormat();

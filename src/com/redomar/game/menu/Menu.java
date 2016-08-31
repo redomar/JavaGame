@@ -1,9 +1,7 @@
 package com.redomar.game.menu;
 
 import com.redomar.game.Game;
-import com.redomar.game.audio.AudioEffect;
 import com.redomar.game.audio.AudioHandler;
-import com.redomar.game.entities.Player;
 import com.redomar.game.lib.Font;
 import com.redomar.game.lib.Mouse;
 import com.thehowtotutorial.splashscreen.JSplash;
@@ -24,7 +22,7 @@ public class Menu implements Runnable {
 	private static final String NAME = "Menu";
 
 	private static boolean running = false;
-	private static boolean selectedStart = false;
+	private static boolean selectedStart = true;
 	private static boolean selectedExit = false;
 	private static boolean gameOver = false;
 
@@ -49,13 +47,11 @@ public class Menu implements Runnable {
 			splash.toFront();
 			splash.requestFocus();
 			splash.splashOn();
-			splash.setProgress(10, "Initializing SFX");
-
-			splash.setProgress(30, "Loading Music");
+			splash.setProgress(20, "Loading Music");
 			Game.setBackgroundMusic(new AudioHandler("/music/Towards The End.mp3"));
-			splash.setProgress(40, "Setting Volume");
+			splash.setProgress(50, "Setting Volume");
 			Game.getBackgroundMusic().setVolume(-20);
-			splash.setProgress(50, "Acquiring data: Multiplayer");
+			splash.setProgress(60, "Acquiring data: Multiplayer");
 			Thread.sleep(125);
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			String multiMsg = "Sorry but multiplayer has been disabled on this version.\nIf you would like multiplayer checkout Alpha 1.6";
