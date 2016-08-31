@@ -6,11 +6,11 @@ apply plugin: 'java'
 
 sourceSets{
     main{
-        java.srcDir 'src'
-        resources.srcDir 'res'
+        java.srcDirs = ['src']
+        resources.srcDirs = ['res']
     }
     test{
-        java.srcDir 'test'
+        java.srcDirs = ['test']
     }
 }
 
