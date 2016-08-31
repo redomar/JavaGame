@@ -25,4 +25,15 @@ public class AudioHandlerTest {
 		AudioHandler audio = new AudioHandler(empty);
 	}
 
+	@Test(expected = NullPointerException.class)
+	public void expectReturnExceptionFileEmptyPath(){
+		AudioHandler audio = new AudioHandler("");
+	}
+
+	@Test
+	public void tryInitiatingAndPlayingNonExistingFile(){
+		AudioHandler audio = new AudioHandler("//");
+		audio.play();
+	}
+
 }
