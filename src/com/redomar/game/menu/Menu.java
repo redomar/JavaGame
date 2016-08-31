@@ -1,9 +1,7 @@
 package com.redomar.game.menu;
 
 import com.redomar.game.Game;
-import com.redomar.game.audio.AudioEffect;
 import com.redomar.game.audio.AudioHandler;
-import com.redomar.game.entities.Player;
 import com.redomar.game.lib.Font;
 import com.redomar.game.lib.Mouse;
 import com.thehowtotutorial.splashscreen.JSplash;
@@ -24,7 +22,7 @@ public class Menu implements Runnable {
 	private static final String NAME = "Menu";
 
 	private static boolean running = false;
-	private static boolean selectedStart = false;
+	private static boolean selectedStart = true;
 	private static boolean selectedExit = false;
 	private static boolean gameOver = false;
 

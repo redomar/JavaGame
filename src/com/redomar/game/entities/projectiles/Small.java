@@ -1,13 +1,18 @@
 package com.redomar.game.entities.projectiles;
 
-import com.redomar.game.audio.AudioEffect;
+import com.redomar.game.audio.AudioHandler;
 import com.redomar.game.gfx.Colours;
 import com.redomar.game.gfx.Screen;
 import com.redomar.game.level.LevelHandler;
 
+import java.io.File;
+
 public class Small extends Projectile{
 
 	public static final int FIRE_RATE = 10;
+
+	public AudioHandler smallSound;
+	public File file;
 
 	public Small(LevelHandler level, int x, int y, double dir) {
 		super(level, x, y, dir);
@@ -18,10 +23,10 @@ public class Small extends Projectile{
 		nx = speed * Math.cos(angle);
 		ny = speed * Math.sin(angle);
 
-		//smallSound.setVolume(-15);
+		file = new File("/music/small.mp3");
 
-		AudioEffect smallSound;
-		smallSound = new AudioEffect("/sfx/smallProjectile.wav");
+		smallSound = new AudioHandler(file);
+		smallSound.setVolume(-15);
 		smallSound.play();
 	}
 
