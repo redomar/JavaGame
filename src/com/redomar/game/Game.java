@@ -20,76 +20,91 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 
+/*
+ * This module forms the core architecture of the JavaGame. It coordinates the various
+ * audio and input handler components, generates the frame, renders the screen graphics, spawns 
+ * NPCs and customizes the player. Game is also responsible for changing the maps and levels, as well
+ * as displaying various messages on the screen (e.g. fps)
+ */
 public class Game extends Canvas implements Runnable {
 
 	// Setting the size and name of the frame/canvas
 	private static final long serialVersionUID = 1L;
-	private static final String game_Version = "v1.8.3 Alpha";
-	private static final int WIDTH = 160;
-	private static final int HEIGHT = (WIDTH / 3 * 2);
-	private static final int SCALE = 3;
-	private static final String NAME = "Game";
+	private static final String game_Version = "v1.8.3 Alpha";	// Current version of the game
+	private static final int WIDTH = 160;				// The width of the screen
+	private static final int HEIGHT = (WIDTH / 3 * 2);	// The height of the screen (two thirds of the width)
+	private static final int SCALE = 3;					// Scales the size of the screen (in either the x-direction, y-direction, or both)
+	private static final String NAME = "Game";			// The name of the JFrame panel
 	private static Game game;
-	private static Time time = new Time();
-	private static int Jdata_Host;
-	private static String Jdata_UserName = "";
-	private static String Jdata_IP = "127.0.0.1";
-	private static boolean changeLevel = false;
-	private static boolean npc = false;
-	private static int map = 0;
-	private static int shirtCol;
-	private static int faceCol;
-	private static boolean[] alternateCols = new boolean[2];
-	private static int fps;
-	private static int tps;
-	private static int steps;
-	private static boolean devMode;
-	private static boolean closingMode;
+	private static Time time = new Time();				// Date object that represents the calender's time value, in hh:mm:ss
+	
+	// The properties of the player, npc, and fps/tps
+	private static int Jdata_Host;						// The host of a multiplayer game (only available in earlier versions)
+	private static String Jdata_UserName = "";			// The player's username (initialized as an empty string)
+	private static String Jdata_IP = "127.0.0.1";		// Displays an IP address
+	private static boolean changeLevel = false;			// Determines whether the level should change (initialized to not change)
+	private static boolean npc = false;					// Non-player character (NPC) initialized to non-existing
+	private static int map = 0;							// Map of the level, initialized to no map (0)
+	private static int shirtCol;						// The colour of the character's shirt
+	private static int faceCol;							// The colour (ethnicity) of the character (their face)
+	private static boolean[] alternateCols = new boolean[2];	// Boolean array with 2 elements (for determining shirt and face colour), all initialized to false
+	private static int fps;								// The frame rate (frames per second), frequency at which images are displayed on the canvas 
+	private static int tps;								// The ticks (ticks per second), unit measure of time for one iteration of the game logic loop.
+	private static int steps;							
+	private static boolean devMode;						// Determines whether the game is in developer mode
+	private static boolean closingMode;					// Determines whether the game will exit
 
-	private static JFrame frame;
-	private static AudioHandler backgroundMusic;
-	private static boolean running = false;
-	private static InputHandler input;
-	private static MouseHandler mouse;
-	private static InputContext context;
+	// Audio, input, and mouse handler objects
+	private static JFrame frame;						// Frame with support for JFC/swing component architecture
+	private static AudioHandler backgroundMusic;		// AudioHandler object that can play music in the background (but can't turn it off)
+	private static boolean running = false;				// Determines whether the game is currently in process (i.e. whether the game is running)
+	private static InputHandler input;					// InputHandler object that accepts keyboard input and follows the appropriate actions
+	private static MouseHandler mouse;					// MouseHandler object that tracks mouse movement and clicks, and follows the appropriate actions
+	private static InputContext context;				// InputContext object that provides methods to control text input facilities
 	private int tickCount = 0;
-	private BufferedImage image = new BufferedImage(WIDTH, HEIGHT,
-			BufferedImage.TYPE_INT_RGB);
-	private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer())
+	
+	// Graphics
+	private BufferedImage image = new BufferedImage(WIDTH, HEIGHT,			// Describes a rasterized image with dimensions WIDTH and HEIGHT, and RGB colour
+			BufferedImage.TYPE_INT_RGB);	// Set to TYPE_INT_ARGB to support transparency
+	private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer())	// Array of red, green and blue values for each pixel, as well as an alpha value (if there is an alpha channel)
 			.getData();
-	private int[] colours = new int[6 * 6 * 6];
+	private int[] colours = new int[6 * 6 * 6];			// Array of 216 unique colours
 	private BufferedImage image2 = new BufferedImage(WIDTH, HEIGHT - 30,
 			BufferedImage.TYPE_INT_RGB);
-	private Screen screen;
+	private Screen screen;						// Screen object that accepts a width, height, and sprite sheet - to generate and render a screen
 	private WindowHandler window;
-	private LevelHandler level;
-	private Player player;
-	private Dummy dummy;
-	private Vendor vendor;
-	private Font font = new Font();
-	private String nowPlaying;
-	private boolean notActive = true;
-	private int trigger = 0;
-	private Printing print = new Printing();
+	private LevelHandler level;					// LevelHandler object that loads and renders levels along with tiles, entities, projectiles and more. 
+	
+	//The entities of the game
+	private Player player;						// This is the actual player	
+	private Dummy dummy;						// This is a dummy npc (follows the player around)
+	private Vendor vendor;						// This is a vendor npc (random movement)
+	private Font font = new Font();				// Font object capable of displaying 2 fonts: Arial and Segoe UI
+	private String nowPlaying;					
+	private boolean notActive = true;			
+	private int trigger = 0;					
+	private Printing print = new Printing();	// Print object that can display various messages and error logs
 
 	/**
 	 * @author Redomar
 	 * @version Alpha 1.8.3
 	 */
 	public Game() {
-		context = InputContext.getInstance();
+		context = InputContext.getInstance();	// Stores the input context for the window
+		
+		// The game can only be played in one distinct window size
 		setMinimumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
 		setMaximumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
 		setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
 
-		setFrame(new JFrame(NAME));
-		getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		getFrame().setLayout(new BorderLayout());
-		getFrame().add(this, BorderLayout.CENTER);
-		getFrame().pack();
-		getFrame().setResizable(false);
-		getFrame().setLocationRelativeTo(null);
-		getFrame().setVisible(true);
+		setFrame(new JFrame(NAME));									// Creates the frame
+		getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	// Exits the program when user closes the frame
+		getFrame().setLayout(new BorderLayout());					// Border lays out a container
+		getFrame().add(this, BorderLayout.CENTER);					// The centre layout constraint (middle of container)
+		getFrame().pack();											// Sizes the frame so that all its contents are at or above their preferred sizes
+		getFrame().setResizable(false);								// Prevents the user from resizing the frame
+		getFrame().setLocationRelativeTo(null);						// Centres the window on the screen
+		getFrame().setVisible(true);								// Displays the frame
 
 		requestFocus();
 		setDevMode(false);
