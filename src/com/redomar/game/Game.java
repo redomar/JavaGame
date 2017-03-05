@@ -33,7 +33,7 @@ public class Game extends Canvas implements Runnable {
 	private static final String game_Version = "v1.8.3 Alpha";	// Current version of the game
 	private static final int WIDTH = 160;				// The width of the screen
 	private static final int HEIGHT = (WIDTH / 3 * 2);		// The height of the screen (two thirds of the width)
-	private static final int SCALE = 3;				// Scales the size of the screen (in either the x-direction, y-direction, or both)
+	private static final int SCALE = 3;				// Scales the size of the screen
 	private static final String NAME = "Game";			// The name of the JFrame panel
 	private static Game game;
 	private static Time time = new Time();				// Date object that represents the calender's time value, in hh:mm:ss
@@ -61,14 +61,14 @@ public class Game extends Canvas implements Runnable {
 	private static InputHandler input;			// InputHandler object that accepts keyboard input and follows the appropriate actions
 	private static MouseHandler mouse;			// MouseHandler object that tracks mouse movement and clicks, and follows the appropriate actions
 	private static InputContext context;			// InputContext object that provides methods to control text input facilities
-	private int tickCount = 0;
+	private int tickCount = 0;				// Updates the number of ticks
 	
 	// Graphics
 	private BufferedImage image = new BufferedImage(WIDTH, HEIGHT,		// Describes a rasterized image with dimensions WIDTH and HEIGHT, and RGB colour
 			BufferedImage.TYPE_INT_RGB);	
 	private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer())	// Array of red, green and blue values for each pixel, as well as an alpha value (if there is an alpha channel)
 			.getData();
-	private int[] colours = new int[6 * 6 * 6];					// Array of 216 unique colours
+	private int[] colours = new int[6 * 6 * 6];					// Array of 216 unique colours (6 shades of R, 6 of G, and 6 of B)
 	private BufferedImage image2 = new BufferedImage(WIDTH, HEIGHT - 30,
 			BufferedImage.TYPE_INT_RGB);
 	private Screen screen;						// Screen object that accepts a width, height, and sprite sheet - to generate and render a screen
@@ -100,7 +100,7 @@ public class Game extends Canvas implements Runnable {
 		setFrame(new JFrame(NAME));						// Creates the frame
 		getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		// Exits the program when user closes the frame
 		getFrame().setLayout(new BorderLayout());				// Border lays out a container
-		getFrame().add(this, BorderLayout.CENTER);				// The centre layout constraint (middle of container)
+		getFrame().add(this, BorderLayout.CENTER);				// Centers the canvas inside the JFrame
 		getFrame().pack();							// Sizes the frame so that all its contents are at or above their preferred sizes
 		getFrame().setResizable(false);						// Prevents the user from resizing the frame
 		getFrame().setLocationRelativeTo(null);					// Centres the window on the screen
@@ -334,38 +334,48 @@ public class Game extends Canvas implements Runnable {
 		Game.closingMode = closing;
 	}
 
+	/*
+	* This method initializes the game once it starts. It populates the colour array with actual colours (6 shades each of RGB).
+	* This method also builds the game level, spawns a new vendor NPC, and begins accepting keyboard and mouse input/tracking. 
+	*/
 	public void init() {
 		setGame(this);
 		int index = 0;
-		for (int r = 0; r < 6; r++) {
-			for (int g = 0; g < 6; g++) {
-				for (int b = 0; b < 6; b++) {
-					int rr = (r * 255 / 5);
-					int gg = (g * 255 / 5);
+		for (int r = 0; r < 6; r++) {			// For r in all 6 shades of R
+			for (int g = 0; g < 6; g++) {		// For g in all 6 shades of G
+				for (int b = 0; b < 6; b++) {	// For b in all 6 shades of B
+					int rr = (r * 255 / 5);	// 255 used instead of 256 colours in order to have a transparent colour. Splits 255 into 6 sections/shades 
+					int gg = (g * 255 / 5);	// (e.g. 0, 51, 102, 153, etc.) for each of rr, gg, and bb. 
 					int bb = (b * 255 / 5);
-					colours[index++] = rr << 16 | gg << 8 | bb;
+					colours[index++] = rr << 16 | gg << 8 | bb;	// All colour values (RGB) are placed into one 32-bit integer by using 'shift' and 'or' operations, populating the colour array
 				}
 			}
 		}
 
-		screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/sprite_sheet.png"));
-		input = new InputHandler(this);
-		setMouse(new MouseHandler(this));
+		screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/sprite_sheet.png"));	// Loads a new screen with a width, height, and SpriteSheet
+		input = new InputHandler(this);							// Input begins to record key presses
+		setMouse(new MouseHandler(this));						// Mouse tracking and clicking is now recorded
 		setWindow(new WindowHandler(this));
-		setMap("/levels/custom_level.png");
-		setMap(1);
+		setMap("/levels/custom_level.png");						// custom_level.png map is set upon initialization
+		setMap(1);									// Map set to 1 (custom_level.png)
 
-		game.setVendor(new Vendor(level, "Vendor", 215, 215, 304, 543));
-		level.addEntity(getVendor());
+		game.setVendor(new Vendor(level, "Vendor", 215, 215, 304, 543));		// Set a new vendor NPC on the custom_level, with name "Vendor", at position (215, 215), with shirt colour 304 (purple) and face colour 543 (caucasian)
+		level.addEntity(getVendor());							// Add the previously defined vendor NPC to the game level
 	}
 
+	/*
+	* This method will start the game and allow the user to start playing
+	*/
 	public synchronized void start() {
-		Game.setRunning(true);
-		new Thread(this, "GAME").start();
+		Game.setRunning(true);		// Game will run
+		new Thread(this, "GAME").start();	// Thread is an instance of Runnable. Whenever it is started, it will run the run() method 
 	}
 
+	/*
+	* This method will stop the game
+	*/
 	public synchronized void stop() {
-		Game.setRunning(false);
+		Game.setRunning(false);		// Game will not run
 	}
 
 	public void run() {
