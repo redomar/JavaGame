@@ -378,57 +378,64 @@ public class Game extends Canvas implements Runnable {
 		Game.setRunning(false);		// Game will not run
 	}
 
+	/*
+	* This method forms the game loop, determining how the game runs. It runs throughout the entire game, 
+	* continuously updating the game state and rendering the game.  
+	*/
 	public void run() {
-		long lastTime = System.nanoTime();
-		double nsPerTick = 1000000000D / 60D;
-
+		long lastTime = System.nanoTime();			// Current time in nanoseconds (used for accuracy)
+		double nsPerTick = 1000000000D / 60D;		// The number of nanoseconds in one tick (number of ticks limited to 60 per update)
+									// 1 billion nanoseconds in one second
 		int ticks = 0;
 		int frames = 0;
 
-		long lastTimer = System.currentTimeMillis();
-		double delta = 0;
+		long lastTimer = System.currentTimeMillis();		// Current time in milliseconds (update ticks and frames once every second)
+		double delta = 0;					
 
-		init();
+		init();							// Initialize the game environment
 
-		while (Game.isRunning()) {
-			long now = System.nanoTime();
-			delta += (now - lastTime) / nsPerTick;
-			lastTime = now;
+		while (Game.isRunning()) {				// Keep looping until game ends
+			long now = System.nanoTime();		// Current time to used check against lastTime (time has passed since entering the loop)
+			delta += (now - lastTime) / nsPerTick;		// Elapsed time in seconds multiplied by 60
+			lastTime = now;				// Update the lastTime to the current time (now)
 			boolean shouldRender = false;
 
-			while (delta >= 1) {
-				ticks++;
-				tick();
-				delta -= 1;
-				shouldRender = true;
+			while (delta >= 1) {				// Once delta is greater than or equal to 1 (once 1/60 seconds or more have passed)
+				ticks++;				// Increase the ticks
+				tick();					// Update the tick
+				delta -= 1;				// Delta becomes less than one again and the loop will close
+				shouldRender = true;			// Rendering should occur during update
 			}
 
 			try {
-				Thread.sleep(2);
-			} catch (InterruptedException e) {
+				Thread.sleep(2);			// Delays the thread by 2 milliseconds
+			} catch (InterruptedException e) {		// If the current thread is interrupted, the interrupted status is cleared
 				e.printStackTrace();
 			}
 
-			if (shouldRender) {
+			if (shouldRender) {				// Limits the frames to 60 per second
 				frames++;
 				render();
 			}
 
-			if (System.currentTimeMillis() - lastTimer >= 1000) {
-				lastTimer += 1000;
+			if (System.currentTimeMillis() - lastTimer >= 1000) {			// If elapsed time is greater than or equal to 1 second, update
+				lastTimer += 1000;						// Updates in another second
 				getFrame().setTitle(
 						"JavaGame - Version "
 								+ WordUtils.capitalize(game_Version).substring(
 								1, game_Version.length()));
 				fps = frames;
 				tps = ticks;
-				frames = 0;
-				ticks = 0;
+				frames = 0;							// Reset the frames (once per second)
+				ticks = 0;							// Reset the ticks (once per second)
 			}
 		}
 
 	}
 
+	/*
+	* This method updates the logic of the game.  
+	*/
 	public void tick() {
 		setTickCount(getTickCount() + 1);
 		level.tick();
