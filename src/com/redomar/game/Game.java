@@ -32,43 +32,43 @@ public class Game extends Canvas implements Runnable {
 	private static final long serialVersionUID = 1L;
 	private static final String game_Version = "v1.8.3 Alpha";	// Current version of the game
 	private static final int WIDTH = 160;				// The width of the screen
-	private static final int HEIGHT = (WIDTH / 3 * 2);	// The height of the screen (two thirds of the width)
-	private static final int SCALE = 3;					// Scales the size of the screen (in either the x-direction, y-direction, or both)
+	private static final int HEIGHT = (WIDTH / 3 * 2);		// The height of the screen (two thirds of the width)
+	private static final int SCALE = 3;				// Scales the size of the screen (in either the x-direction, y-direction, or both)
 	private static final String NAME = "Game";			// The name of the JFrame panel
 	private static Game game;
 	private static Time time = new Time();				// Date object that represents the calender's time value, in hh:mm:ss
 	
 	// The properties of the player, npc, and fps/tps
-	private static int Jdata_Host;						// The host of a multiplayer game (only available in earlier versions)
+	private static int Jdata_Host;					// The host of a multiplayer game (only available in earlier versions)
 	private static String Jdata_UserName = "";			// The player's username (initialized as an empty string)
-	private static String Jdata_IP = "127.0.0.1";		// Displays an IP address
+	private static String Jdata_IP = "127.0.0.1";			// Displays an IP address
 	private static boolean changeLevel = false;			// Determines whether the level should change (initialized to not change)
-	private static boolean npc = false;					// Non-player character (NPC) initialized to non-existing
-	private static int map = 0;							// Map of the level, initialized to no map (0)
-	private static int shirtCol;						// The colour of the character's shirt
-	private static int faceCol;							// The colour (ethnicity) of the character (their face)
+	private static boolean npc = false;				// Non-player character (NPC) initialized to non-existing
+	private static int map = 0;					// Map of the level, initialized to no map (0)
+	private static int shirtCol;					// The colour of the character's shirt
+	private static int faceCol;					// The colour (ethnicity) of the character (their face)
 	private static boolean[] alternateCols = new boolean[2];	// Boolean array with 2 elements (for determining shirt and face colour), all initialized to false
-	private static int fps;								// The frame rate (frames per second), frequency at which images are displayed on the canvas 
-	private static int tps;								// The ticks (ticks per second), unit measure of time for one iteration of the game logic loop.
+	private static int fps;						// The frame rate (frames per second), frequency at which images are displayed on the canvas 
+	private static int tps;						// The ticks (ticks per second), unit measure of time for one iteration of the game logic loop.
 	private static int steps;							
-	private static boolean devMode;						// Determines whether the game is in developer mode
-	private static boolean closingMode;					// Determines whether the game will exit
+	private static boolean devMode;				// Determines whether the game is in developer mode
+	private static boolean closingMode;				// Determines whether the game will exit
 
 	// Audio, input, and mouse handler objects
-	private static JFrame frame;						// Frame with support for JFC/swing component architecture
+	private static JFrame frame;				// Frame with support for JFC/swing component architecture
 	private static AudioHandler backgroundMusic;		// AudioHandler object that can play music in the background (but can't turn it off)
-	private static boolean running = false;				// Determines whether the game is currently in process (i.e. whether the game is running)
-	private static InputHandler input;					// InputHandler object that accepts keyboard input and follows the appropriate actions
-	private static MouseHandler mouse;					// MouseHandler object that tracks mouse movement and clicks, and follows the appropriate actions
-	private static InputContext context;				// InputContext object that provides methods to control text input facilities
+	private static boolean running = false;			// Determines whether the game is currently in process (i.e. whether the game is running)
+	private static InputHandler input;			// InputHandler object that accepts keyboard input and follows the appropriate actions
+	private static MouseHandler mouse;			// MouseHandler object that tracks mouse movement and clicks, and follows the appropriate actions
+	private static InputContext context;			// InputContext object that provides methods to control text input facilities
 	private int tickCount = 0;
 	
 	// Graphics
-	private BufferedImage image = new BufferedImage(WIDTH, HEIGHT,			// Describes a rasterized image with dimensions WIDTH and HEIGHT, and RGB colour
-			BufferedImage.TYPE_INT_RGB);	// Set to TYPE_INT_ARGB to support transparency
+	private BufferedImage image = new BufferedImage(WIDTH, HEIGHT,		// Describes a rasterized image with dimensions WIDTH and HEIGHT, and RGB colour
+			BufferedImage.TYPE_INT_RGB);	
 	private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer())	// Array of red, green and blue values for each pixel, as well as an alpha value (if there is an alpha channel)
 			.getData();
-	private int[] colours = new int[6 * 6 * 6];			// Array of 216 unique colours
+	private int[] colours = new int[6 * 6 * 6];					// Array of 216 unique colours
 	private BufferedImage image2 = new BufferedImage(WIDTH, HEIGHT - 30,
 			BufferedImage.TYPE_INT_RGB);
 	private Screen screen;						// Screen object that accepts a width, height, and sprite sheet - to generate and render a screen
@@ -76,14 +76,14 @@ public class Game extends Canvas implements Runnable {
 	private LevelHandler level;					// LevelHandler object that loads and renders levels along with tiles, entities, projectiles and more. 
 	
 	//The entities of the game
-	private Player player;						// This is the actual player	
-	private Dummy dummy;						// This is a dummy npc (follows the player around)
-	private Vendor vendor;						// This is a vendor npc (random movement)
-	private Font font = new Font();				// Font object capable of displaying 2 fonts: Arial and Segoe UI
+	private Player player;				// This is the actual player	
+	private Dummy dummy;			// This is a dummy npc (follows the player around)
+	private Vendor vendor;				// This is a vendor npc (random movement)
+	private Font font = new Font();			// Font object capable of displaying 2 fonts: Arial and Segoe UI
 	private String nowPlaying;					
 	private boolean notActive = true;			
 	private int trigger = 0;					
-	private Printing print = new Printing();	// Print object that can display various messages and error logs
+	private Printing print = new Printing();		// Print object that can display various messages and error logs
 
 	/**
 	 * @author Redomar
@@ -97,31 +97,38 @@ public class Game extends Canvas implements Runnable {
 		setMaximumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
 		setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
 
-		setFrame(new JFrame(NAME));									// Creates the frame
-		getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	// Exits the program when user closes the frame
-		getFrame().setLayout(new BorderLayout());					// Border lays out a container
-		getFrame().add(this, BorderLayout.CENTER);					// The centre layout constraint (middle of container)
-		getFrame().pack();											// Sizes the frame so that all its contents are at or above their preferred sizes
-		getFrame().setResizable(false);								// Prevents the user from resizing the frame
-		getFrame().setLocationRelativeTo(null);						// Centres the window on the screen
-		getFrame().setVisible(true);								// Displays the frame
+		setFrame(new JFrame(NAME));						// Creates the frame
+		getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		// Exits the program when user closes the frame
+		getFrame().setLayout(new BorderLayout());				// Border lays out a container
+		getFrame().add(this, BorderLayout.CENTER);				// The centre layout constraint (middle of container)
+		getFrame().pack();							// Sizes the frame so that all its contents are at or above their preferred sizes
+		getFrame().setResizable(false);						// Prevents the user from resizing the frame
+		getFrame().setLocationRelativeTo(null);					// Centres the window on the screen
+		getFrame().setVisible(true);						// Displays the frame
 
 		requestFocus();
 		setDevMode(false);
 		setClosing(false);
 	}
 
+	/*
+	 * This method will spawn a dummy NPC into the level only if they are allowed to be spawned in. 
+	 * They will be spawned at position (100, 150)  with a red shirt and caucasian face.
+	 */
 	public static void npcSpawn() {
-		if (isNpc() == true) {
-			game.setDummy(new Dummy(game.level, "Dummy", 100, 150, 500,
-					543));
-			game.level.addEntity(Game.getDummy());
+		if (isNpc() == true) {	// If NPCs are allowed in the level
+			game.setDummy(new Dummy(game.level, "Dummy", 100, 150, 500,	// Set a new dummy NPC on the current game level, with name 'Dummy'
+					543));							// at position (100, 150), with shirt colour equal to 500 (red) and face colour equal to 543 (caucasian)
+			game.level.addEntity(Game.getDummy());				// Add the previously defined dummy NPC to the game level
 		}
 	}
 
+	/*
+	 * This method will remove a dummy NPC from the level only if they are not allowed to be in it. 
+	 */
 	public static void npcKill() {
-		if (isNpc() == false) {
-			game.level.removeEntity(Game.getDummy());
+		if (isNpc() == false) {	// If NPCs are not allowed in the level
+			game.level.removeEntity(Game.getDummy());	// Remove the current dummy NPC from the level
 		}
 	}
 
@@ -187,21 +194,21 @@ public class Game extends Canvas implements Runnable {
 
 	public void setMap(String Map_str) {
 		setLevel(new LevelHandler(Map_str));
-		if (alternateCols[0]) {
-			Game.setShirtCol(240);
+		if (alternateCols[0]) {			// If the first element (shirt colour) is set to True
+			Game.setShirtCol(240);		// The player's shirt colour is set to 240 (green)
 		}
-		if (!alternateCols[0]) {
-			Game.setShirtCol(111);
+		if (!alternateCols[0]) {			// If the first element (shirt colour) is set to False
+			Game.setShirtCol(111);		// The player's shirt colour is set to 111 (black)
 		}
-		if (alternateCols[1]) {
-			Game.setFaceCol(310);
+		if (alternateCols[1]) {			// If the last element (face colour) is set to True
+			Game.setFaceCol(310);		// The player's face colour is set to 310 (African)
 		}
-		if (!alternateCols[1]) {
-			Game.setFaceCol(543);
+		if (!alternateCols[1]) {			// If the last element (face colour) is set to False
+			Game.setFaceCol(543);		// The player's face colour is set to 543 (caucasian)
 		}
-		setPlayer(new Player(level, 100, 100, input,
-				getJdata_UserName(), shirtCol, faceCol));
-		level.addEntity(player);
+		setPlayer(new Player(level, 100, 100, input,			// Create a new player on the current level, at position (100, 100), with an InputHandler (i.e. keyboard),
+				getJdata_UserName(), shirtCol, faceCol));	// Username, shirt colour and face colour. 
+		level.addEntity(player);						// Add the specified player to the level
 	}
 
 	public static void setMap(int map) {
@@ -272,14 +279,17 @@ public class Game extends Canvas implements Runnable {
 		return alternateCols;
 	}
 
+	// Sets alternateCols to a new boolean array (with size 2)
 	public static void setAlternateCols(boolean[] alternateCols) {
 		Game.alternateCols = alternateCols;
 	}
 
+	// Sets the second/last element (face colour) of alternateCols to true or false
 	public static void setAlternateColsR(boolean alternateCols) {
 		Game.alternateCols[1] = alternateCols;
 	}
 
+	// Sets the first element (shirt colour) of alternateCols to true or false
 	public static void setAlternateColsS(boolean alternateCols) {
 		Game.alternateCols[0] = alternateCols;
 	}
