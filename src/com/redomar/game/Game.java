@@ -352,7 +352,7 @@ public class Game extends Canvas implements Runnable {
 			}
 		}
 
-		screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/sprite_sheet.png"));	// Loads a new screen with a width, height, and SpriteSheet
+		screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/sprite_sheet.png"));
 		input = new InputHandler(this);							// Input begins to record key presses
 		setMouse(new MouseHandler(this));						// Mouse tracking and clicking is now recorded
 		setWindow(new WindowHandler(this));
@@ -395,7 +395,7 @@ public class Game extends Canvas implements Runnable {
 		init();							// Initialize the game environment
 
 		while (Game.isRunning()) {				// Keep looping until game ends
-			long now = System.nanoTime();		// Current time to used check against lastTime (time has passed since entering the loop)
+			long now = System.nanoTime();		// Current time used to check against lastTime (time has passed since entering the loop)
 			delta += (now - lastTime) / nsPerTick;		// Elapsed time in seconds multiplied by 60
 			lastTime = now;				// Update the lastTime to the current time (now)
 			boolean shouldRender = false;
@@ -526,10 +526,10 @@ public class Game extends Canvas implements Runnable {
 					- ("Press Q to quit".length() * 3), getHeight() - 17);
 		}
 		g.setColor(Color.YELLOW);
-		g.drawString(time.getTime(), (getWidth() - 58), (getHeight() - 3));			// Display the current time in yellow in the bottom right corner of the screen (hh:mm:ss)
+		g.drawString(time.getTime(), (getWidth() - 58), (getHeight() - 3));			// Displays the current time in yellow in the bottom right corner of the screen (hh:mm:ss)
 		g.setColor(Color.GREEN);
 		if(backgroundMusic.getActive()) {							// If music is turned on
-			g.drawString("MUSIC is ON ", 3, getHeight() - 3);				// Display "MUSIC IS ON" in green in the bottom left corner of the screen. 
+			g.drawString("MUSIC is ON ", 3, getHeight() - 3);				// Displays "MUSIC IS ON" in green in the bottom left corner of the screen. 
 		}
 		g.dispose();										// Frees up memory and resources for graphics
 		bs.show();										// Shows contents of buffer
@@ -543,18 +543,18 @@ public class Game extends Canvas implements Runnable {
 		if (TerminalMode == true) {							// If running in developer mode
 			g.setColor(Color.CYAN);
 			g.drawString("JavaGame Stats", 0, 10);					// Display "JavaGame Stats" in cyan at the bottom left of the screen
-			g.drawString("FPS/TPS: " + fps + "/" + tps, 0, 25);			// Display the FPS and TPS directly above "JavaGame Stats"
+			g.drawString("FPS/TPS: " + fps + "/" + tps, 0, 25);			// Display the FPS and TPS in cyan directly above "JavaGame Stats"
 			if ((player.getNumSteps() & 15) == 15) {				
 				steps += 1;							
 			}
-			g.drawString("Foot Steps: " + steps, 0, 40);				// Display the number of "Foot Steps" (above the previous)
+			g.drawString("Foot Steps: " + steps, 0, 40);				// Display the number of "Foot Steps" (in cyan, above the previous)
 			g.drawString(									
-					"NPC: " + WordUtils.capitalize(String.valueOf(isNpc())), 0,	// Displays whether the NPC is on the level (above the previous)
+					"NPC: " + WordUtils.capitalize(String.valueOf(isNpc())), 0,	// Displays whether the NPC is on the level (in cyan, above the previous)
 					55);
-			g.drawString("Mouse: " + getMouse().getX() + "x |"			// Displays the position of the cursor (above the previous)
+			g.drawString("Mouse: " + getMouse().getX() + "x |"			// Displays the position of the cursor (in cyan, above the previous)
 					+ getMouse().getY() + "y", 0, 70);
 			if (getMouse().getButton() != -1)					// If a mouse button is pressed (1, 2, or 3) 
-				g.drawString("Button: " + getMouse().getButton(), 0, 85);	// Displays the button that is pressed (above the previous)
+				g.drawString("Button: " + getMouse().getButton(), 0, 85);	// Displays the button that is pressed (in cyan, above the previous)
 			g.setColor(Color.CYAN);
 			g.fillRect(getMouse().getX() - 12, getMouse().getY() - 12, 24, 24);
 		}
@@ -564,7 +564,7 @@ public class Game extends Canvas implements Runnable {
 			g.setColor(Color.RED);
 			g.drawString("Shutting down the Game", (getWidth() / 2) - 70,		// Display "Shutting down the Game" in red in the middle of the screen
 					(getHeight() / 2) - 8);
-			g.dispose();								// Free up memory
+			g.dispose();								// Free up memory for graphics
 		}
 	}
 
