@@ -441,13 +441,17 @@ public class Game extends Canvas implements Runnable {
 		level.tick();
 	}
 
+	/*
+	* This method displays the logic of the game. 
+	*/
 	public void render() {
-		BufferStrategy bs = getBufferStrategy();
+		BufferStrategy bs = getBufferStrategy();				// An object to organize the data on the canvas 
 		if (bs == null) {
-			createBufferStrategy(3);
+			createBufferStrategy(3);					// Creates a new bs with triple buffering, which reduces tearing and cross-image pixelation
 			return;
 		}
 
+		// Centres the player in the middle of the screen
 		int xOffset = (int) getPlayer().getX() - (screen.getWidth() / 2);
 		int yOffset = (int) getPlayer().getY() - (screen.getHeight() / 2);
 
@@ -463,11 +467,12 @@ public class Game extends Canvas implements Runnable {
 		level.renderEntities(screen);
 		level.renderProjectileEntities(screen);
 
+		// Copies pixel data from the screen into the game
 		for (int y = 0; y < screen.getHeight(); y++) {
 			for (int x = 0; x < screen.getWidth(); x++) {
 				int colourCode = screen.getPixels()[x + y * screen.getWidth()];
-				if (colourCode < 255) {
-					pixels[x + y * WIDTH] = colours[colourCode];
+				if (colourCode < 255) {							// If it is a valid colour code
+					pixels[x + y * WIDTH] = colours[colourCode];			// Sets the corresponding pixel from the screen to the game 
 				}
 			}
 		}
@@ -477,85 +482,89 @@ public class Game extends Canvas implements Runnable {
 			setChangeLevel(false);
 		}
 
-		if (changeLevel == true) {
+		if (changeLevel == true) {								// If the player is teleporting to a different level
 			print.print("Teleported into new world", PrintTypes.GAME);
-			if (getMap() == 1) {
-				setMap("/levels/water_level.png");
-				if (getDummy() != null) { // Gave nullPointerException(); upon
+			if (getMap() == 1) {								// If player is currently on the first map, custom_level
+				setMap("/levels/water_level.png");					// Change the map to water_level
+				if (getDummy() != null) { // Gave nullPointerException(); upon		// If there is currently a dummy NPC
 					// entering new world.
-					level.removeEntity(getDummy());
+					level.removeEntity(getDummy());				// Remove the dummy NPC when teleporting
 					setNpc(false);
 				}
-				level.removeEntity(getVendor());
+				level.removeEntity(getVendor());					// When teleporting away from custom_level, remove vendor NPC (always found on custom_level)
 				setMap(2);
-			} else if (getMap() == 2) {
-				setMap("/levels/custom_level.png");
-				level.removeEntity(getDummy());
+			} else if (getMap() == 2) {							// If the player is currently on the second map, water_level
+				setMap("/levels/custom_level.png");					// Change the map to custom_level
+				level.removeEntity(getDummy());					// Remove the dummy NPC when teleporting
 				setNpc(false);
-				level.addEntity(getVendor());
+				level.addEntity(getVendor());						// Add a vendor NPC (always found on custom_level)
 				setMap(1);
 			}
 			changeLevel = false;
 		}
 
 		Graphics g = bs.getDrawGraphics();
-		g.drawRect(0, 0, getWidth(), getHeight());
-		g.drawImage(image, 0, 0, getWidth(), getHeight() - 30, null);
+		g.drawRect(0, 0, getWidth(), getHeight());						// Creates a rectangle the same size as the screen
+		g.drawImage(image, 0, 0, getWidth(), getHeight() - 30, null);				// Displays the contents of image on the screen
 		status(g, isDevMode(), isClosing());
 		// Font.render("Hi", screen, 0, 0, Colours.get(-1, -1, -1, 555), 1);
-		g.drawImage(image2, 0, getHeight() - 30, getWidth(), getHeight(), null);
+		g.drawImage(image2, 0, getHeight() - 30, getWidth(), getHeight(), null);			// Displays the contents of image2 on the screen
 		g.setColor(Color.WHITE);
-		g.setFont(font.getSegoe());
+		g.setFont(font.getSegoe());								// Sets the font to Segoe UI
 		g.drawString(
-				"Welcome "
+				"Welcome "								// Welcomes the player's username in white in the bottom left corner of the screen
 						+ WordUtils.capitalizeFully(player
 						.getSanitisedUsername()), 3, getHeight() - 17);
 		g.setColor(Color.ORANGE);
 
-		if (context.getLocale().getCountry().equals("BE")
-				|| context.getLocale().getCountry().equals("FR")) {
+		if (context.getLocale().getCountry().equals("BE")					// If the player resides in Belgium or France (i.e. uses AZERTY keyboard)
+				|| context.getLocale().getCountry().equals("FR")) {			// Displays "Press A to quit" in orange at the bottom-middle portion of the screen
 			g.drawString("Press A to quit", (getWidth() / 2)
 					- ("Press A to quit".length() * 3), getHeight() - 17);
-		} else {
-			g.drawString("Press Q to quit", (getWidth() / 2)
+		} else {											// If the player resides anywhere else (i.e. uses QWERTY keyboard)
+			g.drawString("Press Q to quit", (getWidth() / 2)					// Displays "Press Q to quit" in orange at the bottom-middle portion of the screen
 					- ("Press Q to quit".length() * 3), getHeight() - 17);
 		}
 		g.setColor(Color.YELLOW);
-		g.drawString(time.getTime(), (getWidth() - 58), (getHeight() - 3));
+		g.drawString(time.getTime(), (getWidth() - 58), (getHeight() - 3));			// Display the current time in yellow in the bottom right corner of the screen (hh:mm:ss)
 		g.setColor(Color.GREEN);
-		if(backgroundMusic.getActive()) {
-			g.drawString("MUSIC is ON ", 3, getHeight() - 3);
+		if(backgroundMusic.getActive()) {							// If music is turned on
+			g.drawString("MUSIC is ON ", 3, getHeight() - 3);				// Display "MUSIC IS ON" in green in the bottom left corner of the screen. 
 		}
-		g.dispose();
-		bs.show();
+		g.dispose();										// Frees up memory and resources for graphics
+		bs.show();										// Shows contents of buffer
 	}
 
+	/*
+	* This method displays information regarding various aspects/stats of the game, dependent upon
+	* whether it is running in developer mode, or if the application is closing.
+	*/
 	private void status(Graphics g, boolean TerminalMode, boolean TerminalQuit) {
-		if (TerminalMode == true) {
+		if (TerminalMode == true) {							// If running in developer mode
 			g.setColor(Color.CYAN);
-			g.drawString("JavaGame Stats", 0, 10);
-			g.drawString("FPS/TPS: " + fps + "/" + tps, 0, 25);
-			if ((player.getNumSteps() & 15) == 15) {
-				steps += 1;
+			g.drawString("JavaGame Stats", 0, 10);					// Display "JavaGame Stats" in cyan at the bottom left of the screen
+			g.drawString("FPS/TPS: " + fps + "/" + tps, 0, 25);			// Display the FPS and TPS directly above "JavaGame Stats"
+			if ((player.getNumSteps() & 15) == 15) {				
+				steps += 1;							
 			}
-			g.drawString("Foot Steps: " + steps, 0, 40);
-			g.drawString(
-					"NPC: " + WordUtils.capitalize(String.valueOf(isNpc())), 0,
+			g.drawString("Foot Steps: " + steps, 0, 40);				// Display the number of "Foot Steps" (above the previous)
+			g.drawString(									
+					"NPC: " + WordUtils.capitalize(String.valueOf(isNpc())), 0,	// Displays whether the NPC is on the level (above the previous)
 					55);
-			g.drawString("Mouse: " + getMouse().getX() + "x |"
+			g.drawString("Mouse: " + getMouse().getX() + "x |"			// Displays the position of the cursor (above the previous)
 					+ getMouse().getY() + "y", 0, 70);
-			if (getMouse().getButton() != -1)
-				g.drawString("Button: " + getMouse().getButton(), 0, 85);
+			if (getMouse().getButton() != -1)					// If a mouse button is pressed (1, 2, or 3) 
+				g.drawString("Button: " + getMouse().getButton(), 0, 85);	// Displays the button that is pressed (above the previous)
 			g.setColor(Color.CYAN);
 			g.fillRect(getMouse().getX() - 12, getMouse().getY() - 12, 24, 24);
 		}
-		if (TerminalQuit == true) {
+		if (TerminalQuit == true) {							// If the game is quitting
 			g.setColor(Color.BLACK);
-			g.fillRect(0, 0, getWidth(), getHeight());
+			g.fillRect(0, 0, getWidth(), getHeight());					// Make the screen fully black
 			g.setColor(Color.RED);
-			g.drawString("Shutting down the Game", (getWidth() / 2) - 70,
+			g.drawString("Shutting down the Game", (getWidth() / 2) - 70,		// Display "Shutting down the Game" in red in the middle of the screen
 					(getHeight() / 2) - 8);
-			g.dispose();
+			g.dispose();								// Free up memory
 		}
 	}
 
