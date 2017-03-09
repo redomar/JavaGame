@@ -394,7 +394,7 @@ public class Game extends Canvas implements Runnable {
 
 		init();							// Initialize the game environment
 
-		while (Game.isRunning()) {				// Keep looping until game ends
+		while (Game.isRunning()) {
 			long now = System.nanoTime();		// Current time (now) compared to lastTime to calculate elapsed time
 			delta += (now - lastTime) / nsPerTick;		// Elapsed time in seconds multiplied by 60
 			lastTime = now;
@@ -442,7 +442,7 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	/*
-	* This method displays the logic of the game. 
+	* This method displays the current state of the game. 
 	*/
 	public void render() {
 		BufferStrategy bs = getBufferStrategy();
