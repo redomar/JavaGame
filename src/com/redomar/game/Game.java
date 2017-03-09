@@ -408,7 +408,7 @@ public class Game extends Canvas implements Runnable {
 			}
 
 			try {
-				Thread.sleep(2);			// Delays the thread by 2 milliseconds
+				Thread.sleep(2);			// Delays the thread by 2 milliseconds - prevents the loop from using too much CPU
 			} catch (InterruptedException e) {		// If the current thread is interrupted, the interrupted status is cleared
 				e.printStackTrace();
 			}
