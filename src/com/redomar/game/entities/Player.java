@@ -28,6 +28,11 @@ public class Player extends Mob {
 	private boolean[] swimType;
 	private int[] swimColour;
 	private int fireRate = 0;
+	
+	// Need to add a class for constants
+	private int fontCharSize = 8;
+	// "Cache" the division for the username length, no need for 60 divisions per second here.
+	private int nameOffset;
 
 	public Player(LevelHandler level, int x, int y, InputHandler input,
 				  String userName, int shirtCol, int faceCol) {
@@ -38,6 +43,8 @@ public class Player extends Mob {
 		this.shirtCol = shirtCol;
 		this.colour = Colours.get(-1, 111, shirtCol, faceCol);
 		fireRate = Small.FIRE_RATE;
+		// Perfectly matches the text over the head
+		nameOffset = (userName.length() / 2) * fontCharSize - ((userName.length() & 1) == 0 ? fontCharSize / 2 : 0);
 	}
 
 	public static double getSpeed() {
@@ -193,12 +200,12 @@ public class Player extends Mob {
 			 * Using player's own x value cast to int with an adjusted formula
 			 * -posmicanomaly
 			 */
-			int fontCharSize = 8;
+
 			Font.render(userName,
 					screen,
-					(int)x - ((userName.length() /2) * fontCharSize),
+					(int)x - nameOffset,
 					yOffset - 10,
-					Colours.get(-1, -1, -1, 555), 1);
+					Colours.get(-1, -1, -1, 111), 1);
 
 		}
 	}
