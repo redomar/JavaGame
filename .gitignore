@@ -58,7 +58,6 @@ local.properties
 *.tlb
 *.tli
 *.tlh
-*.tmp
 *.vspscc
 .builds
 *.dotCover
@@ -182,6 +181,7 @@ JavaGame.ipr
 JavaGame.iws
 JavaGame.iml
 out/
+.idea/
 
 ###############
 ## Debugging ##
@@ -189,3 +189,4 @@ out/
 
 .log.txt
 /.gradle/
+Package game.png
