@@ -30,9 +30,9 @@ public class Player extends Mob {
 	private int fireRate = 0;
 	
 	// Need to add a class for constants
-	private int fontCharSize = 8;
+	private final int fontCharSize = 8;
 	// "Cache" the division for the username length, no need for 60 divisions per second here.
-	private int nameOffset;
+	private int nameOffset = 0;
 
 	public Player(LevelHandler level, int x, int y, InputHandler input,
 				  String userName, int shirtCol, int faceCol) {
@@ -43,8 +43,6 @@ public class Player extends Mob {
 		this.shirtCol = shirtCol;
 		this.colour = Colours.get(-1, 111, shirtCol, faceCol);
 		fireRate = Small.FIRE_RATE;
-		// Perfectly matches the text over the head
-		nameOffset = (userName.length() / 2) * fontCharSize - ((userName.length() & 1) == 0 ? fontCharSize / 2 : 0);
 	}
 
 	public static double getSpeed() {
@@ -224,6 +222,11 @@ public class Player extends Mob {
 	public String getSanitisedUsername() {
 		if (this.getUsername() == null || this.userName.isEmpty()) {
 			setUsername(guestPlayerName);
+
+			// Perfectly matches the text over the head
+			int offsetUnit = ((userName.length() & 1) == 0 ? fontCharSize / 2 : 0);
+			nameOffset = (userName.length() / 2) * fontCharSize - offsetUnit;
+
 			return guestPlayerName;
 		} else
 			return this.getUsername();
