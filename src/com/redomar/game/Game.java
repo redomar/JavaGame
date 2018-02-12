@@ -30,7 +30,7 @@ public class Game extends Canvas implements Runnable {
 
 	// Setting the size and name of the frame/canvas
 	private static final long serialVersionUID = 1L;
-	private static final String game_Version = "v1.8.3 Alpha";
+	private static final String game_Version = "v1.8.4 Alpha";
 	private static final int WIDTH = 160;
 	private static final int HEIGHT = (WIDTH / 3 * 2);
 	private static final int SCALE = 3;
@@ -87,7 +87,7 @@ public class Game extends Canvas implements Runnable {
 
 	/**
 	 * @author Redomar
-	 * @version Alpha 1.8.3
+	 * @version Alpha 1.8.4
 	 */
 	public Game() {
 		context = InputContext.getInstance();
