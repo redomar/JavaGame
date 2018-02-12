@@ -229,6 +229,10 @@ public class Player extends Mob {
 
 			return guestPlayerName;
 		} else
+			if(nameOffset == 0){
+				int offsetUnit = ((userName.length() & 1) == 0 ? fontCharSize / 2 : 0);
+				nameOffset = (userName.length() / 2) * fontCharSize - offsetUnit;
+			}
 			return this.getUsername();
 	}
 
