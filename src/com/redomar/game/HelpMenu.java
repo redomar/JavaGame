@@ -7,18 +7,14 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 /**
- * Created with IntelliJ IDEA.
- * User: Gagandeep Bali
- * Date: 7/1/14
- * Time: 9:44 AM
- * To change this template use File | Settings | File Templates.
+ * Credit to Gagandeep Bali @ stackoverflow
  */
 public class HelpMenu {
 
 	private MyPanel contentPane;
 
 	private void displayGUI() {
-		JFrame frame = new JFrame("Image Example");
+		JFrame frame = new JFrame("Help Menu");
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		contentPane = new MyPanel();
@@ -34,7 +30,7 @@ public class HelpMenu {
 
 		private BufferedImage image;
 
-		public MyPanel() {
+		private MyPanel() {
 			try {
 				image = ImageIO.read(MyPanel.class.getResource("/controls/controls.png"));
 			} catch (IOException ioe) {
@@ -55,12 +51,7 @@ public class HelpMenu {
 	}
 
 	public static void run() {
-		Runnable runnable = new Runnable() {
-			@Override
-			public void run() {
-				new HelpMenu().displayGUI();
-			}
-		};
+		Runnable runnable = () -> new HelpMenu().displayGUI();
 		EventQueue.invokeLater(runnable);
 	}
 }
