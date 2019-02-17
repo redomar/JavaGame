@@ -3,6 +3,7 @@ repositories{
 }
 
 apply plugin: 'java'
+apply plugin: 'maven'
 
 sourceSets{
     main{
@@ -26,4 +27,24 @@ dependencies{
 jar {
     from configurations.compile.collect { zipTree it }
 	manifest.attributes 'Main-Class' : 'com.redomar.game.Launcher'
+}
+
+task createPom  {
+    pom {
+        project {
+            groupId 'com.redomar.game'
+            artifactId 'javagame'
+            version 'Alpha 1.8.4'
+
+            inceptionYear '2013'
+            licenses {
+                license {
+                    name 'GNU AFFERO GENERAL PUBLIC LICENSE 3.0'
+                    url 'https://www.gnu.org/licenses/agpl-3.0.txt'
+                    distribution 'repo'
+                }
+            }
+
+        }
+    }.writeTo("pom.xml")
 }
