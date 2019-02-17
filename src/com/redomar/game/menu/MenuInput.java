@@ -1,6 +1,7 @@
 package com.redomar.game.menu;
 
 import com.redomar.game.Game;
+import com.redomar.game.HelpMenu;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -8,6 +9,7 @@ import java.awt.event.KeyListener;
 public class MenuInput implements KeyListener {
 
 	private boolean ticket = false;
+	private boolean help = false;
 
 	public void keyPressed(KeyEvent e) {
 		toggleKey(e.getKeyCode());
@@ -54,6 +56,13 @@ public class MenuInput implements KeyListener {
 
 		if (keyCode == KeyEvent.VK_ESCAPE) {
 			System.exit(1);
+		}
+
+		if (keyCode == KeyEvent.VK_H){
+			HelpMenu h = new HelpMenu();
+			if (!help)
+				h.run();
+			help = true;
 		}
 	}
 

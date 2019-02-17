@@ -75,7 +75,7 @@ public class Menu implements Runnable {
 			splash.setProgress(90, "Collecting Player Data");
 			Object[] options = {"African", "Caucasian"};
 			int n = JOptionPane.showOptionDialog(frame,
-					"Choose a race for the charater to be", "Choose a race",
+					"Choose a race for the character to be", "Choose a race",
 					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
 					null, options, options[0]);
 			if (n == 0) {
