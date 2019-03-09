@@ -4,6 +4,7 @@ import com.redomar.game.audio.AudioHandler;
 import com.redomar.game.entities.Dummy;
 import com.redomar.game.entities.Player;
 import com.redomar.game.entities.Vendor;
+import com.redomar.game.entities.trees.Spruce;
 import com.redomar.game.gfx.Screen;
 import com.redomar.game.gfx.SpriteSheet;
 import com.redomar.game.level.LevelHandler;
@@ -79,6 +80,7 @@ public class Game extends Canvas implements Runnable {
 	private Player player;
 	private Dummy dummy;                            // Dummy NPC follows the player around
 	private Vendor vendor;                          // Vendor NPC exhibits random movement and is only found on cutom_level
+	private Spruce spruce;							// Tree -- Spruce
 	private Font font = new Font();                 // Font object capable of displaying 2 fonts: Arial and Segoe UI
 	private String nowPlaying;
 	private boolean notActive = true;
@@ -215,6 +217,8 @@ public class Game extends Canvas implements Runnable {
 		setPlayer(new Player(level, 100, 100, input,
 			getJdata_UserName(), shirtCol, faceCol));
 		level.addEntity(player);
+		spruce = new Spruce(level, 70,170, 2 );
+		level.addEntity(spruce);
 	}
 
 	public static void setMap(int map) {
@@ -545,7 +549,7 @@ public class Game extends Canvas implements Runnable {
 	* whether it is running in developer mode, or if the application is closing.
 	*/
 	private void status(Graphics g, boolean TerminalMode, boolean TerminalQuit) {
-		if (TerminalMode == true) {                                                             // If running in developer mode
+		if (TerminalMode) {                                                             // If running in developer mode
 			g.setColor(Color.CYAN);
 			g.drawString("JavaGame Stats", 0, 10);                               // Display "JavaGame Stats" in cyan at the bottom left of the screen
 			g.drawString("FPS/TPS: " + fps + "/" + tps, 0, 25);                  // Display the FPS and TPS in cyan directly above "JavaGame Stats"
@@ -563,14 +567,16 @@ public class Game extends Canvas implements Runnable {
 			g.setColor(Color.CYAN);
 			g.fillRect(getMouse().getX() - 12, getMouse().getY() - 12, 24, 24);
 		}
-		if (TerminalQuit == true) {                                                             // If the game is shutting off
-			g.setColor(Color.BLACK);
-			g.fillRect(0, 0, getWidth(), getHeight());                               // Make the screen fully black
-			g.setColor(Color.RED);
-			g.drawString("Shutting down the Game", (getWidth() / 2) - 70,           // Display "Shutting down the Game" in red in the middle of the screen
-				(getHeight() / 2) - 8);
-			g.dispose();                                                                    // Free up memory for graphics
+		// If the game is shutting off
+		if (!TerminalQuit) {
+			return;
 		}
+		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, getWidth(), getHeight());                               // Make the screen fully black
+		g.setColor(Color.RED);
+		g.drawString("Shutting down the Game", (getWidth() / 2) - 70,           // Display "Shutting down the Game" in red in the middle of the screen
+			(getHeight() / 2) - 8);
+		g.dispose();                                                                    // Free up memory for graphics
 	}
 
 	public WindowHandler getWindow() {

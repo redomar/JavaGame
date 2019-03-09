@@ -33,6 +33,7 @@ public class Screen {
 
 		setPixels(new int[width * height]);
 	}
+
 	public static int getMapWidthMask() {
 		return MAP_WIDTH_MASK;
 	}
@@ -45,7 +46,7 @@ public class Screen {
 	 * @param yPos Y Postion of subject
 	 * @param tile tile location. e.g 7 * 32 + 1 is the oblong bullet on the 7th row 2nd colomn
 	 * @param colour Using established colouring nomanclature. i.e. use com.redomar.game.gfx.Colours
-	 * @param mirrorDir flip Direction: 0x00 first 0 flip verticle, second 0 flip horizontal. 0x01 horizontal
+	 * @param mirrorDir flip Direction: 0x01 flip verticle, 0x02 flip horizontal.
 	 * @param scale Scale
 	 */
 	public void render(int xPos, int yPos, int tile, int colour, int mirrorDir,

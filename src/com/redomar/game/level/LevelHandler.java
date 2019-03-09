@@ -25,21 +25,13 @@ public class LevelHandler {
 	private byte[] tiles;
 	private int width;
 	private int height;
-	private List<Entity> entities = new ArrayList<Entity>();
-	private List<Entity> entities_p = new ArrayList<Entity>();
+	private List<Entity> entities;
+	private List<Entity> entities_p;
 	private String imagePath;
 	private BufferedImage image;
 	private Printing print;
 
-	private Comparator<Node> nodeSorter = new Comparator<Node>() {
-
-		public int compare(Node n0, Node n1) {
-			if(n1.fCost < n0.fCost) return +1;
-			if(n1.fCost > n0.fCost) return -1;
-			return 0;
-		}
-
-	};
+	private Comparator<Node> nodeSorter;
 
 	public LevelHandler(String imagePath) {
 
@@ -54,6 +46,17 @@ public class LevelHandler {
 		}
 
 		print = new Printing();
+		entities = new ArrayList<Entity>();
+		entities_p = new ArrayList<Entity>();
+		nodeSorter = new Comparator<Node>() {
+
+			public int compare(Node n0, Node n1) {
+				if(n1.fCost < n0.fCost) return +1;
+				if(n1.fCost > n0.fCost) return -1;
+				return 0;
+			}
+
+		};
 	}
 
 	private void loadLevelFromFile() {
@@ -73,13 +76,12 @@ public class LevelHandler {
 				getWidth());
 		for (int y = 0; y < getHeight(); y++) {
 			for (int x = 0; x < getWidth(); x++) {
-				tileCheck: for (Tile t : Tile.getTiles()) {
+				for (Tile t : Tile.getTiles())
 					if (t != null
 							&& t.getLevelColour() == tileColours[x + y * getWidth()]) {
 						this.tiles[x + y * getWidth()] = t.getId();
-						break tileCheck;
+						break;
 					}
-				}
 			}
 		}
 	}
@@ -191,12 +193,19 @@ public class LevelHandler {
 		this.getProjectileEntities().add(entity);
 	}
 
+
+	/**
+	 * Removes the entity that is passed through
+	 * @param entity Specifies which entity needs to be removed
+	 */
 	public void removeEntity(Entity entity) {
-		this.entities.remove(entity);
+		if(entity == null) return;
 		print.print("Removed "+entity.getName()+" Entity", PrintTypes.LEVEL);
+		this.entities.remove(entity);
 		try {
 			Thread.sleep(100);
 		} catch (InterruptedException e) {
+			print.print("Interruption error: "+ e, PrintTypes.ERROR);
 			e.printStackTrace();
 		}
 	}
