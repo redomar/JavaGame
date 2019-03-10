@@ -27,7 +27,7 @@ import java.awt.image.DataBufferInt;
  * NPCs and customizes the player. Game is also responsible for changing the maps and levels, as well
  * as displaying various messages on the screen (e.g. fps)
  */
-public class Game extends Canvas implements Runnable 
+public class Game extends Canvas implements Runnable {
 
 	// Setting the size and name of the frame/canvas
 	private static final long serialVersionUID = 1L;
