@@ -13,6 +13,7 @@ import com.redomar.game.script.Printing;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -58,7 +59,7 @@ public class LevelHandler {
 
 	private void loadLevelFromFile() {
 		try {
-			this.image = ImageIO.read(Level.class.getResource(this.imagePath));
+			this.image = ImageIO.read(new FileInputStream(this.imagePath));
 			this.setWidth(image.getWidth());
 			this.setHeight(image.getHeight());
 			tiles = new byte[getWidth() * getHeight()];

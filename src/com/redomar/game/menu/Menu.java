@@ -13,6 +13,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferStrategy;
+import java.io.File;
 
 public class Menu implements Runnable {
 
@@ -42,13 +43,13 @@ public class Menu implements Runnable {
 	public static void play() {
 		try {
 			JSplash splash = new JSplash(
-					Game.class.getResource("/splash/splash.png"), true, true,
+					new File("splash/splash.png").toURI().toURL(), true, true,
 					false, Game.getGameVersion(), null, Color.RED, Color.ORANGE);
 			splash.toFront();
 			splash.requestFocus();
 			splash.splashOn();
 			splash.setProgress(20, "Loading Music");
-			Game.setBackgroundMusic(new AudioHandler("/music/Towards The End.mp3"));
+			Game.setBackgroundMusic(new AudioHandler("music/Towards The End.mp3"));
 			splash.setProgress(50, "Setting Volume");
 			Game.getBackgroundMusic().setVolume(-20);
 			splash.setProgress(60, "Acquiring data: Multiplayer");

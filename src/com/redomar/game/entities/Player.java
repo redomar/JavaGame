@@ -84,7 +84,11 @@ public class Player extends Mob {
 					double dx = Game.getMouse().getX() - 480/2;
 					double dy = Game.getMouse().getY() - 320/2;
 					double dir = Math.atan2(dy, dx);
-					shoot(x, y, dir, Game.getMouse().getButton(), false);
+					try {
+						shoot(x, y, dir, Game.getMouse().getButton(), false);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}

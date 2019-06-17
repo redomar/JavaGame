@@ -5,6 +5,7 @@ import com.redomar.game.script.Printing;
 
 import javax.sound.sampled.*;
 import java.io.File;
+import java.io.FileInputStream;
 
 
 public class AudioHandler {
@@ -36,7 +37,7 @@ public class AudioHandler {
 
 	private void initiate(String path){
 		try{
-			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(getClass().getResourceAsStream(path));
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new FileInputStream(path));
 			AudioFormat baseformat = audioInputStream.getFormat();
 			AudioFormat decodeFormat = new AudioFormat(
 					AudioFormat.Encoding.PCM_SIGNED,
@@ -56,7 +57,7 @@ public class AudioHandler {
 		}
 	}
 
-	public void play(){
+	public void play() throws Exception {
 		try{
 			if(clip == null) return;
 			stop();

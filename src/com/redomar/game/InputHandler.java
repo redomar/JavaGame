@@ -31,18 +31,26 @@ public class InputHandler implements KeyListener {
 	}
 
 	public void keyPressed(KeyEvent e) {
-		toggleKey(e.getKeyCode(), true);
+		try {
+			toggleKey(e.getKeyCode(), true);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 
 	public void keyReleased(KeyEvent e) {
-		toggleKey(e.getKeyCode(), false);
+		try {
+			toggleKey(e.getKeyCode(), false);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 
 	public void keyTyped(KeyEvent e) {
 
 	}
 
-	private void toggleKey(int keyCode, boolean isPressed) {
+	private void toggleKey(int keyCode, boolean isPressed) throws Exception{
 		if (!isIgnoreInput()) {
 			if (keyCode == KeyEvent.VK_Z && isAzertyCountry || keyCode == KeyEvent.VK_W && !isAzertyCountry
 					|| keyCode == KeyEvent.VK_UP) {

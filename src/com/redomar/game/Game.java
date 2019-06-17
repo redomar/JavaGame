@@ -357,11 +357,11 @@ public class Game extends Canvas implements Runnable {
 			}
 		}
 
-		screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/sprite_sheet.png"));
+		screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("sprite_sheet.png"));
 		input = new InputHandler(this);                                         // Input begins to record key presses
 		setMouse(new MouseHandler(this));                                       // Mouse tracking and clicking is now recorded
 		setWindow(new WindowHandler(this));
-		setMap("/levels/custom_level.png");
+		setMap("levels/custom_level.png");
 		setMap(1);                                                                     // 1 corresponds to custom_level
 
 		game.setVendor(new Vendor(level, "Vendor", 215, 215, 304, 543));
@@ -490,7 +490,7 @@ public class Game extends Canvas implements Runnable {
 		if (changeLevel == true) {                                                      // If the player is teleporting to a different level
 			print.print("Teleported into new world", PrintTypes.GAME);
 			if (getMap() == 1) {                                                    // If the player is currently on custom_level
-				setMap("/levels/water_level.png");
+				setMap("levels/water_level.png");
 				if (getDummy() != null) { // Gave nullPointerException(); upon
 					// entering new world.
 					level.removeEntity(getDummy());
@@ -499,7 +499,7 @@ public class Game extends Canvas implements Runnable {
 				level.removeEntity(getVendor());                        // When teleporting away from custom_level, remove vendor NPC (always found on custom_level)
 				setMap(2);
 			} else if (getMap() == 2) {                                     // If the player is currently on water_level
-				setMap("/levels/custom_level.png");
+				setMap("levels/custom_level.png");
 				level.removeEntity(getDummy());
 				setNpc(false);
 				level.addEntity(getVendor());                           // Add a vendor NPC - they are always found on custom_level

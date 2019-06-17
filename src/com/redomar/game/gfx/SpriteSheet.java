@@ -1,6 +1,7 @@
 package com.redomar.game.gfx;
 
 import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -17,7 +18,7 @@ public class SpriteSheet {
 		BufferedImage image = null;
 
 		try {
-			image = ImageIO.read(SpriteSheet.class.getResourceAsStream(path));
+			image = ImageIO.read(new FileInputStream(path));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
