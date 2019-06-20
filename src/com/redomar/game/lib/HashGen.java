@@ -8,12 +8,18 @@ public class HashGen {
 	private boolean prefix;
 	private int hexLength;
 
+	/**
+	 * Use for generating a hex Hash. Requires two parameters;
+	 * @param showPrefix to show 0x prefix.
+	 * @param length Length of hash.
+	 */
 	public HashGen(boolean showPrefix, int length){
 		this.prefix = showPrefix;
 		this.hexLength = length;
 		init();
 	}
 
+	//Remove null char or prepend 0x
 	private void init(){
 		if(prefix){
 			hexHash = "0x";
@@ -22,6 +28,10 @@ public class HashGen {
 		}
 	}
 
+	/**
+	 * Retrieve hash
+	 * @return String containing hash
+	 */
 	public String getHash(){
 		setHash(hexLength);
 		return hexHash;
