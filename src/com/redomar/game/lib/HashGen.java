@@ -7,6 +7,7 @@ public class HashGen {
 	private String hexHash;
 	private boolean prefix;
 	private int hexLength;
+	private String previousHash;
 
 	/**
 	 * Use for generating a hex Hash. Requires two parameters;
@@ -14,8 +15,8 @@ public class HashGen {
 	 * @param length Length of hash.
 	 */
 	public HashGen(boolean showPrefix, int length){
-		this.prefix = showPrefix;
-		this.hexLength = length;
+		setPrefix(showPrefix);
+		setHexLength(length);
 		init();
 	}
 
@@ -46,11 +47,27 @@ public class HashGen {
 			hex = StringUtils.capitalize(hex);
 			hexHash = hexHash + hex;
 		}
+		previousHash = hexHash;
 
 	}
 
 	private int randNumGen(){
 		int rand = (int)(Math.random() * 16);
 		return rand;
+	}
+
+	//getters and setters
+
+	public void setPrefix(boolean prefix) {
+		this.prefix = prefix;
+	}
+
+	public void setHexLength(int hexLength) {
+		this.hexLength = hexLength;
+	}
+
+	public String getPreviousHash(){
+		if(previousHash == null) return null;
+		return previousHash;
 	}
 }
