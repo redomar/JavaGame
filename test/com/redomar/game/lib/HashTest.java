@@ -26,13 +26,13 @@ public class HashTest {
 	}
 
 	@Test
-	public void compareHashAndPrevious_ShouldEqual(){
+	public void compareHashAndPrevious(){
 		hashGen.setHexLength(8);
 		assertEquals(hashGen.getHash(), hashGen.getPreviousHash());
 	}
 
 	@Test
-	public void previousShouldDoesNotGenNewHash(){
+	public void previousShouldNotGenNewHash(){
 		assertEquals(hashGen.getPreviousHash(), hashGen.getPreviousHash());
 	}
 
