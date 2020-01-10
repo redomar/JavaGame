@@ -37,7 +37,7 @@ task createPom  {
         project {
             groupId 'com.redomar.game'
             artifactId 'javagame'
-            version 'Alpha 1.8.4'
+            version 'Alpha 1.8.5'
 
             inceptionYear '2013'
             licenses {
