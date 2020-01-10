@@ -19,6 +19,7 @@ public class InputHandler implements KeyListener {
 	private Printing print = new Printing();
 	private int map;
 	private boolean ignoreInput = false;
+	private boolean toggleMusic = false;
 	private PopUp popup = new PopUp();
 
 	public InputHandler(Game game) {
@@ -70,11 +71,18 @@ public class InputHandler implements KeyListener {
 		}
 
 		if (keyCode == KeyEvent.VK_M) {
-			Game.getBackgroundMusic().play();
+			if(!toggleMusic){
+				Game.getBackgroundMusic().play();
+				print.print("Playing Music", PrintTypes.MUSIC);
+				toggleMusic = true;
+			}
 		}
 
 		if (keyCode == KeyEvent.VK_COMMA) {
 			Game.getBackgroundMusic().stop();
+			if(toggleMusic)
+				print.print("Stopping Music", PrintTypes.MUSIC);
+				toggleMusic = false;
 		}
 
 
@@ -139,7 +147,7 @@ public class InputHandler implements KeyListener {
 				Game.getPlayer().getSanitisedUsername());
 		Game.setRunning(false);
 		Game.getFrame().dispose();
-		System.exit(1);
+		System.exit(0);
 	}
 
 	public void untoggle(boolean toggle) {

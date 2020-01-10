@@ -18,6 +18,13 @@ public class Screen {
 
 	private SpriteSheet sheet;
 
+	/**
+	 * Constructs the draw area
+	 * @param width width of the screen
+	 * @param height height of the screen
+	 * @param sheet  Sprite-sheet selector. Constructed Spritesheet needs to be here,
+	 *               Sprite-sheet cp requires path only.
+	 */
 	public Screen(int width, int height, SpriteSheet sheet) {
 
 		this.setWidth(width);
@@ -31,6 +38,17 @@ public class Screen {
 		return MAP_WIDTH_MASK;
 	}
 
+
+	/**
+	 * Rendering sprites from Spritesheet onto the game world.
+	 * Render contstucter requires
+	 * @param xPos X Postion of subject
+	 * @param yPos Y Postion of subject
+	 * @param tile tile location. e.g 7 * 32 + 1 is the oblong bullet on the 7th row 2nd colomn
+	 * @param colour Using established colouring nomanclature. i.e. use com.redomar.game.gfx.Colours
+	 * @param mirrorDir flip Direction: 0x01 flip verticle, 0x02 flip horizontal.
+	 * @param scale Scale
+	 */
 	public void render(int xPos, int yPos, int tile, int colour, int mirrorDir,
 					   int scale) {
 		xPos -= xOffset;

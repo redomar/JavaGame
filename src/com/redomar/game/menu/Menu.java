@@ -5,7 +5,7 @@ import com.redomar.game.audio.AudioHandler;
 import com.redomar.game.lib.Font;
 import com.redomar.game.lib.Mouse;
 import com.thehowtotutorial.splashscreen.JSplash;
-import org.apache.commons.lang3.text.WordUtils;
+import org.apache.commons.text.WordUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,6 +27,7 @@ public class Menu implements Runnable {
 	private static boolean gameOver = false;
 
 	private static DedicatedJFrame frame;// = new DedicatedJFrame(WIDTH, HEIGHT,
+	private static final JDialog dialog = new JDialog();
 	// SCALE, NAME);
 	private Font font = new Font();
 	private MouseListener Mouse = new Mouse();
@@ -55,18 +56,19 @@ public class Menu implements Runnable {
 			Thread.sleep(125);
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			String multiMsg = "Sorry but multiplayer has been disabled on this version.\nIf you would like multiplayer checkout Alpha 1.6";
-			JOptionPane.showMessageDialog(Game.getGame(), multiMsg,
+			dialog.setAlwaysOnTop(true);
+			JOptionPane.showMessageDialog(dialog, multiMsg,
 					"Multiplayer Warning", JOptionPane.WARNING_MESSAGE);
 			// Game.setJdata_Host(JOptionPane.showConfirmDialog(Game.getGame(),
 			// "Do you want to be the HOST?"));
 			Game.setJdata_Host(1);
 			if (Game.getJdata_Host() != 1) { // Game.getJdata_Host() == 1
-				Game.setJdata_IP(JOptionPane.showInputDialog(Game.getGame(),
+				Game.setJdata_IP(JOptionPane.showInputDialog(dialog,
 						"Enter the name \nleave blank for local"));
 			}
 			Thread.sleep(125);
 			splash.setProgress(70, "Acquiring data: Username");
-			String s = JOptionPane.showInputDialog(Game.getGame(),
+			String s = JOptionPane.showInputDialog(dialog,
 					"Enter a name");
 			if (s != null) {
 				Game.setJdata_UserName(s);
@@ -74,8 +76,8 @@ public class Menu implements Runnable {
 			Thread.sleep(125);
 			splash.setProgress(90, "Collecting Player Data");
 			Object[] options = {"African", "Caucasian"};
-			int n = JOptionPane.showOptionDialog(frame,
-					"Choose a race for the charater to be", "Choose a race",
+			int n = JOptionPane.showOptionDialog(dialog,
+					"Choose a race for the character to be", "Choose a race",
 					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
 					null, options, options[0]);
 			if (n == 0) {
@@ -85,7 +87,7 @@ public class Menu implements Runnable {
 			}
 			Thread.sleep(250);
 			Object[] options1 = {"Orange", "Black"};
-			int n1 = JOptionPane.showOptionDialog(frame,
+			int n1 = JOptionPane.showOptionDialog(dialog,
 					"Which Colour do you want the shirt to be?",
 					"Choose a shirt Colour", JOptionPane.YES_NO_OPTION,
 					JOptionPane.QUESTION_MESSAGE, null, options1, options1[0]);
@@ -245,33 +247,27 @@ public class Menu implements Runnable {
 			g.setColor(new Color(0xFFBB4400));
 			g.fillRect(35, 40, (frame.getWidth() - 67), 113);
 			g.setColor(getDeSelected());
-			g.fillRect(35, 40, (frame.getWidth() - 70), 110);
-			g.setColor(Color.BLACK);
-			g.drawString("Start", 220, 95);
 		} else {
 			g.setColor(new Color(0xFFDD6600));
 			g.fillRect(35, 40, (frame.getWidth() - 67), 113);
 			g.setColor(getSelected());
-			g.fillRect(35, 40, (frame.getWidth() - 70), 110);
-			g.setColor(Color.BLACK);
-			g.drawString("Start", 220, 95);
 		}
+		g.fillRect(35, 40, (frame.getWidth() - 70), 110);
+		g.setColor(Color.BLACK);
+		g.drawString("Start", 220, 95);
 		// EXIT
 		if (!exit) {
 			g.setColor(new Color(0xFFBB4400));
 			g.fillRect(35, 170, (frame.getWidth() - 67), 113);
 			g.setColor(getDeSelected());
-			g.fillRect(35, 170, (frame.getWidth() - 70), 110);
-			g.setColor(Color.BLACK);
-			g.drawString("Exit", 220, 220);
 		} else {
 			g.setColor(new Color(0xFFDD6600));
 			g.fillRect(35, 170, (frame.getWidth() - 67), 113);
 			g.setColor(getSelected());
-			g.fillRect(35, 170, (frame.getWidth() - 70), 110);
-			g.setColor(Color.BLACK);
-			g.drawString("Exit", 220, 220);
 		}
+		g.fillRect(35, 170, (frame.getWidth() - 70), 110);
+		g.setColor(Color.BLACK);
+		g.drawString("Exit", 220, 220);
 	}
 
 	public Color getSelected() {

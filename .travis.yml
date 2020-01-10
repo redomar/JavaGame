@@ -5,4 +5,4 @@ jdk:
 # blocklist
 branches:
   except:
-  - develop
+  - experimental
