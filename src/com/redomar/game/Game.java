@@ -12,7 +12,7 @@ import com.redomar.game.lib.Font;
 import com.redomar.game.lib.Time;
 import com.redomar.game.script.PrintTypes;
 import com.redomar.game.script.Printing;
-import org.apache.commons.lang3.text.WordUtils;
+import org.apache.commons.text.WordUtils;
 
 import javax.swing.*;
 import java.awt.*;

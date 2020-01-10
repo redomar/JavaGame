@@ -5,7 +5,7 @@ import com.redomar.game.audio.AudioHandler;
 import com.redomar.game.lib.Font;
 import com.redomar.game.lib.Mouse;
 import com.thehowtotutorial.splashscreen.JSplash;
-import org.apache.commons.lang3.text.WordUtils;
+import org.apache.commons.text.WordUtils;
 
 import javax.swing.*;
 import java.awt.*;
