@@ -365,7 +365,11 @@ public class Game extends Canvas implements Runnable {
 		input = new InputHandler(this);                                         // Input begins to record key presses
 		setMouse(new MouseHandler(this));                                       // Mouse tracking and clicking is now recorded
 		setWindow(new WindowHandler(this));
-		setMap("/levels/custom_level.png");
+		try{
+			setMap("/levels/custom_level.png");
+		} catch (Exception e){
+			System.err.println(e);
+		}
 		setMap(1);                                                                     // 1 corresponds to custom_level
 
 		game.setVendor(new Vendor(level, "Vendor", 215, 215, 304, 543));

@@ -147,7 +147,7 @@ public class InputHandler implements KeyListener {
 				Game.getPlayer().getSanitisedUsername());
 		Game.setRunning(false);
 		Game.getFrame().dispose();
-		System.exit(1);
+		System.exit(0);
 	}
 
 	public void untoggle(boolean toggle) {
