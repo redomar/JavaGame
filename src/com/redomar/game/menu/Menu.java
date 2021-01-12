@@ -49,7 +49,7 @@ public class Menu implements Runnable {
 			splash.requestFocus();
 			splash.splashOn();
 			splash.setProgress(20, "Loading Music");
-			Game.setBackgroundMusic(new AudioHandler("/music/Towards The End.mp3"));
+			Game.setBackgroundMusic(new AudioHandler("/music/Towards The End.wav"));
 			splash.setProgress(50, "Setting Volume");
 			Game.getBackgroundMusic().setVolume(-20);
 			splash.setProgress(60, "Acquiring data: Multiplayer");

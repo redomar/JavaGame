@@ -5,13 +5,14 @@ import com.redomar.game.script.Printing;
 
 import javax.sound.sampled.*;
 import java.io.File;
+import java.util.Arrays;
 
 
 public class AudioHandler {
 
 	private Clip clip;
 	private boolean active = false;
-	private Printing p = new Printing();
+	private final Printing p = new Printing();
 
 	public AudioHandler(String path){
 		check(path);
@@ -23,7 +24,7 @@ public class AudioHandler {
 
 	private void check(String path){
 		try {
-			if(path != ""){
+			if(!path.equals("")){
 				initiate(path);
 			} else {
 				throw new NullPointerException();
@@ -36,14 +37,14 @@ public class AudioHandler {
 
 	private void initiate(String path){
 		try{
-			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(getClass().getResourceAsStream(path));
-			AudioFormat baseformat = audioInputStream.getFormat();
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(AudioHandler.class.getResourceAsStream(path));
+			AudioFormat baseFormat = audioInputStream.getFormat();
 			AudioFormat decodeFormat = new AudioFormat(
 					AudioFormat.Encoding.PCM_SIGNED,
-					baseformat.getSampleRate(), 16,
-					baseformat.getChannels(),
-					baseformat.getChannels() * 2,
-					baseformat.getSampleRate(),
+					baseFormat.getSampleRate(), 16,
+					baseFormat.getChannels(),
+					baseFormat.getChannels() * 2,
+					baseFormat.getSampleRate(),
 					false
 			);
 			AudioInputStream decodedAudioInputStream = AudioSystem.getAudioInputStream(
@@ -51,7 +52,7 @@ public class AudioHandler {
 			clip = AudioSystem.getClip();
 			clip.open(decodedAudioInputStream);
 		} catch (Exception e){
-			System.err.println(e.getStackTrace());
+			System.err.println(Arrays.toString(e.getStackTrace()));
 			p.print("Audio Failed to initiate", PrintTypes.ERROR);
 		}
 	}

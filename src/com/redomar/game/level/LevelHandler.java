@@ -61,12 +61,12 @@ public class LevelHandler {
 
 	private void loadLevelFromFile() {
 		try {
-			this.image = ImageIO.read(Level.class.getResource(this.imagePath));
+			this.image = ImageIO.read(LevelHandler.class.getResource(this.imagePath));
 			this.setWidth(image.getWidth());
 			this.setHeight(image.getHeight());
 			tiles = new byte[getWidth() * getHeight()];
 			this.loadTiles();
-		} catch (IOException e) {
+		} catch (IOException e ){
 			e.printStackTrace();
 		}
 	}

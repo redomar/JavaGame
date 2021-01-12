@@ -10,7 +10,7 @@ import java.io.File;
 public class Small extends Projectile{
 
 	public static final int FIRE_RATE = 10;
-	private static final File smallShot = new File("/music/small.mp3");
+	private static final File smallShot = new File("/music/small.wav");
 	private static AudioHandler smallSound;
 
 	public Small(LevelHandler level, int x, int y, double dir) {
