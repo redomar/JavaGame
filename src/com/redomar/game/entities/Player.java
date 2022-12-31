@@ -57,16 +57,16 @@ public class Player extends Mob {
 		double ya = 0;
 
 		if (input != null) {
-			if (input.getUp().isPressed() && input.isIgnoreInput() == false) {
+			if (input.getUP_KEY().isPressed() && input.isIgnoreInput() == false) {
 				ya -= speed;
 			}
-			if (input.getDown().isPressed() && input.isIgnoreInput() == false) {
+			if (input.getDOWN_KEY().isPressed() && input.isIgnoreInput() == false) {
 				ya += speed;
 			}
-			if (input.getLeft().isPressed() && input.isIgnoreInput() == false) {
+			if (input.getLEFT_KEY().isPressed() && input.isIgnoreInput() == false) {
 				xa -= speed;
 			}
-			if (input.getRight().isPressed() && input.isIgnoreInput() == false) {
+			if (input.getRIGHT_KEY().isPressed() && input.isIgnoreInput() == false) {
 				xa += speed;
 			}
 		}

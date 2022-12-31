@@ -11,23 +11,21 @@ import java.awt.im.InputContext;
 
 public class InputHandler implements KeyListener {
 
-	private boolean isAzertyCountry;
-	private Key up = new Key();
-	private Key down = new Key();
-	private Key left = new Key();
-	private Key right = new Key();
-	private Printing print = new Printing();
-	private int map;
+	private final boolean isAzertyCountry;
+	private final Printing print = new Printing();
+	private final PopUp popup = new PopUp();
+	private final Key UP_KEY = new Key();
+	private final Key DOWN_KEY = new Key();
+	private final Key LEFT_KEY = new Key();
+	private final Key RIGHT_KEY = new Key();
 	private boolean ignoreInput = false;
 	private boolean toggleMusic = false;
-	private PopUp popup = new PopUp();
 
 	public InputHandler(Game game) {
 		InputContext context = InputContext.getInstance();
 		// Important to know whether the keyboard is in Azerty or Qwerty.
 		// Azerty countries used QZSD instead of WASD keys.
-		isAzertyCountry = context.getLocale().getCountry().equals("BE")
-				|| context.getLocale().getCountry().equals("FR");
+		isAzertyCountry = context.getLocale().getCountry().equals("BE") || context.getLocale().getCountry().equals("FR");
 		game.addKeyListener(this);
 	}
 
@@ -45,33 +43,31 @@ public class InputHandler implements KeyListener {
 
 	private void toggleKey(int keyCode, boolean isPressed) {
 		if (!isIgnoreInput()) {
-			if (keyCode == KeyEvent.VK_Z && isAzertyCountry || keyCode == KeyEvent.VK_W && !isAzertyCountry
-					|| keyCode == KeyEvent.VK_UP) {
-				up.toggle(isPressed);
+			if (keyCode == KeyEvent.VK_Z && isAzertyCountry || keyCode == KeyEvent.VK_W && !isAzertyCountry || keyCode == KeyEvent.VK_UP) {
+				UP_KEY.toggle(isPressed);
 			}
 
-			if (keyCode == KeyEvent.VK_Q && isAzertyCountry || keyCode == KeyEvent.VK_A && !isAzertyCountry
-					|| keyCode == KeyEvent.VK_LEFT) {
-				left.toggle(isPressed);
+			if (keyCode == KeyEvent.VK_Q && isAzertyCountry || keyCode == KeyEvent.VK_A && !isAzertyCountry || keyCode == KeyEvent.VK_LEFT) {
+				LEFT_KEY.toggle(isPressed);
 			}
 
 			if (keyCode == KeyEvent.VK_S || keyCode == KeyEvent.VK_DOWN) {
-				down.toggle(isPressed);
+				DOWN_KEY.toggle(isPressed);
 			}
 
 			if (keyCode == KeyEvent.VK_D || keyCode == KeyEvent.VK_RIGHT) {
-				right.toggle(isPressed);
+				RIGHT_KEY.toggle(isPressed);
 			}
 		}
 		if (isIgnoreInput()) {
-			up.toggle(false);
-			down.toggle(false);
-			left.toggle(false);
-			right.toggle(false);
+			UP_KEY.toggle(false);
+			DOWN_KEY.toggle(false);
+			LEFT_KEY.toggle(false);
+			RIGHT_KEY.toggle(false);
 		}
 
 		if (keyCode == KeyEvent.VK_M) {
-			if(!toggleMusic){
+			if (!toggleMusic) {
 				Game.getBackgroundMusic().play();
 				print.print("Playing Music", PrintTypes.MUSIC);
 				toggleMusic = true;
@@ -80,9 +76,8 @@ public class InputHandler implements KeyListener {
 
 		if (keyCode == KeyEvent.VK_COMMA) {
 			Game.getBackgroundMusic().stop();
-			if(toggleMusic)
-				print.print("Stopping Music", PrintTypes.MUSIC);
-				toggleMusic = false;
+			if (toggleMusic) print.print("Stopping Music", PrintTypes.MUSIC);
+			toggleMusic = false;
 		}
 
 
@@ -137,14 +132,13 @@ public class InputHandler implements KeyListener {
 
 	private void quitGame() {
 		Game.setClosing(true);
-		print.removeLog();
+		if (!print.removeLog()) System.err.println("Could not delete Log file");
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		Game.getLevel().removeEntity(
-				Game.getPlayer().getSanitisedUsername());
+		Game.getLevel().removeEntity(Game.getPlayer().getSanitisedUsername());
 		Game.setRunning(false);
 		Game.getFrame().dispose();
 		System.exit(0);
@@ -154,44 +148,20 @@ public class InputHandler implements KeyListener {
 		this.ignoreInput = toggle;
 	}
 
-	public int getMap() {
-		return map;
+	public Key getUP_KEY() {
+		return UP_KEY;
 	}
 
-	public void setMap(int map) {
-		this.map = map;
+	public Key getDOWN_KEY() {
+		return DOWN_KEY;
 	}
 
-	public Key getUp() {
-		return up;
+	public Key getLEFT_KEY() {
+		return LEFT_KEY;
 	}
 
-	public void setUp(Key up) {
-		this.up = up;
-	}
-
-	public Key getDown() {
-		return down;
-	}
-
-	public void setDown(Key down) {
-		this.down = down;
-	}
-
-	public Key getLeft() {
-		return left;
-	}
-
-	public void setLeft(Key left) {
-		this.left = left;
-	}
-
-	public Key getRight() {
-		return right;
-	}
-
-	public void setRight(Key right) {
-		this.right = right;
+	public Key getRIGHT_KEY() {
+		return RIGHT_KEY;
 	}
 
 	public boolean isIgnoreInput() {
@@ -202,10 +172,11 @@ public class InputHandler implements KeyListener {
 		this.ignoreInput = ignoreInput;
 	}
 
-	public class Key {
+	public static class Key {
 		private int numTimesPressed = 0;
 		private boolean pressed = false;
 
+		@Deprecated
 		public int getNumTimesPressed() {
 			return numTimesPressed;
 		}
@@ -221,6 +192,7 @@ public class InputHandler implements KeyListener {
 			}
 		}
 
+		@Deprecated
 		public void off() {
 			pressed = false;
 			numTimesPressed = 0;

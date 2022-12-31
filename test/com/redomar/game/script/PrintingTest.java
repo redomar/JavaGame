@@ -17,12 +17,12 @@ public class PrintingTest {
 	private Printing printing;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		printing = new Printing();
 	}
 
 	@Test
-	public void printToFileWorks() throws Exception {
+	public void printToFileWorks() {
 		printing.print("TESTING STRING", PrintTypes.TEST);
 		File file = new File(".PrintType-TEST.txt");
 		assertTrue(file.exists());
@@ -35,13 +35,13 @@ public class PrintingTest {
 	}
 
 	@Test
-	public void getMessageIsNotNull() {
-		printing.setMessage("Not Null");
+	public void messageShouldBeNullAfterPrinting() {
+		printing.print("Not Null", PrintTypes.TEST);
 		assertNotNull(printing.getMessage());
 	}
 
 	@After
-	public void cleanUp(){
+	public void cleanUp() {
 		printing = null;
 	}
 

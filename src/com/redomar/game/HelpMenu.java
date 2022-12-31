@@ -1,23 +1,29 @@
 package com.redomar.game;
 
+import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import javax.imageio.ImageIO;
-import javax.swing.*;
+import java.net.URL;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Credit to Gagandeep Bali @ stackoverflow
  */
 public class HelpMenu {
 
-	private MyPanel contentPane;
+	private final JFrame frame = new JFrame("Help Menu");
+
+	private static void run() {
+		Runnable runnable = () -> new HelpMenu().displayGUI();
+		EventQueue.invokeLater(runnable);
+	}
 
 	private void displayGUI() {
-		JFrame frame = new JFrame("Help Menu");
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-		contentPane = new MyPanel();
+		MyPanel contentPane = new MyPanel();
 
 		frame.setContentPane(contentPane);
 		frame.setLocationRelativeTo(null);
@@ -26,13 +32,23 @@ public class HelpMenu {
 		frame.setVisible(true);
 	}
 
-	private class MyPanel extends JPanel {
+	public void helpMenuLaunch() {
+		run();
+	}
+
+	public void helpMenuClose() {
+		frame.setVisible(false);
+		frame.dispose();
+	}
+
+	private static class MyPanel extends JPanel {
 
 		private BufferedImage image;
 
 		private MyPanel() {
 			try {
-				image = ImageIO.read(MyPanel.class.getResource("/controls/controls.png"));
+				AtomicReference<URL> controlsImageResource = new AtomicReference<>(MyPanel.class.getResource("/controls/controls.png"));
+				image = ImageIO.read(controlsImageResource.get());
 			} catch (IOException ioe) {
 				ioe.printStackTrace();
 			}
@@ -40,7 +56,7 @@ public class HelpMenu {
 
 		@Override
 		public Dimension getPreferredSize() {
-			return image == null ? new Dimension(400, 300): new Dimension(image.getWidth(), image.getHeight());
+			return image == null ? new Dimension(400, 300) : new Dimension(image.getWidth(), image.getHeight());
 		}
 
 		@Override
@@ -48,10 +64,5 @@ public class HelpMenu {
 			super.paintComponent(g);
 			g.drawImage(image, 0, 0, this);
 		}
-	}
-
-	public static void run() {
-		Runnable runnable = () -> new HelpMenu().displayGUI();
-		EventQueue.invokeLater(runnable);
 	}
 }
