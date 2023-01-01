@@ -3,16 +3,18 @@ package com.redomar.game.net.packets;
 import com.redomar.game.net.GameClient;
 import com.redomar.game.net.GameServer;
 
+@Deprecated
 public class Packet02Move extends Packet {
 
-	private String username;
-	private int x, y;
-	private int numSteps = 0;
-	private boolean isMoving;
-	private int movingDir = 1;
+	private final String username;
+	private final int x;
+	private final int y;
+	private final int numSteps;
+	private final boolean isMoving;
+	private final int movingDir;
 
 	public Packet02Move(byte[] data) {
-		super(02);
+		super(0x02);
 		String[] dataArray = readData(data).split(",");
 		this.username = dataArray[0];
 		this.x = Integer.parseInt(dataArray[1]);
@@ -22,9 +24,8 @@ public class Packet02Move extends Packet {
 		this.movingDir = Integer.parseInt(dataArray[5]);
 	}
 
-	public Packet02Move(String username, int x, int y, int numSteps,
-						boolean isMoving, int movingDir) {
-		super(02);
+	public Packet02Move(String username, int x, int y, int numSteps, boolean isMoving, int movingDir) {
+		super(0x02);
 		this.username = username;
 		this.x = x;
 		this.y = y;
@@ -35,9 +36,7 @@ public class Packet02Move extends Packet {
 
 	@Override
 	public byte[] getData() {
-		return ("02" + this.username + "," + this.x + "," + this.y + ","
-				+ this.getNumSteps() + "," + (this.isMoving ? 1 : 0) + "," + this
-				.getMovingDir()).getBytes();
+		return ("02" + this.username + "," + this.x + "," + this.y + "," + this.getNumSteps() + "," + (this.isMoving ? 1 : 0) + "," + this.getMovingDir()).getBytes();
 	}
 
 	@Override

@@ -18,12 +18,13 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 public class GameServer extends Thread {
 
+	private final List<PlayerMP> connectedPlayers = new ArrayList<>();
+	private final Printing print = new Printing();
 	private DatagramSocket socket;
 	private Game game;
-	private List<PlayerMP> connectedPlayers = new ArrayList<PlayerMP>();
-	private Printing print = new Printing();
 
 	public GameServer(Game game) {
 		this.setGame(game);
@@ -42,42 +43,36 @@ public class GameServer extends Thread {
 				socket.receive(packet);
 			} catch (IOException e) {
 				e.printStackTrace();
+				break;
 			}
 
-			this.parsePacket(packet.getData(), packet.getAddress(),
-					packet.getPort());
+			this.parsePacket(packet.getData(), packet.getAddress(), packet.getPort());
 
-			// String message = new String(packet.getData());
-			// System.out.println("CLIENT ["+packet.getAddress().getHostAddress()+":"+packet.getPort()+"] "+message);
-			// if(message.trim().equalsIgnoreCase("ping")){
-			// sendData("pong".getBytes(), packet.getAddress(),
-			// packet.getPort());
-			// }
+			String message = new String(packet.getData());
+			System.out.println("CLIENT [" + packet.getAddress().getHostAddress() + ":" + packet.getPort() + "] " + message);
+			if (message.trim().equalsIgnoreCase("ping")) {
+				sendData("pong".getBytes(), packet.getAddress(), packet.getPort());
+			}
 		}
 	}
 
 	private void parsePacket(byte[] data, InetAddress address, int port) {
 		String message = new String(data).trim();
 		PacketTypes type = Packet.lookupPacket(message.substring(0, 2));
-		Packet packet = null;
+		Packet packet;
 		switch (type) {
 			default:
 			case INVALID:
 				break;
 			case LOGIN:
 				packet = new Packet00Login(data);
-				print.print("[" + address.getHostAddress() + ":" + port
-						+ "] " + ((Packet00Login) packet).getUsername()
-						+ " has connected...", PrintTypes.SERVER);
-				PlayerMP player = new PlayerMP(Game.getLevel(), 10, 10,
-						((Packet00Login) packet).getUsername(), address, port, Game.getShirtCol(), Game.getFaceCol());
+				print.print("[" + address.getHostAddress() + ":" + port + "] " + ((Packet00Login) packet).getUsername() + " has connected...", PrintTypes.SERVER);
+				PlayerMP player = new PlayerMP(Game.getLevel(), 10, 10, ((Packet00Login) packet).getUsername(), address, port, Game.getShirtCol(), Game.getFaceCol());
 				this.addConnection(player, (Packet00Login) packet);
 				break;
 			case DISCONNECT:
 				packet = new Packet01Disconnect(data);
-				print.print("[" + address.getHostAddress() + ":" + port
-						+ "] " + ((Packet01Disconnect) packet).getUsername()
-						+ " has disconnected...", PrintTypes.SERVER);
+				print.print("[" + address.getHostAddress() + ":" + port + "] " + ((Packet01Disconnect) packet).getUsername() + " has disconnected...", PrintTypes.SERVER);
 				this.removeConnection((Packet01Disconnect) packet);
 				break;
 			case MOVE:
@@ -103,8 +98,8 @@ public class GameServer extends Thread {
 		boolean alreadyConnected = false;
 		for (PlayerMP p : this.connectedPlayers) {
 			if (player.getUsername().equalsIgnoreCase(p.getUsername())) {
-				if (p.ipAddess == null) {
-					p.ipAddess = player.ipAddess;
+				if (p.ipAddress == null) {
+					p.ipAddress = player.ipAddress;
 				}
 
 				if (p.port == -1) {
@@ -113,10 +108,10 @@ public class GameServer extends Thread {
 
 				alreadyConnected = true;
 			} else {
-				sendData(packet.getData(), p.ipAddess, p.port);
+				sendData(packet.getData(), p.ipAddress, p.port);
 
 				packet = new Packet00Login(p.getUsername(), (int) p.getX(), (int) p.getY());
-				sendData(packet.getData(), player.ipAddess, player.port);
+				sendData(packet.getData(), player.ipAddress, player.port);
 			}
 		}
 		if (!alreadyConnected) {
@@ -151,8 +146,7 @@ public class GameServer extends Thread {
 	}
 
 	public void sendData(byte[] data, InetAddress ipAddress, int port) {
-		DatagramPacket packet = new DatagramPacket(data, data.length,
-				ipAddress, port);
+		DatagramPacket packet = new DatagramPacket(data, data.length, ipAddress, port);
 		try {
 			this.socket.send(packet);
 		} catch (IOException e) {
@@ -162,7 +156,7 @@ public class GameServer extends Thread {
 
 	public void sendDataToAllClients(byte[] data) {
 		for (PlayerMP p : connectedPlayers) {
-			sendData(data, p.ipAddess, p.port);
+			sendData(data, p.ipAddress, p.port);
 		}
 	}
 

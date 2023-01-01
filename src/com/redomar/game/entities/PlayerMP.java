@@ -5,22 +5,21 @@ import com.redomar.game.level.LevelHandler;
 
 import java.net.InetAddress;
 
+@Deprecated
 public class PlayerMP extends Player {
 
-	public InetAddress ipAddess;
+	public InetAddress ipAddress;
 	public int port;
 
-	public PlayerMP(LevelHandler level, int x, int y, InputHandler input,
-					String userName, InetAddress ipAddress, int port, int shirtCol, int faceCol) {
+	public PlayerMP(LevelHandler level, int x, int y, InputHandler input, String userName, InetAddress ipAddress, int port, int shirtCol, int faceCol) {
 		super(level, x, y, input, userName, shirtCol, faceCol);
-		this.ipAddess = ipAddress;
+		this.ipAddress = ipAddress;
 		this.port = port;
 	}
 
-	public PlayerMP(LevelHandler level, int x, int y, String userName,
-					InetAddress ipAddress, int port, int shirtCol, int faceCol) {
+	public PlayerMP(LevelHandler level, int x, int y, String userName, InetAddress ipAddress, int port, int shirtCol, int faceCol) {
 		super(level, x, y, null, userName, shirtCol, faceCol);
-		this.ipAddess = ipAddress;
+		this.ipAddress = ipAddress;
 		this.port = port;
 	}
 

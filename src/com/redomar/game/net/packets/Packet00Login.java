@@ -3,13 +3,15 @@ package com.redomar.game.net.packets;
 import com.redomar.game.net.GameClient;
 import com.redomar.game.net.GameServer;
 
+@Deprecated
 public class Packet00Login extends Packet {
 
-	private String username;
-	private int x, y;
+	private final String username;
+	private final int x;
+	private final int y;
 
 	public Packet00Login(byte[] data) {
-		super(00);
+		super(0x00);
 		String[] dataArray = readData(data).split(",");
 		this.username = dataArray[0];
 		this.x = Integer.parseInt(dataArray[1]);
@@ -17,7 +19,7 @@ public class Packet00Login extends Packet {
 	}
 
 	public Packet00Login(String username, int x, int y) {
-		super(00);
+		super(0x00);
 		this.username = username;
 		this.x = x;
 		this.y = y;

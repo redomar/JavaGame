@@ -13,21 +13,20 @@ import com.redomar.game.script.Printing;
 import java.io.IOException;
 import java.net.*;
 
+@Deprecated
 public class GameClient extends Thread {
 
+	private final Printing print = new Printing();
 	private InetAddress ipAddress;
 	private DatagramSocket socket;
 	private Game game;
-	private Printing print = new Printing();
 
 	public GameClient(Game game, String ipAddress) {
 		this.setGame(game);
 		try {
 			this.socket = new DatagramSocket();
 			this.ipAddress = InetAddress.getByName(ipAddress);
-		} catch (SocketException e) {
-			e.printStackTrace();
-		} catch (UnknownHostException e) {
+		} catch (SocketException | UnknownHostException e) {
 			e.printStackTrace();
 		}
 	}
@@ -40,17 +39,17 @@ public class GameClient extends Thread {
 				socket.receive(packet);
 			} catch (IOException e) {
 				e.printStackTrace();
+				break;
 			}
-			this.parsePacket(packet.getData(), packet.getAddress(),
-					packet.getPort());
-			// System.out.println("SERVER > "+new String(packet.getData()));
+			this.parsePacket(packet.getData(), packet.getAddress(), packet.getPort());
+			System.out.println("SERVER > " + new String(packet.getData()));
 		}
 	}
 
 	private void parsePacket(byte[] data, InetAddress address, int port) {
 		String message = new String(data).trim();
 		PacketTypes type = Packet.lookupPacket(message.substring(0, 2));
-		Packet packet = null;
+		Packet packet;
 		switch (type) {
 			default:
 			case INVALID:
@@ -61,11 +60,8 @@ public class GameClient extends Thread {
 				break;
 			case DISCONNECT:
 				packet = new Packet01Disconnect(data);
-				print.print("[" + address.getHostAddress() + ":" + port
-						+ "] " + ((Packet01Disconnect) packet).getUsername()
-						+ " has disconnected...", PrintTypes.NETWORK);
-				Game.getLevel().removeEntity(
-						((Packet01Disconnect) packet).getUsername());
+				print.print("[" + address.getHostAddress() + ":" + port + "] " + ((Packet01Disconnect) packet).getUsername() + " has disconnected...", PrintTypes.NETWORK);
+				Game.getLevel().removeEntity(((Packet01Disconnect) packet).getUsername());
 				break;
 			case MOVE:
 				packet = new Packet02Move(data);
@@ -75,22 +71,17 @@ public class GameClient extends Thread {
 	}
 
 	private void handleLogin(Packet00Login packet, InetAddress address, int port) {
-		print.print("[" + address.getHostAddress() + ":" + port + "] "
-				+ packet.getUsername() + " has joined...", PrintTypes.NETWORK);
-		PlayerMP player = new PlayerMP(Game.getLevel(), packet.getX(),
-				packet.getY(), packet.getUsername(), address, port, Game.getShirtCol(), Game.getFaceCol());
+		print.print("[" + address.getHostAddress() + ":" + port + "] " + packet.getUsername() + " has joined...", PrintTypes.NETWORK);
+		PlayerMP player = new PlayerMP(Game.getLevel(), packet.getX(), packet.getY(), packet.getUsername(), address, port, Game.getShirtCol(), Game.getFaceCol());
 		Game.getLevel().addEntity(player);
 	}
 
 	private void handleMove(Packet02Move packet) {
-		Game.getLevel().movePlayer(packet.getUsername(), packet.getX(),
-				packet.getY(), packet.getNumSteps(), packet.isMoving(),
-				packet.getMovingDir());
+		Game.getLevel().movePlayer(packet.getUsername(), packet.getX(), packet.getY(), packet.getNumSteps(), packet.isMoving(), packet.getMovingDir());
 	}
 
 	public void sendData(byte[] data) {
-		DatagramPacket packet = new DatagramPacket(data, data.length,
-				ipAddress, 1331);
+		DatagramPacket packet = new DatagramPacket(data, data.length, ipAddress, 1331);
 		try {
 			socket.send(packet);
 		} catch (IOException e) {
