@@ -23,7 +23,7 @@ import java.awt.image.DataBufferInt;
 
 /*
  * This module forms the core architecture of the JavaGame. It coordinates the various
- * audio and input handler components, generates the frame, renders the screen graphics, spawns 
+ * audio and input handler components, generates the frame, renders the screen graphics, spawns
  * NPCs and customizes the player. Game is also responsible for changing the maps and levels, as well
  * as displaying various messages on the screen (e.g. fps)
  */
@@ -37,7 +37,7 @@ public class Game extends Canvas implements Runnable {
 	private static final int SCALE = 3;
 	private static final String NAME = "Game";                         // The name of the JFrame panel
 	private static Game game;
-	private static Time time = new Time();                             // Represents the calender's time value, in hh:mm:ss
+	private static Time time = new Time();                             // Represents the calendar's time value, in hh:mm:ss
 
 	// The properties of the player, npc, and fps/tps
 	private static int Jdata_Host;                                     // The host of a multiplayer game (only available in earlier versions)
@@ -62,30 +62,25 @@ public class Game extends Canvas implements Runnable {
 	private static InputHandler input;                                 // Accepts keyboard input and follows the appropriate actions
 	private static MouseHandler mouse;                                 // Tracks mouse movement and clicks, and follows the appropriate actions
 	private static InputContext context;                               // Provides methods to control text input facilities
-	private int tickCount = 0;
 
 	// Graphics
-	private BufferedImage image = new BufferedImage(WIDTH, HEIGHT,
-		BufferedImage.TYPE_INT_RGB);
-	private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer())      // Array of red, green and blue values for each pixel
-		.getData();
-	private int[] colours = new int[6 * 6 * 6];                                     // Array of 216 unique colours (6 shades of red, 6 of green, and 6 of blue)
-	private BufferedImage image2 = new BufferedImage(WIDTH, HEIGHT - 30,
-		BufferedImage.TYPE_INT_RGB);
+	private final BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+	private final int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData(); // Array of red, green and blue values for each pixel
+	private final int[] colours = new int[6 * 6 * 6];                   // Array of 216 unique colours (6 shades of red, 6 of green, and 6 of blue)
+	private final BufferedImage image2 = new BufferedImage(WIDTH, HEIGHT - 30, BufferedImage.TYPE_INT_RGB);
+	private final Font font = new Font();                               // Font object capable of displaying 2 fonts: Arial and Segoe UI
+	private final Printing print = new Printing();
+	private int tickCount = 0;
 	private Screen screen;
 	private WindowHandler window;
-	private LevelHandler level;                                        // Loads and renders levels along with tiles, entities, projectiles and more.
+	private LevelHandler level;                                         // Loads and renders levels along with tiles, entities, projectiles and more.
 
 	//The entities of the game
 	private Player player;
-	private Dummy dummy;                            // Dummy NPC follows the player around
-	private Vendor vendor;                          // Vendor NPC exhibits random movement and is only found on cutom_level
-	private Spruce spruce;							// Tree -- Spruce
-	private Font font = new Font();                 // Font object capable of displaying 2 fonts: Arial and Segoe UI
+	private Dummy dummy;                                                // Dummy NPC follows the player around
+	private Vendor vendor;                                              // Vendor NPC exhibits random movement and is only found on custom_level
+	private Spruce spruce;                                              // Tree -- Spruce
 	private String nowPlaying;
-	private boolean notActive = true;
-	private int trigger = 0;
-	private Printing print = new Printing();
 
 	/**
 	 * @author Redomar
@@ -99,13 +94,13 @@ public class Game extends Canvas implements Runnable {
 		setMaximumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
 		setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
 
-		setFrame(new JFrame(NAME));                                             // Creates the frame with a defined name
-		getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);              // Exits the program when user closes the frame
+		setFrame(new JFrame(NAME));                                     // Creates the frame with a defined name
+		getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);      // Exits the program when user closes the frame
 		getFrame().setLayout(new BorderLayout());
-		getFrame().add(this, BorderLayout.CENTER);                       // Centers the canvas inside the JFrame
-		getFrame().pack();                                                      // Sizes the frame so that all its contents are at or above their preferred sizes
+		getFrame().add(this, BorderLayout.CENTER);                // Centers the canvas inside the JFrame
+		getFrame().pack();                                              // Sizes the frame so that all its contents are at or above their preferred sizes
 		getFrame().setResizable(false);
-		getFrame().setLocationRelativeTo(null);                                 // Centres the window on the screen
+		getFrame().setLocationRelativeTo(null);                         // Centres the window on the screen
 		getFrame().setVisible(true);
 
 		requestFocus();
@@ -114,22 +109,22 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	/**
-	 * This method will spawn a dummy NPC into the level only if they are allowed to be spawned in. 
+	 * This method will spawn a dummy NPC into the level only if they are allowed to be spawned in.
 	 * They will be spawned at position (100, 150)  with a red shirt and caucasian face.
 	 */
 	public static void npcSpawn() {
-		if (isNpc() == true) {        // If NPCs are allowed in the level
+		if (isNpc()) {        // If NPCs are allowed in the level
 			game.setDummy(new Dummy(game.level, "Dummy", 100, 150, 500,        // Create a new dummy NPC on the current game level, with name 'Dummy'
-				543));                                                        // at position (100, 150), with a red shirt and caucasian ethnicity
+					543));                                                        // at position (100, 150), with a red shirt and caucasian ethnicity
 			game.level.addEntity(Game.getDummy());
 		}
 	}
 
 	/**
-	 * This method will remove a dummy NPC from the level only if they are not allowed to be in it. 
+	 * This method will remove a dummy NPC from the level only if they are not allowed to be in it.
 	 */
 	public static void npcKill() {
-		if (isNpc() == false) {        // If NPCs are not allowed in the level
+		if (!isNpc()) {        // If NPCs are not allowed in the level
 			game.level.removeEntity(Game.getDummy());
 		}
 	}
@@ -196,9 +191,8 @@ public class Game extends Canvas implements Runnable {
 
 	/**
 	 * Sets the level to the map [.png] provided. Starts at x100 y100.
-	 * @param Map_str
 	 *
-	 * Also sets predefined character colours.
+	 * @param Map_str Also sets predefined character colours.
 	 */
 	public void setMap(String Map_str) {
 		setLevel(new LevelHandler(Map_str));
@@ -214,10 +208,9 @@ public class Game extends Canvas implements Runnable {
 		if (!alternateCols[1]) {                        // If the last element (face colour) is set to False
 			Game.setFaceCol(543);                // The player will be caucasian
 		}
-		setPlayer(new Player(level, 100, 100, input,
-			getJdata_UserName(), shirtCol, faceCol));
+		setPlayer(new Player(level, 100, 100, input, getJdata_UserName(), shirtCol, faceCol));
 		level.addEntity(player);
-		spruce = new Spruce(level, 70,170, 2 );
+		spruce = new Spruce(level, 70, 170, 2);
 		level.addEntity(spruce);
 	}
 
@@ -344,9 +337,9 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	/*
-	* This method initializes the game once it starts. It populates the colour array with actual colours (6 shades each of RGB).
-	* This method also builds the initial game level (custom_level), spawns a new vendor NPC, and begins accepting keyboard and mouse input/tracking. 
-	*/
+	 * This method initializes the game once it starts. It populates the colour array with actual colours (6 shades each of RGB).
+	 * This method also builds the initial game level (custom_level), spawns a new vendor NPC, and begins accepting keyboard and mouse input/tracking.
+	 */
 	public void init() {
 		setGame(this);
 		int index = 0;
@@ -365,9 +358,9 @@ public class Game extends Canvas implements Runnable {
 		input = new InputHandler(this);                                         // Input begins to record key presses
 		setMouse(new MouseHandler(this));                                       // Mouse tracking and clicking is now recorded
 		setWindow(new WindowHandler(this));
-		try{
+		try {
 			setMap("/levels/custom_level.png");
-		} catch (Exception e){
+		} catch (Exception e) {
 			System.err.println(e);
 		}
 		setMap(1);                                                                     // 1 corresponds to custom_level
@@ -377,24 +370,24 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	/**
-	* This method will start the game and allow the user to start playing
-	*/
+	 * This method will start the game and allow the user to start playing
+	 */
 	public synchronized void start() {
 		Game.setRunning(true);                // Game will run
 		new Thread(this, "GAME").start();        // Thread is an instance of Runnable. Whenever it is started, it will run the run() method
 	}
 
 	/**
-	* This method will stop the game
-	*/
+	 * This method will stop the game
+	 */
 	public synchronized void stop() {
 		Game.setRunning(false);                // Game will not run
 	}
 
 	/**
-	* This method forms the game loop, determining how the game runs. It runs throughout the entire game, 
-	* continuously updating the game state and rendering the game.  
-	*/
+	 * This method forms the game loop, determining how the game runs. It runs throughout the entire game,
+	 * continuously updating the game state and rendering the game.
+	 */
 	public void run() {
 		long lastTime = System.nanoTime();
 		double nsPerTick = 1000000000D / 60D;                // The number of nanoseconds in one tick (number of ticks limited to 60 per update)
@@ -422,7 +415,8 @@ public class Game extends Canvas implements Runnable {
 
 			try {
 				Thread.sleep(2);                        // Delays the thread by 2 milliseconds - prevents the loop from using too much CPU
-			} catch (InterruptedException e) {                // If the current thread is interrupted, the interrupted status is cleared
+			} catch (
+					InterruptedException e) {                // If the current thread is interrupted, the interrupted status is cleared
 				e.printStackTrace();
 			}
 
@@ -433,10 +427,7 @@ public class Game extends Canvas implements Runnable {
 
 			if (System.currentTimeMillis() - lastTimer >= 1000) {                     // If elapsed time is greater than or equal to 1 second, update
 				lastTimer += 1000;                                                // Updates in another second
-				getFrame().setTitle(
-					"JavaGame - Version "
-						+ WordUtils.capitalize(game_Version).substring(
-						1, game_Version.length()));
+				getFrame().setTitle("JavaGame - Version " + WordUtils.capitalize(game_Version).substring(1, game_Version.length()));
 				fps = frames;
 				tps = ticks;
 				frames = 0;                                                       // Reset the frames once per second
@@ -447,16 +438,16 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	/**
-	* This method updates the logic of the game.  
-	*/
+	 * This method updates the logic of the game.
+	 */
 	public void tick() {
 		setTickCount(getTickCount() + 1);
 		level.tick();
 	}
 
 	/**
-	* This method displays the current state of the game. 
-	*/
+	 * This method displays the current state of the game.
+	 */
 	public void render() {
 		BufferStrategy bs = getBufferStrategy();
 		if (bs == null) {
@@ -490,12 +481,12 @@ public class Game extends Canvas implements Runnable {
 			}
 		}
 
-		if (isChangeLevel() == true && getTickCount() % 60 == 0) {
+		if (isChangeLevel() && getTickCount() % 60 == 0) {
 			Game.setChangeLevel(true);
 			setChangeLevel(false);
 		}
 
-		if (changeLevel == true) {                                                      // If the player is teleporting to a different level
+		if (changeLevel) {                                                      // If the player is teleporting to a different level
 			print.print("Teleported into new world", PrintTypes.GAME);
 			if (getMap() == 1) {                                                    // If the player is currently on custom_level
 				setMap("/levels/water_level.png");
@@ -524,19 +515,15 @@ public class Game extends Canvas implements Runnable {
 		g.drawImage(image2, 0, getHeight() - 30, getWidth(), getHeight(), null);
 		g.setColor(Color.WHITE);
 		g.setFont(font.getSegoe());
-		g.drawString(
-			"Welcome "
-				+ WordUtils.capitalizeFully(player
-				.getSanitisedUsername()), 3, getHeight() - 17);
+		g.drawString("Welcome " + WordUtils.capitalizeFully(player.getSanitisedUsername()), 3, getHeight() - 17);
 		g.setColor(Color.ORANGE);
 
 		if (context.getLocale().getCountry().equals("BE")                                       // If the player resides in Belgium or France (i.e. uses AZERTY keyboard)
-			|| context.getLocale().getCountry().equals("FR")) {                             // Displays "Press A to quit" in orange at the bottom-middle portion of the screen
-			g.drawString("Press A to quit", (getWidth() / 2)
-				- ("Press A to quit".length() * 3), getHeight() - 17);
+				|| context.getLocale().getCountry().equals("FR")) {                             // Displays "Press A to quit" in orange at the bottom-middle portion of the screen
+			g.drawString("Press A to quit", (getWidth() / 2) - ("Press A to quit".length() * 3), getHeight() - 17);
 		} else {                                                                                // If the player resides anywhere else (i.e. uses QWERTY keyboard)
 			g.drawString("Press Q to quit", (getWidth() / 2)                        // Displays "Press Q to quit" in orange at the bottom-middle portion of the screen
-				- ("Press Q to quit".length() * 3), getHeight() - 17);
+					- ("Press Q to quit".length() * 3), getHeight() - 17);
 		}
 		g.setColor(Color.YELLOW);
 		g.drawString(time.getTime(), (getWidth() - 58), (getHeight() - 3));                     // Displays the current time in yellow in the bottom right corner of the screen (hh:mm:ss)
@@ -549,9 +536,9 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	/*
-	* This method displays information regarding various aspects/stats of the game, dependent upon
-	* whether it is running in developer mode, or if the application is closing.
-	*/
+	 * This method displays information regarding various aspects/stats of the game, dependent upon
+	 * whether it is running in developer mode, or if the application is closing.
+	 */
 	private void status(Graphics g, boolean TerminalMode, boolean TerminalQuit) {
 		if (TerminalMode) {                                                             // If running in developer mode
 			g.setColor(Color.CYAN);
@@ -561,11 +548,10 @@ public class Game extends Canvas implements Runnable {
 				steps += 1;
 			}
 			g.drawString("Foot Steps: " + steps, 0, 40);                         // Display the number of "Foot Steps" (in cyan, above the previous)
-			g.drawString(
-				"NPC: " + WordUtils.capitalize(String.valueOf(isNpc())), 0,     // Displays whether the NPC is on the level (in cyan, above the previous)
-				55);
+			g.drawString("NPC: " + WordUtils.capitalize(String.valueOf(isNpc())), 0,     // Displays whether the NPC is on the level (in cyan, above the previous)
+					55);
 			g.drawString("Mouse: " + getMouse().getX() + "x |"                         // Displays the position of the cursor (in cyan, above the previous)
-				+ getMouse().getY() + "y", 0, 70);
+					+ getMouse().getY() + "y", 0, 70);
 			if (getMouse().getButton() != -1)                                              // If a mouse button is pressed
 				g.drawString("Button: " + getMouse().getButton(), 0, 85);   // Displays the mouse button that is pressed (in cyan, above the previous)
 			g.setColor(Color.CYAN);
@@ -579,7 +565,7 @@ public class Game extends Canvas implements Runnable {
 		g.fillRect(0, 0, getWidth(), getHeight());                               // Make the screen fully black
 		g.setColor(Color.RED);
 		g.drawString("Shutting down the Game", (getWidth() / 2) - 70,           // Display "Shutting down the Game" in red in the middle of the screen
-			(getHeight() / 2) - 8);
+				(getHeight() / 2) - 8);
 		g.dispose();                                                                    // Free up memory for graphics
 	}
 
