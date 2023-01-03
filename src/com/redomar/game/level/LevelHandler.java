@@ -8,7 +8,7 @@ import com.redomar.game.level.tiles.Tile;
 import com.redomar.game.lib.utils.Vector2i;
 import com.redomar.game.scenes.Scene;
 import com.redomar.game.script.PrintTypes;
-import com.redomar.game.script.Printing;
+import com.redomar.game.script.Printer;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -29,7 +29,7 @@ public class LevelHandler {
 	private List<Entity> entities_p;
 	private String imagePath;
 	private BufferedImage image;
-	private Printing print;
+	private Printer print;
 
 	private Comparator<Node> nodeSorter;
 
@@ -45,7 +45,7 @@ public class LevelHandler {
 			this.generateLevel();
 		}
 
-		print = new Printing();
+		print = new Printer();
 		entities = new ArrayList<Entity>();
 		entities_p = new ArrayList<Entity>();
 		nodeSorter = new Comparator<Node>() {

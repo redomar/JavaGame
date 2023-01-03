@@ -12,18 +12,18 @@ import static org.junit.Assert.*;
  * Created by Mohamed on 28/08/2016.
  * This file tests the com.redomar.game.script.Printing class
  */
-public class PrintingTest {
+public class PrinterTest {
 
-	private Printing printing;
+	private Printer printer;
 
 	@Before
 	public void setUp() {
-		printing = new Printing();
+		printer = new Printer();
 	}
 
 	@Test
 	public void printToFileWorks() {
-		printing.print("TESTING STRING", PrintTypes.TEST);
+		printer.print("TESTING STRING", PrintTypes.TEST);
 		File file = new File(".PrintType-TEST.txt");
 		assertTrue(file.exists());
 		assertTrue(file.delete());
@@ -31,18 +31,18 @@ public class PrintingTest {
 
 	@Test
 	public void getMessageIsNull() {
-		assertNull(printing.getMessage());
+		assertNull(printer.getMessage());
 	}
 
 	@Test
 	public void messageShouldBeNullAfterPrinting() {
-		printing.print("Not Null", PrintTypes.TEST);
-		assertNotNull(printing.getMessage());
+		printer.print("Not Null", PrintTypes.TEST);
+		assertNotNull(printer.getMessage());
 	}
 
 	@After
 	public void cleanUp() {
-		printing = null;
+		printer = null;
 	}
 
 }

@@ -10,13 +10,15 @@ import com.redomar.game.gfx.Colours;
 import com.redomar.game.gfx.Screen;
 import com.redomar.game.level.LevelHandler;
 import com.redomar.game.lib.Font;
-import com.redomar.game.lib.Name;
+import com.redomar.game.lib.HashGen;
 import com.redomar.game.objects.Inventory;
+
+import java.util.Objects;
 
 public class Player extends Mob {
 
+	private static final String PLAYER_ID = new HashGen(false, 3).getHash();
 	private static final int[] COLLISION_BORDERS = {-2, 8, 0, 7};
-	private static final String guestPlayerName = new Name().setName("Player ");
 	private static final double speed = 1;
 	private final InputHandler inputHandler;
 	private final int shirtColour;
@@ -24,16 +26,13 @@ public class Player extends Mob {
 	private int colour;
 	private int tickCount = 0;
 	private Swim swim;
-	private String userName;
 	private boolean[] swimType;
 	private int fireRate;
-	// "Cache" the division for the username length, no need for 60 divisions per second here.
-	private int nameOffset = 0;
 
-	public Player(LevelHandler level, int x, int y, InputHandler inputHandler, String userName, int shirtColour, int faceColour) {
+	public Player(LevelHandler level, int x, int y, InputHandler inputHandler, String name, int shirtColour, int faceColour) {
 		super(level, "Player", x, y, speed, COLLISION_BORDERS);
 		this.inputHandler = inputHandler;
-		this.userName = userName;
+		this.name = !Objects.equals(name, "") ? name : String.format("Player %s", PLAYER_ID);
 		this.faceColour = faceColour;
 		this.shirtColour = shirtColour;
 		this.colour = Colours.get(-1, 111, shirtColour, faceColour);
@@ -45,16 +44,16 @@ public class Player extends Mob {
 		double ya = 0;
 
 		if (inputHandler != null) {
-			if (inputHandler.getUP_KEY().isPressed() && !inputHandler.isIgnoreInput()) {
+			if (inputHandler.getUP_KEY().isPressed()) {
 				ya -= speed;
 			}
-			if (inputHandler.getDOWN_KEY().isPressed() && !inputHandler.isIgnoreInput()) {
+			if (inputHandler.getDOWN_KEY().isPressed()) {
 				ya += speed;
 			}
-			if (inputHandler.getLEFT_KEY().isPressed() && !inputHandler.isIgnoreInput()) {
+			if (inputHandler.getLEFT_KEY().isPressed()) {
 				xa -= speed;
 			}
-			if (inputHandler.getRIGHT_KEY().isPressed() && !inputHandler.isIgnoreInput()) {
+			if (inputHandler.getRIGHT_KEY().isPressed()) {
 				xa += speed;
 			}
 		}
@@ -168,45 +167,29 @@ public class Player extends Mob {
 			colour = Colours.get(-1, 111, shirtColour, faceColour);
 		}
 
-		if (userName != null) {
+		if (name != null) {
 			/*
-			 * Improved userName centering above player's sprite.
+			 * Improved name centering above player's sprite.
 			 * Using player's own x value cast to int with an adjusted formula
 			 * -posmicanomaly
 			 */
 
-			Font.render(userName, screen, (int) x - nameOffset, yOffset - 10, Colours.get(-1, -1, -1, 111), 1);
+			int fontCharSize = 8;
+			int offsetUnit = ((name.length() & 1) == 0 ? fontCharSize / 2 : 0);
+			int nameOffset = (name.length() / 2) * fontCharSize - offsetUnit;
+			Font.render(name, screen, (int) x - nameOffset, yOffset - 10, Colours.get(-1, -1, -1, 111), 1);
 
 		}
 	}
 
+	@Deprecated
 	public String getUsername() {
-		if (this.userName.isEmpty()) {
-			return guestPlayerName;
-		}
-		return this.userName;
+		return this.name;
 	}
 
-	public void setUsername(String name) {
-		this.userName = name;
-	}
-
+	@Deprecated
 	public String getSanitisedUsername() {
-		// Need to add a class for constants
-		int fontCharSize = 8;
-		if (this.getUsername() == null || this.userName.isEmpty()) {
-			setUsername(guestPlayerName);
-
-			// Perfectly matches the text over the head
-			int offsetUnit = ((userName.length() & 1) == 0 ? fontCharSize / 2 : 0);
-			nameOffset = (userName.length() / 2) * fontCharSize - offsetUnit;
-
-			return guestPlayerName;
-		} else if (nameOffset == 0) {
-			int offsetUnit = ((userName.length() & 1) == 0 ? fontCharSize / 2 : 0);
-			nameOffset = (userName.length() / 2) * fontCharSize - offsetUnit;
-		}
-		return this.getUsername();
+		return this.name;
 	}
 
 }

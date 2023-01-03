@@ -23,6 +23,7 @@ sourceSets{
 dependencies{
     implementation 'org.apache.commons:commons-text:+'
     implementation 'org.apache.commons:commons-lang3:3.+'
+    implementation 'org.jetbrains:annotations:23.0.0'
     testImplementation 'junit:junit:4.13'
     implementation files('res/jars/JSplashScreen.jar')
 }

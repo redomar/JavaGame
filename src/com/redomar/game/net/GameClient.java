@@ -8,7 +8,7 @@ import com.redomar.game.net.packets.Packet00Login;
 import com.redomar.game.net.packets.Packet01Disconnect;
 import com.redomar.game.net.packets.Packet02Move;
 import com.redomar.game.script.PrintTypes;
-import com.redomar.game.script.Printing;
+import com.redomar.game.script.Printer;
 
 import java.io.IOException;
 import java.net.*;
@@ -16,7 +16,7 @@ import java.net.*;
 @Deprecated
 public class GameClient extends Thread {
 
-	private final Printing print = new Printing();
+	private final Printer print = new Printer();
 	private InetAddress ipAddress;
 	private DatagramSocket socket;
 	private Game game;

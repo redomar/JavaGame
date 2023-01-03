@@ -24,13 +24,11 @@ public class Inventory {
 								+ inside());
 						open = true;
 						Game.getPlayer().setMoving(false);
-						Game.getInput().untoggle(true);
 						inv_window.start();
 					}
 				} else {
 					if (closing) {
 						Game.getPlayer().setMoving(true);
-						Game.getInput().untoggle(false);
 						inv_window.stop();
 						inv_window.getFrame().setVisible(false);
 						inv_window.getFrame().stopFrame();

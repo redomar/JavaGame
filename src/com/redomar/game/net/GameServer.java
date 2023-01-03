@@ -8,7 +8,7 @@ import com.redomar.game.net.packets.Packet00Login;
 import com.redomar.game.net.packets.Packet01Disconnect;
 import com.redomar.game.net.packets.Packet02Move;
 import com.redomar.game.script.PrintTypes;
-import com.redomar.game.script.Printing;
+import com.redomar.game.script.Printer;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -22,7 +22,7 @@ import java.util.List;
 public class GameServer extends Thread {
 
 	private final List<PlayerMP> connectedPlayers = new ArrayList<>();
-	private final Printing print = new Printing();
+	private final Printer print = new Printer();
 	private DatagramSocket socket;
 	private Game game;
 

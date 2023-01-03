@@ -2,12 +2,15 @@ package com.redomar.game.entities;
 
 import com.redomar.game.gfx.Screen;
 import com.redomar.game.level.LevelHandler;
+import com.redomar.game.script.PrintTypes;
+import com.redomar.game.script.Printer;
 
 public abstract class Entity {
 
 	protected double x, y;
 	protected String name;
 	protected LevelHandler level;
+	protected Printer entityPrinter = new Printer(PrintTypes.ENTITY);
 
 	public Entity(LevelHandler level) {
 		init(level);

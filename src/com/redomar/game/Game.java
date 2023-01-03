@@ -11,7 +11,7 @@ import com.redomar.game.level.LevelHandler;
 import com.redomar.game.lib.Font;
 import com.redomar.game.lib.Time;
 import com.redomar.game.script.PrintTypes;
-import com.redomar.game.script.Printing;
+import com.redomar.game.script.Printer;
 import org.apache.commons.text.WordUtils;
 
 import javax.swing.*;
@@ -35,33 +35,31 @@ public class Game extends Canvas implements Runnable {
 	private static final int WIDTH = 160;
 	private static final int HEIGHT = (WIDTH / 3 * 2);
 	private static final int SCALE = 3;
-	private static final String NAME = "Game";                         // The name of the JFrame panel
+	private static final String NAME = "Game";                          // The name of the JFrame panel
+	private static final Time time = new Time();                        // Represents the calendar's time value, in hh:mm:ss
+	private static final boolean[] alternateCols = new boolean[2];      // Boolean array describing shirt and face colour
+
 	private static Game game;
-	private static Time time = new Time();                             // Represents the calendar's time value, in hh:mm:ss
 
 	// The properties of the player, npc, and fps/tps
-	private static int Jdata_Host;                                     // The host of a multiplayer game (only available in earlier versions)
-	private static String Jdata_UserName = "";
-	private static String Jdata_IP = "127.0.0.1";
-	private static boolean changeLevel = false;                        // Determines whether the player teleports to another level
-	private static boolean npc = false;                                // Non-player character (NPC) initialized to non-existing
-	private static int map = 0;                                        // Map of the level, initialized to map default map
-	private static int shirtCol;                                       // The colour of the character's shirt
-	private static int faceCol;                                        // The colour (ethnicity) of the character (their face)
-	private static boolean[] alternateCols = new boolean[2];           // Boolean array describing shirt and face colour
-	private static int fps;                                            // The frame rate (frames per second), frequency at which images are displayed on the canvas
-	private static int tps;                                            // The ticks (ticks per second), unit measure of time for one iteration of the game logic loop.
+	private static boolean changeLevel = false;                         // Determines whether the player teleports to another level
+	private static boolean npc = false;                                 // Non-player character (NPC) initialized to non-existing
+	private static int map = 0;                                         // Map of the level, initialized to map default map
+	private static int shirtCol;                                        // The colour of the character's shirt
+	private static int faceCol;                                         // The colour (ethnicity) of the character (their face)
+	private static int fps;                                             // The frame rate (frames per second), frequency at which images are displayed on the canvas
+	private static int tps;                                             // The ticks (ticks per second), unit measure of time for one iteration of the game logic loop.
 	private static int steps;
-	private static boolean devMode;                                    // Determines whether the game is in developer mode
-	private static boolean closingMode;                                // Determines whether the game will exit
+	private static boolean devMode;                                     // Determines whether the game is in developer mode
+	private static boolean closingMode;                                 // Determines whether the game will exit
 
 	// Audio, input, and mouse handler objects
 	private static JFrame frame;
 	private static AudioHandler backgroundMusic;
-	private static boolean running = false;                            // Determines whether the game is currently in process
-	private static InputHandler input;                                 // Accepts keyboard input and follows the appropriate actions
-	private static MouseHandler mouse;                                 // Tracks mouse movement and clicks, and follows the appropriate actions
-	private static InputContext context;                               // Provides methods to control text input facilities
+	private static boolean running = false;                             // Determines whether the game is currently in process
+	private static InputHandler input;                                  // Accepts keyboard input and follows the appropriate actions
+	private static MouseHandler mouse;                                  // Tracks mouse movement and clicks, and follows the appropriate actions
+	private static InputContext context;                                // Provides methods to control text input facilities
 
 	// Graphics
 	private final BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
@@ -69,22 +67,18 @@ public class Game extends Canvas implements Runnable {
 	private final int[] colours = new int[6 * 6 * 6];                   // Array of 216 unique colours (6 shades of red, 6 of green, and 6 of blue)
 	private final BufferedImage image2 = new BufferedImage(WIDTH, HEIGHT - 30, BufferedImage.TYPE_INT_RGB);
 	private final Font font = new Font();                               // Font object capable of displaying 2 fonts: Arial and Segoe UI
-	private final Printing print = new Printing();
+	private final Printer printer = new Printer();
 	private int tickCount = 0;
 	private Screen screen;
-	private WindowHandler window;
 	private LevelHandler level;                                         // Loads and renders levels along with tiles, entities, projectiles and more.
 
 	//The entities of the game
 	private Player player;
 	private Dummy dummy;                                                // Dummy NPC follows the player around
 	private Vendor vendor;                                              // Vendor NPC exhibits random movement and is only found on custom_level
-	private Spruce spruce;                                              // Tree -- Spruce
-	private String nowPlaying;
 
 	/**
 	 * @author Redomar
-	 * @version Alpha 1.8.4
 	 */
 	public Game() {
 		context = InputContext.getInstance();
@@ -113,9 +107,10 @@ public class Game extends Canvas implements Runnable {
 	 * They will be spawned at position (100, 150)  with a red shirt and caucasian face.
 	 */
 	public static void npcSpawn() {
-		if (isNpc()) {        // If NPCs are allowed in the level
-			game.setDummy(new Dummy(game.level, "Dummy", 100, 150, 500,        // Create a new dummy NPC on the current game level, with name 'Dummy'
-					543));                                                        // at position (100, 150), with a red shirt and caucasian ethnicity
+		// If NPCs are allowed in the level
+		if (isNpc()) {
+			// Create a new dummy NPC to the current game level
+			game.setDummy(new Dummy(game.level, "Dummy", 100, 150, 500, 543));
 			game.level.addEntity(Game.getDummy());
 		}
 	}
@@ -153,13 +148,6 @@ public class Game extends Canvas implements Runnable {
 		this.level = level;
 	}
 
-	public static Time getTime() {
-		return Game.time;
-	}
-
-	public void setTime(Time time) {
-		Game.time = time;
-	}
 
 	public static Game getGame() {
 		return game;
@@ -196,21 +184,22 @@ public class Game extends Canvas implements Runnable {
 	 */
 	public void setMap(String Map_str) {
 		setLevel(new LevelHandler(Map_str));
-		if (alternateCols[0]) {                        // If the first element (shirt colour) is set to True
-			Game.setShirtCol(240);                // The player's shirt colour will be green
+		if (alternateCols[0]) {                                         // If the first element (shirt colour) is set to True
+			Game.setShirtCol(240);                                      // The player's shirt colour will be green
 		}
-		if (!alternateCols[0]) {                        // If the first element (shirt colour) is set to False
-			Game.setShirtCol(111);                // The player's shirt colour will be black
+		if (!alternateCols[0]) {                                        // If the first element (shirt colour) is set to False
+			Game.setShirtCol(111);                                      // The player's shirt colour will be black
 		}
-		if (alternateCols[1]) {                        // If the last element (face colour) is set to True
-			Game.setFaceCol(310);                // The player will be African
+		if (alternateCols[1]) {                                         // If the last element (face colour) is set to True
+			Game.setFaceCol(310);                                       // The player will be African
 		}
-		if (!alternateCols[1]) {                        // If the last element (face colour) is set to False
-			Game.setFaceCol(543);                // The player will be caucasian
+		if (!alternateCols[1]) {                                        // If the last element (face colour) is set to False
+			Game.setFaceCol(543);                                       // The player will be caucasian
 		}
-		setPlayer(new Player(level, 100, 100, input, getJdata_UserName(), shirtCol, faceCol));
+		setPlayer(new Player(level, 100, 100, input, "", shirtCol, faceCol));
 		level.addEntity(player);
-		spruce = new Spruce(level, 70, 170, 2);
+		// Tree -- Spruce
+		Spruce spruce = new Spruce(level, 70, 170, 2);
 		level.addEntity(spruce);
 	}
 
@@ -234,30 +223,6 @@ public class Game extends Canvas implements Runnable {
 		this.dummy = dummy;
 	}
 
-	public static String getJdata_IP() {
-		return Jdata_IP;
-	}
-
-	public static void setJdata_IP(String jdata_IP) {
-		Jdata_IP = jdata_IP;
-	}
-
-	public static int getJdata_Host() {
-		return Jdata_Host;
-	}
-
-	public static void setJdata_Host(int jdata_Host) {
-		Jdata_Host = jdata_Host;
-	}
-
-	public static String getJdata_UserName() {
-		return Jdata_UserName;
-	}
-
-	public static void setJdata_UserName(String jdata_UserName) {
-		Jdata_UserName = jdata_UserName;
-	}
-
 	public static String getGameVersion() {
 		return game_Version;
 	}
@@ -278,14 +243,6 @@ public class Game extends Canvas implements Runnable {
 		Game.faceCol = faceCol;
 	}
 
-	public static boolean[] getAlternateCols() {
-		return alternateCols;
-	}
-
-	public static void setAlternateCols(boolean[] alternateCols) {        // Boolean array should have a size of only two elements
-		Game.alternateCols = alternateCols;
-	}
-
 	// Sets ethnicity/face colour for the player
 	public static void setAlternateColsR(boolean alternateCols) {
 		Game.alternateCols[1] = alternateCols;
@@ -302,14 +259,6 @@ public class Game extends Canvas implements Runnable {
 
 	public static void setBackgroundMusic(AudioHandler backgroundMusic) {
 		Game.backgroundMusic = backgroundMusic;
-	}
-
-	public static InputHandler getInput() {
-		return input;
-	}
-
-	public void setInput(InputHandler input) {
-		Game.input = input;
 	}
 
 	public static MouseHandler getMouse() {
@@ -349,21 +298,21 @@ public class Game extends Canvas implements Runnable {
 					int rr = (r * 255 / 5);         // Split all 256 colours into 6 shades (0, 51, 102 ... 255)
 					int gg = (g * 255 / 5);
 					int bb = (b * 255 / 5);
-					colours[index++] = rr << 16 | gg << 8 | bb;        // All colour values (RGB) are placed into one 32-bit integer, populating the colour array
+					colours[index++] = rr << 16 | gg << 8 | bb;         // All colour values (RGB) are placed into one 32-bit integer, populating the colour array
 				}
 			}
 		}
 
 		screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/sprite_sheet.png"));
-		input = new InputHandler(this);                                         // Input begins to record key presses
-		setMouse(new MouseHandler(this));                                       // Mouse tracking and clicking is now recorded
-		setWindow(new WindowHandler(this));
+		input = new InputHandler(this);                           // Input begins to record key presses
+		setMouse(new MouseHandler(this));                         // Mouse tracking and clicking is now recorded
+//		setWindow(new WindowHandler(this));
 		try {
 			setMap("/levels/custom_level.png");
 		} catch (Exception e) {
-			System.err.println(e);
+			printer.print(e.toString(), PrintTypes.ERROR);
 		}
-		setMap(1);                                                                     // 1 corresponds to custom_level
+		setMap(1);                                                      // 1 corresponds to custom_level
 
 		game.setVendor(new Vendor(level, "Vendor", 215, 215, 304, 543));
 		level.addEntity(getVendor());
@@ -373,15 +322,16 @@ public class Game extends Canvas implements Runnable {
 	 * This method will start the game and allow the user to start playing
 	 */
 	public synchronized void start() {
-		Game.setRunning(true);                // Game will run
-		new Thread(this, "GAME").start();        // Thread is an instance of Runnable. Whenever it is started, it will run the run() method
+		Game.setRunning(true);                                          // Game will run
+		new Thread(this, "GAME").start();                  // Thread is an instance of Runnable. Whenever it is started, it will run the run() method
 	}
 
 	/**
 	 * This method will stop the game
 	 */
 	public synchronized void stop() {
-		Game.setRunning(false);                // Game will not run
+		Game.getBackgroundMusic().close();
+		Game.setRunning(false);                                         // Game will not run
 	}
 
 	/**
@@ -390,34 +340,27 @@ public class Game extends Canvas implements Runnable {
 	 */
 	public void run() {
 		long lastTime = System.nanoTime();
-		double nsPerTick = 1000000000D / 60D;                // The number of nanoseconds in one tick (number of ticks limited to 60 per update)
+		double nsPerTick = 1000000000D / 60D;                           // The number of nanoseconds in one tick (number of ticks limited to 60 per update)
 		// 1 billion nanoseconds in one second
 		int ticks = 0;
 		int frames = 0;
 
-		long lastTimer = System.currentTimeMillis();                // Used for updating ticks and frames once every second
+		long lastTimer = System.currentTimeMillis();                    // Used for updating ticks and frames once every second
 		double delta = 0;
 
-		init();                                                        // Initialize the game environment
+		init();                                                         // Initialize the game environment
 
 		while (Game.isRunning()) {
-			long now = System.nanoTime();                // Current time (now) compared to lastTime to calculate elapsed time
-			delta += (now - lastTime) / nsPerTick;                // Elapsed time in seconds multiplied by 60
+			long now = System.nanoTime();                               // Current time (now) compared to lastTime to calculate elapsed time
+			delta += (now - lastTime) / nsPerTick;                      // Elapsed time in seconds multiplied by 60
 			lastTime = now;
 			boolean shouldRender = false;
 
-			while (delta >= 1) {                                // Once 1/60 seconds or more have passed
+			while (delta >= 1) {                                        // Once 1/60 seconds or more have passed
 				ticks++;
-				tick();                                        // Tick updates
-				delta -= 1;                                // Delta becomes less than one again and the loop will close
-				shouldRender = true;                        // Limits the frames to 60 per second
-			}
-
-			try {
-				Thread.sleep(2);                        // Delays the thread by 2 milliseconds - prevents the loop from using too much CPU
-			} catch (
-					InterruptedException e) {                // If the current thread is interrupted, the interrupted status is cleared
-				e.printStackTrace();
+				tick();                                                 // Tick updates
+				delta -= 1;                                             // Delta becomes less than one again and the loop will close
+				shouldRender = true;                                    // Limits the frames to 60 per second
 			}
 
 			if (shouldRender) {
@@ -425,13 +368,13 @@ public class Game extends Canvas implements Runnable {
 				render();
 			}
 
-			if (System.currentTimeMillis() - lastTimer >= 1000) {                     // If elapsed time is greater than or equal to 1 second, update
-				lastTimer += 1000;                                                // Updates in another second
+			if (System.currentTimeMillis() - lastTimer >= 1000) {       // If elapsed time is greater than or equal to 1 second, update
+				lastTimer += 1000;                                      // Updates in another second
 				getFrame().setTitle("JavaGame - Version " + WordUtils.capitalize(game_Version).substring(1, game_Version.length()));
 				fps = frames;
 				tps = ticks;
-				frames = 0;                                                       // Reset the frames once per second
-				ticks = 0;                                                        // Reset the ticks once per second
+				frames = 0;                                             // Reset the frames once per second
+				ticks = 0;                                              // Reset the ticks once per second
 			}
 		}
 
@@ -451,32 +394,23 @@ public class Game extends Canvas implements Runnable {
 	public void render() {
 		BufferStrategy bs = getBufferStrategy();
 		if (bs == null) {
-			createBufferStrategy(3);                                        // Creates a new bs with triple buffering, which reduces tearing and cross-image pixelation
+			createBufferStrategy(3);
 			return;
 		}
 
-		// Centres the player in the middle of the screen
+
 		int xOffset = (int) getPlayer().getX() - (screen.getWidth() / 2);
 		int yOffset = (int) getPlayer().getY() - (screen.getHeight() / 2);
 
 		level.renderTiles(screen, xOffset, yOffset);
-
-		/*
-		 * for (int x = 0; x < level.width; x++) { int colour = Colours.get(-1,
-		 * -1, -1, 000); if (x % 10 == 0 && x != 0) { colour = Colours.get(-1,
-		 * -1, -1, 500); } Font.render((x % 10) + "", screen, 0 + (x * 8), 0,
-		 * colour, 1); }
-		 */
-
 		level.renderEntities(screen);
 		level.renderProjectileEntities(screen);
 
-		// Copies pixel data from the screen into the game
 		for (int y = 0; y < screen.getHeight(); y++) {
 			for (int x = 0; x < screen.getWidth(); x++) {
 				int colourCode = screen.getPixels()[x + y * screen.getWidth()];
-				if (colourCode < 255) {                                                     // If it is a valid colour code
-					pixels[x + y * WIDTH] = colours[colourCode];                        // Sets the corresponding pixel from the screen to the game
+				if (colourCode < 255) {
+					pixels[x + y * WIDTH] = colours[colourCode];
 				}
 			}
 		}
@@ -486,52 +420,56 @@ public class Game extends Canvas implements Runnable {
 			setChangeLevel(false);
 		}
 
-		if (changeLevel) {                                                      // If the player is teleporting to a different level
-			print.print("Teleported into new world", PrintTypes.GAME);
-			if (getMap() == 1) {                                                    // If the player is currently on custom_level
+		if (changeLevel) {
+			printer.print("Teleported into new world", PrintTypes.GAME);
+			if (getMap() == 1) {
 				setMap("/levels/water_level.png");
-				if (getDummy() != null) { // Gave nullPointerException(); upon
-					// entering new world.
+				if (getDummy() != null) {
+
 					level.removeEntity(getDummy());
 					setNpc(false);
 				}
-				level.removeEntity(getVendor());                        // When teleporting away from custom_level, remove vendor NPC (always found on custom_level)
+				level.removeEntity(getVendor());
 				setMap(2);
-			} else if (getMap() == 2) {                                     // If the player is currently on water_level
+			} else if (getMap() == 2) {
 				setMap("/levels/custom_level.png");
 				level.removeEntity(getDummy());
 				setNpc(false);
-				level.addEntity(getVendor());                           // Add a vendor NPC - they are always found on custom_level
+				level.addEntity(getVendor());
 				setMap(1);
 			}
 			changeLevel = false;
 		}
 
 		Graphics g = bs.getDrawGraphics();
-		g.drawRect(0, 0, getWidth(), getHeight());                       // Creates a rectangle the same size as the screen
+		g.drawRect(0, 0, getWidth(), getHeight());
 		g.drawImage(image, 0, 0, getWidth(), getHeight() - 30, null);
 		status(g, isDevMode(), isClosing());
-		// Font.render("Hi", screen, 0, 0, Colours.get(-1, -1, -1, 555), 1);
 		g.drawImage(image2, 0, getHeight() - 30, getWidth(), getHeight(), null);
 		g.setColor(Color.WHITE);
 		g.setFont(font.getSegoe());
-		g.drawString("Welcome " + WordUtils.capitalizeFully(player.getSanitisedUsername()), 3, getHeight() - 17);
+		g.drawString("Welcome " + WordUtils.capitalize(player.getName()), 3, getHeight() - 17);
 		g.setColor(Color.ORANGE);
 
-		if (context.getLocale().getCountry().equals("BE")                                       // If the player resides in Belgium or France (i.e. uses AZERTY keyboard)
-				|| context.getLocale().getCountry().equals("FR")) {                             // Displays "Press A to quit" in orange at the bottom-middle portion of the screen
+		if (context.getLocale().getCountry().equals("BE") || context.getLocale().getCountry().equals("FR")) {
 			g.drawString("Press A to quit", (getWidth() / 2) - ("Press A to quit".length() * 3), getHeight() - 17);
-		} else {                                                                                // If the player resides anywhere else (i.e. uses QWERTY keyboard)
-			g.drawString("Press Q to quit", (getWidth() / 2)                        // Displays "Press Q to quit" in orange at the bottom-middle portion of the screen
-					- ("Press Q to quit".length() * 3), getHeight() - 17);
+		} else {
+			g.drawString("Press Q to quit", (getWidth() / 2) - ("Press Q to quit".length() * 3), getHeight() - 17);
 		}
+
 		g.setColor(Color.YELLOW);
-		g.drawString(time.getTime(), (getWidth() - 58), (getHeight() - 3));                     // Displays the current time in yellow in the bottom right corner of the screen (hh:mm:ss)
-		g.setColor(Color.GREEN);
-		if (backgroundMusic.getActive()) {                                                      // If music is turned on
-			g.drawString("MUSIC is ON ", 3, getHeight() - 3);                    // Displays "MUSIC IS ON" in green in the bottom left corner of the screen.
+		g.drawString(time.getTime(), (getWidth() - 63), (getHeight() - 3));
+		if (devMode) {
+			g.setColor(Color.CYAN);
+			g.drawString("Debug Mode Enabled", (getWidth() - 153), (getHeight() - 17));
 		}
-		g.dispose();                                                                            // Frees up memory and resources for graphics
+		g.setColor(Color.GREEN);
+
+		if (backgroundMusic.getActive()) {
+			g.drawString("MUSIC is ON ", 3, getHeight() - 3);
+		}
+
+		g.dispose();
 		bs.show();
 	}
 
@@ -540,20 +478,17 @@ public class Game extends Canvas implements Runnable {
 	 * whether it is running in developer mode, or if the application is closing.
 	 */
 	private void status(Graphics g, boolean TerminalMode, boolean TerminalQuit) {
-		if (TerminalMode) {                                                             // If running in developer mode
+		if (TerminalMode) {
 			g.setColor(Color.CYAN);
-			g.drawString("JavaGame Stats", 0, 10);                               // Display "JavaGame Stats" in cyan at the bottom left of the screen
-			g.drawString("FPS/TPS: " + fps + "/" + tps, 0, 25);                  // Display the FPS and TPS in cyan directly above "JavaGame Stats"
+			g.drawString("JavaGame Stats", 0, 10);
+			g.drawString("FPS/TPS: " + fps + "/" + tps, 0, 25);
 			if ((player.getNumSteps() & 15) == 15) {
 				steps += 1;
 			}
-			g.drawString("Foot Steps: " + steps, 0, 40);                         // Display the number of "Foot Steps" (in cyan, above the previous)
-			g.drawString("NPC: " + WordUtils.capitalize(String.valueOf(isNpc())), 0,     // Displays whether the NPC is on the level (in cyan, above the previous)
-					55);
-			g.drawString("Mouse: " + getMouse().getX() + "x |"                         // Displays the position of the cursor (in cyan, above the previous)
-					+ getMouse().getY() + "y", 0, 70);
-			if (getMouse().getButton() != -1)                                              // If a mouse button is pressed
-				g.drawString("Button: " + getMouse().getButton(), 0, 85);   // Displays the mouse button that is pressed (in cyan, above the previous)
+			g.drawString("Foot Steps: " + steps, 0, 40);
+			g.drawString("NPC: " + WordUtils.capitalize(String.valueOf(isNpc())), 0, 55);
+			g.drawString("Mouse: " + getMouse().getX() + "x |" + getMouse().getY() + "y", 0, 70);
+			if (getMouse().getButton() != -1) g.drawString("Button: " + getMouse().getButton(), 0, 85);
 			g.setColor(Color.CYAN);
 			g.fillRect(getMouse().getX() - 12, getMouse().getY() - 12, 24, 24);
 		}
@@ -562,27 +497,10 @@ public class Game extends Canvas implements Runnable {
 			return;
 		}
 		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, getWidth(), getHeight());                               // Make the screen fully black
+		g.fillRect(0, 0, getWidth(), getHeight());
 		g.setColor(Color.RED);
-		g.drawString("Shutting down the Game", (getWidth() / 2) - 70,           // Display "Shutting down the Game" in red in the middle of the screen
-				(getHeight() / 2) - 8);
-		g.dispose();                                                                    // Free up memory for graphics
-	}
-
-	public WindowHandler getWindow() {
-		return window;
-	}
-
-	public void setWindow(WindowHandler window) {
-		this.window = window;
-	}
-
-	public String getNowPlaying() {
-		return nowPlaying;
-	}
-
-	public void setNowPlaying(String nowPlaying) {
-		this.nowPlaying = nowPlaying;
+		g.drawString("Shutting down the Game", (getWidth() / 2) - 70, (getHeight() / 2) - 8);
+		g.dispose();
 	}
 
 	public int getTickCount() {

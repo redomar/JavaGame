@@ -3,9 +3,11 @@ package com.redomar.game.script;
 public enum PrintTypes {
 	GAME,
 	LEVEL,
+	ENTITY,
+	INPUT,
 	MUSIC,
-	ERROR,
-	TEST,
 	NETWORK,
-	SERVER
+	SERVER,
+	ERROR,
+	TEST
 }

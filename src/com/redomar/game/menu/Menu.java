@@ -5,7 +5,6 @@ import com.redomar.game.audio.AudioHandler;
 import com.redomar.game.lib.Font;
 import com.redomar.game.lib.Mouse;
 import com.thehowtotutorial.splashscreen.JSplash;
-import org.apache.commons.text.WordUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -45,12 +44,12 @@ public class Menu implements Runnable {
 			splash.splashOn();
 
 			// Background tasks
-			Game.setBackgroundMusic(new AudioHandler("/music/Towards The End.wav"));
+			Game.setBackgroundMusic(new AudioHandler("/music/Towards The End.wav", true));
 			Game.getBackgroundMusic().setVolume(VOLUME_IN_DB);
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			Game.setAlternateColsR(true);
 			Game.setAlternateColsS(true);
-			splash.setProgress(100, "Connecting as " + Game.getJdata_UserName());
+			splash.setProgress(100, "Starting Game...");
 			Thread.sleep(650);
 
 			// Frame Init
@@ -157,8 +156,7 @@ public class Menu implements Runnable {
 		g.fillRect(0, 0, WIDTH * 3, HEIGHT * 3);
 		g.setColor(new Color(0xFFFF9900));
 		g.setFont(font.getArial());
-		String name = (Game.getJdata_UserName().length() >= 1) ? WordUtils.capitalizeFully(Game.getJdata_UserName()) : "Player";
-		g.drawString("Welcome to JavaGame " + name, 35, 30);
+		g.drawString("Welcome to JavaGame", 35, 30);
 		g.drawLine(0, HEIGHT * 3, 0, 0);
 		g.drawLine(0, 0, (WIDTH * 3), 0);
 		g.drawLine((WIDTH * 3), 0, (WIDTH * 3), (HEIGHT * 3));

@@ -5,19 +5,29 @@ import com.redomar.game.lib.Time;
 import java.io.File;
 import java.util.Arrays;
 
-public class Printing {
+public class Printer {
 
 	private static int lineNumber = 0;
 	private final Time time = new Time();
 	private PrintTypes type;
 	private String message;
+	private boolean evalTypeAsException = false;
 
-	public Printing() {
+	public Printer() {
+		this.type = PrintTypes.GAME;
+	}
 
+	public Printer(PrintTypes type) {
+		this.type = type;
 	}
 
 	public void print(String message, PrintTypes type) {
 		this.type = type;
+		this.message = message;
+		printOut();
+	}
+
+	public void print(String message) {
 		this.message = message;
 		printOut();
 	}
@@ -45,8 +55,9 @@ public class Printing {
 
 		String formattedStringForConsole = String.format("%s%s %s%n", msgType, msgTime, message);
 
-		if (type.equals(PrintTypes.ERROR)) {
+		if (type.equals(PrintTypes.ERROR) || evalTypeAsException) {
 			System.err.printf(formattedStringForConsole);
+			evalTypeAsException = false;
 		} else {
 			System.out.printf(formattedStringForConsole);
 		}
@@ -66,5 +77,27 @@ public class Printing {
 
 	public String getMessage() {
 		return message;
+	}
+
+	/**
+	 * Error that keeps the current {@link PrintTypes PrintType } instead of using {@link PrintTypes PrintTypes.ERROR}
+	 *
+	 * @return Printer
+	 */
+	public Printer cast() {
+		this.evalTypeAsException = true;
+		return this;
+	}
+
+	/**
+	 * Print exception as message, cast to keep {@link PrintTypes PrintType }
+	 *
+	 * @param exceptionMessage message to print
+	 * @return Printer
+	 */
+	public Printer exception(String exceptionMessage) {
+		if (!this.evalTypeAsException) this.type = PrintTypes.ERROR;
+		print(exceptionMessage);
+		return this;
 	}
 }

@@ -442,7 +442,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="50" language="java" name="com.redomar.game.script.Printing" project="JavaGame" 
+  <class id="50" language="java" name="com.redomar.game.script.Printer" project="JavaGame"
     file="/JavaGame/src/com/redomar/game/script/Printing.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="207" width="196" x="2158" y="3609"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
