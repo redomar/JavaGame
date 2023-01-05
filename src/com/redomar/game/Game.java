@@ -5,13 +5,16 @@ import com.redomar.game.entities.Dummy;
 import com.redomar.game.entities.Player;
 import com.redomar.game.entities.Vendor;
 import com.redomar.game.entities.trees.Spruce;
+import com.redomar.game.event.InputHandler;
+import com.redomar.game.event.MouseHandler;
 import com.redomar.game.gfx.Screen;
 import com.redomar.game.gfx.SpriteSheet;
 import com.redomar.game.level.LevelHandler;
+import com.redomar.game.lib.Either;
 import com.redomar.game.lib.Font;
 import com.redomar.game.lib.Time;
-import com.redomar.game.script.PrintTypes;
-import com.redomar.game.script.Printer;
+import com.redomar.game.log.PrintTypes;
+import com.redomar.game.log.Printer;
 import org.apache.commons.text.WordUtils;
 
 import javax.swing.*;
@@ -68,10 +71,10 @@ public class Game extends Canvas implements Runnable {
 	private final BufferedImage image2 = new BufferedImage(WIDTH, HEIGHT - 30, BufferedImage.TYPE_INT_RGB);
 	private final Font font = new Font();                               // Font object capable of displaying 2 fonts: Arial and Segoe UI
 	private final Printer printer = new Printer();
+	boolean musicPlaying = false;
 	private int tickCount = 0;
 	private Screen screen;
 	private LevelHandler level;                                         // Loads and renders levels along with tiles, entities, projectiles and more.
-
 	//The entities of the game
 	private Player player;
 	private Dummy dummy;                                                // Dummy NPC follows the player around
@@ -385,8 +388,16 @@ public class Game extends Canvas implements Runnable {
 	 */
 	public void tick() {
 		setTickCount(getTickCount() + 1);
+		Either<Exception, Boolean> musicKeyAction = input.toggleActionWithCheckedRunnable(input.getM_KEY(), musicPlaying, () -> Game.getBackgroundMusic().play(), () -> Game.getBackgroundMusic().stop());
+		musicKeyAction.either(exception -> {
+			printer.cast().print("Failed to play music", PrintTypes.MUSIC);
+			printer.exception(exception.toString());
+			musicPlaying = false;
+		}, isPlaying -> musicPlaying = isPlaying);
+
 		level.tick();
 	}
+
 
 	/**
 	 * This method displays the current state of the game.

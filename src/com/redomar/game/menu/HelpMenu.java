@@ -1,4 +1,4 @@
-package com.redomar.game;
+package com.redomar.game.menu;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

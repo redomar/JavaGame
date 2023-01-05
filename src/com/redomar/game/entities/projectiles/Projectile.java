@@ -1,12 +1,13 @@
 package com.redomar.game.entities.projectiles;
 
 import com.redomar.game.entities.Entity;
+import com.redomar.game.gfx.Screen;
 import com.redomar.game.level.LevelHandler;
 import com.redomar.game.level.tiles.Tile;
 
 import java.util.Random;
 
-public abstract class Projectile extends Entity{
+public abstract class Projectile extends Entity {
 
 	protected final double xOrigin, yOrigin;
 	protected double angle;
@@ -27,7 +28,7 @@ public abstract class Projectile extends Entity{
 
 	protected abstract void move();
 
-	public boolean tileCollision(double xa, double ya, int nx, int ny){
+	public boolean tileCollision(double xa, double ya, int nx, int ny) {
 		int xMin = 0;
 		int xMax = 7;
 		int yMin = 0;
@@ -60,21 +61,24 @@ public abstract class Projectile extends Entity{
 		return false;
 	}
 
+	@Override
+	public void render(Screen screen, int xTile, int yTile) {
+
+	}
+
 	private boolean isSolid(int xa, int ya, int x, int y, int nx, int ny) {
 		if (level == null) {
 			return false;
 		}
 
-		Tile lastTile = level.getTile((nx + x) >> 3,
-				(ny + y) >> 3);
-		Tile newtTile = level.getTile((nx + x + xa) >> 3, (ny
-				+ y + ya) >> 3);
+		Tile lastTile = level.getTile((nx + x) >> 3, (ny + y) >> 3);
+		Tile newtTile = level.getTile((nx + x + xa) >> 3, (ny + y + ya) >> 3);
 
 		return !lastTile.equals(newtTile) && newtTile.isSolid();
 
 	}
 
-	public void remove(){
+	public void remove() {
 		setRemoved(true);
 	}
 

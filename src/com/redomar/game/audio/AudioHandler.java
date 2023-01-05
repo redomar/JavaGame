@@ -1,7 +1,7 @@
 package com.redomar.game.audio;
 
-import com.redomar.game.script.PrintTypes;
-import com.redomar.game.script.Printer;
+import com.redomar.game.log.PrintTypes;
+import com.redomar.game.log.Printer;
 import org.jetbrains.annotations.NotNull;
 
 import javax.sound.sampled.*;
@@ -12,7 +12,7 @@ import java.util.Objects;
 
 public class AudioHandler {
 
-	private final Printer musicPrinter = new Printer(PrintTypes.MUSIC);
+	public final Printer musicPrinter = new Printer(PrintTypes.MUSIC);
 	private Clip clip;
 	private boolean active = false;
 	private boolean music = false;

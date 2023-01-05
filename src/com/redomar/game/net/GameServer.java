@@ -2,13 +2,13 @@ package com.redomar.game.net;
 
 import com.redomar.game.Game;
 import com.redomar.game.entities.PlayerMP;
+import com.redomar.game.log.PrintTypes;
+import com.redomar.game.log.Printer;
 import com.redomar.game.net.packets.Packet;
 import com.redomar.game.net.packets.Packet.PacketTypes;
 import com.redomar.game.net.packets.Packet00Login;
 import com.redomar.game.net.packets.Packet01Disconnect;
 import com.redomar.game.net.packets.Packet02Move;
-import com.redomar.game.script.PrintTypes;
-import com.redomar.game.script.Printer;
 
 import java.io.IOException;
 import java.net.DatagramPacket;

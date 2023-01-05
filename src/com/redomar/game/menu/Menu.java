@@ -2,8 +2,8 @@ package com.redomar.game.menu;
 
 import com.redomar.game.Game;
 import com.redomar.game.audio.AudioHandler;
+import com.redomar.game.event.Mouse;
 import com.redomar.game.lib.Font;
-import com.redomar.game.lib.Mouse;
 import com.thehowtotutorial.splashscreen.JSplash;
 
 import javax.swing.*;

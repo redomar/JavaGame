@@ -1,7 +1,6 @@
 package com.redomar.game.menu;
 
 import com.redomar.game.Game;
-import com.redomar.game.HelpMenu;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

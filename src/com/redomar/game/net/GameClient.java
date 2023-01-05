@@ -7,8 +7,8 @@ import com.redomar.game.net.packets.Packet.PacketTypes;
 import com.redomar.game.net.packets.Packet00Login;
 import com.redomar.game.net.packets.Packet01Disconnect;
 import com.redomar.game.net.packets.Packet02Move;
-import com.redomar.game.script.PrintTypes;
-import com.redomar.game.script.Printer;
+import com.redomar.game.log.PrintTypes;
+import com.redomar.game.log.Printer;
 
 import java.io.IOException;
 import java.net.*;
@@ -31,21 +31,6 @@ public class GameClient extends Thread {
 		}
 	}
 
-	public void run() {
-		while (true) {
-			byte[] data = new byte[1024];
-			DatagramPacket packet = new DatagramPacket(data, data.length);
-			try {
-				socket.receive(packet);
-			} catch (IOException e) {
-				e.printStackTrace();
-				break;
-			}
-			this.parsePacket(packet.getData(), packet.getAddress(), packet.getPort());
-			System.out.println("SERVER > " + new String(packet.getData()));
-		}
-	}
-
 	private void parsePacket(byte[] data, InetAddress address, int port) {
 		String message = new String(data).trim();
 		PacketTypes type = Packet.lookupPacket(message.substring(0, 2));
@@ -65,7 +50,6 @@ public class GameClient extends Thread {
 				break;
 			case MOVE:
 				packet = new Packet02Move(data);
-				this.handleMove((Packet02Move) packet);
 				break;
 		}
 	}
@@ -74,10 +58,6 @@ public class GameClient extends Thread {
 		print.print("[" + address.getHostAddress() + ":" + port + "] " + packet.getUsername() + " has joined...", PrintTypes.NETWORK);
 		PlayerMP player = new PlayerMP(Game.getLevel(), packet.getX(), packet.getY(), packet.getUsername(), address, port, Game.getShirtCol(), Game.getFaceCol());
 		Game.getLevel().addEntity(player);
-	}
-
-	private void handleMove(Packet02Move packet) {
-		Game.getLevel().movePlayer(packet.getUsername(), packet.getX(), packet.getY(), packet.getNumSteps(), packet.isMoving(), packet.getMovingDir());
 	}
 
 	public void sendData(byte[] data) {

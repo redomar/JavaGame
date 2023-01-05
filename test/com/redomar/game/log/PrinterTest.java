@@ -1,4 +1,4 @@
-package com.redomar.game.script;
+package com.redomar.game.log;
 
 import org.junit.After;
 import org.junit.Before;

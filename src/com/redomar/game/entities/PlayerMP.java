@@ -1,6 +1,6 @@
 package com.redomar.game.entities;
 
-import com.redomar.game.InputHandler;
+import com.redomar.game.event.InputHandler;
 import com.redomar.game.level.LevelHandler;
 
 import java.net.InetAddress;

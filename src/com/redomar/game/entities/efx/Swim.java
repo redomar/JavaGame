@@ -2,12 +2,22 @@ package com.redomar.game.entities.efx;
 
 import com.redomar.game.level.LevelHandler;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Swim {
 
+	private static final Map<WaterType, int[]> COLORS = new HashMap<>();
 	private static LevelHandler level;
-	private int x;
-	private int y;
-	private int[] swimCols = new int[3];
+
+	static {
+		COLORS.put(WaterType.SWIMMING, new int[]{255, 255, 115});
+		COLORS.put(WaterType.MAGMA, new int[]{541, 521, 510});
+		COLORS.put(WaterType.SWAMP, new int[]{422, 410, 321});
+	}
+
+	private final int x;
+	private final int y;
 
 	public Swim(LevelHandler level, int x, int y) {
 		Swim.level = level;
@@ -15,24 +25,13 @@ public class Swim {
 		this.y = y;
 	}
 
-	public int[] waveCols(boolean isSwimming, boolean isMagma, boolean isMuddy){
+	@Deprecated
+	public int[] waveCols(boolean isSwimming, boolean isMagma, boolean isMuddy) {
+		return COLORS.get(isSwimming ? WaterType.SWIMMING : isMagma ? WaterType.MAGMA : isMuddy ? WaterType.SWAMP : null);
+	}
 
-		if(isSwimming){
-			swimCols[0] = 255;
-			swimCols[1] = 255;
-			swimCols[2] = 115;
-		}
-		if (isMagma) {
-			swimCols[0] = 541;
-			swimCols[1] = 521;
-			swimCols[2] = 510;
-		}
-		if (isMuddy) {
-			swimCols[0] = 422;
-			swimCols[1] = 410;
-			swimCols[2] = 321;
-		}
-		return swimCols;
+	public int[] waveCols(WaterType type) {
+		return COLORS.get(type);
 	}
 
 	public boolean water(boolean isSwimming) {
@@ -71,19 +70,19 @@ public class Swim {
 	}
 
 	public boolean[] swimming(boolean isSwimming, boolean isMagma, boolean isMuddy) {
-		boolean[] swimminhType;
-		swimminhType = new boolean[3];
-		swimminhType[0] = water(isSwimming);
-		swimminhType[1] = magma(isMagma);
-		swimminhType[2] = mud(isMuddy);
-		return swimminhType;
+		boolean[] swimmingType;
+		swimmingType = new boolean[3];
+		swimmingType[0] = water(isSwimming);
+		swimmingType[1] = magma(isMagma);
+		swimmingType[2] = mud(isMuddy);
+		return swimmingType;
 	}
 
-	public boolean isActive(boolean[] swimmingType){
-		if(swimmingType[0] == true){
+	public boolean isActive(boolean[] swimmingType) {
+		if (swimmingType[0]) {
 			return true;
-		}else if(swimmingType[1] == true){
+		} else if (swimmingType[1]) {
 			return true;
-		} else return swimmingType[2] == true;
+		} else return swimmingType[2];
 	}
 }

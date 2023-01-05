@@ -1,4 +1,4 @@
-package com.redomar.game.script;
+package com.redomar.game.log;
 
 import com.redomar.game.lib.Time;
 
