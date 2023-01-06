@@ -25,10 +25,8 @@ public class Small extends Projectile {
 			AudioHandler smallSound = new AudioHandler(smallShot);
 			smallSound.setVolume(-15);
 			smallSound.play();
-		} catch (NullPointerException e) {
-			entityPrinter.cast().exception(e.toString()).exception("Unable to load Audio file " + smallShot.getName());
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			entityPrinter.cast().exception(e.toString()).exception("Unable to load Audio file " + smallShot.getName());
 		}
 	}
 
