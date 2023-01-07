@@ -286,7 +286,6 @@ public class LevelHandler {
 	}
 
 
-
 	public int getWidth() {
 		return width;
 	}
