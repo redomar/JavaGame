@@ -16,7 +16,7 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven - Install
-      run: mvn install:install-file -Dfile=home/runner/work/JavaGame/JavaGame/res/jars/JSplashScreen.jar -DgroupId=com.thehowtotutorial.splashscreen -DartifactId=JSplashScreen -Dversion=1.0 -Dpackaging=jar
+      run: mvn install:install-file -Dfile=res/jars/JSplashScreen.jar -DgroupId=com.thehowtotutorial.splashscreen -DartifactId=JSplashScreen -Dversion=1.0 -Dpackaging=jar
     - name: Build with Maven - From Pom
       run: mvn -B package --file pom.xml
 
