@@ -1,6 +1,8 @@
 name: Java CI with Maven
 
-on: [push, pull_request]
+on:
+  push: 
+    branches: ['master', 'develop']
 
 jobs:
   build:
@@ -20,6 +22,11 @@ jobs:
     - name: Build with Maven - From Pom
       run: mvn -B package --file pom.xml
 
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3.1.2
+      with:
+        name: my-artifacts
+        path: target/*.jar
 
       # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     - name: Update dependency graph
