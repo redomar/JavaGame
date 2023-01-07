@@ -12,6 +12,7 @@ public class Printer {
 	private PrintTypes type;
 	private String message;
 	private boolean evalTypeAsException = false;
+	private boolean mute = false;
 
 	public Printer() {
 		this.type = PrintTypes.GAME;
@@ -53,6 +54,7 @@ public class Printer {
 		}
 		logFile.log(String.format("%s%s\t%s", msgTime, msgType, message));
 
+		if (mute) return;
 		String formattedStringForConsole = String.format("%s%s %s%n", msgType, msgTime, message);
 
 		if (type.equals(PrintTypes.ERROR) || evalTypeAsException) {
@@ -77,6 +79,15 @@ public class Printer {
 
 	public String getMessage() {
 		return message;
+	}
+
+	public void mute() {
+		this.mute = true;
+	}
+
+	@SuppressWarnings("unused")
+	public void unmute() {
+		this.mute = false;
 	}
 
 	/**

@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import java.io.File;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by Mohamed on 28/08/2016.
@@ -13,27 +13,31 @@ import static org.junit.Assert.*;
  */
 public class AudioHandlerTest {
 
+	@Before
+	public void before() {
+		AudioHandler.musicPrinter.mute();
+	}
+
 	@Test
-	public void bgMusicExists() throws Exception {
+	public void bgMusicExists() {
 		File sfx = new File("res/music/Towards The End.mp3");
 		assertTrue(sfx.exists());
 	}
 
 	@Test(expected = NullPointerException.class)
-	public void expectReturnExceptionFileEmptyDir(){
+	public void expectReturnExceptionFileEmptyDir() {
 		File empty = new File("");
-		AudioHandler audio = new AudioHandler(empty);
+		new AudioHandler(empty);
 	}
 
 	@Test(expected = NullPointerException.class)
-	public void expectReturnExceptionFileEmptyPath(){
-		AudioHandler audio = new AudioHandler("");
+	public void expectReturnExceptionFileEmptyPath() {
+		new AudioHandler("");
 	}
 
-	@Test
-	public void tryInitiatingAndPlayingNonExistingFile(){
-		AudioHandler audio = new AudioHandler("//");
-		audio.play();
+	@Test()
+	public void tryInitiatingAndPlayingNonExistingFile() {
+		new AudioHandler("//").play();
 	}
 
 }

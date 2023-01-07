@@ -4,6 +4,7 @@ import com.redomar.game.Game;
 import com.redomar.game.audio.AudioHandler;
 import com.redomar.game.event.Mouse;
 import com.redomar.game.lib.Font;
+import com.redomar.game.log.Printer;
 import com.thehowtotutorial.splashscreen.JSplash;
 
 import javax.swing.*;
@@ -44,8 +45,13 @@ public class Menu implements Runnable {
 			splash.splashOn();
 
 			// Background tasks
-			Game.setBackgroundMusic(new AudioHandler("/music/Towards The End.wav", true));
-			Game.getBackgroundMusic().setVolume(VOLUME_IN_DB);
+			try {
+				Game.setBackgroundMusic(new AudioHandler("/music/Towards The End.wav", true));
+				Game.getBackgroundMusic().setVolume(VOLUME_IN_DB);
+			} catch (Exception e) {
+				Printer printer = new Printer();
+				printer.exception(e.getMessage());
+			}
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			Game.setAlternateColsR(true);
 			Game.setAlternateColsS(true);

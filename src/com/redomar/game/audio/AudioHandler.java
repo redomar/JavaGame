@@ -5,14 +5,15 @@ import com.redomar.game.log.Printer;
 import org.jetbrains.annotations.NotNull;
 
 import javax.sound.sampled.*;
+import java.io.BufferedInputStream;
 import java.io.File;
-import java.util.Arrays;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Objects;
-
 
 public class AudioHandler {
 
-	public final Printer musicPrinter = new Printer(PrintTypes.MUSIC);
+	public static final Printer musicPrinter = new Printer(PrintTypes.MUSIC);
 	private Clip clip;
 	private boolean active = false;
 	private boolean music = false;
@@ -43,19 +44,31 @@ public class AudioHandler {
 		}
 	}
 
+	/**
+	 * Initialises an audio clip from the specified file path.
+	 *
+	 * @param path the file path of the audio clip
+	 */
 	private void initiate(String path) {
 		try {
-			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(Objects.requireNonNull(AudioHandler.class.getResourceAsStream(path)));
+			InputStream inputStream = new BufferedInputStream(Objects.requireNonNull(AudioHandler.class.getResourceAsStream(path)));
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(inputStream);
+			audioInputStream.mark(Integer.MAX_VALUE);
 			AudioFormat baseFormat = audioInputStream.getFormat();
 			AudioFormat decodeFormat = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, baseFormat.getSampleRate(), 16, baseFormat.getChannels(), baseFormat.getChannels() * 2, baseFormat.getSampleRate(), false);
 			AudioInputStream decodedAudioInputStream = AudioSystem.getAudioInputStream(decodeFormat, audioInputStream);
 			clip = AudioSystem.getClip();
 			clip.open(decodedAudioInputStream);
+		} catch (IOException e) {
+			musicPrinter.cast().exception("Audio file not found " + path);
+			musicPrinter.cast().exception(e.getMessage());
+
 		} catch (Exception e) {
-			System.err.println(Arrays.toString(e.getStackTrace()));
 			musicPrinter.print("Audio Failed to initiate", PrintTypes.ERROR);
+			musicPrinter.cast().exception(e.getMessage());
 		}
 	}
+
 
 	public void play() {
 		try {
