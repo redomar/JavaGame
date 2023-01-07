@@ -1,13 +1,12 @@
-package com.redomar.game.script;
+package com.redomar.game.log;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
  * Created by Mohamed on 23/08/2016.
- *
+ * <p>
  * This file tests the com.redomar.game.script.PrintToLog class
  */
 public class PrintToLogTest {

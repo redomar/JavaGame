@@ -1,15 +1,15 @@
-package com.redomar.game;
+package com.redomar.game.event;
+
+import com.redomar.game.Game;
 
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
+@Deprecated
+@SuppressWarnings("unused")
 public class WindowHandler implements WindowListener {
 
-	@SuppressWarnings("unused")
-	private final Game game;
-
 	public WindowHandler(Game game) {
-		this.game = game;
 		Game.getFrame().addWindowListener(this);
 	}
 

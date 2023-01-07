@@ -6,17 +6,17 @@ import com.redomar.game.level.LevelHandler;
 public class Scene {
 
 	private int xOffset, yOffset;
-	private Screen screen;
-	private LevelHandler level;
+	private final Screen screen;
+	private final LevelHandler level;
 
-	public Scene(int xOffset, int yOffset, Screen screen, LevelHandler level){
+	public Scene(int xOffset, int yOffset, Screen screen, LevelHandler level) {
 		this.xOffset = xOffset;
 		this.yOffset = yOffset;
 		this.screen = screen;
 		this.level = level;
 	}
 
-	public void playerScene(){
+	public void playerScene() {
 		if (xOffset < 0) {
 			xOffset = 0;
 		}

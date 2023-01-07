@@ -7,22 +7,19 @@ public class Screen {
 
 	private static final byte BIT_MIRROR_X = 0x01;
 	private static final byte BIT_MIRROR_Y = 0x02;
-
+	private final SpriteSheet sheet;
 	private int[] pixels;
-
 	private int xOffset = 0;
 	private int yOffset = 0;
-
 	private int width;
 	private int height;
 
-	private SpriteSheet sheet;
-
 	/**
 	 * Constructs the draw area
-	 * @param width width of the screen
+	 *
+	 * @param width  width of the screen
 	 * @param height height of the screen
-	 * @param sheet  Sprite-sheet selector. Constructed Spritesheet needs to be here,
+	 * @param sheet  Sprite-sheet selector. Constructed sprite sheet needs to be here,
 	 *               Sprite-sheet cp requires path only.
 	 */
 	public Screen(int width, int height, SpriteSheet sheet) {
@@ -34,23 +31,24 @@ public class Screen {
 		setPixels(new int[width * height]);
 	}
 
+	@SuppressWarnings("unused")
 	public static int getMapWidthMask() {
 		return MAP_WIDTH_MASK;
 	}
 
 
 	/**
-	 * Rendering sprites from Spritesheet onto the game world.
-	 * Render contstucter requires
-	 * @param xPos X Postion of subject
-	 * @param yPos Y Postion of subject
-	 * @param tile tile location. e.g 7 * 32 + 1 is the oblong bullet on the 7th row 2nd colomn
-	 * @param colour Using established colouring nomanclature. i.e. use com.redomar.game.gfx.Colours
-	 * @param mirrorDir flip Direction: 0x01 flip verticle, 0x02 flip horizontal.
-	 * @param scale Scale
+	 * Rendering sprites from sprite sheet onto the game world.
+	 * Render constructor requires
+	 *
+	 * @param xPos      X Position of subject
+	 * @param yPos      Y Position of subject
+	 * @param tile      tile location. e.g 7 * 32 + 1 is the oblong bullet on the 7th row 2nd column
+	 * @param colour    Using established colouring nomenclature. i.e. use com.redomar.game.gfx.Colours
+	 * @param mirrorDir flip Direction: 0x01 flip vertical, 0x02 flip horizontal.
+	 * @param scale     Scale
 	 */
-	public void render(int xPos, int yPos, int tile, int colour, int mirrorDir,
-					   int scale) {
+	public void render(int xPos, int yPos, int tile, int colour, int mirrorDir, int scale) {
 		xPos -= xOffset;
 		yPos -= yOffset;
 
@@ -80,26 +78,22 @@ public class Screen {
 
 				int xPixel = x + xPos + (x * scaleMap) - ((scaleMap << 3) / 2);
 
-				int col = (colour >> (sheet.pixels[xSheet + ySheet
-						* sheet.getWidth() + tileOffset] * 8)) & 255;
+				int col = (colour >> (sheet.pixels[xSheet + ySheet * sheet.getWidth() + tileOffset] * 8)) & 255;
 				if (col < 255) {
 
 					for (int yScale = 0; yScale < scale; yScale++) {
 
-						if (yPixel + yScale < 0
-								| yPixel + yScale >= getHeight()) {
+						if (yPixel + yScale < 0 | yPixel + yScale >= getHeight()) {
 							continue;
 						}
 
 						for (int xScale = 0; xScale < scale; xScale++) {
 
-							if (xPixel + xScale < 0
-									| xPixel + xScale >= getWidth()) {
+							if (xPixel + xScale < 0 | xPixel + xScale >= getWidth()) {
 								continue;
 							}
 
-							getPixels()[(xPixel + xScale) + (yPixel + yScale)
-									* getWidth()] = col;
+							getPixels()[(xPixel + xScale) + (yPixel + yScale) * getWidth()] = col;
 						}
 					}
 

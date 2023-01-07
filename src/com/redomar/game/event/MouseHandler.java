@@ -1,16 +1,18 @@
-package com.redomar.game;
+package com.redomar.game.event;
+
+import com.redomar.game.Game;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-public class MouseHandler implements MouseListener, MouseMotionListener{
+public class MouseHandler implements MouseListener, MouseMotionListener {
 
 	private static int mouseX = -1;
 	private static int mouseY = -1;
 	private static int mouseB = -1;
 
-	public MouseHandler(Game game){
+	public MouseHandler(Game game) {
 		game.addMouseListener(this);
 		game.addMouseMotionListener(this);
 	}

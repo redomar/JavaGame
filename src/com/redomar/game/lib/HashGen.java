@@ -11,18 +11,19 @@ public class HashGen {
 
 	/**
 	 * Use for generating a hex Hash. Requires two parameters;
+	 *
 	 * @param showPrefix to show 0x prefix.
-	 * @param length Length of hash.
+	 * @param length     Length of hash.
 	 */
-	public HashGen(boolean showPrefix, int length){
+	public HashGen(boolean showPrefix, int length) {
 		setPrefix(showPrefix);
 		setHexLength(length);
 		init();
 	}
 
 	//Remove null char or prepend 0x
-	private void init(){
-		if(prefix){
+	private void init() {
+		if (prefix) {
 			hexHash = "0x";
 		} else {
 			hexHash = "";
@@ -31,29 +32,29 @@ public class HashGen {
 
 	/**
 	 * Retrieve hash
+	 *
 	 * @return String containing hash
 	 */
-	public String getHash(){
+	public String getHash() {
 		setHash(hexLength);
 		return hexHash;
 	}
 
-	private void setHash(int hexLength){
+	private void setHash(int hexLength) {
 
 		String hex;
 
-		for (int i = 0; i < hexLength; i++){
+		for (int i = 0; i < hexLength; i++) {
 			hex = Integer.toHexString(randNumGen());
 			hex = StringUtils.capitalize(hex);
-			hexHash = hexHash + hex;
+			hexHash = String.format("%s%s", hexHash, hex);
 		}
 		previousHash = hexHash;
 
 	}
 
-	private int randNumGen(){
-		int rand = (int)(Math.random() * 16);
-		return rand;
+	private int randNumGen() {
+		return (int) (Math.random() * 16);
 	}
 
 	//getters and setters
@@ -66,8 +67,8 @@ public class HashGen {
 		this.hexLength = hexLength;
 	}
 
-	public String getPreviousHash(){
-		if(previousHash == null) return null;
+	public String getPreviousHash() {
+		if (previousHash == null) return null;
 		return previousHash;
 	}
 }

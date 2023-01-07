@@ -5,7 +5,7 @@ import com.redomar.game.menu.DedicatedJFrame;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
-public class InventoryWindow implements Runnable{
+public class InventoryWindow implements Runnable {
 
 	private static final int WIDTH = 160;
 	private static final int HEIGHT = (WIDTH / 3 * 2);
@@ -25,13 +25,13 @@ public class InventoryWindow implements Runnable{
 		InventoryWindow.window = inventoryHandler;
 	}
 
-	public synchronized void start(){
+	public synchronized void start() {
 		running = true;
 		setFrame(new DedicatedJFrame(WIDTH, HEIGHT, SCALE, NAME));
 		new Thread(this, NAME).start();
 	}
 
-	public synchronized void stop(){
+	public synchronized void stop() {
 		running = false;
 	}
 
@@ -72,8 +72,7 @@ public class InventoryWindow implements Runnable{
 
 			if (System.currentTimeMillis() - lastTimer >= 1000) {
 				lastTimer += 1000;
-				frame.getFrame().setTitle(
-						"Frames: " + frames + " Ticks: " + ticks);
+				frame.getFrame().setTitle("Frames: " + frames + " Ticks: " + ticks);
 				frames = 0;
 				ticks = 0;
 			}
@@ -82,14 +81,14 @@ public class InventoryWindow implements Runnable{
 
 	private void render() {
 		BufferStrategy bs = frame.getBufferStrategy();
-		if(bs == null){
+		if (bs == null) {
 			frame.createBufferStrategy(3);
 			return;
 		}
 
 		Graphics g = bs.getDrawGraphics();
 		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, WIDTH*SCALE+10, HEIGHT*SCALE+10);
+		g.fillRect(0, 0, WIDTH * SCALE + 10, HEIGHT * SCALE + 10);
 		g.setColor(Color.WHITE);
 		g.drawString(NAME, 50, 50);
 		bs.show();

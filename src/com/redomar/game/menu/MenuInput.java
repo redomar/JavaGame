@@ -1,13 +1,13 @@
 package com.redomar.game.menu;
 
 import com.redomar.game.Game;
-import com.redomar.game.HelpMenu;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class MenuInput implements KeyListener {
 
+	private static final HelpMenu HELP_MENU = new HelpMenu();
 	private boolean ticket = false;
 	private boolean help = false;
 
@@ -35,14 +35,15 @@ public class MenuInput implements KeyListener {
 			Menu.setSelectedStart(false);
 		}
 
-		if(!ticket){
+		if (!ticket) {
 			if (keyCode == KeyEvent.VK_ENTER || keyCode == KeyEvent.VK_SPACE) {
 				if (Menu.isSelectedStart()) {
 					this.ticket = true;
+					new Game().start();
 					Menu.setRunning(false);
 					Menu.getFrame().setVisible(false);
 					Menu.getFrame().stopFrame();
-					new Game().start();
+					Menu.stop();
 				}
 
 				if (Menu.isSelectedExit()) {
@@ -50,18 +51,19 @@ public class MenuInput implements KeyListener {
 					Menu.setRunning(false);
 					Menu.getFrame().setVisible(false);
 					Menu.getFrame().stopFrame();
+					Menu.stop();
 				}
 			}
 		}
 
 		if (keyCode == KeyEvent.VK_ESCAPE) {
-			System.exit(1);
+			HELP_MENU.helpMenuClose();
+			help = false;
+			System.exit(0);
 		}
 
-		if (keyCode == KeyEvent.VK_H){
-			HelpMenu h = new HelpMenu();
-			if (!help)
-				h.run();
+		if (keyCode == KeyEvent.VK_H) {
+			if (!help) HELP_MENU.helpMenuLaunch();
 			help = true;
 		}
 	}

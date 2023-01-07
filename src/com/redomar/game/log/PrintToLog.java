@@ -1,4 +1,4 @@
-package com.redomar.game.script;
+package com.redomar.game.log;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -8,7 +8,7 @@ import java.io.PrintWriter;
 public class PrintToLog {
 
 	private static PrintWriter printer;
-	private File url;
+	private final File url;
 
 	public PrintToLog(String url) {
 		this.url = new File(url);
@@ -25,11 +25,11 @@ public class PrintToLog {
 			printer = new PrintWriter(new FileOutputStream(url, true));
 		} catch (FileNotFoundException e) {
 			//throw new FileNotFoundException();
-			System.err.println(e);
+			System.err.println(e.getMessage());
 		}
 	}
 
-	public File getUrl(){
+	public File getUrl() {
 		return this.url;
 	}
 }
