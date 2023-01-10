@@ -2,19 +2,20 @@ package com.redomar.game.lib;
 
 import java.util.Random;
 
+@Deprecated
 public class Name {
 
-	private Random rand = new Random();
 	private static int name_ID;
 
 	public Name() {
+		Random rand = new Random();
 		setRand(rand);
 	}
 
+	@Deprecated
 	public String setName(String name) {
 
-		String finalName = name + name_ID;
-		return finalName;
+		return name + name_ID;
 	}
 
 	public static void setRand(Random rand) {

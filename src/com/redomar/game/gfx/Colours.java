@@ -3,8 +3,7 @@ package com.redomar.game.gfx;
 public class Colours {
 
 	public static int get(int colour1, int colour2, int colour3, int colour4) {
-		return (get(colour4) << 24) + (get(colour3) << 16)
-				+ (get(colour2) << 8) + (get(colour1));
+		return (get(colour4) << 24) + (get(colour3) << 16) + (get(colour2) << 8) + (get(colour1));
 	}
 
 	private static int get(int colour) {

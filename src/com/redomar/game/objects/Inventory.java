@@ -10,7 +10,7 @@ public class Inventory {
 	public static boolean closing;
 	public static boolean reset;
 	public static boolean enabled;
-	private static InventoryWindow inv_window = new InventoryWindow();
+	private static final InventoryWindow inv_window = new InventoryWindow();
 
 	public static void activate() {
 		x = (int) Game.getPlayer().getX();
@@ -20,17 +20,14 @@ public class Inventory {
 			if (enabled) {
 				if (!open) {
 					if (!closing) {
-						System.out.println("Opened\nInside this Bag their is:"
-								+ inside());
+						System.out.println("Opened\nInside this Bag their is:" + inside());
 						open = true;
 						Game.getPlayer().setMoving(false);
-						Game.getInput().untoggle(true);
 						inv_window.start();
 					}
 				} else {
 					if (closing) {
 						Game.getPlayer().setMoving(true);
-						Game.getInput().untoggle(false);
 						inv_window.stop();
 						inv_window.getFrame().setVisible(false);
 						inv_window.getFrame().stopFrame();
@@ -42,7 +39,7 @@ public class Inventory {
 				}
 			}
 		} else {
-			if (open == true || reset == true || closing == true) {
+			if (open || reset || closing) {
 				reset = false;
 				open = false;
 				closing = false;
@@ -53,7 +50,7 @@ public class Inventory {
 	private static String inside() {
 		String items = " ";
 		for (Items item : Items.values()) {
-			items = items + item.toString() + ", ";
+			items = String.format("%s%s, ", items, item.toString());
 		}
 		return items;
 	}

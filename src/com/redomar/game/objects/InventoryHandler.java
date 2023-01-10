@@ -7,11 +7,7 @@ import java.awt.event.WindowListener;
 
 public class InventoryHandler implements WindowListener {
 
-	@SuppressWarnings("unused")
-	private DedicatedJFrame frame;
-
 	public InventoryHandler(DedicatedJFrame frame) {
-		this.frame = frame;
 		DedicatedJFrame.getFrameStatic().addWindowListener(this);
 	}
 

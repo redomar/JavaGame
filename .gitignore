@@ -190,3 +190,5 @@ out/
 .log.txt
 /.gradle/
 Package game.png
+target/*
+.PrintType-TEST.txt

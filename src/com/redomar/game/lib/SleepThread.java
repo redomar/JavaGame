@@ -2,7 +2,7 @@ package com.redomar.game.lib;
 
 import com.redomar.game.Game;
 
-public class SleepThread implements Runnable{
+public class SleepThread implements Runnable {
 
 	public void run() {
 		try {
