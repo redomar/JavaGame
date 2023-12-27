@@ -1,12 +1,15 @@
 language: java
-dist: Jammy
+dist: focal
 jdk:
   - openjdk8
+
 branches:
   only:
     - master
     - develop
 
-script:
+before_install:
   - mvn install:install-file -Dfile=res/jars/JSplashScreen.jar -DgroupId=com.thehowtotutorial.splashscreen -DartifactId=JSplashScreen -Dversion=1.0 -Dpackaging=jar
+
+script:
   - mvn -B package --file pom.xml
