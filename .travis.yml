@@ -1,8 +1,12 @@
 language: java
-dist: trusty
+dist: Jammy
 jdk:
-  - oraclejdk8
-# blocklist
+  - openjdk8
 branches:
-  except:
-  - experimental
+  only:
+    - master
+    - develop
+
+script:
+  - mvn install:install-file -Dfile=res/jars/JSplashScreen.jar -DgroupId=com.thehowtotutorial.splashscreen -DartifactId=JSplashScreen -Dversion=1.0 -Dpackaging=jar
+  - mvn -B package --file pom.xml
