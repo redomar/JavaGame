@@ -1,4 +1,5 @@
-JavaGame [![GitHub release](https://img.shields.io/github/release/redomar/JavaGame.svg?style=flat-square&label=Alpha)](https://github.com/redomar/JavaGame/releases/latest) [![JDK version](https://img.shields.io/badge/JDK-OpenJDK%208-007396?style=flat-square&logo=Java)](https://openjdk.java.net/install/) [![Travis-CI Build Status](https://img.shields.io/travis/com/redomar/JavaGame.svg?style=flat-square)](https://travis-ci.org/redomar/JavaGame) [![GitHub license](https://img.shields.io/badge/license-AGPLv3-red.svg?style=flat-square)](https://raw.githubusercontent.com/Redomar/JavaGame/master/LICENSE)
+JavaGame [![GitHub release](https://img.shields.io/github/release/redomar/JavaGame.svg?style=flat-square&label=Alpha)](https://github.com/redomar/JavaGame/releases/latest) [![JDK version](https://img.shields.io/badge/JDK-OpenJDK%208-007396?style=flat-square&logo=Java)](https://openjdk.java.net/install/) [![Travis-CI Build Status](https://img.shields.io/travis/com/redomar/JavaGame.svg?style=flat-square)](https://travis-ci.org/redomar/JavaGame) [![GitHub license](https://img.shields.io/badge/license-AGPLv3-red.svg?style=flat-square)](https://raw.githubusercontent.com/Redomar/JavaGame/master/LICENSE)[![](https://img.shields.io/github/actions/workflow/status/redomar/JavaGame/maven.yml
+)
 ==
 
 #### What is JavaGame?
