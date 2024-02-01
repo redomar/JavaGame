@@ -4,6 +4,7 @@ import com.redomar.game.Game;
 import com.redomar.game.audio.AudioHandler;
 import com.redomar.game.event.Mouse;
 import com.redomar.game.lib.Font;
+import com.redomar.game.log.PrintTypes;
 import com.redomar.game.log.Printer;
 import com.thehowtotutorial.splashscreen.JSplash;
 
@@ -36,6 +37,9 @@ public class Menu implements Runnable {
 	private final Color UNSELECTED_COLOUR = new Color(0xFFCC5500);
 
 	public static void play() {
+		Printer printer = new Printer();
+		String property = System.getProperty("java.version");
+		printer.print("RUNTIME JAVA VERSION " + property, PrintTypes.SYSTEM);
 		try {
 			// Splash screen
 			AtomicReference<URL> splashImageResource = new AtomicReference<>(Game.class.getResource("/splash/splash.png"));
@@ -49,7 +53,6 @@ public class Menu implements Runnable {
 				Game.setBackgroundMusic(new AudioHandler("/music/Towards The End.wav", true));
 				Game.getBackgroundMusic().setVolume(VOLUME_IN_DB);
 			} catch (Exception e) {
-				Printer printer = new Printer();
 				printer.exception(e.getMessage());
 			}
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -67,7 +70,7 @@ public class Menu implements Runnable {
 			splash.splashOff();
 			splash.removeAll();
 		} catch (Exception e) {
-			e.printStackTrace();
+			printer.exception(e.getMessage());
 		}
 	}
 
