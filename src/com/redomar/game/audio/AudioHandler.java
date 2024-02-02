@@ -33,7 +33,7 @@ public class AudioHandler {
 
 	private void check(String path) {
 		try {
-			if (!path.equals("")) {
+			if (!path.isEmpty()) {
 				initiate(path);
 			} else {
 				throw new NullPointerException();
@@ -89,14 +89,22 @@ public class AudioHandler {
 	}
 
 	public void stop() {
-		if (clip.isRunning()) clip.stop();
-		if (music) musicPrinter.print("Stopping Music");
-		active = false;
+		try {
+			if (clip == null) throw new RuntimeException("Empty clip");
+			if (clip.isRunning()) {
+				clip.stop();
+				clip.close();
+			}
+		} catch (Exception e) {
+			musicPrinter.print("Audio Handler Clip not found");
+		} finally {
+			if (music) musicPrinter.print("Stopping Music");
+			active = false;
+		}
 	}
 
 	public void close() {
 		stop();
-		clip.close();
 	}
 
 	public boolean getActive() {
