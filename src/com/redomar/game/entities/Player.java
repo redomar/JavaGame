@@ -8,6 +8,7 @@ import com.redomar.game.entities.projectiles.Small;
 import com.redomar.game.event.InputHandler;
 import com.redomar.game.level.LevelHandler;
 import com.redomar.game.lib.HashGen;
+import com.redomar.game.log.PrintTypes;
 
 import java.util.Objects;
 
@@ -60,10 +61,29 @@ public class Player extends Mob {
 					fireRate = Medium.FIRE_RATE;
 				}
 				if (!swim.isActive(swimType)) {
-					double dx = Game.getMouse().getX() - 480 / 2d;
-					double dy = Game.getMouse().getY() - 320 / 2d;
+					// Origin adjustments
+					int originAdjustX = 8;  // Adjust X-coordinate of the origin
+					int originAdjustY = -9; // Adjust Y-coordinate of the origin
+
+					// Origin position
+					int originX = (640 / 2) + originAdjustX;
+					int originY = (425 / 2) + originAdjustY;
+
+					// Cursor position
+					int cursorX = Game.getMouse().getX();
+					int cursorY = Game.getMouse().getY();
+
+					// Calculate differences (dx, dy) between cursor and origin
+					double dx = cursorX - originX;
+					double dy = cursorY - originY;
+
+					// Calculate direction using atan2
 					double dir = Math.atan2(dy, dx);
+
+					// Continue with shooting logic
 					shoot(x, y, dir, Game.getMouse().getButton());
+
+					entityPrinter.cast().print("Direction: " + dir + "º\t" + dx + "x\t" + dy + "y", PrintTypes.ERROR);
 				}
 			}
 		}

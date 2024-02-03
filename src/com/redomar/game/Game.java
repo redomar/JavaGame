@@ -23,6 +23,7 @@ import java.awt.im.InputContext;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.io.Serial;
 
 /*
  * This module forms the core architecture of the JavaGame. It coordinates the various
@@ -33,11 +34,14 @@ import java.awt.image.DataBufferInt;
 public class Game extends Canvas implements Runnable {
 
 	// Setting the size and name of the frame/canvas
+	@Serial
 	private static final long serialVersionUID = 1L;
 	private static final String game_Version = "v1.8.6 Alpha";
-	private static final int WIDTH = 160;
-	private static final int HEIGHT = (WIDTH / 3 * 2);
-	private static final int SCALE = 3;
+	private static final int SCALE = 100;
+	private static final int WIDTH = 3 * SCALE;
+	private static final int HEIGHT = 2 * SCALE;
+	private static final int SCREEN_WIDTH = 160 * 4;
+	private static final int SCREEN_HEIGHT = 106 * 4;
 	private static final String NAME = "Game";                          // The name of the JFrame panel
 	private static final Time time = new Time();                        // Represents the calendar's time value, in hh:mm:ss
 	private static final boolean[] alternateCols = new boolean[2];      // Boolean array describing shirt and face colour
@@ -87,9 +91,9 @@ public class Game extends Canvas implements Runnable {
 		context = InputContext.getInstance();
 
 		// The game can only be played in one distinct window size
-		setMinimumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
-		setMaximumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
-		setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
+		setMinimumSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
+		setMaximumSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
+		setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
 
 		setFrame(new JFrame(NAME));                                     // Creates the frame with a defined name
 		getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);      // Exits the program when user closes the frame
@@ -307,6 +311,8 @@ public class Game extends Canvas implements Runnable {
 		}
 
 		screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/sprite_sheet.png"));
+		screen.setViewPortHeight(SCREEN_HEIGHT);
+		screen.setViewPortWidth(SCREEN_WIDTH);
 		input = new InputHandler(this);                           // Input begins to record key presses
 		setMouse(new MouseHandler(this));                         // Mouse tracking and clicking is now recorded
 //		setWindow(new WindowHandler(this));
@@ -417,6 +423,7 @@ public class Game extends Canvas implements Runnable {
 		level.renderEntities(screen);
 		level.renderProjectileEntities(screen);
 
+
 		for (int y = 0; y < screen.getHeight(); y++) {
 			for (int x = 0; x < screen.getWidth(); x++) {
 				int colourCode = screen.getPixels()[x + y * screen.getWidth()];
@@ -489,7 +496,12 @@ public class Game extends Canvas implements Runnable {
 	 * whether it is running in developer mode, or if the application is closing.
 	 */
 	private void status(Graphics g, boolean TerminalMode, boolean TerminalQuit) {
+		int xOffset = (int) player.getX() - (screen.getWidth() / 2);
+		int yOffset = (int) player.getY() - (screen.getHeight() / 2);
 		if (TerminalMode) {
+			// make the background transparent
+			g.setColor(new Color(0, 0, 0, 100));
+			g.fillRect(0, 0, 240, 230);
 			g.setColor(Color.CYAN);
 			g.drawString("JavaGame Stats", 0, 10);
 			g.drawString("FPS/TPS: " + fps + "/" + tps, 0, 25);
@@ -499,9 +511,87 @@ public class Game extends Canvas implements Runnable {
 			g.drawString("Foot Steps: " + steps, 0, 40);
 			g.drawString("NPC: " + WordUtils.capitalize(String.valueOf(isNpc())), 0, 55);
 			g.drawString("Mouse: " + getMouse().getX() + "x |" + getMouse().getY() + "y", 0, 70);
-			if (getMouse().getButton() != -1) g.drawString("Button: " + getMouse().getButton(), 0, 85);
+			g.drawString("Mouse: " + (getMouse().getX() - 639 / 2d) + "x |" + (getMouse().getY() - 423 / 2d) + "y", 0, 85);
+			if (getMouse().getButton() != -1) g.drawString("Button: " + getMouse().getButton(), 0, 100);
 			g.setColor(Color.CYAN);
 			g.fillRect(getMouse().getX() - 12, getMouse().getY() - 12, 24, 24);
+			g.setColor(Color.BLACK);
+			g.fillRect((639 / 2), (423 / 2) - 10, 2, 10);
+			g.fillRect((639 / 2), (423 / 2) - 10, 8, 2);
+			g.setColor(Color.WHITE);
+			g.fillRect((639 / 2) + 8, (423 / 2) - 10, 2, 2);
+			g.drawString("Player: " + (int) player.getX() + "x |" + (int) player.getY() + "y", 0, 115);
+			g.drawString("Current Angle: " + Math.atan2((getMouse().getY() - (double) 423 / 2) + 8, (getMouse().getX() - (double) 639 / 2) - 9) * (180.0 / Math.PI) , 0, 130);
+
+			double angle = Math.atan2(getMouse().getY() - (player.getY() - yOffset), getMouse().getX() - (player.getX() - xOffset)) * (180.0 / Math.PI);
+			g.drawString("Angle: " + angle, 0, 145);
+
+			// Existing code for drawing the line from the viewport center to the cursor
+			int originX = 639 / 2 + 8; // Center of the viewport with a slight offset
+			int originY = 423 / 2 - 9; // Center of the viewport with a slight offset
+			int cursorX = getMouse().getX();
+			int cursorY = getMouse().getY();
+
+			g.setColor(Color.RED); // Set the color for the original line
+			((Graphics2D) g).setStroke(new BasicStroke(2)); // Set the stroke
+			g.drawLine(originX, originY, cursorX, cursorY); // Draw the original line
+
+			int playerWorldX = (int) player.getX();
+			int playerWorldY = (int) player.getY();
+
+			int playerScreenX = playerWorldX - xOffset;
+			int playerScreenY = playerWorldY - yOffset;
+
+			int screenWidth = screen.getWidth();
+			int screenHeight = screen.getHeight();
+
+			int actualPlayerScreenX = originX + 2; // Default to originX
+			int actualPlayerScreenY = originY; // Default to originY
+
+// Adjusting for the X-axis
+			if (xOffset < 0) {
+				// Player is to the left of the center
+				float ratioX = (float) playerWorldX / playerScreenX;
+				actualPlayerScreenX = (int) (originX * ratioX) + 10;
+			} else if (xOffset > ((level.getWidth() << 3) - screenWidth)) {
+				// Player is to the right, near the edge
+				float ratioX = 2.12f; // Your specific ratio
+				// Adjust using your ratio and the specific offset adjustment of 3
+				actualPlayerScreenX = (int) ((originX) - -1 * (screenWidth - (level.getWidth() << 3) + xOffset) * ratioX) + 4;
+			}
+
+// Adjusting for the Y-axis, applying a similar logic
+			if (yOffset < 0) {
+				// Player is above the vertical center
+				float ratioY = (float) playerWorldY / playerScreenY;
+				actualPlayerScreenY = (int) (originY * ratioY) + 2;
+			} else if (yOffset > ((level.getHeight() << 3) - screenHeight)) {
+				// Player is below, near the bottom edge
+				float ratioY = 2f; // Using the same ratio for consistency
+				// Adjust using your ratio and the specific offset adjustment of 3
+				actualPlayerScreenY = (int) ((originY) - -1 * (screenHeight - (level.getHeight() << 3) + yOffset) * ratioY) - 4 ;
+			}
+
+
+
+
+
+			g.setColor(Color.cyan);
+				g.drawString("Player: " + playerScreenX + "x |" + playerScreenY + "y", 0, 160);
+				g.drawString("Player Offset: " + xOffset + "x |" + yOffset + "y", 0, 175);
+				g.drawString("xoffest get x" + screen.getxOffset() + "y" + screen.getyOffset(), 0, 190);
+				g.setColor(Color.PINK);
+				g.drawString("Player Screen: " + actualPlayerScreenX + "x |" + actualPlayerScreenY + "y", 0, 205);
+
+
+// Set a different color for the player-origin line
+			g.setColor(Color.GREEN); // Green for the new line from the player's origin
+			g.drawLine(actualPlayerScreenX, actualPlayerScreenY, cursorX, cursorY); // Draw the line from the player's origin to the cursor
+
+// Reset the stroke if necessary
+			((Graphics2D) g).setStroke(new BasicStroke(1));
+
+
 		}
 		// If the game is shutting off
 		if (!TerminalQuit) {
@@ -530,4 +620,7 @@ public class Game extends Canvas implements Runnable {
 		this.vendor = vendor;
 	}
 
+	public Screen getScreen() {
+		return screen;
+	}
 }

@@ -14,6 +14,9 @@ public class Screen {
 	private int width;
 	private int height;
 
+	private int viewPortWidth;
+	private int viewPortHeight;
+
 	/**
 	 * Constructs the draw area
 	 *
@@ -108,6 +111,14 @@ public class Screen {
 		this.yOffset = yOffset;
 	}
 
+	public int getxOffset() {
+		return xOffset;
+	}
+
+	public int getyOffset() {
+		return yOffset;
+	}
+
 	public int getWidth() {
 		return width;
 	}
@@ -130,5 +141,21 @@ public class Screen {
 
 	public void setHeight(int height) {
 		this.height = height;
+	}
+
+	public int getViewPortWidth() {
+		return viewPortWidth;
+	}
+
+	public void setViewPortWidth(int viewPortWidth) {
+		this.viewPortWidth = viewPortWidth;
+	}
+
+	public int getViewPortHeight() {
+		return viewPortHeight;
+	}
+
+	public void setViewPortHeight(int viewPortHeight) {
+		this.viewPortHeight = viewPortHeight;
 	}
 }
