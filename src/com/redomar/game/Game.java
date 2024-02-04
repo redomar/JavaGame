@@ -349,12 +349,13 @@ public class Game extends Canvas implements Runnable {
 	 */
 	public void run() {
 		long lastTime = System.nanoTime();
-		double nsPerTick = 1000000000D / 60D;                           // The number of nanoseconds in one tick (number of ticks limited to 60 per update)
+		int nsPerS = 1_000_000_000;
+		double nsPerTick = nsPerS / 60D;                           // The number of nanoseconds in one tick (number of ticks limited to 60 per update)
 		// 1 billion nanoseconds in one second
 		int ticks = 0;
 		int frames = 0;
 
-		long lastTimer = System.currentTimeMillis();                    // Used for updating ticks and frames once every second
+		long lastTimer = System.nanoTime();                    // Used for updating ticks and frames once every second
 		double delta = 0;
 
 		init();                                                         // Initialize the game environment
@@ -377,8 +378,8 @@ public class Game extends Canvas implements Runnable {
 				render();
 			}
 
-			if (System.currentTimeMillis() - lastTimer >= 1000) {       // If elapsed time is greater than or equal to 1 second, update
-				lastTimer += 1000;                                      // Updates in another second
+			if (System.nanoTime() - lastTimer >= nsPerS) {       // If elapsed time is greater than or equal to 1 second, update
+				lastTimer += nsPerS;                                      // Updates in another second
 				getFrame().setTitle("JavaGame - Version " + WordUtils.capitalize(game_Version).substring(1, game_Version.length()));
 				fps = frames;
 				tps = ticks;

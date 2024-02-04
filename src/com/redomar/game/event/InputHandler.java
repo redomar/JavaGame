@@ -135,15 +135,15 @@ public class InputHandler implements KeyListener {
 
 	private void quitGame() {
 		Game.setClosing(true);
-		if (!inputPrinter.removeLog()) System.err.println("Could not delete Log file");
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			inputPrinter.exception(e.getMessage());
 		}
 		Game.getLevel().removeEntity(Game.getPlayer().getName());
 		Game.getGame().stop();
 		Game.getFrame().dispose();
+		if (!inputPrinter.removeLog()) System.err.println("Could not delete Log file");
 		System.exit(0);
 	}
 

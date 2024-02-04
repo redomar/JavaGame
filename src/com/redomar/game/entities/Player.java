@@ -8,7 +8,6 @@ import com.redomar.game.entities.projectiles.Small;
 import com.redomar.game.event.InputHandler;
 import com.redomar.game.level.LevelHandler;
 import com.redomar.game.lib.HashGen;
-import com.redomar.game.log.PrintTypes;
 
 import java.util.Objects;
 
@@ -83,7 +82,7 @@ public class Player extends Mob {
 					// Continue with shooting logic
 					shoot(x, y, dir, Game.getMouse().getButton());
 
-					entityPrinter.cast().print("Direction: " + dir + "º\t" + dx + "x\t" + dy + "y", PrintTypes.ERROR);
+					entityPrinter.highlight().print("Direction: " + dir + "º\t" + dx + "x\t" + dy + "y");
 				}
 			}
 		}

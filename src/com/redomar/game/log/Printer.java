@@ -13,6 +13,7 @@ public class Printer {
 	private String message;
 	private boolean evalTypeAsException = false;
 	private boolean mute = false;
+	private boolean highlight = false;
 
 	public Printer() {
 		this.type = PrintTypes.GAME;
@@ -34,6 +35,9 @@ public class Printer {
 	}
 
 	private void printOut() {
+		String ANSI_RESET = "\u001B[0m";
+		String ANSI_CYAN = "\u001B[36m";
+		String ANSI_BACKGROUND_BLACK = "\u001B[40m";
 		String msgTime = "[" + time.getTime() + "]";
 		String msgType = "[" + type.toString() + "]";
 
@@ -55,7 +59,11 @@ public class Printer {
 		logFile.log(String.format("%s%s\t%s", msgTime, msgType, message));
 
 		if (mute) return;
-		String formattedStringForConsole = String.format("%s%s %s%n", msgType, msgTime, message);
+		String formattedStringForConsole = String.format("%s %s\t %s%n", msgTime, msgType, message);
+		if (highlight) {
+			formattedStringForConsole = String.format("%s %s\t%s %s%s %s%n", msgTime, msgType, ANSI_BACKGROUND_BLACK, ANSI_CYAN, message, ANSI_RESET);
+			highlight = false;
+		}
 
 		if (type.equals(PrintTypes.ERROR) || evalTypeAsException) {
 			System.err.printf(formattedStringForConsole);
@@ -71,6 +79,16 @@ public class Printer {
 		} else {
 			return new PrintToLog(".log.txt");
 		}
+	}
+
+	/**
+	 * Highlight the message in the console
+	 *
+	 * @return Printer
+	 */
+	public Printer highlight() {
+		this.highlight = true;
+		return this;
 	}
 
 	public boolean removeLog() {
@@ -111,4 +129,6 @@ public class Printer {
 		print(exceptionMessage);
 		return this;
 	}
+
+
 }
