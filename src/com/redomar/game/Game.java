@@ -9,6 +9,7 @@ import com.redomar.game.event.InputHandler;
 import com.redomar.game.event.MouseHandler;
 import com.redomar.game.gfx.Screen;
 import com.redomar.game.gfx.SpriteSheet;
+import com.redomar.game.gfx.lighting.Night;
 import com.redomar.game.level.LevelHandler;
 import com.redomar.game.lib.Either;
 import com.redomar.game.lib.Font;
@@ -496,8 +497,6 @@ public class Game extends Canvas implements Runnable {
 	 * whether it is running in developer mode, or if the application is closing.
 	 */
 	private void status(Graphics2D g, boolean TerminalMode, boolean TerminalQuit) {
-		int playerAbsX = (int) ((player.getX() - screen.getxOffset()) * 2) + 8;
-		int playerAbsY = (int) ((player.getY() - screen.getyOffset()) * 2) + 7;
 		if (TerminalMode) {
 			// make the background transparent
 			g.setColor(new Color(0, 0, 0, 100));
@@ -516,23 +515,24 @@ public class Game extends Canvas implements Runnable {
 			g.setColor(Color.WHITE);
 			g.fillRect(getMouse().getX() - 12, getMouse().getY() - 12, 16, 16);
 			g.drawString("Player: " + (int) player.getX() + "x |" + (int) player.getY() + "y", 0, 115);
-			double angle = Math.atan2(getMouse().getY() - playerAbsY, getMouse().getX() - playerAbsX) * (180.0 / Math.PI);
+			double angle = Math.atan2(getMouse().getY() - player.getPlayerAbsY(), getMouse().getX() - player.getPlayerAbsX()) * (180.0 / Math.PI);
 			g.drawString("Angle: " + angle, 0, 130);
 
 			g.setColor(Color.cyan);
-			g.drawString("Player: \t\t\t\t\t\t\t\t\t\t\t\t" + playerAbsX + "x |" + playerAbsY + "y", 0, 145);
+			g.drawString("Player: \t\t\t\t\t\t\t\t\t\t\t\t" + player.getPlayerAbsX() + "x |" + player.getPlayerAbsY() + "y", 0, 145);
 			g.drawString("Player Offset: \t" + screen.getxOffset() + "x |" + screen.getyOffset() + "y", 0, 160);
 
-// Set a different color for the player-origin line
+			// Set a different color for the player-origin line
 			g.setStroke(new BasicStroke(1));
 			g.setColor(Color.GREEN); // Green for the new line from the player's origin
-			g.drawLine(playerAbsX, playerAbsY, getMouse().getX(), getMouse().getY()); // Draw the line from the player's origin to the cursor
+			g.drawLine(player.getPlayerAbsX(), player.getPlayerAbsY(), getMouse().getX(), getMouse().getY()); // Draw the line from the player's origin to the cursor
 			g.setColor(Color.DARK_GRAY);
 			g.drawLine(getWidth()/2+8, getHeight()/2-8, getMouse().getX(), getMouse().getY()); // Draw the line from the player's origin to the cursor
 			g.drawLine(getWidth()/2+8, 0, getWidth()/2+8, getHeight()-30);
 			g.drawLine(0, getHeight()/2-8, getWidth(), getHeight()/2-8);
 			g.setColor(Color.yellow);
-			g.fillRect(playerAbsX, playerAbsY, 1, 1);
+			g.fillRect(player.getPlayerAbsX(), player.getPlayerAbsY(), 1, 1);
+			new Night(g, screen).render(player.getPlayerAbsX(), player.getPlayerAbsY());
 
 		}
 		// If the game is shutting off

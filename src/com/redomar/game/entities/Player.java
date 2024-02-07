@@ -19,6 +19,8 @@ public class Player extends Mob {
 	private static double speed = 1;
 	private final InputHandler inputHandler;
 	private int fireRate;
+	private int playerAbsX;
+	private int playerAbsY;
 
 	public Player(LevelHandler level, int x, int y, InputHandler inputHandler, String name, int shirtColour, int faceColour) {
 		super(level, "Player", x, y, PLAYER_TILE, speed, COLLISION_BORDERS, shirtColour, faceColour);
@@ -31,6 +33,11 @@ public class Player extends Mob {
 	public void tick() {
 		double xa = 0;
 		double ya = 0;
+
+		// Calculate and set player's absolute X and Y positions
+		setPlayerAbsX((int) ((getX() - Game.getScreen().getxOffset()) * 2) + 8);
+		setPlayerAbsY((int) ((getY() - Game.getScreen().getyOffset()) * 2) + 7);
+
 
 		if (inputHandler != null) {
 
@@ -60,8 +67,6 @@ public class Player extends Mob {
 					fireRate = Medium.FIRE_RATE;
 				}
 				if (!swim.isActive(swimType)) {
-					int playerAbsX = (int) ((getX() - Game.getScreen().getxOffset()) * 2) + 8;
-					int playerAbsY = (int) ((getY() - Game.getScreen().getyOffset()) * 2) + 7;
 
 					// Cursor position
 					int cursorX = Game.getMouse().getX();
@@ -119,4 +124,19 @@ public class Player extends Mob {
 		return this.name;
 	}
 
+	public int getPlayerAbsX() {
+		return playerAbsX;
+	}
+
+	public void setPlayerAbsX(int playerAbsX) {
+		this.playerAbsX = playerAbsX;
+	}
+
+	public int getPlayerAbsY() {
+		return playerAbsY;
+	}
+
+	public void setPlayerAbsY(int playerAbsY) {
+		this.playerAbsY = playerAbsY;
+	}
 }
