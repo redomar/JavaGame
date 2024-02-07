@@ -60,21 +60,16 @@ public class Player extends Mob {
 					fireRate = Medium.FIRE_RATE;
 				}
 				if (!swim.isActive(swimType)) {
-					// Origin adjustments
-					int originAdjustX = 8;  // Adjust X-coordinate of the origin
-					int originAdjustY = -9; // Adjust Y-coordinate of the origin
-
-					// Origin position
-					int originX = (640 / 2) + originAdjustX;
-					int originY = (425 / 2) + originAdjustY;
+					int playerAbsX = (int) ((getX() - Game.getScreen().getxOffset()) * 2) + 8;
+					int playerAbsY = (int) ((getY() - Game.getScreen().getyOffset()) * 2) + 7;
 
 					// Cursor position
 					int cursorX = Game.getMouse().getX();
 					int cursorY = Game.getMouse().getY();
 
 					// Calculate differences (dx, dy) between cursor and origin
-					double dx = cursorX - originX;
-					double dy = cursorY - originY;
+					double dx = cursorX - playerAbsX;
+					double dy = cursorY - playerAbsY;
 
 					// Calculate direction using atan2
 					double dir = Math.atan2(dy, dx);
