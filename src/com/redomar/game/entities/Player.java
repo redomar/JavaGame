@@ -35,13 +35,13 @@ public class Player extends Mob {
 		double ya = 0;
 
 		// Calculate and set player's absolute X and Y positions
-		setPlayerAbsX((int) ((getX() - Game.getScreen().getxOffset()) * 2) + 8);
-		setPlayerAbsY((int) ((getY() - Game.getScreen().getyOffset()) * 2) + 7);
+		setPlayerAbsX((((int) getX() - Game.getScreen().getxOffset()) * 2) + 8);
+		setPlayerAbsY((((int) getY() - Game.getScreen().getyOffset()) * 2) + 7);
 
 
 		if (inputHandler != null) {
 
-			speed = inputHandler.getSHIFTED().isPressed() ? 2 : 1;
+			speed = inputHandler.getSHIFTED().isPressed() ? 2.5D : 1D;
 
 			if (inputHandler.getUP_KEY().isPressed()) {
 				ya -= speed;

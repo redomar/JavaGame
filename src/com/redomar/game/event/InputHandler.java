@@ -133,6 +133,10 @@ public class InputHandler implements KeyListener {
 
 	}
 
+	public void overWriteKey(KeyHandler key, boolean isPressed) {
+		key.setPressedToggle(isPressed);
+	}
+
 	private void quitGame() {
 		Game.setClosing(true);
 		try {

@@ -394,13 +394,24 @@ public class Game extends Canvas implements Runnable {
 	 * This method updates the logic of the game.
 	 */
 	public void tick() {
+		boolean beforeMusic = musicPlaying;
 		setTickCount(getTickCount() + 1);
-		Either<Exception, Boolean> musicKeyAction = input.toggleActionWithCheckedRunnable(input.getM_KEY(), musicPlaying, () -> Game.getBackgroundMusic().play(), () -> Game.getBackgroundMusic().stop());
+		Either<Exception, Boolean> musicKeyAction = input.toggleActionWithCheckedRunnable(
+				input.getM_KEY(),
+				musicPlaying,
+				() -> Game.getBackgroundMusic().play(),
+				() -> Game.getBackgroundMusic().stop()
+		);
 		musicKeyAction.either(exception -> {
 			printer.cast().print("Failed to play music", PrintTypes.MUSIC);
 			printer.exception(exception.toString());
 			musicPlaying = false;
-		}, isPlaying -> musicPlaying = isPlaying);
+		}, isPlaying -> {
+			musicPlaying = isPlaying;
+			if (musicPlaying && !Game.getBackgroundMusic().getActive()) {
+				input.overWriteKey(input.getM_KEY(), false);
+			}
+		});
 
 		level.tick();
 	}
@@ -498,6 +509,7 @@ public class Game extends Canvas implements Runnable {
 	 */
 	private void status(Graphics2D g, boolean TerminalMode, boolean TerminalQuit) {
 		if (TerminalMode) {
+			new Night(g, screen).render(player.getPlayerAbsX(), player.getPlayerAbsY());
 			// make the background transparent
 			g.setColor(new Color(0, 0, 0, 100));
 			g.fillRect(0, 0, 195, 165);
@@ -532,7 +544,7 @@ public class Game extends Canvas implements Runnable {
 			g.drawLine(0, getHeight()/2-8, getWidth(), getHeight()/2-8);
 			g.setColor(Color.yellow);
 			g.fillRect(player.getPlayerAbsX(), player.getPlayerAbsY(), 1, 1);
-			new Night(g, screen).render(player.getPlayerAbsX(), player.getPlayerAbsY());
+
 
 		}
 		// If the game is shutting off
