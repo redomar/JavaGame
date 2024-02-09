@@ -40,27 +40,27 @@ public class Game extends Canvas implements Runnable {
 	private static final String game_Version = "v1.8.6 Alpha";
 	private static final int SCALE = 100;
 	private static final int WIDTH = 3 * SCALE;
+	private static final int SCREEN_WIDTH = WIDTH * 2;
 	private static final int HEIGHT = (2 * SCALE);
-	private static final int SCREEN_WIDTH = WIDTH*2;
-	private static final int SCREEN_HEIGHT = (HEIGHT*2)+30;
+	private static final int SCREEN_HEIGHT = (HEIGHT * 2) + 30;
+	private static final Screen screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/sprite_sheet.png"));
 	private static final String NAME = "Game";                          // The name of the JFrame panel
 	private static final Time time = new Time();                        // Represents the calendar's time value, in hh:mm:ss
 	private static final boolean[] alternateCols = new boolean[2];      // Boolean array describing shirt and face colour
-
 	private static Game game;
-
 	// The properties of the player, npc, and fps/tps
 	private static boolean changeLevel = false;                         // Determines whether the player teleports to another level
 	private static boolean npc = false;                                 // Non-player character (NPC) initialized to non-existing
 	private static int map = 0;                                         // Map of the level, initialized to map default map
 	private static int shirtCol;                                        // The colour of the character's shirt
-	private static int faceCol;                                         // The colour (ethnicity) of the character (their face)
+	private static int faceCol;                                         // The colour (ethnicizty) of the character (their face)
 	private static int fps;                                             // The frame rate (frames per second), frequency at which images are displayed on the canvas
 	private static int tps;                                             // The ticks (ticks per second), unit measure of time for one iteration of the game logic loop.
 	private static int steps;
 	private static boolean devMode;                                     // Determines whether the game is in developer mode
 	private static boolean closingMode;                                 // Determines whether the game will exit
-
+	private static int tileX = 0;
+	private static int tileY = 0;
 	// Audio, input, and mouse handler objects
 	private static JFrame frame;
 	private static AudioHandler backgroundMusic;
@@ -68,7 +68,6 @@ public class Game extends Canvas implements Runnable {
 	private static InputHandler input;                                  // Accepts keyboard input and follows the appropriate actions
 	private static MouseHandler mouse;                                  // Tracks mouse movement and clicks, and follows the appropriate actions
 	private static InputContext context;                                // Provides methods to control text input facilities
-
 	// Graphics
 	private final BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 	private final int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData(); // Array of red, green and blue values for each pixel
@@ -78,7 +77,6 @@ public class Game extends Canvas implements Runnable {
 	private final Printer printer = new Printer();
 	boolean musicPlaying = false;
 	private int tickCount = 0;
-	private static final Screen screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/sprite_sheet.png"));
 	private LevelHandler level;                                         // Loads and renders levels along with tiles, entities, projectiles and more.
 	//The entities of the game
 	private Player player;
@@ -293,6 +291,28 @@ public class Game extends Canvas implements Runnable {
 		Game.closingMode = closing;
 	}
 
+	private static void mousePositionTracker() {
+		MouseHandler mouseHandler = Game.getMouse();
+		int mouseX = mouseHandler.getX();
+		int mouseY = mouseHandler.getY();
+
+		// Adjust mouse coordinates based on the current offset and scale of the game world
+		tileX = ((mouseX + 4 + screen.getxOffset()) / (8 * 2)) + screen.getxOffset() / 16;
+		tileY = ((mouseY + 4 + screen.getyOffset()) / (8 * 2)) + screen.getyOffset() / 16;
+	}
+
+	public static int getTileX() {
+		return tileX;
+	}
+
+	public static int getTileY() {
+		return tileY;
+	}
+
+	public static Screen getScreen() {
+		return screen;
+	}
+
 	/*
 	 * This method initializes the game once it starts. It populates the colour array with actual colours (6 shades each of RGB).
 	 * This method also builds the initial game level (custom_level), spawns a new vendor NPC, and begins accepting keyboard and mouse input/tracking.
@@ -394,14 +414,8 @@ public class Game extends Canvas implements Runnable {
 	 * This method updates the logic of the game.
 	 */
 	public void tick() {
-		boolean beforeMusic = musicPlaying;
 		setTickCount(getTickCount() + 1);
-		Either<Exception, Boolean> musicKeyAction = input.toggleActionWithCheckedRunnable(
-				input.getM_KEY(),
-				musicPlaying,
-				() -> Game.getBackgroundMusic().play(),
-				() -> Game.getBackgroundMusic().stop()
-		);
+		Either<Exception, Boolean> musicKeyAction = input.toggleActionWithCheckedRunnable(input.getM_KEY(), musicPlaying, () -> Game.getBackgroundMusic().play(), () -> Game.getBackgroundMusic().stop());
 		musicKeyAction.either(exception -> {
 			printer.cast().print("Failed to play music", PrintTypes.MUSIC);
 			printer.exception(exception.toString());
@@ -412,10 +426,8 @@ public class Game extends Canvas implements Runnable {
 				input.overWriteKey(input.getM_KEY(), false);
 			}
 		});
-
 		level.tick();
 	}
-
 
 	/**
 	 * This method displays the current state of the game.
@@ -524,8 +536,7 @@ public class Game extends Canvas implements Runnable {
 			g.drawString("Mouse: " + getMouse().getX() + "x |" + getMouse().getY() + "y", 0, 70);
 			g.drawString("Mouse: " + (getMouse().getX() - 639 / 2d) + "x |" + (getMouse().getY() - 423 / 2d) + "y", 0, 85);
 			if (getMouse().getButton() != -1) g.drawString("Button: " + getMouse().getButton(), 0, 100);
-			g.setColor(Color.WHITE);
-			g.fillRect(getMouse().getX() - 12, getMouse().getY() - 12, 16, 16);
+			mousePositionTracker();
 			g.drawString("Player: " + (int) player.getX() + "x |" + (int) player.getY() + "y", 0, 115);
 			double angle = Math.atan2(getMouse().getY() - player.getPlayerAbsY(), getMouse().getX() - player.getPlayerAbsX()) * (180.0 / Math.PI);
 			g.drawString("Angle: " + angle, 0, 130);
@@ -539,9 +550,9 @@ public class Game extends Canvas implements Runnable {
 			g.setColor(Color.GREEN); // Green for the new line from the player's origin
 			g.drawLine(player.getPlayerAbsX(), player.getPlayerAbsY(), getMouse().getX(), getMouse().getY()); // Draw the line from the player's origin to the cursor
 			g.setColor(Color.DARK_GRAY);
-			g.drawLine(getWidth()/2+8, getHeight()/2-8, getMouse().getX(), getMouse().getY()); // Draw the line from the player's origin to the cursor
-			g.drawLine(getWidth()/2+8, 0, getWidth()/2+8, getHeight()-30);
-			g.drawLine(0, getHeight()/2-8, getWidth(), getHeight()/2-8);
+			g.drawLine(getWidth() / 2 + 8, getHeight() / 2 - 8, getMouse().getX(), getMouse().getY()); // Draw the line from the player's origin to the cursor
+			g.drawLine(getWidth() / 2 + 8, 0, getWidth() / 2 + 8, getHeight() - 30);
+			g.drawLine(0, getHeight() / 2 - 8, getWidth(), getHeight() / 2 - 8);
 			g.setColor(Color.yellow);
 			g.fillRect(player.getPlayerAbsX(), player.getPlayerAbsY(), 1, 1);
 
@@ -572,9 +583,5 @@ public class Game extends Canvas implements Runnable {
 
 	public void setVendor(Vendor vendor) {
 		this.vendor = vendor;
-	}
-
-	public static Screen getScreen() {
-		return screen;
 	}
 }
