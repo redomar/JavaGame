@@ -69,7 +69,7 @@ public class Game extends Canvas implements Runnable {
 	private static MouseHandler mouse;                                  // Tracks mouse movement and clicks, and follows the appropriate actions
 	private static InputContext context;                                // Provides methods to control text input facilities
 	// Graphics
-	private final BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+	private final BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
 	private final int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData(); // Array of red, green and blue values for each pixel
 	private final int[] colours = new int[6 * 6 * 6];                   // Array of 216 unique colours (6 shades of red, 6 of green, and 6 of blue)
 	private final BufferedImage image2 = new BufferedImage(WIDTH, HEIGHT - 30, BufferedImage.TYPE_INT_RGB);
@@ -326,7 +326,10 @@ public class Game extends Canvas implements Runnable {
 					int rr = (r * 255 / 5);         // Split all 256 colours into 6 shades (0, 51, 102 ... 255)
 					int gg = (g * 255 / 5);
 					int bb = (b * 255 / 5);
-					colours[index++] = rr << 16 | gg << 8 | bb;         // All colour values (RGB) are placed into one 32-bit integer, populating the colour array
+					// All colour values (RGB) are placed into one 32-bit integer, populating the colour array
+					// The first 8 bits are for alpha, the next 8 for red, the next 8 for green, and the last 8 for blue
+					// 0xFF000000 is ignored in BufferedImage.TYPE_INT_RGB, but is used in BufferedImage.TYPE_INT_ARGB
+					colours[index++] = 0xFF << 24 | rr << 16 | gg << 8 | bb;
 				}
 			}
 		}
@@ -484,9 +487,9 @@ public class Game extends Canvas implements Runnable {
 		}
 
 		Graphics2D g = (Graphics2D) bs.getDrawGraphics();
-		g.drawRect(0, 0, getWidth(), getHeight());
 		g.drawImage(image, 0, 0, getWidth(), getHeight() - 30, null);
 		status(g, isDevMode(), isClosing());
+		overlayRender(g);
 		g.drawImage(image2, 0, getHeight() - 30, getWidth(), getHeight(), null);
 		g.setColor(Color.WHITE);
 		g.setFont(font.getSegoe());
@@ -513,6 +516,14 @@ public class Game extends Canvas implements Runnable {
 
 		g.dispose();
 		bs.show();
+	}
+
+	/**
+	 * This method renders the overlay of the game, which is a transparent layer that is drawn over the game.
+	 */
+	private void overlayRender(Graphics2D g) {
+		g.setColor(new Color(0f, 0f, 0f, .192f)); // Transparent color
+		g.fillRect(0, 0, getWidth(), getHeight()-30);
 	}
 
 	/*
