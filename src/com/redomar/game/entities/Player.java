@@ -19,6 +19,8 @@ public class Player extends Mob {
 	private static double speed = 1;
 	private final InputHandler inputHandler;
 	private int fireRate;
+	private int playerAbsX;
+	private int playerAbsY;
 
 	public Player(LevelHandler level, int x, int y, InputHandler inputHandler, String name, int shirtColour, int faceColour) {
 		super(level, "Player", x, y, PLAYER_TILE, speed, COLLISION_BORDERS, shirtColour, faceColour);
@@ -32,9 +34,14 @@ public class Player extends Mob {
 		double xa = 0;
 		double ya = 0;
 
+		// Calculate and set player's absolute X and Y positions
+		setPlayerAbsX((((int) getX() - Game.getScreen().getxOffset()) * 2) + 8);
+		setPlayerAbsY((((int) getY() - Game.getScreen().getyOffset()) * 2) + 7);
+
+
 		if (inputHandler != null) {
 
-			speed = inputHandler.getSHIFTED().isPressed() ? 2 : 1;
+			speed = inputHandler.getSHIFTED().isPressed() ? 2.5D : 1D;
 
 			if (inputHandler.getUP_KEY().isPressed()) {
 				ya -= speed;
@@ -60,10 +67,22 @@ public class Player extends Mob {
 					fireRate = Medium.FIRE_RATE;
 				}
 				if (!swim.isActive(swimType)) {
-					double dx = Game.getMouse().getX() - 480 / 2d;
-					double dy = Game.getMouse().getY() - 320 / 2d;
+
+					// Cursor position
+					int cursorX = Game.getMouse().getX();
+					int cursorY = Game.getMouse().getY();
+
+					// Calculate differences (dx, dy) between cursor and origin
+					double dx = cursorX - playerAbsX;
+					double dy = cursorY - playerAbsY;
+
+					// Calculate direction using atan2
 					double dir = Math.atan2(dy, dx);
+
+					// Continue with shooting logic
 					shoot(x, y, dir, Game.getMouse().getButton());
+
+					entityPrinter.highlight().print("Direction: " + dir + "º\t" + dx + "x\t" + dy + "y");
 				}
 			}
 		}
@@ -105,4 +124,19 @@ public class Player extends Mob {
 		return this.name;
 	}
 
+	public int getPlayerAbsX() {
+		return playerAbsX;
+	}
+
+	public void setPlayerAbsX(int playerAbsX) {
+		this.playerAbsX = playerAbsX;
+	}
+
+	public int getPlayerAbsY() {
+		return playerAbsY;
+	}
+
+	public void setPlayerAbsY(int playerAbsY) {
+		this.playerAbsY = playerAbsY;
+	}
 }

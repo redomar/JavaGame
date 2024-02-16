@@ -9,6 +9,7 @@ import com.redomar.game.event.InputHandler;
 import com.redomar.game.event.MouseHandler;
 import com.redomar.game.gfx.Screen;
 import com.redomar.game.gfx.SpriteSheet;
+import com.redomar.game.gfx.lighting.Night;
 import com.redomar.game.level.LevelHandler;
 import com.redomar.game.lib.Either;
 import com.redomar.game.lib.Font;
@@ -23,6 +24,7 @@ import java.awt.im.InputContext;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.io.Serial;
 
 /*
  * This module forms the core architecture of the JavaGame. It coordinates the various
@@ -33,17 +35,20 @@ import java.awt.image.DataBufferInt;
 public class Game extends Canvas implements Runnable {
 
 	// Setting the size and name of the frame/canvas
+	@Serial
 	private static final long serialVersionUID = 1L;
-	private static final String game_Version = "v1.8.6 Alpha";
-	private static final int WIDTH = 160;
-	private static final int HEIGHT = (WIDTH / 3 * 2);
-	private static final int SCALE = 3;
+	private static final String game_Version = "v1.8.7 Alpha";
+	private static final int SCALE = 100;
+	private static final int WIDTH = 3 * SCALE;
+	private static final int SCREEN_WIDTH = WIDTH * 2;
+	private static final int HEIGHT = (2 * SCALE);
+	private static final int SCREEN_HEIGHT = (HEIGHT * 2) + 30;
+	private static final Screen screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/sprite_sheet.png"));
+	private static final Screen screen2 = new Screen(WIDTH, HEIGHT, new SpriteSheet("/sprite_sheet.png"));
 	private static final String NAME = "Game";                          // The name of the JFrame panel
 	private static final Time time = new Time();                        // Represents the calendar's time value, in hh:mm:ss
 	private static final boolean[] alternateCols = new boolean[2];      // Boolean array describing shirt and face colour
-
 	private static Game game;
-
 	// The properties of the player, npc, and fps/tps
 	private static boolean changeLevel = false;                         // Determines whether the player teleports to another level
 	private static boolean npc = false;                                 // Non-player character (NPC) initialized to non-existing
@@ -55,7 +60,8 @@ public class Game extends Canvas implements Runnable {
 	private static int steps;
 	private static boolean devMode;                                     // Determines whether the game is in developer mode
 	private static boolean closingMode;                                 // Determines whether the game will exit
-
+	private static int tileX = 0;
+	private static int tileY = 0;
 	// Audio, input, and mouse handler objects
 	private static JFrame frame;
 	private static AudioHandler backgroundMusic;
@@ -63,17 +69,17 @@ public class Game extends Canvas implements Runnable {
 	private static InputHandler input;                                  // Accepts keyboard input and follows the appropriate actions
 	private static MouseHandler mouse;                                  // Tracks mouse movement and clicks, and follows the appropriate actions
 	private static InputContext context;                                // Provides methods to control text input facilities
-
 	// Graphics
-	private final BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+	private final BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
+	private final BufferedImage image3 = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
 	private final int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData(); // Array of red, green and blue values for each pixel
+	private final int[] pixels3 = ((DataBufferInt) image3.getRaster().getDataBuffer()).getData(); // Array of red, green and blue values for each pixel
 	private final int[] colours = new int[6 * 6 * 6];                   // Array of 216 unique colours (6 shades of red, 6 of green, and 6 of blue)
 	private final BufferedImage image2 = new BufferedImage(WIDTH, HEIGHT - 30, BufferedImage.TYPE_INT_RGB);
 	private final Font font = new Font();                               // Font object capable of displaying 2 fonts: Arial and Segoe UI
 	private final Printer printer = new Printer();
 	boolean musicPlaying = false;
 	private int tickCount = 0;
-	private Screen screen;
 	private LevelHandler level;                                         // Loads and renders levels along with tiles, entities, projectiles and more.
 	//The entities of the game
 	private Player player;
@@ -87,9 +93,9 @@ public class Game extends Canvas implements Runnable {
 		context = InputContext.getInstance();
 
 		// The game can only be played in one distinct window size
-		setMinimumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
-		setMaximumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
-		setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
+		setMinimumSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
+		setMaximumSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
+		setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
 
 		setFrame(new JFrame(NAME));                                     // Creates the frame with a defined name
 		getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);      // Exits the program when user closes the frame
@@ -288,6 +294,28 @@ public class Game extends Canvas implements Runnable {
 		Game.closingMode = closing;
 	}
 
+	private static void mousePositionTracker() {
+		MouseHandler mouseHandler = Game.getMouse();
+		int mouseX = mouseHandler.getX();
+		int mouseY = mouseHandler.getY();
+
+		// Adjust mouse coordinates based on the current offset and scale of the game world
+		tileX = ((mouseX + 4 + screen.getxOffset()) / (8 * 2)) + screen.getxOffset() / 16;
+		tileY = ((mouseY + 4 + screen.getyOffset()) / (8 * 2)) + screen.getyOffset() / 16;
+	}
+
+	public static int getTileX() {
+		return tileX;
+	}
+
+	public static int getTileY() {
+		return tileY;
+	}
+
+	public static Screen getScreen() {
+		return screen;
+	}
+
 	/*
 	 * This method initializes the game once it starts. It populates the colour array with actual colours (6 shades each of RGB).
 	 * This method also builds the initial game level (custom_level), spawns a new vendor NPC, and begins accepting keyboard and mouse input/tracking.
@@ -301,12 +329,18 @@ public class Game extends Canvas implements Runnable {
 					int rr = (r * 255 / 5);         // Split all 256 colours into 6 shades (0, 51, 102 ... 255)
 					int gg = (g * 255 / 5);
 					int bb = (b * 255 / 5);
-					colours[index++] = rr << 16 | gg << 8 | bb;         // All colour values (RGB) are placed into one 32-bit integer, populating the colour array
+					// All colour values (RGB) are placed into one 32-bit integer, populating the colour array
+					// The first 8 bits are for alpha, the next 8 for red, the next 8 for green, and the last 8 for blue
+					// 0xFF000000 is ignored in BufferedImage.TYPE_INT_RGB, but is used in BufferedImage.TYPE_INT_ARGB
+					colours[index++] = 0xFF << 24 | rr << 16 | gg << 8 | bb;
 				}
 			}
 		}
 
-		screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/sprite_sheet.png"));
+		screen.setViewPortHeight(SCREEN_HEIGHT);
+		screen2.setViewPortHeight(SCREEN_HEIGHT);
+		screen.setViewPortWidth(SCREEN_WIDTH);
+		screen2.setViewPortWidth(SCREEN_WIDTH);
 		input = new InputHandler(this);                           // Input begins to record key presses
 		setMouse(new MouseHandler(this));                         // Mouse tracking and clicking is now recorded
 //		setWindow(new WindowHandler(this));
@@ -343,12 +377,13 @@ public class Game extends Canvas implements Runnable {
 	 */
 	public void run() {
 		long lastTime = System.nanoTime();
-		double nsPerTick = 1000000000D / 60D;                           // The number of nanoseconds in one tick (number of ticks limited to 60 per update)
+		int nsPerS = 1_000_000_000;
+		double nsPerTick = nsPerS / 60D;                           // The number of nanoseconds in one tick (number of ticks limited to 60 per update)
 		// 1 billion nanoseconds in one second
 		int ticks = 0;
 		int frames = 0;
 
-		long lastTimer = System.currentTimeMillis();                    // Used for updating ticks and frames once every second
+		long lastTimer = System.nanoTime();                    // Used for updating ticks and frames once every second
 		double delta = 0;
 
 		init();                                                         // Initialize the game environment
@@ -371,8 +406,8 @@ public class Game extends Canvas implements Runnable {
 				render();
 			}
 
-			if (System.currentTimeMillis() - lastTimer >= 1000) {       // If elapsed time is greater than or equal to 1 second, update
-				lastTimer += 1000;                                      // Updates in another second
+			if (System.nanoTime() - lastTimer >= nsPerS) {       // If elapsed time is greater than or equal to 1 second, update
+				lastTimer += nsPerS;                                      // Updates in another second
 				getFrame().setTitle("JavaGame - Version " + WordUtils.capitalize(game_Version).substring(1, game_Version.length()));
 				fps = frames;
 				tps = ticks;
@@ -393,11 +428,14 @@ public class Game extends Canvas implements Runnable {
 			printer.cast().print("Failed to play music", PrintTypes.MUSIC);
 			printer.exception(exception.toString());
 			musicPlaying = false;
-		}, isPlaying -> musicPlaying = isPlaying);
-
+		}, isPlaying -> {
+			musicPlaying = isPlaying;
+			if (musicPlaying && !Game.getBackgroundMusic().getActive()) {
+				input.overWriteKey(input.getM_KEY(), false);
+			}
+		});
 		level.tick();
 	}
-
 
 	/**
 	 * This method displays the current state of the game.
@@ -422,6 +460,16 @@ public class Game extends Canvas implements Runnable {
 				int colourCode = screen.getPixels()[x + y * screen.getWidth()];
 				if (colourCode < 255) {
 					pixels[x + y * WIDTH] = colours[colourCode];
+				}
+			}
+		}
+		for (int y = 0; y < screen2.getHeight(); y++) {
+			for (int x = 0; x < screen2.getWidth(); x++) {
+				int colourCode = screen2.getPixels()[x + y * screen2.getWidth()];
+				if (colourCode < 1){
+					pixels3[x + y * WIDTH] = 0xff0000;
+				} else if (colourCode < 255) {
+					pixels3[x + y * WIDTH] = colours[colourCode];
 				}
 			}
 		}
@@ -452,10 +500,10 @@ public class Game extends Canvas implements Runnable {
 			changeLevel = false;
 		}
 
-		Graphics g = bs.getDrawGraphics();
-		g.drawRect(0, 0, getWidth(), getHeight());
+		Graphics2D g = (Graphics2D) bs.getDrawGraphics();
 		g.drawImage(image, 0, 0, getWidth(), getHeight() - 30, null);
 		status(g, isDevMode(), isClosing());
+		overlayRender(g);
 		g.drawImage(image2, 0, getHeight() - 30, getWidth(), getHeight(), null);
 		g.setColor(Color.WHITE);
 		g.setFont(font.getSegoe());
@@ -484,12 +532,24 @@ public class Game extends Canvas implements Runnable {
 		bs.show();
 	}
 
+	/**
+	 * This method renders the overlay of the game, which is a transparent layer that is drawn over the game.
+	 */
+	private void overlayRender(Graphics2D g) {
+		g.setColor(new Color(0f, 0f, 0f, 0f)); // Transparent color
+		g.fillRect(0, 0, getWidth(), getHeight()-30);
+	}
+
 	/*
 	 * This method displays information regarding various aspects/stats of the game, dependent upon
 	 * whether it is running in developer mode, or if the application is closing.
 	 */
-	private void status(Graphics g, boolean TerminalMode, boolean TerminalQuit) {
+	private void status(Graphics2D g, boolean TerminalMode, boolean TerminalQuit) {
 		if (TerminalMode) {
+			new Night(g, screen).render(player.getPlayerAbsX(), player.getPlayerAbsY());
+			// make the background transparent
+			g.setColor(new Color(0, 0, 0, 100));
+			g.fillRect(0, 0, 195, 165);
 			g.setColor(Color.CYAN);
 			g.drawString("JavaGame Stats", 0, 10);
 			g.drawString("FPS/TPS: " + fps + "/" + tps, 0, 25);
@@ -499,9 +559,29 @@ public class Game extends Canvas implements Runnable {
 			g.drawString("Foot Steps: " + steps, 0, 40);
 			g.drawString("NPC: " + WordUtils.capitalize(String.valueOf(isNpc())), 0, 55);
 			g.drawString("Mouse: " + getMouse().getX() + "x |" + getMouse().getY() + "y", 0, 70);
-			if (getMouse().getButton() != -1) g.drawString("Button: " + getMouse().getButton(), 0, 85);
-			g.setColor(Color.CYAN);
-			g.fillRect(getMouse().getX() - 12, getMouse().getY() - 12, 24, 24);
+			g.drawString("Mouse: " + (getMouse().getX() - 639 / 2d) + "x |" + (getMouse().getY() - 423 / 2d) + "y", 0, 85);
+			if (getMouse().getButton() != -1) g.drawString("Button: " + getMouse().getButton(), 0, 100);
+			mousePositionTracker();
+			g.drawString("Player: " + (int) player.getX() + "x |" + (int) player.getY() + "y", 0, 115);
+			double angle = Math.atan2(getMouse().getY() - player.getPlayerAbsY(), getMouse().getX() - player.getPlayerAbsX()) * (180.0 / Math.PI);
+			g.drawString("Angle: " + angle, 0, 130);
+
+			g.setColor(Color.cyan);
+			g.drawString("Player: \t\t\t\t\t\t\t\t\t\t\t\t" + player.getPlayerAbsX() + "x |" + player.getPlayerAbsY() + "y", 0, 145);
+			g.drawString("Player Offset: \t" + screen.getxOffset() + "x |" + screen.getyOffset() + "y", 0, 160);
+
+			// Set a different color for the player-origin line
+			g.setStroke(new BasicStroke(1));
+			g.setColor(Color.GREEN); // Green for the new line from the player's origin
+			g.drawLine(player.getPlayerAbsX(), player.getPlayerAbsY(), getMouse().getX(), getMouse().getY()); // Draw the line from the player's origin to the cursor
+			g.setColor(Color.DARK_GRAY);
+			g.drawLine(getWidth() / 2 + 8, getHeight() / 2 - 8, getMouse().getX(), getMouse().getY()); // Draw the line from the player's origin to the cursor
+			g.drawLine(getWidth() / 2 + 8, 0, getWidth() / 2 + 8, getHeight() - 30);
+			g.drawLine(0, getHeight() / 2 - 8, getWidth(), getHeight() / 2 - 8);
+			g.setColor(Color.yellow);
+			g.fillRect(player.getPlayerAbsX(), player.getPlayerAbsY(), 1, 1);
+
+
 		}
 		// If the game is shutting off
 		if (!TerminalQuit) {
@@ -529,5 +609,4 @@ public class Game extends Canvas implements Runnable {
 	public void setVendor(Vendor vendor) {
 		this.vendor = vendor;
 	}
-
 }

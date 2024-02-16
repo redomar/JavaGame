@@ -33,7 +33,7 @@ public class AudioHandler {
 
 	private void check(String path) {
 		try {
-			if (!path.equals("")) {
+			if (!path.isEmpty()) {
 				initiate(path);
 			} else {
 				throw new NullPointerException();
@@ -45,11 +45,11 @@ public class AudioHandler {
 	}
 
 	/**
-	 * Initialises an audio clip from the specified file path.
+	 * Initialises an audio clip by loading an audio file from the specified path. This method sets up the audio stream and prepares the clip for playback.
 	 *
-	 * @param path the file path of the audio clip
+	 * @param path the relative file path to the audio clip resource. The path must be accessible from the classpath and should not be null.
 	 */
-	private void initiate(String path) {
+	private void initiate(@NotNull String path) {
 		try {
 			InputStream inputStream = new BufferedInputStream(Objects.requireNonNull(AudioHandler.class.getResourceAsStream(path)));
 			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(inputStream);
@@ -59,6 +59,12 @@ public class AudioHandler {
 			AudioInputStream decodedAudioInputStream = AudioSystem.getAudioInputStream(decodeFormat, audioInputStream);
 			clip = AudioSystem.getClip();
 			clip.open(decodedAudioInputStream);
+			clip.addLineListener(event -> {
+				if (event.getType() == LineEvent.Type.STOP) {
+					stop();
+				}
+			});
+
 		} catch (IOException e) {
 			musicPrinter.cast().exception("Audio file not found " + path);
 			musicPrinter.cast().exception(e.getMessage());
@@ -89,9 +95,18 @@ public class AudioHandler {
 	}
 
 	public void stop() {
-		if (clip.isRunning()) clip.stop();
-		if (music) musicPrinter.print("Stopping Music");
-		active = false;
+		try {
+			if (clip == null) throw new RuntimeException("Empty clip");
+			if (clip.isRunning()) {
+				clip.stop();
+				if (!music) clip.close();
+			}
+			if (music & active) musicPrinter.print("Stopping Music");
+		} catch (Exception e) {
+			musicPrinter.print("Audio Handler Clip not found");
+		} finally {
+			active = false;
+		}
 	}
 
 	public void close() {
