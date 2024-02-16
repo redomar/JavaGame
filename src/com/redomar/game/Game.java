@@ -7,7 +7,6 @@ import com.redomar.game.entities.Vendor;
 import com.redomar.game.entities.trees.Spruce;
 import com.redomar.game.event.InputHandler;
 import com.redomar.game.event.MouseHandler;
-import com.redomar.game.gfx.Colours;
 import com.redomar.game.gfx.Screen;
 import com.redomar.game.gfx.SpriteSheet;
 import com.redomar.game.gfx.lighting.Night;
@@ -455,8 +454,6 @@ public class Game extends Canvas implements Runnable {
 		level.renderTiles(screen, xOffset, yOffset);
 		level.renderEntities(screen);
 		level.renderProjectileEntities(screen);
-		screen2.renderText("JAVAGAME ", 0, 0, Colours.get(000, -1, -1, 500), 1);
-
 
 		for (int y = 0; y < screen.getHeight(); y++) {
 			for (int x = 0; x < screen.getWidth(); x++) {
@@ -473,14 +470,6 @@ public class Game extends Canvas implements Runnable {
 					pixels3[x + y * WIDTH] = 0xff0000;
 				} else if (colourCode < 255) {
 					pixels3[x + y * WIDTH] = colours[colourCode];
-				}
-
-				if (y == 0 || y == screen2.getHeight() - 1) {
-					pixels3[x + y * WIDTH] = 0x55000000;
-				}
-
-				if (x == 0 || x == screen2.getWidth() - 1) {
-					pixels3[x + y * WIDTH] = 0x55000000;
 				}
 			}
 		}
@@ -548,7 +537,6 @@ public class Game extends Canvas implements Runnable {
 	 */
 	private void overlayRender(Graphics2D g) {
 		g.setColor(new Color(0f, 0f, 0f, 0f)); // Transparent color
-		g.drawImage(image3, 0, 0, getWidth()/3, getHeight()/3 - 30, null);
 		g.fillRect(0, 0, getWidth(), getHeight()-30);
 	}
 
