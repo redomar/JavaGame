@@ -105,6 +105,48 @@ public class Screen {
 		}
 
 	}
+	private static final String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ      " + "0123456789.,:;'\"!?$%()-=+/      ";
+
+	public void renderText(String msg, int xPos, int yPos, int colour, int scale) {
+		for (int i = 0; i < msg.length(); i++) {
+			int charIndex = chars.indexOf(msg.charAt(i));
+			if (charIndex >= 0) { // Only render if the character is found
+				int tileInSprite = charIndex + 30 * 32; // Calculate the tile position based on the charIndex
+				renderCharacter(xPos + i * (8 * scale), yPos, tileInSprite, colour, scale);
+			}
+		}
+	}
+
+	private void renderCharacter(int xPos, int yPos, int tile, int colour, int scale) {
+		xPos -= xOffset;
+		yPos -= yOffset;
+
+		int xTile = tile % 32;
+		int yTile = tile / 32;
+		int tileOffset = (xTile << 3) + (yTile << 3) * sheet.getWidth();
+
+		for (int y = 0; y < 8; y++) {
+			int yPixel = yPos + y * scale;
+
+			for (int x = 0; x < 8; x++) {
+				int xPixel = xPos + x * scale;
+
+				int col = (colour >> (sheet.pixels[x + y * sheet.getWidth() + tileOffset] * 8)) & 255;
+				if (col < 255) {
+					for (int yScale = 0; yScale < scale; yScale++) {
+						if (yPixel + yScale < 0 || yPixel + yScale >= height) continue;
+						for (int xScale = 0; xScale < scale; xScale++) {
+							if (xPixel + xScale < 0 || xPixel + xScale >= width) continue;
+							pixels[(xPixel + xScale) + (yPixel + yScale) * width] = col;
+						}
+					}
+				}
+			}
+		}
+	}
+
+
+
 
 	public void setOffset(int xOffset, int yOffset) {
 		this.xOffset = xOffset;

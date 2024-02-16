@@ -7,6 +7,7 @@ import com.redomar.game.entities.Vendor;
 import com.redomar.game.entities.trees.Spruce;
 import com.redomar.game.event.InputHandler;
 import com.redomar.game.event.MouseHandler;
+import com.redomar.game.gfx.Colours;
 import com.redomar.game.gfx.Screen;
 import com.redomar.game.gfx.SpriteSheet;
 import com.redomar.game.gfx.lighting.Night;
@@ -44,6 +45,7 @@ public class Game extends Canvas implements Runnable {
 	private static final int HEIGHT = (2 * SCALE);
 	private static final int SCREEN_HEIGHT = (HEIGHT * 2) + 30;
 	private static final Screen screen = new Screen(WIDTH, HEIGHT, new SpriteSheet("/sprite_sheet.png"));
+	private static final Screen screen2 = new Screen(WIDTH, HEIGHT, new SpriteSheet("/sprite_sheet.png"));
 	private static final String NAME = "Game";                          // The name of the JFrame panel
 	private static final Time time = new Time();                        // Represents the calendar's time value, in hh:mm:ss
 	private static final boolean[] alternateCols = new boolean[2];      // Boolean array describing shirt and face colour
@@ -70,7 +72,9 @@ public class Game extends Canvas implements Runnable {
 	private static InputContext context;                                // Provides methods to control text input facilities
 	// Graphics
 	private final BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
+	private final BufferedImage image3 = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
 	private final int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData(); // Array of red, green and blue values for each pixel
+	private final int[] pixels3 = ((DataBufferInt) image3.getRaster().getDataBuffer()).getData(); // Array of red, green and blue values for each pixel
 	private final int[] colours = new int[6 * 6 * 6];                   // Array of 216 unique colours (6 shades of red, 6 of green, and 6 of blue)
 	private final BufferedImage image2 = new BufferedImage(WIDTH, HEIGHT - 30, BufferedImage.TYPE_INT_RGB);
 	private final Font font = new Font();                               // Font object capable of displaying 2 fonts: Arial and Segoe UI
@@ -335,7 +339,9 @@ public class Game extends Canvas implements Runnable {
 		}
 
 		screen.setViewPortHeight(SCREEN_HEIGHT);
+		screen2.setViewPortHeight(SCREEN_HEIGHT);
 		screen.setViewPortWidth(SCREEN_WIDTH);
+		screen2.setViewPortWidth(SCREEN_WIDTH);
 		input = new InputHandler(this);                           // Input begins to record key presses
 		setMouse(new MouseHandler(this));                         // Mouse tracking and clicking is now recorded
 //		setWindow(new WindowHandler(this));
@@ -449,6 +455,7 @@ public class Game extends Canvas implements Runnable {
 		level.renderTiles(screen, xOffset, yOffset);
 		level.renderEntities(screen);
 		level.renderProjectileEntities(screen);
+		screen2.renderText("JAVAGAME ", 0, 0, Colours.get(000, -1, -1, 500), 1);
 
 
 		for (int y = 0; y < screen.getHeight(); y++) {
@@ -456,6 +463,24 @@ public class Game extends Canvas implements Runnable {
 				int colourCode = screen.getPixels()[x + y * screen.getWidth()];
 				if (colourCode < 255) {
 					pixels[x + y * WIDTH] = colours[colourCode];
+				}
+			}
+		}
+		for (int y = 0; y < screen2.getHeight(); y++) {
+			for (int x = 0; x < screen2.getWidth(); x++) {
+				int colourCode = screen2.getPixels()[x + y * screen2.getWidth()];
+				if (colourCode < 1){
+					pixels3[x + y * WIDTH] = 0xff0000;
+				} else if (colourCode < 255) {
+					pixels3[x + y * WIDTH] = colours[colourCode];
+				}
+
+				if (y == 0 || y == screen2.getHeight() - 1) {
+					pixels3[x + y * WIDTH] = 0x55000000;
+				}
+
+				if (x == 0 || x == screen2.getWidth() - 1) {
+					pixels3[x + y * WIDTH] = 0x55000000;
 				}
 			}
 		}
@@ -522,7 +547,8 @@ public class Game extends Canvas implements Runnable {
 	 * This method renders the overlay of the game, which is a transparent layer that is drawn over the game.
 	 */
 	private void overlayRender(Graphics2D g) {
-		g.setColor(new Color(0f, 0f, 0f, .192f)); // Transparent color
+		g.setColor(new Color(0f, 0f, 0f, 0f)); // Transparent color
+		g.drawImage(image3, 0, 0, getWidth()/3, getHeight()/3 - 30, null);
 		g.fillRect(0, 0, getWidth(), getHeight()-30);
 	}
 
