@@ -37,7 +37,7 @@ public class Game extends Canvas implements Runnable {
 	// Setting the size and name of the frame/canvas
 	@Serial
 	private static final long serialVersionUID = 1L;
-	private static final String game_Version = "v1.8.6 Alpha";
+	private static final String game_Version = "v1.8.7 Alpha";
 	private static final int SCALE = 100;
 	private static final int WIDTH = 3 * SCALE;
 	private static final int SCREEN_WIDTH = WIDTH * 2;
@@ -54,7 +54,7 @@ public class Game extends Canvas implements Runnable {
 	private static boolean npc = false;                                 // Non-player character (NPC) initialized to non-existing
 	private static int map = 0;                                         // Map of the level, initialized to map default map
 	private static int shirtCol;                                        // The colour of the character's shirt
-	private static int faceCol;                                         // The colour (ethnicizty) of the character (their face)
+	private static int faceCol;                                         // The colour (ethnicity) of the character (their face)
 	private static int fps;                                             // The frame rate (frames per second), frequency at which images are displayed on the canvas
 	private static int tps;                                             // The ticks (ticks per second), unit measure of time for one iteration of the game logic loop.
 	private static int steps;
