@@ -17,7 +17,7 @@ public abstract class Projectile extends Entity {
 
 	private boolean removed = false;
 
-	public Projectile(LevelHandler level, int x, int y, double dir) {
+	public Projectile(LevelHandler level, int x, int y, double dir, double[] playerVelocity) {
 		super(level);
 		xOrigin = x;
 		yOrigin = y;

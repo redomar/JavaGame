@@ -225,9 +225,10 @@ public abstract class Mob extends Entity {
 		}
 	}
 
-	protected void shoot(double x, double y, double dir, double buttonId) {
+	protected void shoot(double x, double y, double dir, double buttonId, double[] playerVelocity) {
 		if (buttonId == 1) {
-			Projectile p = new Small(level, (int) x, (int) y, dir);
+			// model the projectile speed and direction as a 2d vector
+			Projectile p = new Small(level, (int) x, (int) y, dir, playerVelocity);
 			projectiles.add(p);
 			level.addProjectileEntities(p);
 		}

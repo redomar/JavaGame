@@ -12,14 +12,14 @@ public class Small extends Projectile {
 	public static final int FIRE_RATE = 10;
 	private static final File smallShot = new File("/music/small.wav");
 
-	public Small(LevelHandler level, int x, int y, double dir) {
-		super(level, x, y, dir);
+	public Small(LevelHandler level, int x, int y, double dir, double[] playerVelocity) {
+		super(level, x, y, dir, playerVelocity);
 		range = 125 - life.nextInt(30);
 		damage = 20;
 		speed = 2;
 
-		nx = speed * Math.cos(angle);
-		ny = speed * Math.sin(angle);
+		nx = speed * Math.cos(angle) + playerVelocity[0];
+		ny = speed * Math.sin(angle) + playerVelocity[1];
 
 		try {
 			AudioHandler smallSound = new AudioHandler(smallShot);

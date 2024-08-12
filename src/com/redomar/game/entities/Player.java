@@ -80,7 +80,8 @@ public class Player extends Mob {
 					double dir = Math.atan2(dy, dx);
 
 					// Continue with shooting logic
-					shoot(x, y, dir, Game.getMouse().getButton());
+					double[] playerVelocity = {xa, ya};
+					shoot(x, y, dir, Game.getMouse().getButton(), playerVelocity);
 
 					entityPrinter.highlight().print("Direction: " + dir + "º\t" + dx + "x\t" + dy + "y");
 				}

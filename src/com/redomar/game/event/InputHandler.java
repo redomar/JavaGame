@@ -102,6 +102,7 @@ public class InputHandler implements KeyListener {
 		keyCodeActions.put(KeyEvent.VK_SHIFT, () -> SHIFTED.setPressed(isPressed));
 		keyCodeActions.put(KeyEvent.VK_M, () -> M_KEY.setPressedToggle(isPressed));
 
+
 		if (frenchKeyboardLayout) {
 			keyCodeActions.put(KeyEvent.VK_Q, () -> LEFT_KEY.setPressed(isPressed));
 			keyCodeActions.put(KeyEvent.VK_Z, () -> UP_KEY.setPressed(isPressed));

@@ -8,8 +8,8 @@ public class Medium extends Projectile{
 
 	public static final int FIRE_RATE = 20;
 
-	public Medium(LevelHandler level, int x, int y, double dir) {
-		super(level, x, y, dir);
+	public Medium(LevelHandler level, int x, int y, double dir, double[] playerVelocity) {
+		super(level, x, y, dir, playerVelocity);
 		range = 60 - life.nextInt(10);
 		damage = 80;
 		speed = 1;
