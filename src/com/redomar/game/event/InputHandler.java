@@ -5,6 +5,10 @@ import com.redomar.game.lib.Either;
 import com.redomar.game.lib.SleepThread;
 import com.redomar.game.log.PrintTypes;
 import com.redomar.game.log.Printer;
+import net.java.games.input.Controller;
+import net.java.games.input.ControllerEnvironment;
+import net.java.games.input.Event;
+import net.java.games.input.EventQueue;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -26,10 +30,142 @@ public class InputHandler implements KeyListener {
 	private final KeyHandler M_KEY = new KeyHandler();
 
 
+	private Controller controller;
+
 	public InputHandler(Game game) {
 		InputContext context = InputContext.getInstance();
 		frenchKeyboardLayout = context.getLocale().getCountry().equals("BE") || context.getLocale().getCountry().equals("FR");
 		game.addKeyListener(this);
+
+		// Detect the controller
+		Controller[] controllers = ControllerEnvironment.getDefaultEnvironment().getControllers();
+		for (Controller c : controllers) {
+			if (c.getType() == Controller.Type.GAMEPAD) {
+				controller = c;
+				break;
+			}
+		}
+
+		if (controller == null) {
+			System.out.println("No gamepad found.");
+		} else {
+			System.out.println("Gamepad detected: " + controller.getName());
+		}
+	}
+
+	public void pollController() {
+		if (controller == null) {
+			return;
+		}
+
+		controller.poll();
+		EventQueue queue = controller.getEventQueue();
+		Event event = new Event();
+
+		while (queue.getNextEvent(event)) {
+			String componentName = event.getComponent().getName();
+			float value = event.getValue();
+
+			// Process the event
+			processControllerInput(componentName, value);
+		}
+	}
+
+	private void processControllerInput(String componentName, float value) {
+
+
+		// Threshold to detect significant movement
+		float threshold = 0.5f; // Adjusted for more responsive input
+
+		// if the value is lower than -0.5 or higer that 0.5 print whcih key is pressed
+		if (value <= -0.5 || value >= 0.5) {
+			System.out.println(componentName + " " + value);
+		}
+		switch (componentName) {
+
+
+			case "x": // Horizontal movement (left/right)
+				if (value < -threshold) {
+					LEFT_KEY.setPressed(true);
+				} else if (value > threshold) {
+					RIGHT_KEY.setPressed(true);
+				} else {
+					LEFT_KEY.setPressed(false);
+					RIGHT_KEY.setPressed(false);
+				}
+				break;
+
+			case "y": // Vertical movement (up/down)
+				if (value < -threshold) {
+					UP_KEY.setPressed(true);
+				} else if (value > threshold) {
+					DOWN_KEY.setPressed(true);
+				} else {
+					UP_KEY.setPressed(false);
+					DOWN_KEY.setPressed(false);
+				}
+				break;
+
+			// Handle other components (e.g., buttons or additional axes) as needed
+			case "ry":
+				if (value > -threshold) {
+					SHIFTED.setPressed(true);
+				} else {
+					SHIFTED.setPressed(false);
+				}
+				break;
+
+			case "0":
+				if (value == 1) {
+					Game.setChangeLevel(true);
+				}
+				break;
+
+			case "4":
+				if (value == 1) {
+					if (!Game.isNpc()) {
+						Game.setNpc(true);
+						Game.npcSpawn();
+						inputPrinter.print("Dummy has been spawned", PrintTypes.GAME);
+					}
+				}
+				break;
+
+
+			case "5": // toggle K key
+				if (value == 1) {
+					if (Game.isNpc()) {
+						Game.setNpc(false);
+						Game.npcKill();
+						inputPrinter.print("Dummy has been removed", PrintTypes.GAME);
+					}
+				}
+				break;
+
+
+
+			case "9": // toggle M key
+				if (value == 1) {
+					M_KEY.setPressedToggle(M_KEY.isPressed());
+				}
+				break;
+
+
+			case "13":
+				if (value == 1) {
+					if (!Game.isClosing()) {
+						Game.setDevMode(!Game.isDevMode());
+						new Thread(new SleepThread());
+						inputPrinter.print(String.format("Debug Mode %s", Game.isDevMode() ? "Enabled" : "Disabled"));
+					}
+				}
+				break;
+			case "8":
+				if (value == 1) {
+					this.quitGame();
+				}
+
+		}
 	}
 
 	public void keyPressed(KeyEvent e) {

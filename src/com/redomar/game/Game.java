@@ -423,7 +423,13 @@ public class Game extends Canvas implements Runnable {
 	 */
 	public void tick() {
 		setTickCount(getTickCount() + 1);
+
+		// Polling the controller on every tick
+		input.pollController();
+
+		// Example of existing input handling logic
 		Either<Exception, Boolean> musicKeyAction = input.toggleActionWithCheckedRunnable(input.getM_KEY(), musicPlaying, () -> Game.getBackgroundMusic().play(), () -> Game.getBackgroundMusic().stop());
+
 		musicKeyAction.either(exception -> {
 			printer.cast().print("Failed to play music", PrintTypes.MUSIC);
 			printer.exception(exception.toString());
@@ -434,8 +440,11 @@ public class Game extends Canvas implements Runnable {
 				input.overWriteKey(input.getM_KEY(), false);
 			}
 		});
+
+		// Update game logic (e.g., entities, levels)
 		level.tick();
 	}
+
 
 	/**
 	 * This method displays the current state of the game.
@@ -466,7 +475,7 @@ public class Game extends Canvas implements Runnable {
 		for (int y = 0; y < screen2.getHeight(); y++) {
 			for (int x = 0; x < screen2.getWidth(); x++) {
 				int colourCode = screen2.getPixels()[x + y * screen2.getWidth()];
-				if (colourCode < 1){
+				if (colourCode < 1) {
 					pixels3[x + y * WIDTH] = 0xff0000;
 				} else if (colourCode < 255) {
 					pixels3[x + y * WIDTH] = colours[colourCode];
@@ -537,7 +546,7 @@ public class Game extends Canvas implements Runnable {
 	 */
 	private void overlayRender(Graphics2D g) {
 		g.setColor(new Color(0f, 0f, 0f, 0f)); // Transparent color
-		g.fillRect(0, 0, getWidth(), getHeight()-30);
+		g.fillRect(0, 0, getWidth(), getHeight() - 30);
 	}
 
 	/*
